@@ -1,16 +1,6 @@
-<div class="modal fade" id="loading" tabindex="-1" role="dialog" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h4 class="modal-title">Processing</h4>
-      </div>
-      <div class="modal-body">
-        Loading data from database...
-      </div>
-    </div>
-  </div>
-</div>
-
+<ol class="breadcrumb">
+<li><a href="#/studies">Studies</a></li>
+</ol>
 <div class="table-responsive">
   <table class="table">
     <thead>
@@ -52,7 +42,7 @@
               <td>{{ 100 * sample.functional_cnt / (sample.valid_cnt + sample.no_result_cnt) | number : 2}}</td>
               <td>{{ 100 * sample.in_frame_cnt / (sample.valid_cnt + sample.no_result_cnt) | number : 2 }}</td>
               <td>{{ 100 * sample.stop_cnt / (sample.valid_cnt + sample.no_result_cnt) | number : 2 }}</td>
-              <td><a href="#/samples/{{ sample.id }}">More<span class="glyphicon glyphicon-chevron-right"></span></a></td>
+              <td><a href="#/samples/{{ row.name }}/{{ sample.id }}">More<span class="glyphicon glyphicon-chevron-right"></span></a></td>
             </tbody>
           </table>
         </td>

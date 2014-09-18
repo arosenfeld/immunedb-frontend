@@ -13,7 +13,7 @@ angular.module('ImmunologyApp', [
         templateUrl: 'views/studies.html',
         controller: 'StudiesCtrl',
       })
-      .when('/samples/:sampleId', {
+      .when('/samples/:studyName/:sampleId', {
         templateUrl: 'views/sample.html',
         controller: 'SampleCtrl'
       })

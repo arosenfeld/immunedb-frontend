@@ -1,0 +1,86 @@
+<ol class="breadcrumb">
+  <li><a href="#/studies">Studies</a></li>
+  <li><a href="#/study/{{ sample.study_id }}">{{ route.studyName }}</a></li>
+  <li class="active">{{ sample.name}}</li>
+</ol>
+<h3>Basic Statistics</h3>
+<div class="table-responsive">
+  <table class="table table-bordered">
+    <thead>
+      <th>Total Seqs.</th>
+      <th>Valid Seqs.</th>
+      <th>Invalid Seqs.</th>
+      <th>Functional %</th>
+      <th>In-frame %</th>
+      <th>Stop %</th>
+    </thead>
+    <tbody>
+      <td>{{ sample.valid_cnt + sample.no_result_cnt | number}}</td>
+      <td>{{ sample.valid_cnt | number }}</td>
+      <td>{{ sample.no_result_cnt | number }}</td>
+      <td>{{ 100 * sample.functional_cnt / (sample.valid_cnt + sample.no_result_cnt) | number : 2}}</td>
+      <td>{{ 100 * sample.in_frame_cnt / (sample.valid_cnt + sample.no_result_cnt) | number : 2 }}</td>
+      <td>{{ 100 * sample.stop_cnt / (sample.valid_cnt + sample.no_result_cnt) | number : 2 }}</td>
+    </tbody>
+  </table>
+</div>
+
+<h3>Feature Distributions</h3>
+<div id="collapse-to-iden" style="width:100%; height:400px;"></div>
+
+<script>
+$(function () {
+    $('#collapse-to-iden').highcharts({
+        chart: {
+            type: 'column'
+        },
+        title: {
+            text: 'Collapse to Iden Distribution'
+        },
+        legend: {
+          enabled: false
+        },
+        xAxis: {
+            categories: [
+                'Jan',
+                'Feb',
+                'Mar',
+                'Apr',
+                'May',
+                'Jun',
+                'Jul',
+                'Aug',
+                'Sep',
+                'Oct',
+                'Nov',
+                'Dec'
+            ]
+        },
+        yAxis: {
+            min: 0,
+            title: {
+                text: 'Rainfall (mm)'
+            }
+        },
+        tooltip: {
+            headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+            pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                '<td style="padding:0"><b>{point.y:.1f} mm</b></td></tr>',
+            footerFormat: '</table>',
+            shared: true,
+            useHTML: true
+        },
+        plotOptions: {
+            column: {
+                pointPadding: 0.2,
+                borderWidth: 0
+            }
+        },
+        series: [{
+            name: '{{ sample.name }}',
+            data: [49.9, 71.5, 106.4, 129.2, 144.0, 176.0, 135.6, 148.5, 216.4, 194.1, 95.6, 54.4]
+
+        }]
+    });
+});
+</script>
