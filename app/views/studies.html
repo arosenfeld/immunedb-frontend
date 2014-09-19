@@ -2,51 +2,57 @@
 <li><a href="#/studies">Studies</a></li>
 </ol>
 <div class="table-responsive">
-  <table class="table">
-    <thead>
-      <tr>
-        <th>#</th>
-        <th>Name</th>
-        <th>Info</th>
-        <th>Samples</th>
-        <th></th>
-      </tr>
-    </thead>
-    <tbody ng-repeat="row in rows">
-      <tr class="active">
-        <td>{{ row.id }}</td>
-        <td><a ng-click="show = !show">{{ row.name }} <span class="glyphicon glyphicon-chevron-down" id="study-arrow-{{ row.id }}"></span></a></td>
-        <td>{{ row.info }}</td>
-        <td>{{ row.samples.length }}</td>
-        <td class="align-right"><a href="#">Study Details<span class="glyphicon glyphicon-chevron-right"></span></a></td>
-      </tr>
-      <tr ng-show="show">
-        <td colspan="5" style="float: none; margin: 0 auto;">
-          <table class="table table-bordered">
-            <thead>
-              <th>#</th>
-              <th>Sample</th>
-              <th>Total Seqs.</th>
-              <th>Valid Seqs.</th>
-              <th>Invalid Seqs.</th>
-              <th>Functional %</th>
-              <th>In-frame %</th>
-              <th>Stop %</th>
-            </thead>
-            <tbody ng-repeat="sample in row.samples">
-              <td>{{ sample.id }}</td>
-              <td>{{ sample.name }}</td>
-              <td>{{ sample.valid_cnt + sample.no_result_cnt | number}}</td>
-              <td>{{ sample.valid_cnt | number }}</td>
-              <td>{{ sample.no_result_cnt | number }}</td>
-              <td>{{ 100 * sample.functional_cnt / (sample.valid_cnt + sample.no_result_cnt) | number : 2}}</td>
-              <td>{{ 100 * sample.in_frame_cnt / (sample.valid_cnt + sample.no_result_cnt) | number : 2 }}</td>
-              <td>{{ 100 * sample.stop_cnt / (sample.valid_cnt + sample.no_result_cnt) | number : 2 }}</td>
-              <td><a href="#/samples/{{ row.name }}/{{ sample.id }}">More<span class="glyphicon glyphicon-chevron-right"></span></a></td>
-            </tbody>
-          </table>
-        </td>
-      </tr>
-    </tbody>
-  </table>
+  <button ng-click="viewSamples()" class="btn btn-primary">Compare</button>
+  <form novalidate>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Name</th>
+          <th>Info</th>
+          <th>Samples</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody ng-repeat="row in rows">
+        <tr class="active">
+          <td>{{ row.id }}</td>
+          <td><a ng-click="show = !show">{{ row.name }} <span class="glyphicon glyphicon-chevron-down" id="study-arrow-{{ row.id }}"></span></a></td>
+          <td>{{ row.info }}</td>
+          <td>{{ row.samples.length }}</td>
+          <td class="align-right"><a href="#">Study Details<span class="glyphicon glyphicon-chevron-right"></span></a></td>
+        </tr>
+        <tr ng-show="show">
+          <td colspan="5" style="float: none; margin: 0 auto;">
+            <table class="table table-bordered">
+              <thead>
+                <th></th>
+                <th>#</th>
+                <th>Sample</th>
+                <th>Total Seqs.</th>
+                <th>Valid Seqs.</th>
+                <th>Invalid Seqs.</th>
+                <th>Functional %</th>
+                <th>In-frame %</th>
+                <th>Stop %</th>
+              </thead>
+              <tbody ng-repeat="sample in row.samples">
+                <td><input type="checkbox" checklist-model="checked_samples" checklist-value="sample.id"></input>
+                <td>{{ sample.id }}</td>
+                <td>{{ sample.name }}</td>
+                <td>{{ sample.valid_cnt + sample.no_result_cnt | number}}</td>
+                <td>{{ sample.valid_cnt | number }}</td>
+                <td>{{ sample.no_result_cnt | number }}</td>
+                <td>{{ 100 * sample.functional_cnt / (sample.valid_cnt + sample.no_result_cnt) | number : 2}}</td>
+                <td>{{ 100 * sample.in_frame_cnt / (sample.valid_cnt + sample.no_result_cnt) | number : 2 }}</td>
+                <td>{{ 100 * sample.stop_cnt / (sample.valid_cnt + sample.no_result_cnt) | number : 2 }}</td>
+                <td><a href="#/samples/?samples={{ sample.id }}">More<span class="glyphicon glyphicon-chevron-right"></span></a></td>
+              </tbody>
+            </table>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <button ng-click="viewSamples()" class="btn btn-primary">Compare</button>
+  </form>
 </div>

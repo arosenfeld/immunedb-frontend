@@ -5,7 +5,8 @@ angular.module('ImmunologyApp', [
     'ngCookies',
     'ngResource',
     'ngRoute',
-    'ngSanitize'
+    'ngSanitize',
+    'checklist-model'
   ])
   .config(function ($routeProvider) {
     $routeProvider
@@ -13,12 +14,12 @@ angular.module('ImmunologyApp', [
         templateUrl: 'views/studies.html',
         controller: 'StudiesCtrl',
       })
-      .when('/samples/:studyName/:sampleId', {
-        templateUrl: 'views/sample.html',
+      .when('/samples/:sampleIds', {
+        templateUrl: 'views/samples.html',
         controller: 'SampleCtrl'
       })
       .otherwise({
         redirectTo: '/studies'
       });
   })
-  .constant('apiUrl', 'http://localhost:5000/api/');
+  .constant('apiUrl', 'http://129.25.28.237:5000/api/');

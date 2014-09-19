@@ -1,12 +1,14 @@
 <ol class="breadcrumb">
   <li><a href="#/studies">Studies</a></li>
-  <li><a href="#/study/{{ sample.study_id }}">{{ route.studyName }}</a></li>
-  <li class="active">{{ sample.name}}</li>
+  <li>Sample Comparison</li>
 </ol>
 <h3>Basic Statistics</h3>
+
 <div class="table-responsive">
   <table class="table table-bordered">
     <thead>
+      <th>#</th>
+      <th>Name</th>
       <th>Total Seqs.</th>
       <th>Valid Seqs.</th>
       <th>Invalid Seqs.</th>
@@ -15,19 +17,23 @@
       <th>Stop %</th>
     </thead>
     <tbody>
-      <td>{{ sample.valid_cnt + sample.no_result_cnt | number}}</td>
-      <td>{{ sample.valid_cnt | number }}</td>
-      <td>{{ sample.no_result_cnt | number }}</td>
-      <td>{{ 100 * sample.functional_cnt / (sample.valid_cnt + sample.no_result_cnt) | number : 2}}</td>
-      <td>{{ 100 * sample.in_frame_cnt / (sample.valid_cnt + sample.no_result_cnt) | number : 2 }}</td>
-      <td>{{ 100 * sample.stop_cnt / (sample.valid_cnt + sample.no_result_cnt) | number : 2 }}</td>
+      <tr ng-repeat="stat in stats">
+        <td>{{ stat.sample.id }}</td>
+        <td>{{ stat.sample.name }}</td>
+        <td>{{ stat.sample.valid_cnt + stat.sample.no_result_cnt | number}}</td>
+        <td>{{ stat.sample.valid_cnt | number }}</td>
+        <td>{{ stat.sample.no_result_cnt | number }}</td>
+        <td>{{ 100 * stat.sample.functional_cnt / (stat.sample.valid_cnt + stat.sample.no_result_cnt) | number : 2}}</td>
+        <td>{{ 100 * stat.sample.in_frame_cnt / (stat.sample.valid_cnt + stat.sample.no_result_cnt) | number : 2 }}</td>
+        <td>{{ 100 * stat.sample.stop_cnt / (stat.sample.valid_cnt + stat.sample.no_result_cnt) | number : 2 }}</td>
+      </tr>
     </tbody>
   </table>
 </div>
 
 <h3>Feature Distributions</h3>
+<!--
 <div id="collapse-to-iden" style="width:100%; height:400px;"></div>
-
 <script>
 $(function () {
     $('#collapse-to-iden').highcharts({
@@ -84,3 +90,4 @@ $(function () {
     });
 });
 </script>
+-->
