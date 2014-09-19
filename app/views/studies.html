@@ -46,7 +46,7 @@
                 <td>{{ 100 * sample.functional_cnt / (sample.valid_cnt + sample.no_result_cnt) | number : 2}}</td>
                 <td>{{ 100 * sample.in_frame_cnt / (sample.valid_cnt + sample.no_result_cnt) | number : 2 }}</td>
                 <td>{{ 100 * sample.stop_cnt / (sample.valid_cnt + sample.no_result_cnt) | number : 2 }}</td>
-                <td><a href="#/samples/?samples={{ sample.id }}">More<span class="glyphicon glyphicon-chevron-right"></span></a></td>
+                <td><a href="#/samples/{{ sample.id }}">More<span class="glyphicon glyphicon-chevron-right"></span></a></td>
               </tbody>
             </table>
           </td>

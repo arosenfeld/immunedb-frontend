@@ -33,11 +33,6 @@
 
 <h3>Feature Distributions</h3>
 <div ng-show="loaded">
-  <div class="panel panel-default">
-    <div class="panel-body">
-      <highchart config="pie"></highchart>
-    </div>
-  </div>
 
   <div class="panel panel-default">
     <div class="panel-body">
@@ -53,7 +48,7 @@
 
   <div class="panel panel-default">
     <div class="panel-body">
-      <highchart config="plotVCall"></highchart>
+      <highchart config="plotVGap"></highchart>
     </div>
   </div>
 
@@ -66,6 +61,18 @@
   <div class="panel panel-default">
     <div class="panel-body">
       <highchart config="plotJMatch"></highchart>
+    </div>
+  </div>
+
+  <div class="panel panel-default">
+    <div class="panel-body">
+      <highchart config="plotJGap"></highchart>
+    </div>
+  </div>
+
+  <div class="panel panel-default">
+    <div class="panel-body">
+      <highchart config="plot" ng-repeat="plot in vcalls" style="float:left"></highchart>
     </div>
   </div>
 </div>
