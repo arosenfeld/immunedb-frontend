@@ -23,9 +23,9 @@
         <td>{{ stat.sample.valid_cnt + stat.sample.no_result_cnt | number}}</td>
         <td>{{ stat.sample.valid_cnt | number }}</td>
         <td>{{ stat.sample.no_result_cnt | number }}</td>
-        <td>{{ 100 * stat.sample.functional_cnt / (stat.sample.valid_cnt + stat.sample.no_result_cnt) | number : 2}}</td>
-        <td>{{ 100 * stat.sample.in_frame_cnt / (stat.sample.valid_cnt + stat.sample.no_result_cnt) | number : 2 }}</td>
-        <td>{{ 100 * stat.sample.stop_cnt / (stat.sample.valid_cnt + stat.sample.no_result_cnt) | number : 2 }}</td>
+        <td>{{ 100 * stat.sample.functional_cnt / stat.sample.valid_cnt | number : 2}}</td>
+        <td>{{ 100 * stat.sample.in_frame_cnt / stat.sample.valid_cnt | number : 2 }}</td>
+        <td>{{ 100 * stat.sample.stop_cnt / stat.sample.valid_cnt | number : 2 }}</td>
       </tr>
     </tbody>
   </table>
