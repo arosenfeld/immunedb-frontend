@@ -33,8 +33,7 @@
                 <th>Valid Seqs.</th>
                 <th>Invalid Seqs.</th>
                 <th>Functional %</th>
-                <th>In-frame %</th>
-                <th>Stop %</th>
+                <th></th>
               </thead>
               <tbody ng-repeat="sample in row.samples">
                 <td><input type="checkbox" checklist-model="checked_samples" checklist-value="sample.id"></input>
@@ -43,9 +42,7 @@
                 <td>{{ sample.valid_cnt + sample.no_result_cnt | number}}</td>
                 <td>{{ sample.valid_cnt | number }}</td>
                 <td>{{ sample.no_result_cnt | number }}</td>
-                <td>{{ 100 * sample.functional_cnt / (sample.valid_cnt + sample.no_result_cnt) | number : 2}}</td>
-                <td>{{ 100 * sample.in_frame_cnt / (sample.valid_cnt + sample.no_result_cnt) | number : 2 }}</td>
-                <td>{{ 100 * sample.stop_cnt / (sample.valid_cnt + sample.no_result_cnt) | number : 2 }}</td>
+                <td>{{ 100 * sample.functional_cnt / sample.valid_cnt | number : 2}}</td>
                 <td><a href="#/samples/{{ sample.id }}">More<span class="glyphicon glyphicon-chevron-right"></span></a></td>
               </tbody>
             </table>

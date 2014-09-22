@@ -7,72 +7,63 @@
 <div class="table-responsive">
   <table class="table table-bordered">
     <thead>
-      <th>#</th>
-      <th>Name</th>
-      <th>Total Seqs.</th>
-      <th>Valid Seqs.</th>
-      <th>Invalid Seqs.</th>
-      <th>Functional %</th>
-      <th>In-frame %</th>
-      <th>Stop %</th>
+      <tr>
+        <th>#</th>
+        <th>Name</th>
+        <th>Total Seqs.</th>
+        <th>Valid Seqs.</th>
+        <th>Invalid Seqs.</th>
+        <th>In-frame</th>
+        <th>Functional %</th>
+      </tr>
     </thead>
     <tbody>
-      <tr ng-repeat="stat in stats">
+      <tr ng-repeat="stat in grouped_stats">
         <td>{{ stat.sample.id }}</td>
         <td>{{ stat.sample.name }}</td>
         <td>{{ stat.sample.valid_cnt + stat.sample.no_result_cnt | number}}</td>
         <td>{{ stat.sample.valid_cnt | number }}</td>
         <td>{{ stat.sample.no_result_cnt | number }}</td>
         <td>{{ 100 * stat.sample.functional_cnt / stat.sample.valid_cnt | number : 2}}</td>
-        <td>{{ 100 * stat.sample.in_frame_cnt / stat.sample.valid_cnt | number : 2 }}</td>
-        <td>{{ 100 * stat.sample.stop_cnt / stat.sample.valid_cnt | number : 2 }}</td>
+        <td>{{ 100 * stat.nonfunctional.in_frame_cnt / stat.sample.valid_cnt | number : 2 }}</td>
+        <td>{{ 100 * stat.nonfunctional.stop_cnt / stat.sample.valid_cnt | number : 2 }}</td>
       </tr>
     </tbody>
   </table>
 </div>
 
+
 <h3>Feature Distributions</h3>
-<div ng-show="loaded">
+<ul class="nav nav-tabs" role="tablist" id="funcTab">
+  <li class="active"><a href="#all" role="tab" data-toggle="tab">All</a></li>
+  <li><a href="#functional" role="tab" data-toggle="tab">Functional</a></li>
+  <li><a href="#nonfunctional" role="tab" data-toggle="tab">Non-Functional</a></li>
+</ul>
 
-  <div class="panel panel-default">
-    <div class="panel-body">
-      <highchart config="plotVLength"></highchart>
+<div class="tab-content">
+
+  <div class="tab-pane in active" id="all">
+    <div class="panel panel-default" ng-repeat="config in charts.all" ng-controller="HighChartController">
+      <div class="panel-body">
+        <highchart config="config" id="{{ config.key }}_all"></highchart>
+      </div>
     </div>
   </div>
 
-  <div class="panel panel-default">
-    <div class="panel-body">
-      <highchart config="plotVMatch"></highchart>
+  <div class="tab-pane" id="functional">
+    <div class="panel panel-default" ng-repeat="config in charts.functional" ng-controller="HighChartController">
+      <div class="panel-body">
+        <highchart config="config" id="{{ config.key }}_functional"></highchart>
+      </div>
     </div>
   </div>
 
-  <div class="panel panel-default">
-    <div class="panel-body">
-      <highchart config="plotVGap"></highchart>
+  <div class="tab-pane" id="nonfunctional">
+    <div class="panel panel-default" ng-repeat="config in charts.nonfunctional" ng-controller="HighChartController">
+      <div class="panel-body">
+        <highchart config="config" id="{{ config.key }}_nonfunctional"></highchart>
+      </div>
     </div>
   </div>
 
-  <div class="panel panel-default">
-    <div class="panel-body">
-      <highchart config="plotJLength"></highchart>
-    </div>
-  </div>
-
-  <div class="panel panel-default">
-    <div class="panel-body">
-      <highchart config="plotJMatch"></highchart>
-    </div>
-  </div>
-
-  <div class="panel panel-default">
-    <div class="panel-body">
-      <highchart config="plotJGap"></highchart>
-    </div>
-  </div>
-
-  <div class="panel panel-default">
-    <div class="panel-body">
-      <highchart config="plot" ng-repeat="plot in vcalls" style="float:left"></highchart>
-    </div>
-  </div>
 </div>
