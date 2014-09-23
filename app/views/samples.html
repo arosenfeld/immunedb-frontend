@@ -1,5 +1,6 @@
 <ol class="breadcrumb">
-  <li><a href="#/studies">Studies</a></li>
+  <li><a href="#/studies">Studies</a>
+  </li>
   <li>Sample Comparison</li>
 </ol>
 
@@ -33,20 +34,25 @@
 
 <h3>Feature Distributions</h3>
 <ul class="nav nav-pills" role="tablist" id="funcTab">
-  <li class="active"><a href="#all" role="tab" data-toggle="tab"><span class="badge pull-right">{{ cnts.all | formatNumber }}</span> All</a></li>
-  <li><a href="#functional" role="tab" data-toggle="tab"><span class="badge pull-right">{{ cnts.functional | formatNumber }}</span>Functional</span></a></li>
+  <li class="active"><a href="#all" role="tab" data-toggle="tab"><span class="badge pull-right">{{ cnts.all | formatNumber }}</span> All</a>
+  </li>
+  <li><a href="#functional" role="tab" data-toggle="tab"><span class="badge pull-right">{{ cnts.functional | formatNumber }}</span>Functional</span></a>
+  </li>
   <li><a href="#nonfunctional" role="tab" data-toggle="tab"><span class="badge pull-right">{{ cnts.nonfunctional | formatNumber }}</span>
-  Non-Functional</a></li>
-  <li><a href="#unique" role="tab" data-toggle="tab"><span class="badge pull-right">{{ cnts.unique | formatNumber }}</span>Unique</a></li>
+  Non-Functional</a>
+  </li>
+  <li><a href="#unique" role="tab" data-toggle="tab"><span class="badge pull-right">{{ cnts.unique | formatNumber }}</span>Unique</a>
+  </li>
   <li><a href="#unique_multiple" role="tab" data-toggle="tab"><span class="badge pull-right">{{ cnts.unique_multiple | formatNumber }}</span> Unique
-  w/ Copy # > 1</a></li>
+  w/ Copy # > 1</a>
+  </li>
 </ul>
 
 <div class="tab-content">
   <div class="tab-pane in active" id="all">
     <div id="vHeatmapAll"></div>
     <div ng-repeat="config in charts.all" ng-controller="HighChartController">
-        <highchart config="config" id="{{ config.key }}_all"></highchart>
+      <highchart config="config" id="{{ config.key }}_all"></highchart>
     </div>
   </div>
 

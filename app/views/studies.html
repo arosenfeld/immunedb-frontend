@@ -1,5 +1,6 @@
 <ol class="breadcrumb">
-<li><a href="#/studies">Studies</a></li>
+  <li><a href="#/studies">Studies</a>
+  </li>
 </ol>
 <div class="table-responsive">
   <button ng-click="viewSamples()" class="btn btn-primary">Compare</button>
@@ -16,7 +17,8 @@
       <tbody ng-repeat="row in rows">
         <tr class="active">
           <td>{{ row.id }}</td>
-          <td><a ng-click="show = !show">{{ row.name }} <span class="glyphicon glyphicon-chevron-down" id="study-arrow-{{ row.id }}"></span></a></td>
+          <td><a ng-click="show = !show">{{ row.name }} <span class="glyphicon glyphicon-chevron-down" id="study-arrow-{{ row.id }}"></span></a>
+          </td>
           <td>{{ row.info }}</td>
           <td>{{ row.samples.length }}</td>
         </tr>
@@ -34,17 +36,19 @@
                 <th></th>
               </thead>
               <tbody ng-repeat="sample in row.samples">
-                <td><input type="checkbox" checklist-model="checked_samples" checklist-value="sample.id"></input>
-                <td>{{ sample.id }}</td>
-                <td>{{ sample.name }}</td>
-                <td>{{ sample.valid_cnt + sample.no_result_cnt | number}}</td>
-                <td>{{ sample.valid_cnt | number }}</td>
-                <td>{{ sample.no_result_cnt | number }}</td>
-                <td>{{ 100 * sample.functional_cnt / sample.valid_cnt | number : 2}}</td>
-                <td><a href="#/samples/{{ sample.id }}">More<span class="glyphicon glyphicon-chevron-right"></span></a></td>
+                <td>
+                  <input type="checkbox" checklist-model="checked_samples" checklist-value="sample.id"></input>
+                  <td>{{ sample.id }}</td>
+                  <td>{{ sample.name }}</td>
+                  <td>{{ sample.valid_cnt + sample.no_result_cnt | number}}</td>
+                  <td>{{ sample.valid_cnt | number }}</td>
+                  <td>{{ sample.no_result_cnt | number }}</td>
+                  <td>{{ 100 * sample.functional_cnt / sample.valid_cnt | number : 2}}</td>
+                  <td><a href="#/samples/{{ sample.id }}">More<span class="glyphicon glyphicon-chevron-right"></span></a>
+                  </td>
               </tbody>
             </table>
-          </td>
+            </td>
         </tr>
       </tbody>
     </table>
