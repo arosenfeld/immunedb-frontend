@@ -165,6 +165,7 @@ angular.module('ImmunologyApp')
                     },
 
                     legend: {
+                        enabled: false,
                         align: 'right',
                         layout: 'vertical',
                         margin: 0,
@@ -181,9 +182,12 @@ angular.module('ImmunologyApp')
                             padding: 20,
                         },
                         formatter: function() {
+                            var v = Math.pow(Math.E, this.point.value);
+                            v = 100 * v /
+                                $scope.grouped_stats[y_categories[this.point.y]][filter]['sequence_cnt'];
                             return '<b>Sample:</b> ' + y_categories[this.point.y] + '<br />' +
                                 '<b>Gene:</b> ' + x_categories[this.point.x] + '<br />' +
-                                '<b>Value:</b> ' + this.point.value.toFixed(2);
+                                '<b>Value:</b> ' + v.toFixed(2) + '%';
                         }
                     },
 
