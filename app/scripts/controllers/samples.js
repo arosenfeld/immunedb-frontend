@@ -58,6 +58,7 @@ angular.module('ImmunologyApp')
 
     var createColumnChart = function(chart_title, key, x_label, y_label,
         all_series) {
+
         return {
             options: {
                 chart: {
@@ -89,7 +90,8 @@ angular.module('ImmunologyApp')
         }
     }
 
-    var createHeatmap = function(label, chart_title, filter, type) {
+    var createHeatmap = function(label, chart_title, filter,
+        type) {
 
         var genes = numberGenes(type, filter);
         var x_categories = genes;
@@ -112,8 +114,8 @@ angular.module('ImmunologyApp')
                 if (typeof gene != 'undefined') {
                     var x = x_categories.indexOf(gene);
                     var y = y_categories.indexOf(parseInt(sample_id));
-                    var z = 100 * value[1] /
-                        $scope.grouped_stats[sample_id][filter]['sample']['valid_cnt'];
+                    var z = Math.log(value[1]);
+                    //100 * value[1] / $scope.grouped_stats[sample_id][filter]['sequence_cnt'];
                     data.push([x, y, z]);
                 }
             });
@@ -124,6 +126,10 @@ angular.module('ImmunologyApp')
                 type: 'heatmap',
             },
 
+            credits: {
+                enabled : false
+            },
+
             title: {
                 text: chart_title
             },
@@ -132,12 +138,13 @@ angular.module('ImmunologyApp')
                 categories: x_categories,
                 labels: {
                     rotation: -90
-                }
+                },
+                title: 'IGHV Gene'
             },
 
             yAxis: {
                 categories: y_categories,
-                title: null
+                title: 'Sample ID'
             },
 
             colorAxis: {
@@ -150,18 +157,27 @@ angular.module('ImmunologyApp')
                 align: 'right',
                 layout: 'vertical',
                 margin: 0,
-                verticalAlign: 'top',
-                y: 25,
-                symbolHeight: 320
+                verticalAlign: 'middle',
+                symbolHeight: 255,
+                y: -30,
+                title: {
+                    text: 'log(# Seq.)',
+                }
+            },
+
+            tooltip: {
+                style: {
+                    padding: 20,
+                },
+                formatter: function() {
+                    return '<b>Sample:</b> ' + y_categories[this.point.y] + '<br />' + 
+                           '<b>Gene:</b> ' + x_categories[this.point.x] + '<br />' +
+                           '<b>Value:</b> ' + this.point.value.toFixed(2);
+                }
             },
 
             series: [{
                 data: data,
-
-//                tooltip: {
-//                    headerFormat: {point.x} " zUsage<br />",
-//                    pointFormat: "Assiged to {point.value}% of Sequences"
-//                }
             }]
         });
     }
