@@ -2,8 +2,8 @@
   <li><a href="#/studies">Studies</a></li>
   <li>Sample Comparison</li>
 </ol>
-<h3>Basic Statistics</h3>
 
+<h3>Basic Statistics</h3>
 <div class="table-responsive">
   <table class="table table-bordered">
     <thead>
@@ -14,7 +14,7 @@
         <th>Valid Seqs.</th>
         <th>Invalid Seqs.</th>
         <th>In-frame</th>
-        <th>Functional %</th>
+        <th>Functional</th>
       </tr>
     </thead>
     <tbody>
@@ -24,14 +24,12 @@
         <td>{{ stat.sample.valid_cnt + stat.sample.no_result_cnt | number}}</td>
         <td>{{ stat.sample.valid_cnt | number }}</td>
         <td>{{ stat.sample.no_result_cnt | number }}</td>
-        <td>{{ 100 * stat.sample.functional_cnt / stat.sample.valid_cnt | number : 2}}</td>
-        <td>{{ 100 * stat.nonfunctional.in_frame_cnt / stat.sample.valid_cnt | number : 2 }}</td>
-        <td>{{ 100 * stat.nonfunctional.stop_cnt / stat.sample.valid_cnt | number : 2 }}</td>
+        <td>{{ 100 * stat.all.in_frame_cnt / stat.sample.valid_cnt | number : 2}}%</td>
+        <td>{{ 100 * stat.sample.functional_cnt / stat.sample.valid_cnt | number : 2}}%</td>
       </tr>
     </tbody>
   </table>
 </div>
-
 
 <h3>Feature Distributions</h3>
 <ul class="nav nav-tabs" role="tablist" id="funcTab">
@@ -41,8 +39,12 @@
 </ul>
 
 <div class="tab-content">
-
   <div class="tab-pane in active" id="all">
+    <div class="panel panel-default">
+      <div class="panel-body">
+        <div id="vHeatmapAll"></div>
+      </div>
+    </div>
     <div class="panel panel-default" ng-repeat="config in charts.all" ng-controller="HighChartController">
       <div class="panel-body">
         <highchart config="config" id="{{ config.key }}_all"></highchart>
@@ -65,5 +67,4 @@
       </div>
     </div>
   </div>
-
 </div>

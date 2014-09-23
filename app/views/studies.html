@@ -11,7 +11,6 @@
           <th>Name</th>
           <th>Info</th>
           <th>Samples</th>
-          <th></th>
         </tr>
       </thead>
       <tbody ng-repeat="row in rows">
@@ -20,7 +19,6 @@
           <td><a ng-click="show = !show">{{ row.name }} <span class="glyphicon glyphicon-chevron-down" id="study-arrow-{{ row.id }}"></span></a></td>
           <td>{{ row.info }}</td>
           <td>{{ row.samples.length }}</td>
-          <td class="align-right"><a href="#">Study Details<span class="glyphicon glyphicon-chevron-right"></span></a></td>
         </tr>
         <tr ng-show="show">
           <td colspan="5" style="float: none; margin: 0 auto;">
