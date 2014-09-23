@@ -4,6 +4,58 @@ angular.module('ImmunologyApp')
   .controller('SampleCtrl', [ '$scope', '$http', '$routeParams', '$log', 'apiUrl', function ($scope,
       $http, $routeParams, $log, apiUrl) {
 
+    var geneConfuse = {
+        'IGHV6-1': 'IGHV6-1',
+        'IGHV4-4': 'IGHV4-30-2',
+        'IGHV3-20': 'IGHV3-20',
+        'IGHV3-15': 'IGHV3-15',
+        'IGHV1-18': 'IGHV1-18',
+        'IGHV3-11': 'IGHV3-48',
+        'IGHV5-51': 'IGHV5-51',
+        'IGHV3-13': 'IGHV3-13',
+        'IGHV3-53': 'IGHV3-30',
+        'IGHV3-33': 'IGHV3-NL1',
+        'IGHV3-30': 'IGHV3-NL1',
+        'IGHV3-73': 'IGHV3-73',
+        'IGHV3-72': 'IGHV3-72',
+        'IGHV2-26': 'IGHV2-26',
+        'IGHV3-74': 'IGHV3-74',
+        'IGHV2-5': 'IGHV2-70',
+        'IGHV3-49': 'IGHV3-49',
+        'IGHV3-7': 'IGHV3-48',
+        'IGHV1-8': 'IGHV1-8',
+        'IGHV3-9': 'IGHV3-9',
+        'IGHV3-30-3': 'IGHV3-NL1',
+        'IGHV1-3': 'IGHV1-3',
+        'IGHV1-2': 'IGHV1-2',
+        'IGHV3-43': 'IGHV3-43',
+        'IGHV4-39': 'IGHV4-30-2',
+        'IGHV1-45': 'IGHV1-45',
+        'IGHV4-34': 'IGHV4-61',
+        'IGHV1-69': 'IGHV1-69',
+        'IGHV4-59': 'IGHV4-30-2',
+        'IGHV4-31': 'IGHV4-31',
+        'IGHV1-24': 'IGHV1-24',
+        'IGHV3-23': 'IGHV3-23',
+        'IGHV4-30-4': 'IGHV4-30-2',
+        'IGHV2-70': 'IGHV2-70',
+        'IGHV4-30-2': 'IGHV4-30-2',
+        'IGHV3-48': 'IGHV3-48',
+        'IGHV4-28': 'IGHV4-39',
+        'IGHV3-64': 'IGHV3-NL1',
+        'IGHV1-46': 'IGHV1-46',
+        'IGHV3-66': 'IGHV3-NL1',
+        'IGHV1-f': 'IGHV1-f',
+        'IGHV4-61': 'IGHV4-61',
+        'IGHV7-4-1': 'IGHV7-4-1',
+        'IGHV3-NL1': 'IGHV3-NL1',
+        'IGHV3-d': 'IGHV3-d',
+        'IGHV1-58': 'IGHV1-58',
+        'IGHV4-b': 'IGHV4-61',
+        'IGHV5-a': 'IGHV5-51',
+        'IGHV3-21': 'IGHV3-48',
+    };
+
     var createColumnChart = function(chart_title, key, x_label, y_label,
         all_series) {
         return {
@@ -78,7 +130,9 @@ angular.module('ImmunologyApp')
 
             xAxis: {
                 categories: x_categories,
-                rotation: -45
+                labels: {
+                    rotation: -90
+                }
             },
 
             yAxis: {
@@ -103,10 +157,11 @@ angular.module('ImmunologyApp')
 
             series: [{
                 data: data,
-                tooltip: {
-                    headerFormat: "{point.x} Usage<br />",
-                    pointFormat: "{point.value} Occurances"
-                }
+
+//                tooltip: {
+//                    headerFormat: {point.x} " zUsage<br />",
+//                    pointFormat: "Assiged to {point.value}% of Sequences"
+//                }
             }]
         });
     }
@@ -123,58 +178,6 @@ angular.module('ImmunologyApp')
         }
         return series;
     }
-
-    var geneConfuse = {
-        'IGHV6-1': 'IGHV6-1',
-        'IGHV4-4': 'IGHV4-30-2',
-        'IGHV3-20': 'IGHV3-20',
-        'IGHV3-15': 'IGHV3-15',
-        'IGHV1-18': 'IGHV1-18',
-        'IGHV3-11': 'IGHV3-48',
-        'IGHV5-51': 'IGHV5-51',
-        'IGHV3-13': 'IGHV3-13',
-        'IGHV3-53': 'IGHV3-30',
-        'IGHV3-33': 'IGHV3-NL1',
-        'IGHV3-30': 'IGHV3-NL1',
-        'IGHV3-73': 'IGHV3-73',
-        'IGHV3-72': 'IGHV3-72',
-        'IGHV2-26': 'IGHV2-26',
-        'IGHV3-74': 'IGHV3-74',
-        'IGHV2-5': 'IGHV2-70',
-        'IGHV3-49': 'IGHV3-49',
-        'IGHV3-7': 'IGHV3-48',
-        'IGHV1-8': 'IGHV1-8',
-        'IGHV3-9': 'IGHV3-9',
-        'IGHV3-30-3': 'IGHV3-NL1',
-        'IGHV1-3': 'IGHV1-3',
-        'IGHV1-2': 'IGHV1-2',
-        'IGHV3-43': 'IGHV3-43',
-        'IGHV4-39': 'IGHV4-30-2',
-        'IGHV1-45': 'IGHV1-45',
-        'IGHV4-34': 'IGHV4-61',
-        'IGHV1-69': 'IGHV1-69',
-        'IGHV4-59': 'IGHV4-30-2',
-        'IGHV4-31': 'IGHV4-31',
-        'IGHV1-24': 'IGHV1-24',
-        'IGHV3-23': 'IGHV3-23',
-        'IGHV4-30-4': 'IGHV4-30-2',
-        'IGHV2-70': 'IGHV2-70',
-        'IGHV4-30-2': 'IGHV4-30-2',
-        'IGHV3-48': 'IGHV3-48',
-        'IGHV4-28': 'IGHV4-39',
-        'IGHV3-64': 'IGHV3-NL1',
-        'IGHV1-46': 'IGHV1-46',
-        'IGHV3-66': 'IGHV3-NL1',
-        'IGHV1-f': 'IGHV1-f',
-        'IGHV4-61': 'IGHV4-61',
-        'IGHV7-4-1': 'IGHV7-4-1',
-        'IGHV3-NL1': 'IGHV3-NL1',
-        'IGHV3-d': 'IGHV3-d',
-        'IGHV1-58': 'IGHV1-58',
-        'IGHV4-b': 'IGHV4-61',
-        'IGHV5-a': 'IGHV5-51',
-        'IGHV3-21': 'IGHV3-48',
-    };
 
     var numberGenes = function(field, filter) {
         var geneToId = {};
