@@ -353,6 +353,12 @@ angular.module('ImmunologyApp')
                         'unique_multiple',
                         'v_call_dist');
 
+                    $(function() {
+                        $('[data-toggle="tooltip"]').tooltip({
+                            'placement': 'top'
+                        });
+                    });
+
                     $scope.loaded = true;
                     $('#loading').modal('hide');
                 }).error(function(data, status, headers, config) {
