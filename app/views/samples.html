@@ -32,77 +32,49 @@
 </div>
 
 <h3>Feature Distributions</h3>
-<ul class="nav nav-tabs" role="tablist" id="funcTab">
-  <li class="active"><a href="#all" role="tab" data-toggle="tab">All</a></li>
-  <li><a href="#functional" role="tab" data-toggle="tab">Functional</a></li>
-  <li><a href="#nonfunctional" role="tab" data-toggle="tab">Non-Functional</a></li>
-  <li><a href="#unique" role="tab" data-toggle="tab">Unique</a></li>
-  <li><a href="#unique_multiple" role="tab" data-toggle="tab">Unique (Copy # > 1)</a></li>
+<ul class="nav nav-pills" role="tablist" id="funcTab">
+  <li class="active"><a href="#all" role="tab" data-toggle="tab"><span class="badge pull-right">{{ cnts.all | formatNumber }}</span> All</a></li>
+  <li><a href="#functional" role="tab" data-toggle="tab"><span class="badge pull-right">{{ cnts.functional | formatNumber }}</span>Functional</span></a></li>
+  <li><a href="#nonfunctional" role="tab" data-toggle="tab"><span class="badge pull-right">{{ cnts.nonfunctional | formatNumber }}</span>
+  Non-Functional</a></li>
+  <li><a href="#unique" role="tab" data-toggle="tab"><span class="badge pull-right">{{ cnts.unique | formatNumber }}</span>Unique</a></li>
+  <li><a href="#unique_multiple" role="tab" data-toggle="tab"><span class="badge pull-right">{{ cnts.unique_multiple | formatNumber }}</span> Unique
+  w/ Copy # > 1</a></li>
 </ul>
 
 <div class="tab-content">
   <div class="tab-pane in active" id="all">
-    <div class="panel panel-default">
-      <div class="panel-body">
-        <div id="vHeatmapAll"></div>
-      </div>
-    </div>
-    <div class="panel panel-default" ng-repeat="config in charts.all" ng-controller="HighChartController">
-      <div class="panel-body">
+    <div id="vHeatmapAll"></div>
+    <div ng-repeat="config in charts.all" ng-controller="HighChartController">
         <highchart config="config" id="{{ config.key }}_all"></highchart>
-      </div>
     </div>
   </div>
 
   <div class="tab-pane" id="functional">
-    <div class="panel panel-default">
-      <div class="panel-body">
-        <div id="vHeatmapFunctional"></div>
-      </div>
-    </div>
-    <div class="panel panel-default" ng-repeat="config in charts.functional" ng-controller="HighChartController">
-      <div class="panel-body">
-        <highchart config="config" id="{{ config.key }}_functional"></highchart>
-      </div>
+    <div id="vHeatmapFunctional"></div>
+    <div ng-repeat="config in charts.functional" ng-controller="HighChartController">
+      <highchart config="config" id="{{ config.key }}_functional"></highchart>
     </div>
   </div>
 
   <div class="tab-pane" id="nonfunctional">
-    <div class="panel panel-default">
-      <div class="panel-body">
-        <div id="vHeatmapNonFunctional"></div>
-      </div>
-    </div>
-    <div class="panel panel-default" ng-repeat="config in charts.nonfunctional" ng-controller="HighChartController">
-      <div class="panel-body">
-        <highchart config="config" id="{{ config.key }}_nonfunctional"></highchart>
-      </div>
+    <div id="vHeatmapNonFunctional"></div>
+    <div ng-repeat="config in charts.nonfunctional" ng-controller="HighChartController">
+      <highchart config="config" id="{{ config.key }}_nonfunctional"></highchart>
     </div>
   </div>
 
   <div class="tab-pane" id="unique">
-    <div class="panel panel-default">
-      <div class="panel-body">
-        <div id="vHeatmapUnique"></div>
-      </div>
-    </div>
-    <div class="panel panel-default" ng-repeat="config in charts.unique" ng-controller="HighChartController">
-      <div class="panel-body">
-        <highchart config="config" id="{{ config.key }}_unique"></highchart>
-      </div>
+    <div id="vHeatmapUnique"></div>
+    <div ng-repeat="config in charts.unique" ng-controller="HighChartController">
+      <highchart config="config" id="{{ config.key }}_unique"></highchart>
     </div>
   </div>
 
   <div class="tab-pane" id="unique_multiple">
-    <div class="panel panel-default">
-      <div class="panel-body">
-        <div id="vHeatmapUniqueMultiple"></div>
-      </div>
-    </div>
-    <div class="panel panel-default" ng-repeat="config in charts.unique_multiple" ng-controller="HighChartController">
-      <div class="panel-body">
-        <highchart config="config" id="{{ config.key }}_unique_multiple"></highchart>
-      </div>
+    <div id="vHeatmapUniqueMultiple"></div>
+    <div ng-repeat="config in charts.unique_multiple" ng-controller="HighChartController">
+      <highchart config="config" id="{{ config.key }}_unique_multiple"></highchart>
     </div>
   </div>
 </div>

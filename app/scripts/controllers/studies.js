@@ -20,6 +20,7 @@ angular.module('ImmunologyApp')
             $('#loading').modal('hide');
         }).error(function(data, status) {
             $('#loading').modal('hide');
+            $('#error').modal('show');
         });
     };
 

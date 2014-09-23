@@ -108,15 +108,24 @@ angular.module('ImmunologyApp')
             }
         }
 
+        $scope.cnts = {}
+
         angular.forEach($scope.grouped_stats, function(value, sample_id) {
+            for (var i in filters) {
+                var f = filters[i];
+                if (!(f in $scope.cnts)) {
+                    $scope.cnts[f] = 0;
+                }
+                $scope.cnts[f] += parseInt(value[f].sequence_cnt);
+            }
             var dist = angular.fromJson(value[filter][type]);
             angular.forEach(dist, function(value, key) {
                 var gene = geneConfuse[value[0]];
                 if (typeof gene != 'undefined') {
                     var x = x_categories.indexOf(gene);
                     var y = y_categories.indexOf(parseInt(sample_id));
-                    var z = Math.log(value[1]);
-                    //100 * value[1] / $scope.grouped_stats[sample_id][filter]['sequence_cnt'];
+                    var z = Math.log(value[1]); 
+                    //100 * value[1] / $scope.grouped_stats[sample_id][filter]['sequence_cnt']; 
                     data.push([x, y, z]);
                 }
             });
@@ -343,8 +352,9 @@ angular.module('ImmunologyApp')
 
             $scope.loaded = true;
             $('#loading').modal('hide');
-        }).error(function(data, status) {
+        }).error(function(data, status, headers, config) {
             $('#loading').modal('hide');
+            $('#error').modal('show');
         });
     }
 

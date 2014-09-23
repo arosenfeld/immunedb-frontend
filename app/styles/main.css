@@ -107,3 +107,10 @@ body {
 .chart {
     margin: 1em;
 }
+
+/***/
+li .badge {
+    vertical-align: middle;
+    margin-top: 0.1em;
+}
+/***/

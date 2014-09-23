@@ -21,7 +21,19 @@
 
   <body ng-controller="MainCtrl">
     <!-- TODO: MOVE THIS TO A PARTIAL -->
-    <div class="modal fade" id="loading" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal fade" id="error" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title">Error</h4>
+          </div>
+          <div class="modal-body">
+            There has been an error communicating with the database.  If this occurs again, please send the following error report to <a
+            href="mailto:ar374@drexel.edui?subject=SimLab DB Error">ar374@drexel.edu</a>
+          </div>
+        </div>
+      </div>
+    </div>    <div class="modal fade" id="loading" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="false">
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
@@ -33,7 +45,6 @@
         </div>
       </div>
     </div>
-
 
     <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
       <div class="container-fluid">
@@ -102,6 +113,7 @@
 
         <!-- build:js({.tmp,app}) scripts/scripts.js -->
         <script src="scripts/app.js"></script>
+        <script src="scripts/filters.js"></script>
         <script src="scripts/vendor/highcharts.js"></script>
         <script src="scripts/vendor/heatmap.js"></script>
         <script src="scripts/vendor/highcharts-ng.js"></script>

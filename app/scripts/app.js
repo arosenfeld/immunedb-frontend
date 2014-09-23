@@ -7,7 +7,8 @@ angular.module('ImmunologyApp', [
     'ngRoute',
     'ngSanitize',
     'highcharts-ng',
-    'checklist-model'
+    'checklist-model',
+    'ImmunologyFilters'
   ])
   .config(function ($routeProvider) {
     $routeProvider
