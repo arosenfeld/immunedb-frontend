@@ -53,6 +53,11 @@
   </div>
 
   <div class="tab-pane" id="functional">
+    <div class="panel panel-default">
+      <div class="panel-body">
+        <div id="vHeatmapFunctional"></div>
+      </div>
+    </div>
     <div class="panel panel-default" ng-repeat="config in charts.functional" ng-controller="HighChartController">
       <div class="panel-body">
         <highchart config="config" id="{{ config.key }}_functional"></highchart>
@@ -61,6 +66,11 @@
   </div>
 
   <div class="tab-pane" id="nonfunctional">
+    <div class="panel panel-default">
+      <div class="panel-body">
+        <div id="vHeatmapNonFunctional"></div>
+      </div>
+    </div>
     <div class="panel panel-default" ng-repeat="config in charts.nonfunctional" ng-controller="HighChartController">
       <div class="panel-body">
         <highchart config="config" id="{{ config.key }}_nonfunctional"></highchart>

@@ -37,8 +37,36 @@ angular.module('ImmunologyApp')
         }
     }
 
-    var createHeatmap = function(label, chart_title, x_categories, y_categories,
-        data) {
+    var createHeatmap = function(label, chart_title, filter, type) {
+
+        var genes = numberGenes(type, filter);
+        var x_categories = genes;
+        var y_categories = Object.keys($scope.grouped_stats).map(
+            function(e) {
+                return parseInt(e);
+        });
+
+        var data = [];
+        for (var x in x_categories) {
+            for (var y in y_categories) {
+                data.push([parseInt(x), parseInt(y), 0]);
+            }
+        }
+
+        angular.forEach($scope.grouped_stats, function(value, sample_id) {
+            var dist = angular.fromJson(value[filter][type]);
+            angular.forEach(dist, function(value, key) {
+                var gene = geneConfuse[value[0]];
+                if (typeof gene != 'undefined') {
+                    var x = x_categories.indexOf(gene);
+                    var y = y_categories.indexOf(parseInt(sample_id));
+                    var z = 100 * value[1] /
+                        $scope.grouped_stats[sample_id][filter]['sample']['valid_cnt'];
+                    data.push([x, y, z]);
+                }
+            });
+        });
+
         $(label).highcharts({
             chart: {
                 type: 'heatmap',
@@ -76,7 +104,7 @@ angular.module('ImmunologyApp')
             series: [{
                 data: data,
                 tooltip: {
-                    headerFormat: "{point.x} Usage in Sample {point.y}<br />",
+                    headerFormat: "{point.x} Usage<br />",
                     pointFormat: "{point.value} Occurances"
                 }
             }]
@@ -219,6 +247,9 @@ angular.module('ImmunologyApp')
                         filters[j]).highcharts().reflow();
                 }
             }
+            $('#vHeatmapAll').highcharts().reflow();
+            $('#vHeatmapFunctional').highcharts().reflow();
+            $('#vHeatmapNonFunctional').highcharts().reflow();
         });
 
         $http({
@@ -262,36 +293,21 @@ angular.module('ImmunologyApp')
                 }
             }
 
-            var genes = numberGenes('v_call_dist', 'all');
-            var x_categories = genes;
-            var y_categories = Object.keys($scope.grouped_stats).map(
-                function(e) {
-                    return parseInt(e);
-            });
-
-            var data = [];
-            for (var x in x_categories) {
-                for (var y in y_categories) {
-                    data.push([parseInt(x), parseInt(y), 0]);
-                }
-            }
-            $log.info(data);
-
-            angular.forEach($scope.grouped_stats, function(value, sample_id) {
-                var dist = angular.fromJson(value['all']['v_call_dist']);
-                angular.forEach(dist, function(value, key) {
-                    var gene = geneConfuse[value[0]];
-                    if (typeof gene != 'undefined') {
-                        var x = x_categories.indexOf(gene);
-                        var y = y_categories.indexOf(parseInt(sample_id));
-                        var z = 100 * value[1] /
-                            $scope.grouped_stats[sample_id]['all']['sample']['valid_cnt'];
-                        data.push([x, y, z]);
-                    }
-                });
-            });
-            createHeatmap('#vHeatmapAll', 'V Gene Utilization', x_categories, y_categories,
-                data);
+            createHeatmap(
+                '#vHeatmapAll',
+                'V Gene Utilization',
+                'all',
+                'v_call_dist');
+            createHeatmap(
+                '#vHeatmapFunctional',
+                'V Gene Utilization',
+                'functional',
+                'v_call_dist');
+            createHeatmap(
+                '#vHeatmapNonFunctional',
+                'V Gene Utilization',
+                'nonfunctional',
+                'v_call_dist');
 
             $scope.loaded = true;
             $('#loading').modal('hide');
