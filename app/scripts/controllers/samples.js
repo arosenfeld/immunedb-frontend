@@ -62,7 +62,8 @@ angular.module('ImmunologyApp')
         return {
             options: {
                 chart: {
-                    type: 'column'
+                    type: 'column',
+                    zoomType: 'x'
                 }
             },
             credits: {
@@ -280,7 +281,6 @@ angular.module('ImmunologyApp')
                         $routeParams['sampleIds'].split(',')
                     }]}}
         }).success(function(data, status) {
-            // Column Charts
             $scope.stats = data['objects'];
             $scope.grouped_stats = {}
             for (var e in $scope.stats) {
