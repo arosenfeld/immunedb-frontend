@@ -248,7 +248,8 @@ angular.module('ImmunologyApp')
         },
     ];
 
-    var filters = [ 'all', 'functional', 'nonfunctional' ];
+    var filters = [ 'all', 'functional', 'nonfunctional', 'unique',
+        'unique_multiple' ];
 
     var init = function() {
         $('#loading').modal('show');
@@ -270,6 +271,8 @@ angular.module('ImmunologyApp')
             $('#vHeatmapAll').highcharts().reflow();
             $('#vHeatmapFunctional').highcharts().reflow();
             $('#vHeatmapNonFunctional').highcharts().reflow();
+            $('#vHeatmapUnique').highcharts().reflow();
+            $('#vHeatmapUniqueMultiple').highcharts().reflow();
         });
 
         $http({
@@ -326,6 +329,16 @@ angular.module('ImmunologyApp')
                 '#vHeatmapNonFunctional',
                 'V Gene Utilization',
                 'nonfunctional',
+                'v_call_dist');
+            createHeatmap(
+                '#vHeatmapUnique',
+                'V Gene Utilization',
+                'unique',
+                'v_call_dist');
+            createHeatmap(
+                '#vHeatmapUniqueMultiple',
+                'V Gene Utilization',
+                'unique_multiple',
                 'v_call_dist');
 
             $scope.loaded = true;

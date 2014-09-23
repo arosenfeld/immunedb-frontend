@@ -36,6 +36,8 @@
   <li class="active"><a href="#all" role="tab" data-toggle="tab">All</a></li>
   <li><a href="#functional" role="tab" data-toggle="tab">Functional</a></li>
   <li><a href="#nonfunctional" role="tab" data-toggle="tab">Non-Functional</a></li>
+  <li><a href="#unique" role="tab" data-toggle="tab">Unique</a></li>
+  <li><a href="#unique_multiple" role="tab" data-toggle="tab">Unique (Copy # > 1)</a></li>
 </ul>
 
 <div class="tab-content">
@@ -74,6 +76,32 @@
     <div class="panel panel-default" ng-repeat="config in charts.nonfunctional" ng-controller="HighChartController">
       <div class="panel-body">
         <highchart config="config" id="{{ config.key }}_nonfunctional"></highchart>
+      </div>
+    </div>
+  </div>
+
+  <div class="tab-pane" id="unique">
+    <div class="panel panel-default">
+      <div class="panel-body">
+        <div id="vHeatmapUnique"></div>
+      </div>
+    </div>
+    <div class="panel panel-default" ng-repeat="config in charts.unique" ng-controller="HighChartController">
+      <div class="panel-body">
+        <highchart config="config" id="{{ config.key }}_unique"></highchart>
+      </div>
+    </div>
+  </div>
+
+  <div class="tab-pane" id="unique_multiple">
+    <div class="panel panel-default">
+      <div class="panel-body">
+        <div id="vHeatmapUniqueMultiple"></div>
+      </div>
+    </div>
+    <div class="panel panel-default" ng-repeat="config in charts.unique_multiple" ng-controller="HighChartController">
+      <div class="panel-body">
+        <highchart config="config" id="{{ config.key }}_unique_multiple"></highchart>
       </div>
     </div>
   </div>
