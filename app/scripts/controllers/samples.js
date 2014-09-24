@@ -359,7 +359,6 @@ angular.module('ImmunologyApp')
                         });
                     });
 
-                    $scope.loaded = true;
                     $('#loading').modal('hide');
                 }).error(function(data, status, headers, config) {
                     $('#loading').modal('hide');
