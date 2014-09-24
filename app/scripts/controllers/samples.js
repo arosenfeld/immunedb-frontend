@@ -100,7 +100,7 @@ angular.module('ImmunologyApp')
                 var y_categories = Object.keys($scope.grouped_stats).map(
                     function(e) {
                         return parseInt(e);
-                    });
+                });
 
                 var data = [];
                 for (var x in x_categories) {
@@ -120,17 +120,31 @@ angular.module('ImmunologyApp')
                         $scope.cnts[f] += parseInt(value[f].sequence_cnt);
                     }
                     var dist = angular.fromJson(value[filter][type]);
+
+                    $scope.grouped_stats[sample_id][filter]['plotted_cnt'] = 0;
+                    var aliased = {}
                     angular.forEach(dist, function(value, key) {
                         var gene = geneConfuse[value[0]];
                         if (typeof gene != 'undefined') {
                             var x = x_categories.indexOf(gene);
-                            var y = y_categories.indexOf(parseInt(sample_id));
-                            var z = Math.log(value[1]);
-                            //100 * value[1] / $scope.grouped_stats[sample_id][filter]['sequence_cnt']; 
-                            data.push([x, y, z]);
+                            var z = value[1];
+
+                            if (!(x in aliased)) {
+                                aliased[x] = 0;
+                            }
+                            aliased[x] += z;
+
+                            $scope.grouped_stats[sample_id][filter]['plotted_cnt']
+                                += z;
                         }
                     });
+
+                    for (var x in aliased) {
+                        data.push([parseInt(x), y_categories.indexOf(parseInt(sample_id)),
+                            Math.log(aliased[x])]);
+                    }
                 });
+
 
                 $(label).highcharts({
                     chart: {
@@ -182,9 +196,8 @@ angular.module('ImmunologyApp')
                             padding: 20,
                         },
                         formatter: function() {
-                            var v = Math.pow(Math.E, this.point.value);
-                            v = 100 * v /
-                                $scope.grouped_stats[y_categories[this.point.y]][filter]['sequence_cnt'];
+                            var v = 100 * Math.pow(Math.E, this.point.value) /
+                                $scope.grouped_stats[y_categories[this.point.y]][filter]['plotted_cnt'];
                             return '<b>Sample:</b> ' + y_categories[this.point.y] + '<br />' +
                                 '<b>Gene:</b> ' + x_categories[this.point.x] + '<br />' +
                                 '<b>Value:</b> ' + v.toFixed(2) + '%';
