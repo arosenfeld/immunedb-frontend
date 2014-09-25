@@ -2,7 +2,8 @@ angular.module('ImmunologyFilters', []).filter('formatNumber', function() {
     return function(number) {
         if (number >= Math.pow(10, 12)) {
             number = (number / Math.pow(10, 12)).toFixed(1) + "t";
-        } else if (number < Math.pow(10, 12) && number >= Math.pow(10, 9)) {
+        } else if (number < Math.pow(10, 12) && number >= Math.pow(10,
+            9)) {
             number = (number / Math.pow(10, 9)).toFixed(1) + "b";
         } else if (number < Math.pow(10, 9) && number >= Math.pow(10, 6)) {
             number = (number / Math.pow(10, 6)).toFixed(1) + "m";

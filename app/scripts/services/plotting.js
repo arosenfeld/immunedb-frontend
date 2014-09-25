@@ -54,8 +54,8 @@
 
         return {
 
-            createColumnChart: function(chart_title, key, x_label, y_label,
-                all_series) {
+            createColumnChart: function(chart_title, key, x_label,
+                y_label, all_series) {
 
                 return {
                     options: {
@@ -89,17 +89,21 @@
                 }
             },
 
-            createHeatmap: function(grouped_stats, chart_title, filter, type) {
+            createHeatmap: function(grouped_stats, chart_title, filter,
+                type) {
                 var geneToId = {};
                 var idToGene = {};
 
                 var genes = [];
                 for (var sample_id in grouped_stats) {
                     var occ =
-                        angular.fromJson(grouped_stats[sample_id][filter][type]);
+                        angular.fromJson(grouped_stats[sample_id][
+                            filter
+                        ][type]);
                     angular.forEach(occ, function(value, key) {
                         var rename = geneConfuse[value[0]];
-                        if (typeof rename != 'undefined' && genes.indexOf(rename) < 0) {
+                        if (typeof rename != 'undefined' && genes.indexOf(
+                            rename) < 0) {
                             genes.push(rename);
                         }
                     });
@@ -118,10 +122,12 @@
                     }
                 }
 
-                angular.forEach(grouped_stats, function(value, sample_id) {
+                angular.forEach(grouped_stats, function(value,
+                    sample_id) {
                     var dist = angular.fromJson(value[filter][type]);
 
-                    grouped_stats[sample_id][filter]['plotted_cnt'] = 0;
+                    grouped_stats[sample_id][filter]['plotted_cnt'] =
+                        0;
                     var aliased = {}
                     angular.forEach(dist, function(value, key) {
                         var gene = geneConfuse[value[0]];
@@ -134,12 +140,15 @@
                             }
                             aliased[x] += z;
 
-                            grouped_stats[sample_id][filter]['plotted_cnt'] += z;
+                            grouped_stats[sample_id][filter][
+                                'plotted_cnt'
+                            ] += z;
                         }
                     });
 
                     for (var x in aliased) {
-                        data.push([parseInt(x), y_categories.indexOf(parseInt(sample_id)),
+                        data.push([parseInt(x), y_categories.indexOf(
+                                parseInt(sample_id)),
                             Math.log(aliased[x])
                         ]);
                     }
@@ -196,11 +205,14 @@
                             padding: 20,
                         },
                         formatter: function() {
-                            var v = 100 * Math.pow(Math.E, this.point.value) /
-                                grouped_stats[y_categories[this.point.y]][filter]['plotted_cnt'];
-                            return '<b>Sample:</b> ' + y_categories[this.point.y] + '<br />' +
-                                '<b>Gene:</b> ' + x_categories[this.point.x] + '<br />' +
-                                '<b>Value:</b> ' + v.toFixed(2) + '%';
+                            var v = 100 * Math.pow(Math.E, this.point.value)
+                                / grouped_stats[y_categories[this.point.y]][filter]['plotted_cnt'];
+                            return '<b>Sample:</b> '
+                                + y_categories[this.point.y]
+                                + '<br />'
+                                + '<b>Gene:</b> ' + x_categories[this.point.x]
+                                + '<br />'
+                                + '<b>Value:</b> ' + v.toFixed(2) + '%';
                         }
                     },
 
@@ -215,7 +227,8 @@
                 for (var i in plottable) {
                     series.push({
                         name: plottable[i]['sample']['name'],
-                        data: angular.fromJson(plottable[i][type][series_key]),
+                        data: angular.fromJson(
+                            plottable[i][type][series_key]),
                         turboThreshold: 0
                     });
                 }

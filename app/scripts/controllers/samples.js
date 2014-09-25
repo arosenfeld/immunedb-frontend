@@ -40,7 +40,8 @@ angular.module('ImmunologyApp')
             var getCounts = function() {
                 var cnts = {};
 
-                angular.forEach($scope.grouped_stats, function(value, sample_id) {
+                angular.forEach($scope.grouped_stats, function(value,
+                    sample_id) {
                     for (var i in filters) {
                         var f = filters[i];
                         if (!(f in cnts)) {
@@ -56,7 +57,8 @@ angular.module('ImmunologyApp')
             var init = function() {
                 // Show the loading popup
                 $scope.$parent.modal_head = 'Querying';
-                $scope.$parent.modal_text = 'Loading data from database...';
+                $scope.$parent.modal_text =
+                    'Loading data from database...';
                 $('#modal').modal('show');
 
                 // Resize (reflow) all plots when a tab is clicked
@@ -71,11 +73,13 @@ angular.module('ImmunologyApp')
                     angular.forEach(filters, function(filter, j) {
                         // v_call heatmap for the filter
                         $('#vHeatmap' + (filter.charAt(0).toUpperCase() +
-                            filter.slice(1)).replace('_', ''))
+                            filter.slice(1)).replace('_',
+                            ''))
                             .highcharts().reflow();
 
                         // All column plots for the filter
-                        angular.forEach(columnPlots, function(plot, i) {
+                        angular.forEach(columnPlots, function(
+                            plot, i) {
                             $('#' + plot.key + '_' +
                                 filter).highcharts().reflow();
                         });
@@ -98,27 +102,32 @@ angular.module('ImmunologyApp')
                             "filters": [{
                                 "name": "sample_id",
                                 "op": "in",
-                                "val": $routeParams['sampleIds'].split(',')
+                                "val": $routeParams['sampleIds']
+                                    .split(',')
                             }]
                         }
                     }
                 }).success(function(data, status) {
                     // Group the stats by sample ID, then filter
                     $scope.grouped_stats = {}
-                    angular.forEach(data['objects'], function(data, i) {
+                    angular.forEach(data['objects'], function(data,
+                        i) {
                         if (!(data.sample_id in $scope.grouped_stats)) {
                             $scope.grouped_stats[data.sample_id] = {
                                 'sample': data.sample
                             }
                         }
-                        $scope.grouped_stats[data.sample_id][data.filter_type] = data;
+                        $scope.grouped_stats[data.sample_id][
+                            data.filter_type
+                        ] = data;
                     });
 
                     // Determine if any requested IDs are not available
                     $scope.missing =
-                        $routeParams['sampleIds'].split(',').filter(function(req) {
-                            return !(req in $scope.grouped_stats);
-                        });
+                        $routeParams['sampleIds'].split(',').filter(
+                            function(req) {
+                                return !(req in $scope.grouped_stats);
+                            });
 
                     // Count how many sequences are in each filter
                     $scope.cnts = getCounts();
@@ -129,15 +138,18 @@ angular.module('ImmunologyApp')
                     angular.forEach(filters, function(filter, j) {
                         // v_call heatmap for the filter
                         var field = (filter.charAt(0).toUpperCase() +
-                            filter.slice(1)).replace('_', '');
-                        $('#vHeatmap' + field).highcharts(plotting.createHeatmap(
-                            $scope.grouped_stats,
-                            'V Gene Utilization',
-                            filter,
-                            'v_call_dist'));
+                            filter.slice(1)).replace('_',
+                            '');
+                        $('#vHeatmap' + field).highcharts(
+                            plotting.createHeatmap(
+                                $scope.grouped_stats,
+                                'V Gene Utilization',
+                                filter,
+                                'v_call_dist'));
 
                         // All the column charts for the filter
-                        angular.forEach(columnPlots, function(p, i) {
+                        angular.forEach(columnPlots, function(p,
+                            i) {
                             if (!(filter in $scope.charts)) {
                                 $scope.charts[filter] = {};
                             }
@@ -147,7 +159,9 @@ angular.module('ImmunologyApp')
                                     p.key,
                                     p.xl,
                                     p.yl,
-                                    plotting.createSeries($scope.plottable, p.key, filters[j])
+                                    plotting.createSeries(
+                                        $scope.plottable, p
+                                        .key, filters[j])
                             );
                         });
                     });
@@ -155,7 +169,8 @@ angular.module('ImmunologyApp')
                     $('#modal').modal('hide');
                 }).error(function(data, status, headers, config) {
                     $scope.$parent.modal_head = 'Error';
-                    $scope.$parent.modal_text = 'There has been an error communicating' + 'with the database. If this occurs again, please contact ' + '<a href="mailto:ar374@drexel.edui?subject=SimLab DB' + ' Error">ar374@drexel.edu</a>.';
+                    $scope.$parent.modal_text =
+                        'There has been an error communicating with the database. If this occurs again, please contact <a href="mailto:ar374@drexel.edui?subject=SimLab DB Error">ar374@drexel.edu</a>.';
                 });
             }
             init();

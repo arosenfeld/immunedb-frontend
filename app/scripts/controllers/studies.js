@@ -12,16 +12,23 @@ angular.module('ImmunologyApp')
             };
 
             var init = function() {
-                $('#loading').modal('show');
+                $scope.$parent.modal_head = 'Querying';
+                $scope.$parent.modal_text =
+                    'Loading data from database...';
+                $('#modal').modal('show');
                 $http({
                     method: 'GET',
                     url: apiUrl + 'studies'
                 }).success(function(data, status) {
                     $scope.rows = data['objects'];
-                    $('#loading').modal('hide');
+                    $('#modal').modal('hide');
                 }).error(function(data, status) {
-                    $('#loading').modal('hide');
-                    $('#error').modal('show');
+                    $scope.$parent.modal_head = 'Error';
+                    $scope.$parent.modal_text =
+                        'There has been an error communicating' +
+                        'with the database. If this occurs again, please contact ' +
+                        '<a href="mailto:ar374@drexel.edui?subject=SimLab DB' +
+                        ' Error">ar374@drexel.edu</a>.';
                 });
             };
 
