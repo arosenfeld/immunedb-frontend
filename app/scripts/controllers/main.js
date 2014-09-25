@@ -2,5 +2,5 @@
 
 angular.module('ImmunologyApp')
     .controller('MainCtrl', ['$scope',
-        function($scope, $http) {}
+        function($scope) {}
     ]);

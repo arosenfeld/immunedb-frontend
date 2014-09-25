@@ -9,7 +9,6 @@
   <meta name="author" content="">
 
   <title>Systems Immunology Lab Database</title>
-  <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
   <!-- build:css(.) styles/vendor.css -->
   <!-- bower:css -->
   <link rel="stylesheet" href="components/bootstrap/dist/css/bootstrap.css" />
@@ -21,27 +20,13 @@
 </head>
 
 <body ng-controller="MainCtrl">
-  <!-- TODO: MOVE THIS TO A PARTIAL -->
-  <div class="modal fade" id="error" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+  <div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="false">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <h4 class="modal-title">Error</h4>
+          <h4 class="modal-title">{{ modal_head }}</h4>
         </div>
-        <div class="modal-body">
-          There has been an error communicating with the database. If this occurs again, please contact <a href="mailto:ar374@drexel.edui?subject=SimLab DB Error">ar374@drexel.edu</a>.
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="modal fade" id="loading" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="false">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h4 class="modal-title">Querying</h4>
-        </div>
-        <div class="modal-body">
-          Loading data from database...
+        <div class="modal-body" ng-bind-html="modal_text">
         </div>
       </div>
     </div>
@@ -58,20 +43,6 @@
         </button>
         <a class="navbar-brand" href="#">Systems Immunology Lab Database</a>
       </div>
-      <!--
-      <div class="navbar-collapse collapse">
-        <ul class="nav navbar-nav navbar-right">
-          <li><a href="#">Dashboard</a>
-          </li>
-          <li><a href="#">Settings</a>
-          </li>
-          <li><a href="#">Profile</a>
-          </li>
-          <li><a href="#">Help</a>
-          </li>
-        </ul>
-      </div>
-      -->
     </div>
   </div>
 
@@ -110,16 +81,19 @@
   <!-- build:js({.tmp,app}) scripts/scripts.js -->
   <script src="scripts/app.js"></script>
   <script src="scripts/filters.js"></script>
+
   <script src="scripts/services/plotting.js"></script>
+
+  <script src="scripts/controllers/main.js"></script>
+  <script src="scripts/controllers/studies.js"></script>
+  <script src="scripts/controllers/samples.js"></script>
+  <script src="scripts/controllers/high_chart.js"></script>
+
   <script src="scripts/vendor/highcharts.js"></script>
   <script src="scripts/vendor/heatmap.js"></script>
   <script src="scripts/vendor/highcharts-ng.js"></script>
   <script src="scripts/vendor/exporting.js"></script>
   <script src="scripts/vendor/export-csv.js"></script>
-  <script src="scripts/controllers/main.js"></script>
-  <script src="scripts/controllers/studies.js"></script>
-  <script src="scripts/controllers/samples.js"></script>
-  <script src="scripts/controllers/high_chart.js"></script>
   <!-- endbuild -->
 </body>
 

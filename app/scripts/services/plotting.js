@@ -223,7 +223,6 @@
             },
 
             numberGenes: function(grouped_stats, field, filter) {
-
                 return genes;
             }
         };
