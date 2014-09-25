@@ -4,6 +4,11 @@
   <li>Sample Comparison</li>
 </ol>
 
+<div class="alert alert-warning" role="alert" ng-show="missing.length > 0"><strong>Warning</strong> The following samples do not have statistical information, or do not exist:
+  <ul>
+    <li ng-repeat="m in missing">Sample #{{ m }}</li>
+  </ul>
+</div>
 <h3>Basic Statistics</h3>
 <div class="table-responsive">
   <table class="table table-bordered">
@@ -71,7 +76,7 @@
   </div>
 
   <div class="tab-pane" id="nonfunctional">
-    <div id="vHeatmapNonFunctional"></div>
+    <div id="vHeatmapNonfunctional"></div>
     <div ng-repeat="config in charts.nonfunctional" ng-controller="HighChartController">
       <highchart config="config" id="{{ config.key }}_nonfunctional"></highchart>
     </div>
@@ -85,7 +90,7 @@
   </div>
 
   <div class="tab-pane" id="unique_multiple">
-    <div id="vHeatmapUniqueMultiple"></div>
+    <div id="vHeatmapUniquemultiple"></div>
     <div ng-repeat="config in charts.unique_multiple" ng-controller="HighChartController">
       <highchart config="config" id="{{ config.key }}_unique_multiple"></highchart>
     </div>
