@@ -54,6 +54,17 @@ angular.module('ImmunologyApp')
                 return cnts;
             }
 
+            var changeZoom = function(min, max) {
+                angular.forEach(columnPlots, function(
+                    plot, i) {
+                    angular.forEach(filters, function(filter, i) {
+                        $('#' + plot.key + '_' +
+                            filter).highcharts().xAxis[0].setExtremes(min, max,
+                                true);
+                    });
+                });
+            }
+
             var init = function() {
                 // Show the loading popup
                 $scope.$parent.modal_head = 'Querying';
@@ -153,7 +164,7 @@ angular.module('ImmunologyApp')
                             if (!(filter in $scope.charts)) {
                                 $scope.charts[filter] = {};
                             }
-                            $scope.charts[filter][p.key] =
+                            var c =
                                 plotting.createColumnChart(
                                     p.title,
                                     p.key,
@@ -163,6 +174,15 @@ angular.module('ImmunologyApp')
                                         $scope.plottable, p
                                         .key, filters[j])
                             );
+                            c.options.chart.events = {
+                                selection: function(event) {
+                                    $log.debug(event);
+                                    changeZoom(
+                                        event.xAxis[0].min,
+                                        event.xAxis[0].max);
+                                }
+                            };
+                            $scope.charts[filter][p.key] = c;
                         });
                     });
 

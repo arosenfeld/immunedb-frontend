@@ -61,8 +61,8 @@
                     options: {
                         chart: {
                             type: 'column',
-                            zoomType: 'x'
-                        }
+                            zoomType: 'x',
+                       }
                     },
                     credits: {
                         enabled: false

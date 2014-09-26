@@ -46,17 +46,17 @@
 
 <h3>Feature Distributions</h3>
 <ul class="nav nav-pills" role="tablist" id="funcTab">
-  <li class="active"><a href="#all" role="tab" data-toggle="tab"><span class="badge pull-right">{{ cnts.all | formatNumber }}</span> All</a>
+  <li class="active"><a href="#unique_multiple" role="tab" data-toggle="tab"><span class="badge pull-right">{{ cnts.unique_multiple | formatNumber }}</span> Unique
+  w/ Copy # > 1</a>
   </li>
-  <li><a href="#functional" role="tab" data-toggle="tab"><span class="badge pull-right">{{ cnts.functional | formatNumber }}</span>Functional</span></a>
+  <li><a href="#unique" role="tab" data-toggle="tab"><span class="badge pull-right">{{ cnts.unique | formatNumber }}</span>Unique</a>
   </li>
   <li><a href="#nonfunctional" role="tab" data-toggle="tab"><span class="badge pull-right">{{ cnts.nonfunctional | formatNumber }}</span>
   Non-Functional</a>
   </li>
-  <li><a href="#unique" role="tab" data-toggle="tab"><span class="badge pull-right">{{ cnts.unique | formatNumber }}</span>Unique</a>
+  <li><a href="#functional" role="tab" data-toggle="tab"><span class="badge pull-right">{{ cnts.functional | formatNumber }}</span>Functional</span></a>
   </li>
-  <li><a href="#unique_multiple" role="tab" data-toggle="tab"><span class="badge pull-right">{{ cnts.unique_multiple | formatNumber }}</span> Unique
-  w/ Copy # > 1</a>
+  <li><a href="#all" role="tab" data-toggle="tab"><span class="badge pull-right">{{ cnts.all | formatNumber }}</span> All</a>
   </li>
 </ul>
 
