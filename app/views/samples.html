@@ -31,7 +31,7 @@
       </tr>
     </thead>
     <tbody>
-      <tr ng-repeat="stat in grouped_stats">
+      <tr ng-repeat="stat in meta">
         <td>{{ stat.sample.id }}</td>
         <td>{{ stat.sample.name }}</td>
         <td>{{ stat.sample.valid_cnt + stat.sample.no_result_cnt | number}}</td>
@@ -61,10 +61,17 @@
 </ul>
 
 <div class="tab-content">
-  <div class="tab-pane in active" id="all">
-    <div id="vHeatmapAll"></div>
-    <div ng-repeat="config in charts.all" ng-controller="HighChartController">
-      <highchart config="config" id="{{ config.key }}_all"></highchart>
+  <div class="tab-pane in active" id="unique_multiple">
+    <div id="vHeatmapUniquemultiple"></div>
+    <div ng-repeat="config in charts.unique_multiple" ng-controller="HighChartController">
+      <highchart config="config" id="{{ config.key }}_unique_multiple"></highchart>
+    </div>
+  </div>
+
+  <div class="tab-pane" id="unique">
+    <div id="vHeatmapUnique"></div>
+    <div ng-repeat="config in charts.unique" ng-controller="HighChartController">
+      <highchart config="config" id="{{ config.key }}_unique"></highchart>
     </div>
   </div>
 
@@ -81,18 +88,10 @@
       <highchart config="config" id="{{ config.key }}_nonfunctional"></highchart>
     </div>
   </div>
-
-  <div class="tab-pane" id="unique">
-    <div id="vHeatmapUnique"></div>
-    <div ng-repeat="config in charts.unique" ng-controller="HighChartController">
-      <highchart config="config" id="{{ config.key }}_unique"></highchart>
-    </div>
-  </div>
-
-  <div class="tab-pane" id="unique_multiple">
-    <div id="vHeatmapUniquemultiple"></div>
-    <div ng-repeat="config in charts.unique_multiple" ng-controller="HighChartController">
-      <highchart config="config" id="{{ config.key }}_unique_multiple"></highchart>
+  <div class="tab-pane" id="all">
+    <div id="vHeatmapAll"></div>
+    <div ng-repeat="config in charts.all" ng-controller="HighChartController">
+      <highchart config="config" id="{{ config.key }}_all"></highchart>
     </div>
   </div>
 </div>

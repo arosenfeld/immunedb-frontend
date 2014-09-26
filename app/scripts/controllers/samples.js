@@ -59,8 +59,9 @@ angular.module('ImmunologyApp')
                     plot, i) {
                     angular.forEach(filters, function(filter, i) {
                         $('#' + plot.key + '_' +
-                            filter).highcharts().xAxis[0].setExtremes(min, max,
-                                true);
+                            filter).highcharts().xAxis[0].setExtremes(
+                            min, max,
+                            true);
                     });
                 });
             }
@@ -132,6 +133,11 @@ angular.module('ImmunologyApp')
                             data.filter_type
                         ] = data;
                     });
+                    $scope.meta = [];
+                    angular.forEach($scope.grouped_stats, function(
+                        v, i) {
+                        $scope.meta.push(v);
+                    });
 
                     // Determine if any requested IDs are not available
                     $scope.missing =
@@ -173,7 +179,7 @@ angular.module('ImmunologyApp')
                                     plotting.createSeries(
                                         $scope.plottable, p
                                         .key, filters[j])
-                            );
+                                );
                             c.options.chart.events = {
                                 selection: function(event) {
                                     $log.debug(event);
@@ -182,7 +188,8 @@ angular.module('ImmunologyApp')
                                         event.xAxis[0].max);
                                 }
                             };
-                            $scope.charts[filter][p.key] = c;
+                            $scope.charts[filter][p.key] =
+                                c;
                         });
                     });
 
