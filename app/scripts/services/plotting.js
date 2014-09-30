@@ -109,6 +109,14 @@
                                     rename) < 0) {
                                 genes.push(rename);
                             }
+
+                            if (typeof rename == 'undefined') {
+                                var n = 
+                                    value[0].replace('/', '|').split('|')[0];
+                                if (genes.indexOf(n) < 0) {
+                                    genes.push(n);
+                                }
+                            }
                         });
                     }
 
@@ -142,25 +150,25 @@
                             0;
                         var aliased = {}
                         angular.forEach(dist, function(value, key) {
+                            value[0] = value[0].replace('/', '|').split('|')[0];
                             var gene = geneConfuse[value[0]];
                             if (typeof gene == 'undefined') {
-                                gene = geneConfuse[value[0].split(
-                                    '/')[0]];
-                                if (typeof gene == 'undefined') {
-                                    gene = 'Other';
-                                }
+                                gene = 'Other';
                             }
+
                             var x = x_categories.indexOf(gene);
-                            var z = value[1];
+                            if (x >= 0) { // TODO: Fix this
+                                var z = value[1];
 
-                            if (!(x in aliased)) {
-                                aliased[x] = 0;
+                                if (!(x in aliased)) {
+                                    aliased[x] = 0;
+                                }
+                                aliased[x] += z;
+
+                                grouped_stats[sample_id][filter][
+                                    'plotted_cnt'
+                                ] += z;
                             }
-                            aliased[x] += z;
-
-                            grouped_stats[sample_id][filter][
-                                'plotted_cnt'
-                            ] += z;
                         });
 
                         for (var x in aliased) {

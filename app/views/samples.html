@@ -44,23 +44,87 @@
   </table>
 </div>
 
-<h3>Feature Distributions</h3>
+<h3 ng-init="filter='Unique with Copy Number > 1'">Feature Distributions: <i>{{ filter }}</i></h3>
 <ul class="nav nav-pills" role="tablist" id="funcTab">
-  <li class="active"><a href="#unique_multiple" role="tab" data-toggle="tab"><span class="badge pull-right">{{ cnts.unique_multiple | formatNumber }}</span> Unique
-  w/ Copy # > 1</a>
+  <li class="dropdown">
+    <a role="button" data-toggle="dropdown">Clones <span class="caret"></span></a>
+    <ul class="dropdown-menu" role="menu">
+      <li>
+        <a href="#clones_all" role="tab" data-toggle="tab" ng-click="filter='All Clones'">
+          <span class="badge pull-right">{{ cnts.clones_all | formatNumber }}</span>All
+        </a>
+      </li>
+      <li>
+        <a href="#clones_functional" role="tab" data-toggle="tab" ng-click="filter='Functional Clones'">
+          <span class="badge pull-right">{{ cnts.clones_functional | formatNumber }}</span>Functional
+        </a>
+      </li>
+      <li>
+        <a href="#clones_nonfunctional" role="tab" data-toggle="tab" ng-click="filter='Non-Functional Clones'">
+          <span class="badge pull-right">{{ cnts.clones_nonfunctional | formatNumber }}</span>Non-Functional
+        </a>
+      </li>
+    </ul>
   </li>
-  <li><a href="#unique" role="tab" data-toggle="tab"><span class="badge pull-right">{{ cnts.unique | formatNumber }}</span>Unique</a>
+  <li class="dropdown">
+    <a role="button" data-toggle="dropdown">Unique <span class="caret"></span></a>
+    <ul class="dropdown-menu" role="menu">
+      <li>
+        <a href="#unique" role="tab" data-toggle="tab" ng-click="filter='All Unique'">
+          <span class="badge pull-right">{{ cnts.unique | formatNumber }}</span>All
+        </a>
+      </li>
+      <li>
+        <a href="#unique_multiple" role="tab" data-toggle="tab" ng-click="filter='Unique with Copy Number > 1'">
+          <span class="badge pull-right">{{ cnts.unique_multiple | formatNumber }}</span>Copy # > 1
+        </a>
+      </li>
+    </ul>
   </li>
-  <li><a href="#nonfunctional" role="tab" data-toggle="tab"><span class="badge pull-right">{{ cnts.nonfunctional | formatNumber }}</span>
-  Non-Functional</a>
+
+  <li class="dropdown">
+    <a role="button" data-toggle="dropdown">Functionality <span class="caret"></span></a>
+    <ul class="dropdown-menu" role="menu">
+      <li>
+        <a href="#functional" role="tab" data-toggle="tab" ng-click="filter='Functional'">
+          <span class="badge pull-right">{{ cnts.functional | formatNumber }}</span>Functional
+        </a>
+      </li>
+      <li>
+        <a href="#nonfunctional" role="tab" data-toggle="tab" ng-click="filter='Non-Functional'">
+          <span class="badge pull-right">{{ cnts.nonfunctional | formatNumber }}</span>Non-Functional
+        </a>
+      </li>
+    </ul>
   </li>
-  <li><a href="#functional" role="tab" data-toggle="tab"><span class="badge pull-right">{{ cnts.functional | formatNumber }}</span>Functional</span></a>
-  </li>
-  <li><a href="#all" role="tab" data-toggle="tab"><span class="badge pull-right">{{ cnts.all | formatNumber }}</span> All</a>
+
+  <li>
+    <a href="#all" role="tab" data-toggle="tab" ng-click="filter='All'"><span class="badge pull-right">{{ cnts.all | formatNumber }}</span> All</a>
   </li>
 </ul>
 
 <div class="tab-content">
+  <div class="tab-pane" id="clones_all">
+    <div id="vHeatmapClonesall"></div>
+    <div ng-repeat="config in charts.clones_all" ng-controller="HighChartController">
+      <highchart config="config" id="{{ config.key }}_clones_all"></highchart>
+    </div>
+  </div>
+
+  <div class="tab-pane" id="clones_functional">
+    <div id="vHeatmapClonesfunctional"></div>
+    <div ng-repeat="config in charts.clones_functional" ng-controller="HighChartController">
+      <highchart config="config" id="{{ config.key }}_clones_functional"></highchart>
+    </div>
+  </div>
+
+  <div class="tab-pane" id="clones_nonfunctional">
+    <div id="vHeatmapClonesnonfunctional"></div>
+    <div ng-repeat="config in charts.clones_nonfunctional" ng-controller="HighChartController">
+      <highchart config="config" id="{{ config.key }}_clones_nonfunctional"></highchart>
+    </div>
+  </div>
+
   <div class="tab-pane in active" id="unique_multiple">
     <div id="vHeatmapUniquemultiple"></div>
     <div ng-repeat="config in charts.unique_multiple" ng-controller="HighChartController">

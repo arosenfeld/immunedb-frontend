@@ -8,33 +8,24 @@ angular.module('ImmunologyApp')
 
             var columnPlots = [{
                 title: 'CDR3 Length',
-                xl: 'Nucleotides',
-                yl: 'Sequences',
                 key: 'cdr3_len_dist',
             }, {
                 title: 'V Gene Length',
-                xl: 'Nucleotides',
-                yl: 'Sequences',
                 key: 'v_length_dist',
             }, {
                 title: 'V Nucleotides Matching Germline',
-                xl: 'Nucleotides',
-                yl: 'Sequences',
                 key: 'v_match_dist',
             }, {
                 title: 'J Gene Length',
-                xl: 'Nucleotides',
-                yl: 'Sequences',
                 key: 'j_length_dist',
             }, {
                 title: 'J Nucleotides Matching Germline',
-                xl: 'Nucleotides',
-                yl: 'Sequences',
                 key: 'j_match_dist',
             }, ];
 
             var filters = ['all', 'functional', 'nonfunctional', 'unique',
-                'unique_multiple'
+                'unique_multiple', 'clones_all', 'clones_functional',
+                'clones_nonfunctional'
             ];
 
             var getCounts = function() {
@@ -174,22 +165,14 @@ angular.module('ImmunologyApp')
                                 plotting.createColumnChart(
                                     p.title,
                                     p.key,
-                                    p.xl,
-                                    p.yl,
+                                    'Nucleotides',
+                                    filter.indexOf('clone') < 0 ? 'Sequences' :
+                                    'Clones',
                                     plotting.createSeries(
                                         $scope.plottable, p
-                                        .key, filters[j])
+                                        .key, filter)
                                 );
-                            c.options.chart.events = {
-                                selection: function(event) {
-                                    $log.debug(event);
-                                    changeZoom(
-                                        event.xAxis[0].min,
-                                        event.xAxis[0].max);
-                                }
-                            };
-                            $scope.charts[filter][p.key] =
-                                c;
+                            $scope.charts[filter][p.key] = c;
                         });
                     });
 
