@@ -112,3 +112,8 @@ li .badge {
 .dropdown-menu {
     width: 200px;
 }
+
+.text-mono {
+    font-family: "Courier New", Courier, monospace;
+    font-weight: bold;
+}

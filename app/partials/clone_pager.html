@@ -6,6 +6,7 @@
         <th>Uniques</th>
         <th>V Gene</th>
         <th>J Gene</th>
+        <th>CDR3 Length</th>
         <th>CDR3 AA</th>
         <th>Sample</th>
       </tr>
@@ -16,8 +17,18 @@
         <td>{{ clone.size }}</td>
         <td>{{ clone.clone.v_gene }}</td>
         <td>{{ clone.clone.j_gene }}</td>
-        <td>{{ clone.clone.cdr3 }}</td>
+        <td>{{ clone.clone.cdr3.length }}</td>
+        <td ng-bind-html="clone.clone.cdr3 | aminoAcid" class="text-mono"></td>
         <td>{{ clone.sample_id }}</td>
+      </tr>
+      <tr>
+        <td colspan="6">
+          <ul class="pager">
+            <li><a href="" ng-click="prevPage()">Previous</a></li>
+            <li>Page {{ page }}</li>
+            <li><a href="" ng-click="nextPage()">Next</a></li>
+          </ul>
+        </td>
       </tr>
     </tbody>
   </table>

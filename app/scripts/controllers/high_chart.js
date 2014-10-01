@@ -1,7 +1,11 @@
-angular.module('ImmunologyApp')
-    .controller('HighChartController', function($scope) {
+(function() {
+    'use strict';
 
-        $scope.initConfig = function(config) {
-            $scope.config = angular.copy(config);
-        }
-    });
+    angular.module('ImmunologyApp')
+        .controller('HighChartController', function($scope) {
+
+            $scope.initConfig = function(config) {
+                $scope.config = angular.copy(config);
+            }
+        });
+})();
