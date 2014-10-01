@@ -18,15 +18,23 @@
         </th>
         <th>Name <a data-toggle="tooltip" title="A name for the sample"><span class="glyphicon glyphicon-question-sign"></span></a>
         </th>
-        <th>Total Seqs. <a data-toggle="tooltip" title="Total sequences in the sample"><span class="glyphicon glyphicon-question-sign"></span></a>
+        <th>Total <a data-toggle="tooltip" title="Total sequences in the sample"><span class="glyphicon glyphicon-question-sign"></span></a>
         </th>
-        <th>Valid Seqs. <a data-toggle="tooltip" title="Sequences which have V and J regions that match a germline"><span class="glyphicon glyphicon-question-sign"></span></a>
+        <th>Valid <a data-toggle="tooltip" title="Sequences which have V and J regions that match a germline"><span class="glyphicon glyphicon-question-sign"></span></a>
         </th>
-        <th>Invalid Seqs. <a data-toggle="tooltip" title="Sequences which have V and J regions that do not match a germline"><span class="glyphicon glyphicon-question-sign"></span></a>
+        <th>Invalid <a data-toggle="tooltip" title="Sequences which have V and J regions that do not match a germline"><span class="glyphicon glyphicon-question-sign"></span></a>
         </th>
         <th>In-frame <a data-toggle="tooltip" title="Sequences which have a number of nucleotides divisible by three"><span class="glyphicon glyphicon-question-sign"></span></a>
         </th>
         <th>Functional <a data-toggle="tooltip" title="Sequences which are in-frame and contain no stop codons"><span class="glyphicon glyphicon-question-sign"></span></a>
+        </th>
+        <th>Unique <a data-toggle="tooltip" title="Unique sequences"><span class="glyphicon glyphicon-question-sign"></span></a>
+        </th>
+        <th>Unique CN &gt; 1 <a data-toggle="tooltip" title="Unique sequences with copy number greater than one"><span class="glyphicon glyphicon-question-sign"></span></a>
+        </th>
+        <th>Clones <a data-toggle="tooltip" title="Number of clones"><span class="glyphicon glyphicon-question-sign"></span></a>
+        </th>
+        <th>Funct. Clones <a data-toggle="tooltip" title="Number of functional clones"><span class="glyphicon glyphicon-question-sign"></span></a>
         </th>
       </tr>
     </thead>
@@ -39,6 +47,10 @@
         <td>{{ stat.sample.no_result_cnt | number }}</td>
         <td>{{ 100 * stat.all.in_frame_cnt / stat.sample.valid_cnt | number : 2}}%</td>
         <td>{{ 100 * stat.sample.functional_cnt / stat.sample.valid_cnt | number : 2}}%</td>
+        <td>{{ cnts.unique | number }}</td>
+        <td>{{ cnts.unique_multiple | number }}</td>
+        <td>{{ cnts.clones_all | number }}</td>
+        <td>{{ cnts.clones_functional | number }}</td>
       </tr>
     </tbody>
   </table>
@@ -104,58 +116,47 @@
 </ul>
 
 <div class="tab-content">
-  <div class="tab-pane" id="clones_all">
-    <div id="vHeatmapClonesall"></div>
-    <div ng-repeat="config in charts.clones_all" ng-controller="HighChartController">
-      <highchart config="config" id="{{ config.key }}_clones_all"></highchart>
-    </div>
-  </div>
+  <filtered-panel
+    filter="clones_all"
+    heatmap="vHeatmapClonesall"
+    charts="charts.clones_all"
+    clones="clone_pager.clones_all"></filtered-panel>
 
-  <div class="tab-pane" id="clones_functional">
-    <div id="vHeatmapClonesfunctional"></div>
-    <div ng-repeat="config in charts.clones_functional" ng-controller="HighChartController">
-      <highchart config="config" id="{{ config.key }}_clones_functional"></highchart>
-    </div>
-  </div>
+  <filtered-panel
+    filter="clones_functional"
+    heatmap="vHeatmapClonesfunctional"
+    charts="charts.clones_functional"
+    clones="clone_pager.clones_functional"></filtered-panel>
 
-  <div class="tab-pane" id="clones_nonfunctional">
-    <div id="vHeatmapClonesnonfunctional"></div>
-    <div ng-repeat="config in charts.clones_nonfunctional" ng-controller="HighChartController">
-      <highchart config="config" id="{{ config.key }}_clones_nonfunctional"></highchart>
-    </div>
-  </div>
+  <filtered-panel
+    filter="clones_nonfunctional"
+    heatmap="vHeatmapClonesnonfunctional"
+    charts="charts.clones_nonfunctional"
+    clones="clone_pager.clones_nonfunctional"></filtered-panel>
 
-  <div class="tab-pane in active" id="unique_multiple">
-    <div id="vHeatmapUniquemultiple"></div>
-    <div ng-repeat="config in charts.unique_multiple" ng-controller="HighChartController">
-      <highchart config="config" id="{{ config.key }}_unique_multiple"></highchart>
-    </div>
-  </div>
+  <filtered-panel
+    tclass="tab-pane in active"
+    filter="unique_multiple"
+    heatmap="vHeatmapUniquemultiple"
+    charts="charts.unique_multiple"></filtered-panel>
 
-  <div class="tab-pane" id="unique">
-    <div id="vHeatmapUnique"></div>
-    <div ng-repeat="config in charts.unique" ng-controller="HighChartController">
-      <highchart config="config" id="{{ config.key }}_unique"></highchart>
-    </div>
-  </div>
+  <filtered-panel
+    filter="unique"
+    heatmap="vHeatmapUnique"
+    charts="charts.unique"></filtered-panel>
 
-  <div class="tab-pane" id="functional">
-    <div id="vHeatmapFunctional"></div>
-    <div ng-repeat="config in charts.functional" ng-controller="HighChartController">
-      <highchart config="config" id="{{ config.key }}_functional"></highchart>
-    </div>
-  </div>
+  <filtered-panel
+    filter="functional"
+    heatmap="vHeatmapFunctional"
+    charts="charts.functional"></filtered-panel>
 
-  <div class="tab-pane" id="nonfunctional">
-    <div id="vHeatmapNonfunctional"></div>
-    <div ng-repeat="config in charts.nonfunctional" ng-controller="HighChartController">
-      <highchart config="config" id="{{ config.key }}_nonfunctional"></highchart>
-    </div>
-  </div>
-  <div class="tab-pane" id="all">
-    <div id="vHeatmapAll"></div>
-    <div ng-repeat="config in charts.all" ng-controller="HighChartController">
-      <highchart config="config" id="{{ config.key }}_all"></highchart>
-    </div>
-  </div>
+  <filtered-panel
+    filter="nonfunctional"
+    heatmap="vHeatmapNonfunctional"
+    charts="charts.nonfunctional"></filtered-panel>
+
+  <filtered-panel
+    filter="all"
+    heatmap="vHeatmapAll"
+    charts="charts.all"></filtered-panel>
 </div>

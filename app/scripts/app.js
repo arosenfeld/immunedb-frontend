@@ -9,7 +9,8 @@
         'ngSanitize',
         'highcharts-ng',
         'checklist-model',
-        'ImmunologyFilters'
+        'ImmunologyFilters',
+        'ImmunologyDirectives'
     ])
         .config(function($routeProvider) {
             $routeProvider

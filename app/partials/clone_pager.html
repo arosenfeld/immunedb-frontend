@@ -1,0 +1,24 @@
+<div style="padding: 1em 0">
+  <table class="table table-bordered">
+    <thead>
+      <tr>
+        <th>Copy #</th>
+        <th>Uniques</th>
+        <th>V Gene</th>
+        <th>J Gene</th>
+        <th>CDR3 AA</th>
+        <th>Sample</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr ng-repeat="clone in clones">
+        <td>{{ clone.copy_number }}</td>
+        <td>{{ clone.size }}</td>
+        <td>{{ clone.clone.v_gene }}</td>
+        <td>{{ clone.clone.j_gene }}</td>
+        <td>{{ clone.clone.cdr3 }}</td>
+        <td>{{ clone.sample_id }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

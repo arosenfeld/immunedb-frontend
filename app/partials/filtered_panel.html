@@ -1,0 +1,10 @@
+<div class="{{ tclass }}" id="{{ filter }}">
+
+  <clone-pager clones="clones" ng-if="clones"></clone-pager>
+
+  <div id="{{ heatmap }}"></div>
+
+  <div ng-repeat="config in charts" ng-controller="HighChartController">
+    <highchart config="config" id="{{config.key }}_{{ filter }}"></highchart>
+  </div>
+</div>

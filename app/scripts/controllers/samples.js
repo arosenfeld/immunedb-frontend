@@ -2,9 +2,9 @@
 
 angular.module('ImmunologyApp')
     .controller('SampleCtrl', ['$scope', '$http', '$routeParams', '$log',
-        'plotting', 'apiUrl',
+        'plotting', 'clonePager', 'apiUrl',
         function($scope,
-            $http, $routeParams, $log, plotting, apiUrl) {
+            $http, $routeParams, $log, plotting, clonePager, apiUrl) {
 
             var columnPlots = [{
                 title: 'CDR3 Length',
@@ -181,6 +181,18 @@ angular.module('ImmunologyApp')
                     $scope.$parent.modal_head = 'Error';
                     $scope.$parent.modal_text =
                         'There has been an error communicating with the database. If this occurs again, please contact <a href="mailto:ar374@drexel.edui?subject=SimLab DB Error">ar374@drexel.edu</a>.';
+                });
+
+                $scope.clone_pager = {};
+                angular.forEach(filters, function(filter, j) {
+                    if (filter.indexOf('clones') >= 0) {
+                        clonePager.getClones(
+                            $routeParams['sampleIds'].split(','),
+                            filter, 1)
+                            .then(function(result) {
+                                $scope.clone_pager[filter] = result;
+                        });
+                    }
                 });
             }
             init();
