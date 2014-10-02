@@ -144,10 +144,7 @@
                             type
                         ]);
 
-                        grouped_stats[sample_id][filter][
-                            'plotted_cnt'
-                        ] =
-                            0;
+                        grouped_stats[sample_id][filter]['plotted_cnt'] = 0;
                         var aliased = {}
                         angular.forEach(dist, function(value, key) {
                             value[0] = value[0].replace('/', '|').split('|')[0];
@@ -164,14 +161,13 @@
                                     aliased[x] = 0;
                                 }
                                 aliased[x] += z;
-
-                                grouped_stats[sample_id][filter][
-                                    'plotted_cnt'
-                                ] += z;
                             }
                         });
 
                         for (var x in aliased) {
+                            grouped_stats[sample_id][filter][
+                                'plotted_cnt'
+                            ] += aliased[x];
                             data.push([parseInt(x), y_categories.indexOf(
                                     parseInt(sample_id)),
                                 Math.log(aliased[x])
@@ -241,8 +237,7 @@
                                         this.point.y] + '<br />' +
                                     '<b>Gene:</b> ' + x_categories[this
                                         .point.x] + '<br />' +
-                                    '<b>% of Sample:</b> ' + v.toFixed(
-                                        2) + '%';
+                                    '<b>% of Sample:</b> ' + v.toFixed(2) + '%';
                             }
                         },
 
