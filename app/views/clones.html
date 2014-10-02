@@ -25,13 +25,14 @@
             <td ng-bind-html="clone.cdr3 | aminoAcid" class="text-mono"></td>
           </tr>
           <tr>
-            <td colspan="5" style="float:none; margin: 0 auto;">
+            <td colspan="6" style="float:none; margin: 0 auto;">
               <table class="table table-bordered">
                 <thead>
                   <tr class="active">
                     <th></th>
                     <th>Sample #</th>
                     <th>Sample Name</th>
+                    <th>Unique Seqs.</th>
                     <th>Copy Number</th>
                   </tr>
                 </thead>
@@ -40,6 +41,7 @@
                     <td><input type="checkbox" checklist-model="checked_samples" checklist-value="stat.sample.id"></input></td>
                     <td>{{ stat.sample.id }}</td>
                     <td>{{ stat.sample.name }}</td>
+                    <td>{{ stat.size }}</td>
                     <td>{{ stat.copy_number }}</td>
                   </tr>
                 </tbody>
