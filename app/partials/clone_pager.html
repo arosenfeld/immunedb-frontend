@@ -3,8 +3,6 @@
     <thead>
       <tr>
         <th>Copy #</th>
-        <th>Uniques</th>
-        <!--<th>Clone #</th>-->
         <th>V Gene</th>
         <th>J Gene</th>
         <th>Samples Present</th>
@@ -14,17 +12,15 @@
     </thead>
     <tbody>
       <tr ng-repeat="clone in clones">
-        <td>{{ clone.copy_number }}</td>
-        <td>{{ clone.size }}</td>
-        <!--<td>{{ clone.clone.id }}</td>-->
+        <td>{{ clone.copy_number | number }}</td>
         <td>{{ clone.clone.v_gene }}</td>
         <td>{{ clone.clone.j_gene }}</td>
         <td>{{ clone.samples }}</td>
-        <td>{{ clone.clone.cdr3.length }}</td>
+        <td>{{ clone.clone.cdr3.length | number }}</td>
         <td ng-bind-html="clone.clone.cdr3 | aminoAcid" class="text-mono"></td>
       </tr>
       <tr>
-        <td colspan="7">
+        <td colspan="6">
           <ul class="pager">
             <li><a href="" ng-click="prevPage()">Previous</a></li>
             <li>Page {{ page }}</li>

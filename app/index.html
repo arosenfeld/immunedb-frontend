@@ -48,7 +48,14 @@
 
   <div class="container-fluid">
     <div class="row">
-      <div class="col-sm-9 col-md-10 col-sm-offset-1 main">
+      <div class="col-sm-3 col-md-2 sidebar">
+        <ul class="nav nav-sidebar">
+          <li ng-class="menuClass('studies')"><a href="#/studies/">Studies</a></li>
+          <li ng-class="menuClass('clones')"><a href="#/clones/">Clones</a></li>
+        </ul>
+      </div>
+
+      <div class="col-sm-9 col-md-10 col-sm-offset-2 main">
         <div ng-view></div>
       </div>
     </div>
@@ -89,6 +96,7 @@
   <script src="scripts/controllers/main.js"></script>
   <script src="scripts/controllers/studies.js"></script>
   <script src="scripts/controllers/samples.js"></script>
+  <script src="scripts/controllers/clones.js"></script>
   <script src="scripts/controllers/high_chart.js"></script>
 
   <script src="scripts/vendor/highcharts.js"></script>

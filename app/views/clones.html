@@ -1,0 +1,64 @@
+<ol class="breadcrumb">
+  <li><a href="#/clones">Clones</a>
+  </li>
+</ol>
+<div class="table-responsive">
+  <button ng-click="viewSamples()" class="btn btn-primary">Compare</button>
+  <form novalidate>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>V Gene</th>
+          <th>J Gene</th>
+          <th>CDR3 Length</th>
+          <th>CDR3 AA</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tbody ng-repeat="clone in clones">
+          <tr class="info">
+            <td>{{ clone.id }}</td>
+            <td>{{ clone.v_gene }}</td>
+            <td>{{ clone.j_gene }}</td>
+            <td>{{ clone.cdr3.length }}</td>
+            <td ng-bind-html="clone.cdr3 | aminoAcid" class="text-mono"></td>
+          </tr>
+          <tr>
+            <td colspan="5" style="float:none; margin: 0 auto;">
+              <table class="table table-bordered">
+                <thead>
+                  <tr class="active">
+                    <th></th>
+                    <th>Sample #</th>
+                    <th>Sample Name</th>
+                    <th>Copy Number</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr ng-repeat="stat in clone.stats">
+                    <td><input type="checkbox" checklist-model="checked_samples" checklist-value="stat.sample.id"></input></td>
+                    <td>{{ stat.sample.id }}</td>
+                    <td>{{ stat.sample.name }}</td>
+                    <td>{{ stat.copy_number }}</td>
+                  </tr>
+                </tbody>
+              </table>
+
+            </td>
+          </tr>
+        </tbody>
+        <tr>
+          <td colspan="5">
+            <ul class="pager">
+              <li><a href="" ng-click="prevPage()">Previous</a></li>
+              <li>Page {{ page }}</li>
+              <li><a href="" ng-click="nextPage()">Next</a></li>
+            </ul>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <button ng-click="viewSamples()" class="btn btn-primary">Compare</button>
+  </form>
+</div>

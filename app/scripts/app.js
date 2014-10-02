@@ -22,6 +22,11 @@
                     templateUrl: 'views/samples.html',
                     controller: 'SampleCtrl'
                 })
+
+                .when('/clones', {
+                    templateUrl: 'views/clones.html',
+                    controller: 'ClonesCtrl',
+                })
                 .otherwise({
                     redirectTo: '/studies'
                 });
