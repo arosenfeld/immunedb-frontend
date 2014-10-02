@@ -38,7 +38,7 @@
                 </thead>
                 <tbody>
                   <tr ng-repeat="stat in clone.stats">
-                    <td><input type="checkbox" checklist-model="checked_samples" checklist-value="stat.sample.id"></input></td>
+                    <td><input type="checkbox" checklist-model="checked_samples" checklist-value="clone.id + '_' + stat.sample.id"></input></td>
                     <td>{{ stat.sample.id }}</td>
                     <td>{{ stat.sample.name }}</td>
                     <td>{{ stat.size }}</td>

@@ -22,7 +22,7 @@
                 $scope.checked_samples = [];
 
                 $scope.viewSamples = function() {
-                    $location.path('/samples/' + $scope.checked_samples.join());
+                    $location.path('/clone_compare/' + $scope.checked_samples.join());
                 };
 
                 var getClones = function(page) {
@@ -35,7 +35,8 @@
                             'per_page': 25
                         }
                     }).success(function(data, status) {
-                        def.resolve(data['objects']);
+                        var objs = data['objects'];
+                        def.resolve(objs);
                     }).error(function(data, status, headers, config) {
                         def.reject();
                     });

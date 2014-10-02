@@ -7,7 +7,8 @@
                 var activeMap = {
                     'studies': 'studies',
                     'samples': 'studies',
-                    'clones': 'clones'
+                    'clones': 'clones',
+                    'clone_compare': 'clones'
                 };
                 var menuClass = function(page) {
                     var current = $location.path().split('/')[1];

@@ -1,0 +1,59 @@
+<ol class="breadcrumb">
+  <li><a href="#/clones">Clones</a>
+  </li>
+  <li>Clone Comparison</li>
+</ol>
+
+<h3>Mutation Analysis</h3>
+<div class="table-responsive">
+  <table class="table table-bordered">
+    <thead>
+      <tr class="active">
+        <th>Clone #</th>
+        <th>V Gene</th>
+        <th>J Gene</th>
+        <th>CDR3 Length</th>
+        <th>CDR3 AA</th>
+      </tr>
+    </thead>
+    <tbody ng-repeat="info in cloneInfo">
+      <tr>
+        <td>{{ info.clone.id }}</td>
+        <td>{{ info.clone.v_gene }}</td>
+        <td>{{ info.clone.j_gene }}</td>
+        <td>{{ info.clone.cdr3.length }}</td>
+        <td ng-bind-html="info.clone.cdr3 | aminoAcid" class="text-mono"></td>
+      </tr>
+      <tr>
+        <td colspan="5">
+          <table class="table table-bordered">
+            <thead>
+              <tr>
+                <th>Sample #</th>
+                <th>Sample Name</th>
+                <th>Sequence ID</th>
+              </tr>
+            </thead>
+            <tbody ng-repeat="stat in info.seqs">
+              <tr>
+                <td>{{ stat.sample.id }}</td>
+                <td><a href="#/samples/{{ stat.sample.id }}">{{ stat.sample.name }}</a></td>
+                <td><a href="#/sequence/{{ stat.seq_id }}">{{ stat.seq_id }}</a></td>
+              </tr>
+              <tr>
+                <td class="text-mono tiny" colspan="4">
+                  <div class="slideWrap">
+                    <span class="scroller">
+                      <p ng-bind-html="info.clone.germline | colorSeqAsAA"></p>
+                      <p ng-bind-html="stat.sequence | colorSeqAsAA"></p>
+                      <p style="white-space: pre" ng-bind-html="stat.comp | seqComp"></p>
+                    </span>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </td>
+    </tbody>
+  </table>
+</div>

@@ -22,11 +22,13 @@
                     templateUrl: 'views/samples.html',
                     controller: 'SampleCtrl'
                 })
-
                 .when('/clones', {
                     templateUrl: 'views/clones.html',
                     controller: 'ClonesCtrl',
                 })
+                .when('/clone_compare/:uids', {
+                    templateUrl: 'views/clone_compare.html',
+                    controller: 'ClonesCompareCtrl',
                 .otherwise({
                     redirectTo: '/studies'
                 });
