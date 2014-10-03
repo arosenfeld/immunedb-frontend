@@ -243,6 +243,7 @@
 
                         series: [{
                             data: data,
+                            turboThreshold: 0
                         }]
                     };
                 },

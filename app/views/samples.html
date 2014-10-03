@@ -47,10 +47,10 @@
         <td>{{ stat.sample.no_result_cnt | number }}</td>
         <td>{{ 100 * stat.all.in_frame_cnt / stat.sample.valid_cnt | number : 2}}%</td>
         <td>{{ 100 * stat.sample.functional_cnt / stat.sample.valid_cnt | number : 2}}%</td>
-        <td>{{ cnts.unique | number }}</td>
-        <td>{{ cnts.unique_multiple | number }}</td>
-        <td>{{ cnts.clones_all | number }}</td>
-        <td>{{ cnts.clones_functional | number }}</td>
+        <td>{{ stat.unique.sequence_cnt | number }}</td>
+        <td>{{ stat.unique_multiple.sequence_cnt | number }}</td>
+        <td>{{ stat.clones_all.sequence_cnt | number }}</td>
+        <td>{{ stat.clones_functional.sequence_cnt | number }}</td>
       </tr>
     </tbody>
   </table>

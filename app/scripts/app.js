@@ -29,6 +29,7 @@
                 .when('/clone_compare/:uids', {
                     templateUrl: 'views/clone_compare.html',
                     controller: 'ClonesCompareCtrl',
+                })
                 .otherwise({
                     redirectTo: '/studies'
                 });
