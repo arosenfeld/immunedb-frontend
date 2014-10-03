@@ -35,7 +35,7 @@
                 }
 
                 var drawCompare = function(cloneId) {
-                    var TOP_PAD = 30;
+                    var TOP_PAD = 45;
                     var LEFT_PAD = 5;
                     var CHAR_SPACE = 20;
                     var V_PER_SEQ = 20;
@@ -52,12 +52,20 @@
                     });
 
                     canvas.width = (labelMaxLength +
-                        info.clone.germline.length) * (CHAR_SPACE + .01);
+                        info.clone.germline.length) * CHAR_SPACE;
                     canvas.height = (info.seqs.length + 2) * V_PER_SEQ + 35;
                     ctx.font = 'bold 12px Courier New';
 
                     ctx.fillText('Germline', LEFT_PAD, TOP_PAD);
                     var middlePad = (CHAR_SPACE - 12) * labelMaxLength;
+                    for (var v in info.seqs) {
+                        var seq = info.seqs[v].junction_nt
+                        info.clone.germline = info.clone.germline.substring(0,
+                        309)
+                            + seq + info.clone.germline.substring(309 +
+                            seq.length, info.clone.germline.length);
+                        break;
+                    }
                     angular.forEach(info.clone.germline, function(c, i) {
                         if (i % 3 == 0) {
                             var nt = info.clone.germline.substring(i, i + 3);
@@ -120,6 +128,10 @@
                                 ctx.stroke();
                             }
                             ctx.fillText(c, left, top);
+                            if (j % 10 == 0) {
+                                ctx.fillStyle = '#000000';
+                                ctx.fillText(j, left, 10);
+                            }
                         });
                         i++;
                     });
@@ -137,67 +149,66 @@
                             ctx.fillStyle = '#0000ff';
                         }
                         ctx.fillText(t, LEFT_PAD + middlePad + offset *
-                            CHAR_SPACE, (1 + info.seqs.length) * V_PER_SEQ + 30);
+                            CHAR_SPACE, (1 + info.seqs.length) * V_PER_SEQ + 45);
                     });
                     drawRegion(ctx, 
                         '#0000ff', 
                         LEFT_PAD + middlePad,
-                        10,
+                        25,
                         CHAR_SPACE,
                         0,
-                        71,
+                        77,
                         'FR1');
                     drawRegion(ctx, 
                         '#0000ff', 
                         LEFT_PAD + middlePad,
-                        10,
+                        25,
                         CHAR_SPACE,
-                        120,
-                        158,
+                        114,
+                        164,
                         'FR2');
                     drawRegion(ctx, 
                         '#0000ff', 
                         LEFT_PAD + middlePad,
-                        10,
+                        25,
                         CHAR_SPACE,
-                        204,
+                        195,
                         308,
                         'FR3');
-
                     drawRegion(ctx, 
                         '#00ff00', 
                         LEFT_PAD + middlePad,
-                        10,
+                        25,
                         CHAR_SPACE,
-                        72,
-                        119,
+                        78,
+                        113,
                         'CDR1');
 
                     drawRegion(ctx, 
                         '#00ff00', 
                         LEFT_PAD + middlePad,
-                        10,
+                        25,
                         CHAR_SPACE,
-                        159,
-                        203,
+                        165,
+                        194,
                         'CDR2');
-
                     drawRegion(ctx, 
                         '#00ff00', 
                         LEFT_PAD + middlePad,
-                        10,
+                        25,
                         CHAR_SPACE,
                         309,
-                        351,
+                        308 + info.clone.cdr3.length * 3,
                         'CDR3');
                 }
 
                 var drawRegion = function(ctx, color, left, top, char_space, start, end, text) {
-                    ctx.fillText(text, left + start * char_space, 10);
+                    ctx.fillStyle = '#000000';
+                    ctx.fillText(text, left + start * char_space, top);
                     ctx.beginPath();
                     ctx.strokeStyle = color;
                     ctx.moveTo(left + start * char_space, top + 5);
-                    ctx.lineTo(left + end * char_space + 10, top + 5);
+                    ctx.lineTo(left + end * char_space + 11, top + 5);
                     ctx.stroke();
                 }
 
