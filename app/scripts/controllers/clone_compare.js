@@ -91,19 +91,17 @@
                         angular.forEach(seq.sequence, function(c, j) {
                             var left = LEFT_PAD + middlePad + (CHAR_SPACE * j);
                             var top = TOP_PAD + V_PER_SEQ * (i + 1);
-                            if (j % 3 == 0) {
-                                var nt = seq.sequence.substring(j, j + 3);
-                                if (nt in aa_lookup) {
-                                    ctx.fillStyle = lookup[aaLookup(nt)];
-                                } else {
-                                    ctx.fillStyle = '#000000';
-                                }
+                            var aaStart = j - (j % 3);
+                            var nt = seq.sequence.substring(aaStart, aaStart + 3);
+                            if (nt in aa_lookup) {
+                                ctx.fillStyle = lookup[aaLookup(nt)];
+                            } else {
+                                ctx.fillStyle = '#000000';
                             }
 
                             // TODO: Compare with one change, not against
                             // germline
                             if (seq.sequence[j] != info.clone.germline[j]) {
-                                var aaStart = j - (j % 3);
                                 var gAA = aaLookup(info.clone.germline.substring(aaStart, aaStart
                                     + 3));
                                 var sAA = aaLookup(seq.sequence.substring(aaStart, aaStart

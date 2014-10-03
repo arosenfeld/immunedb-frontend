@@ -31,7 +31,7 @@
         })
         .filter('aminoAcid', function($sce) {
             return function(aa) {
-                if (typeof s == 'undefined') {
+                if (typeof aa == 'undefined') {
                     return '';
                 }
                 var fstring = '';

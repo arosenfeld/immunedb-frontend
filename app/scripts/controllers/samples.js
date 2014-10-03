@@ -63,6 +63,7 @@
                         .then(
                             function(result) {
                                 $scope.clone_pager[filter] = result;
+                                $log.debug(result);
                             },
                             function(result) {
                             }
