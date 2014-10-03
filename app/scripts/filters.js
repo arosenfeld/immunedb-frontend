@@ -31,6 +31,9 @@
         })
         .filter('aminoAcid', function($sce) {
             return function(aa) {
+                if (typeof s == 'undefined') {
+                    return '';
+                }
                 var fstring = '';
                 angular.forEach(aa, function(c, i) {
                     fstring += '<span style="color: ' + lookup[c.toUpperCase()]
@@ -56,6 +59,9 @@
         })
         .filter('colorSeqAsAA', function($sce) {
             return function(s) {
+                if (typeof s == 'undefined') {
+                    return '';
+                }
                 var aa_lookup = { 'TTT': 'F', 'TTC': 'F', 'TTA': 'L', 'TTG': 'L',
                 'TCT': 'S', 'TCC': 'S', 'TCA': 'S', 'TCG': 'S', 'TAT': 'Y', 'TAC':
                 'Y', 'TAA': 'X', 'TAG': 'X', 'TGT': 'C', 'TGC': 'C', 'TGA': 'X',

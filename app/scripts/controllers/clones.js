@@ -8,7 +8,6 @@
                 $scope.prevPage = function() {
                     $scope.page = Math.max(1, $scope.page - 1);
                     getClones($scope.page).then(function(result) {
-                        $log.debug(result);
                         $scope.clones = result;
                     });
                 }

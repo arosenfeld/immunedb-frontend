@@ -33,7 +33,6 @@
                         }
                     }).success(function(data, status) {
                         $scope.seq = data['objects'][0];
-                        $log.debug($scope.seq);
                         $('#modal').modal('hide');
                     }).error(function(data, status, headers, config) {
                         $scope.$parent.modal_head = 'Error';

@@ -30,7 +30,6 @@
 
                 var getCounts = function() {
                     var cnts = {};
-                    $log.debug($scope.grouped_stats);
                     angular.forEach($scope.grouped_stats, function(value,
                         sample_id) {
                         for (var i in filters) {
