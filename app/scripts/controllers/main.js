@@ -8,7 +8,8 @@
                     'studies': 'studies',
                     'samples': 'studies',
                     'clones': 'clones',
-                    'clone_compare': 'clones'
+                    'clone_compare': 'clones',
+                    'sequence': 'studies',
                 };
                 var menuClass = function(page) {
                     var current = $location.path().split('/')[1];

@@ -1,0 +1,149 @@
+<ol class="breadcrumb">
+  <li><a href="#/studies">Studies</a></li>
+  <li><a href="#/samples/{{ seq.sample.id }}">{{ seq.sample.name }}</a></li>
+  <li>Sequence <i>{{ seq.seq_id }}</i></li>
+</ol>
+
+<h3>Sequence Details</h3>
+<div class="table-responsive">
+  <table class="table table-bordered">
+    <tr class="active">
+      <th colspan="4" class="text-center">General</th>
+    </tr>
+    <tr>
+      <th>
+        Name
+        <a data-toggle="tooltip" title="A sample-unique identifier for this sequence"><span class="glyphicon glyphicon-question-sign"></span>
+      </th>
+      <td>{{ seq.seq_id }}</th>
+      <th>
+        Sample
+        <a data-toggle="tooltip" title="The sample which contains this sequence"><span class="glyphicon glyphicon-question-sign"></span>
+      </th>
+      <td>#{{ seq.sample.id }}: <a href="#/samples/{{ seq.sample.id }}">{{ seq.sample.name }}</a></td>
+    </tr>
+
+    <tr>
+      <th>
+        In-Frame
+        <a data-toggle="tooltip" title="If the sequence's length is divisible by 3"><span class="glyphicon glyphicon-question-sign"></span>
+      </th>
+      <td>{{ seq.in_frame ? 'Yes' : 'No' }}</td>
+      <th>
+        Stop Codon
+        <a data-toggle="tooltip" title="If the sequence's contained a stop codon"><span class="glyphicon glyphicon-question-sign"></span>
+      </th>
+      <td>{{ seq.stop ? 'Yes' : 'No' }}</td>
+    </tr>
+
+    <tr>
+      <th>
+        Functional
+        <a data-toggle="tooltip" title="If the sequence is in-frame and there is no stop codon"><span class="glyphicon glyphicon-question-sign"></span>
+      </th>
+      <td>{{ seq.functional ? 'Yes' : 'No' }}</td>
+    </tr>
+
+    <tr class="active">
+      <th colspan="4" class="text-center">Sample</th>
+    </tr>
+
+    <tr>
+      <th>Subject</th>
+      <td>{{ seq.subject }}</td>
+      <th>Subset</th>
+      <td>{{ seq.subset ? seq.subset : 'N/A' }}</td>
+    </tr>
+
+    <tr>
+      <th>Disease</th>
+      <td>{{ seq.disease | uppercase }}</td>
+      <th>Tissue</th>
+      <td>{{ seq.tissue }}</td>
+    </tr>
+
+    <tr class="active">
+      <th colspan="4" class="text-center">Experiment</th>
+    </tr>
+
+    <tr>
+      <th>Date</th>
+      <td>{{ seq.date }}</td>
+      <th>Lab</th>
+      <td>{{ seq.lab }}</td>
+    </tr>
+
+    <tr>
+      <th>Experimenter</th>
+      <td>{{ seq.experimenter }}</td>
+    </tr>
+
+    <tr class="active">
+      <th colspan="4" class="text-center">V Gene</th>
+    </tr>
+
+    <tr>
+      <th>
+        Gene
+        <a data-toggle="tooltip" title="The sequence's V gene"><span class="glyphicon glyphicon-question-sign"></span>
+      </th>
+      <td>{{ seq.v_call }}</td>
+      <th>
+        Length
+        <a data-toggle="tooltip" title="The sequence's V gene length"><span class="glyphicon glyphicon-question-sign"></span>
+      </th>
+      <td>{{ seq.v_length }}</td>
+    </tr>
+
+    <tr>
+      <th>
+        Gapped Length
+        <a data-toggle="tooltip" title="The sequence's V gene length after IMGT gapping"><span class="glyphicon glyphicon-question-sign"></span>
+      </th>
+      <td>{{ seq.v_gap_length }}</td>
+    </tr>
+
+    <tr class="active">
+      <th colspan="4" class="text-center">J Gene</th>
+    </tr>
+
+    <tr>
+      <th>
+        Gene
+        <a data-toggle="tooltip" title="The sequence's J gene"><span class="glyphicon glyphicon-question-sign"></span>
+      </th>
+      <td>{{ seq.j_call }}</td>
+      <th>
+        Length
+        <a data-toggle="tooltip" title="The sequence's J gene length"><span class="glyphicon glyphicon-question-sign"></span>
+      </th>
+      <td>{{ seq.j_length }}</td>
+    </tr>
+
+    <tr>
+      <th>
+        Gapped Length
+        <a data-toggle="tooltip" title="The sequence's J gene length after IMGT gapping"><span class="glyphicon glyphicon-question-sign"></span>
+      </th>
+      <td>{{ seq.j_gap_length }}</td>
+    </tr>
+
+    <tr class="active">
+      <th colspan="4" class="text-center">Details</th>
+    </tr>
+
+    <tr>
+      <th>
+        Sequence
+      </th>
+      <td colspan="3">
+        <div class="slideWrap">
+          <span class="scroller">
+            <p ng-bind-html="seq.sequence | colorSeqAsAA"></p>
+          </span>
+        </div>
+      </td>
+    </tr>
+
+  </table>
+</div>

@@ -30,6 +30,10 @@
                     templateUrl: 'views/clone_compare.html',
                     controller: 'ClonesCompareCtrl',
                 })
+                .when('/sequence/:seqId', {
+                    templateUrl: 'views/sequence.html',
+                    controller: 'SequenceCtrl'
+                })
                 .otherwise({
                     redirectTo: '/studies'
                 });
