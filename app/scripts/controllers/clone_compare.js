@@ -84,6 +84,7 @@
                     var i = 0;
                     var diffs = {}
                     angular.forEach(info.seqs, function(seq, id) {
+                        ctx.fillStyle = '#000000';
                         var label = seq.sample.id + ': ' + seq.seq_id;
                         ctx.fillText(label, LEFT_PAD, TOP_PAD + V_PER_SEQ
                             * (1 + i));

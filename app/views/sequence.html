@@ -20,7 +20,7 @@
         Sample
         <a data-toggle="tooltip" title="The sample which contains this sequence"><span class="glyphicon glyphicon-question-sign"></span>
       </th>
-      <td>#{{ seq.sample.id }}: <a href="#/samples/{{ seq.sample.id }}">{{ seq.sample.name }}</a></td>
+      <td>#{{ seq.sample.id }}: <a href="#/samples/{{ seq.sample.id }}" target="_blank">{{ seq.sample.name }}</a></td>
     </tr>
 
     <tr>
@@ -139,7 +139,7 @@
       <td colspan="3">
         <div class="slideWrap">
           <span class="scroller">
-            <p ng-bind-html="seq.sequence | colorSeqAsAA"></p>
+            <p ng-bind-html="seq.sequence | colorSeqAsAA" class="text-mono"></p>
           </span>
         </div>
       </td>

@@ -37,8 +37,8 @@
             <tbody ng-repeat="stat in info.seqs">
               <tr>
                 <td>{{ stat.sample.id }}</td>
-                <td><a href="#/samples/{{ stat.sample.id }}">{{ stat.sample.name }}</a></td>
-                <td><a href="#/sequence/{{ stat.seq_id }}">{{ stat.seq_id }}</a></td>
+                <td><a href="#/samples/{{ stat.sample.id }}" target="_blank">{{ stat.sample.name }}</a></td>
+                <td><a href="#/sequence/{{ stat.seq_id }}" target="_blank">{{ stat.seq_id }}</a></td>
               </tr>
             </tbody>
           </table>
