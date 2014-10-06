@@ -36,7 +36,8 @@
                         $('#germline-compare').get(0),
                         $scope.seq.clone.germline,
                         $scope.seq.clone.cdr3,
-                        [ $scope.seq ]);
+                        [ $scope.seq ],
+                        false);
                     $('#modal').modal('hide');
                 }).error(function(data, status, headers, config) {
                     $scope.$parent.modal_head = 'Error';

@@ -25,7 +25,8 @@
                                 $('#compare-' + cloneId).get(0),
                                 info.clone.germline,
                                 info.clone.cdr3,
-                                info.seqs);
+                                info.seqs,
+                                true);
                         }
                     }, 0);
                     $('#modal').modal('hide');

@@ -7,14 +7,18 @@
 
             $scope.prevPage = function() {
                 $scope.page = Math.max(1, $scope.page - 1);
+                $scope.pageable = false;
                 getClones($scope.page).then(function(result) {
                     $scope.clones = result;
+                    $scope.pageable = true;
                 });
             }
 
             $scope.nextPage = function() {
+                $scope.pageable = false;
                 getClones(++$scope.page).then(function(result) {
                     $scope.clones = result;
+                    $scope.pageable = true;
                 });
             }
 
@@ -53,6 +57,7 @@
                 getClones($scope.page).then(
                     function(result) {
                         $scope.clones = result;
+                        $scope.pageable = true;
                         $('#modal').modal('hide');
                     },
                     function(result) {

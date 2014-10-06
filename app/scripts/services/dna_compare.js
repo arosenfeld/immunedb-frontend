@@ -30,7 +30,17 @@
             });
         }
 
-        var makeComparison = function(canvas, germline, cdr3, seqs) {
+        var drawRegion = function(ctx, color, left, top, char_space, start, end, text) {
+            ctx.fillStyle = '#000000';
+            ctx.fillText(text, left + start * char_space, top);
+            ctx.beginPath();
+            ctx.strokeStyle = color;
+            ctx.moveTo(left + start * char_space, top + 5);
+            ctx.lineTo(left + end * char_space + 11, top + 5);
+            ctx.stroke();
+        }
+
+        var makeComparison = function(canvas, germline, cdr3, seqs, summary) {
             var ctx = canvas.getContext('2d');
 
             var labelMaxLength = 0;
@@ -41,7 +51,10 @@
             });
 
             canvas.width = (labelMaxLength + germline.length) * CHAR_SPACE;
-            canvas.height = (seqs.length + 3) * V_PER_SEQ + 35;
+            canvas.height = (seqs.length + 1) * V_PER_SEQ + 35;
+            if (summary) {
+                canvas.height += 2 * V_PER_SEQ;
+            }
             ctx.font = 'bold 12px Courier New';
 
             ctx.fillText('Germline', LEFT_PAD, TOP_PAD);
@@ -107,24 +120,16 @@
                 i++;
             });
 
-            ctx.fillStyle = '#00ff00';
-            ctx.fillText('Synonyms Mutation %', LEFT_PAD, TOP_PAD + (1 + seqs.length) * V_PER_SEQ);
-            ctx.fillStyle = '#ff0000';
-            ctx.fillText('Non-synonyms Mutation %', LEFT_PAD, TOP_PAD + (2 + seqs.length) * V_PER_SEQ);
+            if (summary) {
+                ctx.fillStyle = '#00ff00';
+                ctx.fillText('Synonyms Mutation %', LEFT_PAD, TOP_PAD + (1 + seqs.length) * V_PER_SEQ);
+                ctx.fillStyle = '#ff0000';
+                ctx.fillText('Non-synonyms Mutation %', LEFT_PAD, TOP_PAD + (2 + seqs.length) * V_PER_SEQ);
+            }
 
 
             angular.forEach(diffs, function(vals, offset) {
                 var t = '';
-                /*
-                if (vals['silent'] >= seqs.length / 2.0) {
-                    t = 'S';
-                    ctx.fillStyle = '#00ff00';
-                } else if (vals['change'] >= seqs.length / 2.0) {
-                    t += (t.length > 0 ? '\n' : '') + 'N';
-                    ctx.fillStyle = '#ff0000';
-                }
-                */
-
                 var silentPerc = Math.round(100 * vals['silent'] /
                     seqs.length);
                 var changePerc = Math.round(100 * vals['change'] /
@@ -140,6 +145,8 @@
 
             });
 
+            ctx.textAlign = 'left';
+            ctx.font = 'bold 12px Courier New';
             // TODO: Loop this
             drawRegion(ctx, 
                 '#0000ff', 
@@ -191,16 +198,6 @@
                 308 + cdr3.length * 3,
                 'CDR3');
 
-        }
-
-        var drawRegion = function(ctx, color, left, top, char_space, start, end, text) {
-            ctx.fillStyle = '#000000';
-            ctx.fillText(text, left + start * char_space, top);
-            ctx.beginPath();
-            ctx.strokeStyle = color;
-            ctx.moveTo(left + start * char_space, top + 5);
-            ctx.lineTo(left + end * char_space + 11, top + 5);
-            ctx.stroke();
         }
 
         return { makeComparison: makeComparison };

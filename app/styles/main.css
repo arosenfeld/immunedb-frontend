@@ -110,7 +110,7 @@ li .badge {
 }
 
 .dropdown-menu {
-    width: 200px;
+    width: 220px;
 }
 
 .text-mono {
@@ -128,4 +128,8 @@ span.scroller {
     display: inline-block;
     width: 200px;
     white-space: nowrap;
+}
+
+.btn-pad {
+    margin: 10px 0;
 }
