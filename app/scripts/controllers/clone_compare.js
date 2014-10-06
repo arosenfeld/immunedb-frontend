@@ -22,7 +22,7 @@
                         for (var cloneId in $scope.cloneInfo) {
                             var info = $scope.cloneInfo[cloneId];
                             dnaCompare.makeComparison(
-                                $('#compare_' + cloneId).get(0),
+                                $('#compare-' + cloneId).get(0),
                                 info.clone.germline,
                                 info.clone.cdr3,
                                 info.seqs);
