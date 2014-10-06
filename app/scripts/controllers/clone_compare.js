@@ -2,8 +2,8 @@
     'use strict';
 
     angular.module('ImmunologyApp') .controller('ClonesCompareCtrl', ['$scope',
-            '$http', '$routeParams', '$timeout', '$log', 'dnaCompare', 'apiUrl',
-
+            '$http', '$routeParams', '$timeout', '$log', 'dnaCompare',
+            'apiUrl',
         function($scope, $http, $routeParams, $timeout, $log, dnaCompare,
                 apiUrl) {
 
