@@ -41,7 +41,7 @@
             });
 
             canvas.width = (labelMaxLength + germline.length) * CHAR_SPACE;
-            canvas.height = (seqs.length + 2) * V_PER_SEQ + 35;
+            canvas.height = (seqs.length + 3) * V_PER_SEQ + 35;
             ctx.font = 'bold 12px Courier New';
 
             ctx.fillText('Germline', LEFT_PAD, TOP_PAD);
@@ -107,8 +107,15 @@
                 i++;
             });
 
+            ctx.fillStyle = '#00ff00';
+            ctx.fillText('Synonyms Mutation %', LEFT_PAD, TOP_PAD + (1 + seqs.length) * V_PER_SEQ);
+            ctx.fillStyle = '#ff0000';
+            ctx.fillText('Non-synonyms Mutation %', LEFT_PAD, TOP_PAD + (2 + seqs.length) * V_PER_SEQ);
+
+
             angular.forEach(diffs, function(vals, offset) {
                 var t = '';
+                /*
                 if (vals['silent'] >= seqs.length / 2.0) {
                     t = 'S';
                     ctx.fillStyle = '#00ff00';
@@ -116,8 +123,21 @@
                     t += (t.length > 0 ? '\n' : '') + 'N';
                     ctx.fillStyle = '#ff0000';
                 }
-                ctx.fillText(t, LEFT_PAD + middlePad + offset * CHAR_SPACE,
-                        (1 + seqs.length) * V_PER_SEQ + 45);
+                */
+
+                var silentPerc = Math.round(100 * vals['silent'] /
+                    seqs.length);
+                var changePerc = Math.round(100 * vals['change'] /
+                    seqs.length);
+                ctx.font = '12px Courier New';
+                ctx.textAlign = 'center';
+                ctx.fillStyle = '#00ff00';
+                ctx.fillText(silentPerc, LEFT_PAD + middlePad + offset *
+                    CHAR_SPACE + 5, TOP_PAD + (1 + seqs.length) * V_PER_SEQ);
+                ctx.fillStyle = '#ff0000';
+                ctx.fillText(changePerc, LEFT_PAD + middlePad + offset *
+                    CHAR_SPACE + 5, TOP_PAD + (2 + seqs.length) * V_PER_SEQ);
+
             });
 
             // TODO: Loop this
