@@ -78,24 +78,25 @@
                             aaStart + 3));
                         var sAA = lookups.aaLookup(seq.sequence.substring(
                             aaStart, aaStart + 3));
-                        ctx.beginPath();
-                        ctx.rect(left - 2, top - CHAR_SPACE + 8, 15, 15);
-                        ctx.lineWidth = 2;
-                        if (!(j in diffs)) {
-                            diffs[j] = { 'silent': 0, 'change': 0, 'unk': 0 }
-                        }
 
-                        if (gAA == null || sAA == null) {
-                            ctx.strokeStyle = '#0000ff';
-                            diffs[j]['unk']++;
-                        } else if (gAA != sAA) {
-                            ctx.strokeStyle = '#ff0000';
-                            diffs[j]['change']++;
-                        } else if (gAA == sAA) {
-                            ctx.strokeStyle = '#00ff00';
-                            diffs[j]['silent']++;
+                        if (gAA != null && sAA != null) {
+                            ctx.beginPath();
+                            ctx.rect(left - 2, top - CHAR_SPACE + 8, 15, 15);
+                            ctx.lineWidth = 2;
+                            if (!(j in diffs)) {
+                                diffs[j] = { 'silent': 0, 'change': 0 }
+                            }
+
+                            if (gAA != sAA) {
+                                ctx.strokeStyle = '#ff0000';
+                                diffs[j]['change']++;
+                            } else if (gAA == sAA) {
+                                ctx.strokeStyle = '#00ff00';
+                                diffs[j]['silent']++;
+                            }
+
+                            ctx.stroke();
                         }
-                        ctx.stroke();
                     }
                     ctx.fillText(c, left, top);
                     if (j % 10 == 0) {
@@ -114,9 +115,6 @@
                 } else if (vals['change'] >= seqs.length / 2.0) {
                     t += (t.length > 0 ? '\n' : '') + 'N';
                     ctx.fillStyle = '#ff0000';
-                } else if (vals['unk'] >= seqs.length / 2.0) {
-                    t += (t.length > 0 ? '\n' : '') + 'U';
-                    ctx.fillStyle = '#0000ff';
                 }
                 ctx.fillText(t, LEFT_PAD + middlePad + offset * CHAR_SPACE,
                         (1 + seqs.length) * V_PER_SEQ + 45);
