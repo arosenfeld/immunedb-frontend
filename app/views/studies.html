@@ -7,13 +7,15 @@
 
 <div class="table-responsive">
   <button ng-click="viewSamples()" class="btn btn-primary btn-lg btn-pad" ng-disabled="checked_samples.length == 0">Compare Selected</button>
+  <div style="float: right">
+    <input type="text" class="form-control" placeholder="Search..." ng-model="sample_filter"></input>
+  </div>
   <form novalidate>
     <table class="table table-bordered">
       <thead>
         <tr>
           <th>#</th>
           <th>Name</th>
-          <th>Info</th>
           <th>Samples</th>
         </tr>
       </thead>
@@ -22,11 +24,10 @@
           <td>{{ row.id }}</td>
           <td><a ng-click="show = !show">{{ row.name }} <span class="glyphicon glyphicon-chevron-down" id="study-arrow-{{ row.id }}"></span></a>
           </td>
-          <td>{{ row.info }}</td>
           <td>{{ row.samples.length }}</td>
         </tr>
         <tr ng-show="show">
-          <td colspan="4" style="float: none; margin: 0 auto;">
+          <td colspan="3" style="float: none; margin: 0 auto;">
             <table class="table table-bordered">
               <thead>
                 <tr>
@@ -40,8 +41,8 @@
                   <th></th>
                 </tr>
               </thead>
-              <tbody ng-repeat="sample in row.samples">
-                <tr ng-show="{{ sample.date != row.samples[$index - 1].date}}">
+              <tbody ng-repeat="sample in row.samples | filter:sample_filter">
+                <tr ng-show="{{ sample.date != row.samples[$index - 1].date }}">
                   <td colspan="8" class="text-center info">
                     <strong>{{ sample.date }}</strong>
                   </td>
