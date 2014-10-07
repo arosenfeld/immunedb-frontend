@@ -32,9 +32,12 @@
                                 srt);
                             var bs = b.date.split('-').map(
                                 srt);
-                            return new Date(bs[0], bs[1],
-                                    bs[2]) -
+                            var ddif = new Date(bs[0], bs[1], bs[2]) - 
                                 new Date(as[0], as[1], as[2]);
+                            if (ddif != 0) {
+                                return ddif;
+                            }
+                            return a.name.localeCompare(b.name);
                         });
                     });
 
