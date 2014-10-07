@@ -75,6 +75,7 @@
                 $scope.$parent.modal_head = 'Querying';
                 $scope.$parent.modal_text =
                     'Loading data from database...';
+                $scope.$parent.page_title = 'Sample Comparison';
                 $('#modal').modal('show');
 
                 // Resize (reflow) all plots when a tab is clicked

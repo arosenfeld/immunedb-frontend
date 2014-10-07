@@ -1,11 +1,10 @@
 (function() {
     'use strict';
 
-    angular.module('ImmunologyApp')
-        .factory('clonePager', ['$http', '$q', '$log', 'apiUrl',
-            function($http, $q, $log, apiUrl) {
-
-            var getClones = function(samples, filter, page) {
+    angular.module('ImmunologyApp').service('clonePager', ['$http', '$q',
+            '$log', 'apiUrl',
+        function($http, $q, $log, apiUrl) {
+            this.getClones = function(samples, filter, page) {
                 var def = $q.defer();
                 $http({
                     url: apiUrl + 'clone_overlap/' + filter + '/' + samples,
@@ -13,14 +12,21 @@
                         'page': page
                     }
                 }).success(function(data, status) {
-                    def.resolve(data['items']);
+                    var clones = data['items'];
+                    angular.forEach(clones, function(clone, i) {
+                        clone.compareStr = '';
+                        angular.forEach(clone.samples, function(sample, j) {
+                            clone.compareStr += ',' + clone.clone.id + '_' +
+                                sample;
+                        });
+                        clone.compareStr = clone.compareStr.substring(1);
+                    });
+                    def.resolve(clones);
                 }).error(function(data, status) {
                     def.reject();
                 });
 
                 return def.promise;
             }
-
-            return { getClones: getClones };
-    }]);
+        }]);
 })();

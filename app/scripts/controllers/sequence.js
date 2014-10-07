@@ -9,6 +9,7 @@
                 $scope.$parent.modal_text =
                     'Loading data from database...';
                 $('#modal').modal('show');
+                $scope.$parent.page_title = 'Sequence Details';
 
                 // Enable help tooltips
                 $(function() {

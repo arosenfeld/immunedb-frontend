@@ -1,8 +1,9 @@
-<ol class="breadcrumb">
-  <li><a href="#/clones">Clones</a>
-  </li>
-  <li>Clone Comparison</li>
-</ol>
+<div class="header">
+  <ol class="breadcrumb">
+    <li><a href="#/clones"><i class="fa fa-sitemap fa-fw"></i>Clones</a> </li>
+    <li>Clone Comparison</li>
+  </ol>
+</div>
 
 <h3>Mutation Analysis</h3>
 <div class="table-responsive">
@@ -25,6 +26,17 @@
         <td ng-bind-html="info.clone.cdr3 | aminoAcid" class="text-mono"></td>
       </tr>
       <tr>
+        <td class="text-mono" colspan="5">
+          <div class="slideWrap">
+            <span class="scroller">
+              <canvas id="compare-{{ info.clone.id }}">
+              Your browser doesn't support HTML5! Please download a newer browser.
+              </canvas>
+            </span>
+          </div>
+        </td>
+      </tr>
+      <tr>
         <td colspan="5">
           <table class="table table-bordered">
             <thead>
@@ -42,17 +54,6 @@
               </tr>
             </tbody>
           </table>
-        </td>
-      </tr>
-      <tr>
-        <td class="text-mono" colspan="5">
-          <div class="slideWrap">
-            <span class="scroller">
-              <canvas id="compare-{{ info.clone.id }}">
-              Your browser doesn't support HTML5! Please download a newer browser.
-              </canvas>
-            </span>
-          </div>
         </td>
       </tr>
     </tbody>

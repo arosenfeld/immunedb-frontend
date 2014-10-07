@@ -3,8 +3,7 @@
 
     angular.module('ImmunologyApp') .controller('StudiesCtrl', ['$scope',
             '$http', '$location', 'apiUrl',
-        function($scope,
-            $http, $location, apiUrl) {
+        function($scope, $http, $location, apiUrl) {
 
             $scope.checked_samples = [];
 
@@ -16,6 +15,7 @@
                 $scope.$parent.modal_head = 'Querying';
                 $scope.$parent.modal_text =
                     'Loading data from database...';
+                $scope.$parent.page_title = 'Studies';
                 $('#modal').modal('show');
                 $http({
                     method: 'GET',

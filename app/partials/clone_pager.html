@@ -1,33 +1,42 @@
 <div style="padding: 1em 0">
-  <table class="table table-bordered">
-    <thead>
-      <tr class="active">
-        <th>Copy #</th>
-        <th>V Gene</th>
-        <th>J Gene</th>
-        <th>Samples Present</th>
-        <th>CDR3 Length</th>
-        <th>CDR3 AA</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr ng-repeat="clone in clones">
-        <td>{{ clone.copy_number | number }}</td>
-        <td>{{ clone.clone.v_gene }}</td>
-        <td>{{ clone.clone.j_gene }}</td>
-        <td>{{ clone.samples }}</td>
-        <td>{{ clone.clone.cdr3.length | number }}</td>
-        <td ng-bind-html="clone.clone.cdr3 | aminoAcid" class="text-mono"></td>
-      </tr>
-      <tr>
-        <td colspan="6">
-          <ul class="pager">
-            <li><a href="" ng-click="prevPage()">Previous</a></li>
-            <li>Page {{ page }}</li>
-            <li><a href="" ng-click="nextPage()">Next</a></li>
-          </ul>
-        </td>
-      </tr>
-    </tbody>
-  </table>
+  <form novalidate>
+    <table class="table table-bordered">
+      <thead>
+        <tr class="active">
+          <th></th>
+          <th>Copy #</th>
+          <th>V Gene</th>
+          <th>J Gene</th>
+          <th>Samples Present</th>
+          <th>CDR3 Length</th>
+          <th>CDR3 AA</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr ng-repeat="clone in clones">
+          <td><input type="checkbox" checklist-model="checked_clones" checklist-value="clone.compareStr"></input></td>
+          <td>{{ clone.copy_number | number }}</td>
+          <td>{{ clone.clone.v_gene }}</td>
+          <td>{{ clone.clone.j_gene }}</td>
+          <td>{{ clone.samples.join(', ') }}</td>
+          <td>{{ clone.clone.cdr3.length | number }}</td>
+          <td ng-bind-html="clone.clone.cdr3 | aminoAcid" class="text-mono"></td>
+        </tr>
+        <tr>
+          <td colspan="7">
+            <button ng-click="viewClones()" class="btn btn-primary btn-lg btn-pad" ng-disabled="checked_clones.length == 0">Compare Selected</button>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="6">
+            <ul class="pager">
+              <li><a href="" ng-click="prevPage()">Previous</a></li>
+              <li>Page {{ page }}</li>
+              <li><a href="" ng-click="nextPage()">Next</a></li>
+            </ul>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </form>
 </div>

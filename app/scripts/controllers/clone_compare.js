@@ -12,6 +12,7 @@
                 $scope.$parent.modal_text =
                     'Loading data from database...';
                 $('#modal').modal('show');
+                $scope.$parent.page_title = 'Clone Comparison';
 
                 $http({
                     method: 'GET',
