@@ -134,7 +134,7 @@
                     seqs.length);
                 var changePerc = Math.round(100 * vals['change'] /
                     seqs.length);
-                ctx.font = '12px Courier New';
+                ctx.font = '10px Courier New';
                 ctx.textAlign = 'center';
                 ctx.fillStyle = '#00ff00';
                 ctx.fillText(silentPerc, LEFT_PAD + middlePad + offset *
