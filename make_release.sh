@@ -15,7 +15,8 @@ then
         git commit -a -m "Release version $version"
         git checkout master
         git merge --no-ff $branch
-        git tag -a v$version
+        git tag -a v$version -m "Tagging release $version"
+        git push origin v$version
     else
         echo '[ERROR] Must commit or stash all changes before releasing'
     fi
