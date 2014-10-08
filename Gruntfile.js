@@ -21,11 +21,32 @@ module.exports = function (grunt) {
     dist: 'dist'
   };
 
+  grunt.loadNpmTasks('grunt-bump');
+
   // Define the configuration for all the tasks
   grunt.initConfig({
 
     // Project settings
     yeoman: appConfig,
+
+    bump: {
+      options: {
+      files: ['bower.json', 'package.json'],
+      updateConfigs: [],
+      commit: false,
+      commitMessage: 'Release v%VERSION%',
+      commitFiles: ['package.json'],
+      createTag: false,
+      /*
+      tagName: 'v%VERSION%',
+      tagMessage: 'Version %VERSION%',
+      */
+      push: false,
+      //pushTo: 'upstream',
+      gitDescribeOptions: '--tags --always --abbrev=1 --dirty=-d',
+      globalReplace: false
+      }
+    },
 
     // Watches files for changes and runs tasks based on the changed files
     watch: {

@@ -1,10 +1,11 @@
 {
   "name": "simlab_database",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "dependencies": {},
   "devDependencies": {
     "grunt": "^0.4.1",
     "grunt-autoprefixer": "^0.7.3",
+    "grunt-bump": "0.0.16",
     "grunt-concurrent": "^0.5.0",
     "grunt-contrib-clean": "^0.5.0",
     "grunt-contrib-concat": "^0.4.0",
@@ -32,5 +33,9 @@
   },
   "scripts": {
     "test": "grunt test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/arosenfeld/simlab-web-database.git"
   }
 }
