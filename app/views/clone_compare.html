@@ -26,17 +26,6 @@
         <td ng-bind-html="info.clone.cdr3 | aminoAcid" class="text-mono"></td>
       </tr>
       <tr>
-        <td class="text-mono" colspan="5">
-          <div class="slideWrap">
-            <span class="scroller">
-              <canvas id="compare-{{ info.clone.id }}">
-              Your browser doesn't support HTML5! Please download a newer browser.
-              </canvas>
-            </span>
-          </div>
-        </td>
-      </tr>
-      <tr>
         <td colspan="5">
           <table class="table table-bordered">
             <thead>
@@ -54,6 +43,17 @@
               </tr>
             </tbody>
           </table>
+        </td>
+      </tr>
+      <tr>
+        <td class="text-mono" colspan="5">
+          <div class="slideWrap">
+            <span class="scroller">
+              <canvas id="compare-{{ info.clone.id }}">
+              Your browser doesn't support HTML5! Please download a newer browser.
+              </canvas>
+            </span>
+          </div>
         </td>
       </tr>
     </tbody>

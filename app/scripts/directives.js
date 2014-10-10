@@ -2,16 +2,18 @@
     'use strict';
 
     angular.module('ImmunologyDirectives', []) .directive('clonePager', [
-            '$location', '$log', function($location, $log) {
+            '$location', '$log', 'apiUrl', function($location, $log, apiUrl) {
         return {
             restrict: 'E',
             scope: {
                 filter: '=',
                 clones: '=',
+                samples: '=',
                 pager: '='
             },
             templateUrl: 'partials/clone_pager.html',
             controller: function($scope) {
+                $scope.apiUrl = apiUrl;
                 $scope.page = 1;
                 $scope.checked_clones = [];
                 
@@ -41,6 +43,7 @@
                 heatmap: '@',
                 charts: '=',
                 clones: '=?',
+                samples: '=',
                 pager: '='
             },
             templateUrl: 'partials/filtered_panel.html',

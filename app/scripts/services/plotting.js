@@ -91,15 +91,15 @@
                     }
                 },
 
-                createHeatmap: function(grouped_stats, chart_title, filter,
+                createHeatmap: function(groupedStats, chart_title, filter,
                                         type) {
                     var geneToId = {};
                     var idToGene = {};
 
                     var genes = [];
-                    for (var sample_id in grouped_stats) {
+                    for (var sample_id in groupedStats) {
                         var occ =
-                            angular.fromJson(grouped_stats[sample_id][
+                            angular.fromJson(groupedStats[sample_id][
                                 filter
                             ][type]);
                         angular.forEach(occ, function(value, key) {
@@ -122,12 +122,12 @@
 
                     var x_categories = genes;
                     x_categories.push('Other');
-                    var y_categories = Object.keys(grouped_stats).map(
+                    var y_categories = Object.keys(groupedStats).map(
                         function(e) {
                             return parseInt(e);
                         });
                     var y_names = [];
-                    angular.forEach(grouped_stats, function(stat, i) {
+                    angular.forEach(groupedStats, function(stat, i) {
                         y_names.push(stat.sample.name);
                     });
 
@@ -138,13 +138,13 @@
                         }
                     }
 
-                    angular.forEach(grouped_stats, function(value,
+                    angular.forEach(groupedStats, function(value,
                         sample_id) {
                         var dist = angular.fromJson(value[filter][
                             type
                         ]);
 
-                        grouped_stats[sample_id][filter]['plotted_cnt'] = 0;
+                        groupedStats[sample_id][filter]['plotted_cnt'] = 0;
                         var aliased = {}
                         angular.forEach(dist, function(value, key) {
                             value[0] = value[0].replace('/', '|').split('|')[0];
@@ -165,7 +165,7 @@
                         });
 
                         for (var x in aliased) {
-                            grouped_stats[sample_id][filter][
+                            groupedStats[sample_id][filter][
                                 'plotted_cnt'
                             ] += aliased[x];
                             data.push([parseInt(x), y_categories.indexOf(
@@ -178,7 +178,7 @@
                     return {
                         chart: {
                             type: 'heatmap',
-                            height: 250 + Object.keys(grouped_stats).length *
+                            height: 250 + Object.keys(groupedStats).length *
                                 50
                         },
 
@@ -231,7 +231,7 @@
                                 var v = 100 * Math.round(
                                         Math.pow(Math.E,
                                             this.point.value)) /
-                                    grouped_stats[y_categories[this.point
+                                    groupedStats[y_categories[this.point
                                         .y]][filter]['plotted_cnt'];
                                 return '<b>Sample:</b> ' + y_categories[
                                         this.point.y] + '<br />' +
@@ -261,7 +261,7 @@
                     return series;
                 },
 
-                numberGenes: function(grouped_stats, field, filter) {
+                numberGenes: function(groupedStats, field, filter) {
                     return genes;
                 }
             };

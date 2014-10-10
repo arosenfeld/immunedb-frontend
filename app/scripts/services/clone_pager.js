@@ -15,7 +15,7 @@
                     var clones = data['items'];
                     angular.forEach(clones, function(clone, i) {
                         clone.compareStr = '';
-                        angular.forEach(clone.samples, function(sample, j) {
+                        angular.forEach(clone.samples.split(','), function(sample, j) {
                             clone.compareStr += ',' + clone.clone.id + '_' +
                                 sample;
                         });
