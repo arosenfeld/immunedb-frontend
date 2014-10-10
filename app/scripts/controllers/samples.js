@@ -31,7 +31,7 @@
 
             var getCounts = function() {
                 var cnts = {};
-                angular.forEach($scope.grouped_stats, function(value,
+                angular.forEach($scope.groupedStats, function(value,
                     sample_id) {
                     for (var i in filters) {
                         var f = filters[i];
@@ -58,8 +58,7 @@
             }
 
             var updateClone = function(filter, page) {
-                clonePager.getClones(
-                    $routeParams['sampleIds'].split(','),
+                clonePager.getClones($routeParams['sampleIds'].split(','),
                     filter, page)
                     .then(
                         function(result) {
@@ -126,20 +125,21 @@
                     }
                 }).success(function(data, status) {
                     // Group the stats by sample ID, then filter
-                    $scope.grouped_stats = {}
+                    $scope.sampleIds = $routeParams['sampleIds'].split(',');
+                    $scope.groupedStats = {}
                     angular.forEach(data['objects'], function(data,
                         i) {
-                        if (!(data.sample_id in $scope.grouped_stats)) {
-                            $scope.grouped_stats[data.sample_id] = {
+                        if (!(data.sample_id in $scope.groupedStats)) {
+                            $scope.groupedStats[data.sample_id] = {
                                 'sample': data.sample
                             }
                         }
-                        $scope.grouped_stats[data.sample_id][
+                        $scope.groupedStats[data.sample_id][
                             data.filter_type
                         ] = data;
                     });
                     $scope.meta = [];
-                    angular.forEach($scope.grouped_stats, function(
+                    angular.forEach($scope.groupedStats, function(
                         v, i) {
                         $scope.meta.push(v);
                     });
@@ -148,14 +148,14 @@
                     $scope.missing =
                         $routeParams['sampleIds'].split(',').filter(
                             function(req) {
-                                return !(req in $scope.grouped_stats);
+                                return !(req in $scope.groupedStats);
                             });
 
                     // Count how many sequences are in each filter
                     $scope.cnts = getCounts();
 
                     // Create all the charts
-                    $scope.plottable = angular.fromJson($scope.grouped_stats);
+                    $scope.plottable = angular.fromJson($scope.groupedStats);
                     $scope.charts = {};
                     angular.forEach(filters, function(filter, j) {
                         // v_call heatmap for the filter
@@ -164,7 +164,7 @@
                             '');
                         $('#vHeatmap' + field).highcharts(
                             plotting.createHeatmap(
-                                $scope.grouped_stats,
+                                $scope.groupedStats,
                                 'V Gene Utilization',
                                 filter,
                                 'v_call_dist'));
