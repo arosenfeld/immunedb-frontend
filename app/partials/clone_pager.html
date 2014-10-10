@@ -18,7 +18,7 @@
           <td>{{ clone.copy_number | number }}</td>
           <td>{{ clone.clone.v_gene }}</td>
           <td>{{ clone.clone.j_gene }}</td>
-          <td>{{ clone.samples.join(', ') }}</td>
+          <td>{{ clone.samples }}</td>
           <td>{{ clone.clone.cdr3.length | number }}</td>
           <td ng-bind-html="clone.clone.cdr3 | aminoAcid" class="text-mono"></td>
         </tr>
