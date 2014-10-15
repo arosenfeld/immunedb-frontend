@@ -34,6 +34,7 @@
                   <th></th>
                   <th>#</th>
                   <th>Sample</th>
+                  <th>Note</th>
                   <th>Total Seqs.</th>
                   <th>Valid Seqs.</th>
                   <th>Invalid Seqs.</th>
@@ -43,7 +44,7 @@
               </thead>
               <tbody ng-repeat="sample in row.samples | filter:sample_filter">
                 <tr ng-show="{{ sample.date != row.samples[$index - 1].date }}">
-                  <td colspan="8" class="text-center info">
+                  <td colspan="9" class="text-center info">
                     <strong>{{ sample.date }}</strong>
                   </td>
                 </tr>
@@ -53,6 +54,7 @@
                   </td>
                   <td>{{ sample.id }}</td>
                   <td>{{ sample.name }}</td>
+                  <td>{{ sample.info }}</td>
                   <td>{{ sample.valid_cnt + sample.no_result_cnt | number}}</td>
                   <td>{{ sample.valid_cnt | number }}</td>
                   <td>{{ sample.no_result_cnt | number }}</td>
