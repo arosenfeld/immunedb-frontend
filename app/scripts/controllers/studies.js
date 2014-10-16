@@ -16,7 +16,16 @@
                 $scope.$parent.modal_text =
                     'Loading data from database...';
                 $scope.$parent.page_title = 'Studies';
+
+
                 $('#modal').modal('show');
+
+                $(function() {
+                    $('[data-toggle="tooltip"]').tooltip({
+                        'placement': 'top'
+                    });
+                });
+
                 $http({
                     method: 'GET',
                     url: apiUrl + 'studies'

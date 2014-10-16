@@ -2,9 +2,9 @@
     'use strict';
 
     angular.module('ImmunologyApp') .controller('SampleCtrl', ['$scope',
-            '$http', '$routeParams', '$log', 'plotting', 'clonePager',
+            '$http', '$routeParams', '$log', '$q', 'plotting', 'clonePager',
             'apiUrl',
-        function($scope, $http, $routeParams, $log, plotting, clonePager,
+        function($scope, $http, $routeParams, $log, $q, plotting, clonePager,
                 apiUrl) {
 
             var columnPlots = [{
@@ -69,6 +69,21 @@
                     );
             }
 
+            var getHeatmap = function(filter_type, samples, type) {
+                var def = $q.defer();
+                $http({
+                    method: 'GET',
+                    url: apiUrl + type + '/' + filter_type + '/' +
+                        samples.join(',')
+                }).success(function(data, status) {
+                    def.resolve(data);
+                }).error(function(data, status, headers, config) {
+                    def.reject();
+                });
+
+                return def.promise;
+            }
+
             var init = function() {
                 // Show the loading popup
                 $scope.$parent.modal_head = 'Querying';
@@ -92,7 +107,6 @@
                             filter.slice(1)).replace('_',
                             ''))
                             .highcharts().reflow();
-
                         // All column plots for the filter
                         angular.forEach(columnPlots, function(
                             plot, i) {
@@ -159,15 +173,21 @@
                     $scope.charts = {};
                     angular.forEach(filters, function(filter, j) {
                         // v_call heatmap for the filter
+                        getHeatmap(filter, $scope.sampleIds, 'v_usage')
+                            .then(function(result) {
+                            var field = (filter.charAt(0).toUpperCase() +
+                                filter.slice(1)).replace('_',
+                                '');
+                            $('#vHeatmap' + field).highcharts(
+                                plotting.createHeatmap(result, 'V Gene Utilization'));
+                        });
+                        /*
                         var field = (filter.charAt(0).toUpperCase() +
                             filter.slice(1)).replace('_',
                             '');
                         $('#vHeatmap' + field).highcharts(
-                            plotting.createHeatmap(
-                                $scope.groupedStats,
-                                'V Gene Utilization',
-                                filter,
-                                'v_call_dist'));
+                            plotting.createHeatmap('V Gene Utilization'));
+                        */
 
                         // All the column charts for the filter
                         angular.forEach(columnPlots, function(p,

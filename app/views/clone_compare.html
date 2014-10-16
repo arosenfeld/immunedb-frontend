@@ -27,6 +27,11 @@
       </tr>
       <tr>
         <td colspan="5">
+          <button ng-click="show = !show" class="btn btn-primary">View All Sequences</button>
+        </td>
+      </tr>
+      <tr ng-show="show">
+        <td colspan="5">
           <table class="table table-bordered">
             <thead>
               <tr class="info">

@@ -18,7 +18,7 @@
                     method: 'GET',
                     url: apiUrl + 'clone_compare/' + $routeParams['uids']
                 }).success(function(data, status) {
-                    $scope.cloneInfo = data['objects'];
+                    $scope.cloneInfo = data['clones'];
                     $timeout(function() {
                         for (var cloneId in $scope.cloneInfo) {
                             var info = $scope.cloneInfo[cloneId];
@@ -26,6 +26,7 @@
                                 $('#compare-' + cloneId).get(0),
                                 info.clone.germline,
                                 info.clone.cdr3,
+                                info.clone.cdr3_num_nts,
                                 info.seqs,
                                 true);
                         }
