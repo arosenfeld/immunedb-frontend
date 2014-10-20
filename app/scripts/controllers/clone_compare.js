@@ -1,11 +1,28 @@
 (function() {
     'use strict';
 
-    angular.module('ImmunologyApp') .controller('ClonesCompareCtrl', ['$scope',
-            '$http', '$routeParams', '$timeout', '$log', 'dnaCompare',
+    angular.module('ImmunologyApp').controller('ClonesCompareCtrl', ['$scope',
+            '$http', '$routeParams', '$timeout', '$log', '$modal', 'dnaCompare',
             'apiUrl',
-        function($scope, $http, $routeParams, $timeout, $log, dnaCompare,
-                apiUrl) {
+        function($scope, $http, $routeParams, $timeout, $log, $modal,
+                dnaCompare, apiUrl) {
+
+            $scope.openModal = function(title, mutations) {
+                $log.debug(mutations);
+                $modal.open({
+                    templateUrl: 'mutationsModal.html',
+                    controller: 'AlertModalCtrl',
+                    size: 'sm',
+                    resolve: {
+                        title: function() {
+                            return title;
+                        },
+                        data: function() {
+                            return mutations;
+                        }
+                    }
+                });
+            }
 
             var init = function() {
                 $scope.$parent.modal_head = 'Querying';
@@ -22,12 +39,14 @@
                     $timeout(function() {
                         for (var cloneId in $scope.cloneInfo) {
                             var info = $scope.cloneInfo[cloneId];
+                
                             dnaCompare.makeComparison(
                                 $('#compare-' + cloneId).get(0),
                                 info.clone.germline,
                                 info.clone.cdr3,
                                 info.clone.cdr3_num_nts,
                                 info.seqs,
+                                info.mutation_stats,
                                 true);
                         }
                     }, 0);

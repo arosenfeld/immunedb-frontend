@@ -40,7 +40,8 @@
             ctx.stroke();
         }
 
-        var makeComparison = function(canvas, germline, cdr3, cdr3_num_nts, seqs, summary) {
+        var makeComparison = function(canvas, germline, cdr3, cdr3_num_nts,
+                                      seqs, mutation_stats, summary) {
             var ctx = canvas.getContext('2d');
 
             var labelMaxLength = 0;
@@ -60,7 +61,7 @@
             ctx.fillText('Germline', LEFT_PAD, TOP_PAD);
             var middlePad = (CHAR_SPACE - 12) * labelMaxLength;
             // TODO: There must be a better way to do this
-            germline = correctGermline(germline, seqs[0].junction_nt);
+            //germline = correctGermline(germline, seqs[0].junction_nt);
 
             drawSequence(germline, ctx, middlePad, 0);
 
@@ -89,22 +90,13 @@
                             ctx.beginPath();
                             ctx.rect(left - 2, top - CHAR_SPACE + 8, 15, 15);
                             ctx.lineWidth = 2;
-                            if (!(j in diffs)) {
-                                diffs[j] = { 'silent': 0, 'change': 0,
-                                'conserved': 0, 'unconserved': 0 }
-                            }
 
                             if (mutation == 'C') {
                                 ctx.strokeStyle = '#ff0000';
-                                diffs[j]['conserved']++;
-                                diffs[j]['change']++;
                             } else if (mutation == 'U') {
                                 ctx.strokeStyle = '#ff0000';
-                                diffs[j]['unconserved']++;
-                                diffs[j]['change']++;
                             } else if (mutation == 'S') {
                                 ctx.strokeStyle = '#00ff00';
-                                diffs[j]['silent']++;
                             }
 
                             ctx.stroke();
@@ -129,17 +121,16 @@
                 ctx.fillText('Non-conserved % of non-synonymous', LEFT_PAD + 15, TOP_PAD + (4 + seqs.length) * V_PER_SEQ);
             }
 
-
-            angular.forEach(diffs, function(vals, offset) {
-                var t = '';
-                var silentPerc = Math.round(100 * vals['silent'] /
+            angular.forEach(mutation_stats.positions, function(vals, offset) {
+                var nonsynonymous = vals['conservative'] +
+                    vals['nonconservative'];
+                var silentPerc = Math.round(100 * vals['synonymous'] /
                     seqs.length);
-                var changePerc = Math.round(100 * vals['change'] /
-                    seqs.length);
-                var conservPerc = Math.round(100 * vals['conserved'] /
-                    vals['change']);
-                var nonConservPerc = Math.round(100 * vals['unconserved'] /
-                    vals['change']);
+                var changePerc = Math.round(100 * nonsynonymous / seqs.length);
+                var conservPerc = Math.round(100 * vals['conservative'] /
+                    nonsynonymous);
+                var nonConservPerc = Math.round(100 * vals['nonconservative'] /
+                    nonsynonymous);
                 ctx.font = '10px Courier New';
                 ctx.textAlign = 'center';
                 ctx.fillStyle = '#00ff00';
