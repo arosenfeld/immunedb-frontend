@@ -2,7 +2,33 @@
   <div class="modal-header">
       <h4 class="modal-title">{{ title }}</h4>
   </div>
-  <div class="modal-body"> {{ data }} </div>
+  <div class="modal-body">
+    <table class="table">
+      <thead>
+        <tr class="active">
+          <th>
+            Count 
+          </th>
+          <th>
+            Position
+          </th>
+          <th>
+            Mutation
+          </th>
+        </tr>
+      </thead>
+      <tbody ng-repeat="type in ['synonymous', 'conservative', 'nonconservative']" ng-show="data.mutations[type].length > 0">
+        <tr class="info">
+          <td colspan="3"><strong>{{ type | capitalize }}</strong></td>
+        </tr>
+        <tr ng-repeat="mut in data.mutations[type]">
+          <td>{{ mut[0] }}</td>
+          <td>{{ mut[1][0] }}</td>
+          <td><strong>{{ mut[1][1] }}</strong> to <strong>{{ mut[1][2] }}</strong></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
   <div class="modal-footer">
     <button class="btn btn-primary" ng-click="dismiss()">Dismiss</button>
   </div>
@@ -76,8 +102,10 @@
             </thead>
             <tbody ng-repeat="(region, stat) in info.mutation_stats.regions">
               <tr>
-                <td><strong>{{ region | uppercase }}</strong>
-                <button class="btn btn-default btn-xs" ng-click="openModal('Mutations', stat.mutations.synonymous)">Show Mutations</button>
+                <td>
+                  <strong>{{ region | uppercase }}</strong>
+                  <button ng-disabled="stat.counts[field].synonymous + stat.counts[field].nonconservative + stat.counts[field].conservative == 0" class="btn btn-default btn-xs"
+                  ng-click="openModal('Mutations', stat)">Show Mutations</button>
                 </td>
                 <td>{{ stat.counts[field].synonymous }} ({{ 100 * stat.counts[field].synonymous / stat.counts[field].sum | number:2}}%)</td>
                 <td>{{ stat.counts[field].nonconservative + stat.counts[field].conservative }} ({{ 100 * (stat.counts[field].nonconservative +

@@ -8,11 +8,9 @@
                 dnaCompare, apiUrl) {
 
             $scope.openModal = function(title, mutations) {
-                $log.debug(mutations);
                 $modal.open({
                     templateUrl: 'mutationsModal.html',
                     controller: 'AlertModalCtrl',
-                    size: 'sm',
                     resolve: {
                         title: function() {
                             return title;

@@ -32,5 +32,27 @@
 
                 return $sce.trustAsHtml(fstring);
             }
-        }]);
+        }])
+        .filter('dna', ['$sce', 'lookups', function($sce, lookups) {
+            return function(nt) {
+                if (typeof nt == 'undefined') {
+                    return '';
+                }
+                var fstring = '';
+                angular.forEach(nt, function(c, i) {
+                    var color = lookups.dnaColor(c.toUpperCase()) || '#000000';
+                    fstring += '<span style="color: ' + color
+                        + '">' + c + '</span>';
+                });
+
+                return $sce.trustAsHtml(fstring);
+            }
+        }])
+        .filter('capitalize', function() {
+            return function(input, all) {
+                return (!!input) ? input.replace(/([^\W_]+[^\s-]*) */g,
+                    function(txt){return txt.charAt(0).toUpperCase() +
+                    txt.substr(1).toLowerCase();}) : '';
+            }
+        });
 })();

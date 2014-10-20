@@ -11,6 +11,13 @@
             '#000080'
         }
 
+        var dnaToColor = {
+            'A': '#ff0000',
+            'T': '#0000ff',
+            'C': '#00ff00',
+            'G': '#ff8c00'
+        }
+
         var ntToAA = {
             'TTT': 'F', 'TTC': 'F', 'TTA': 'L', 'TTG': 'L', 'TCT': 'S', 'TCC':
             'S', 'TCA': 'S', 'TCG': 'S', 'TAT': 'Y', 'TAC': 'Y', 'TAA': 'X',
@@ -24,6 +31,13 @@
             'V', 'GTA': 'V', 'GTG': 'V', 'GCT': 'A', 'GCC': 'A', 'GCA': 'A',
             'GCG': 'A', 'GAT': 'D', 'GAC': 'D', 'GAA': 'E', 'GAG': 'E', 'GGT':
             'G', 'GGC': 'G', 'GGA': 'G', 'GGG': 'G'
+        }
+
+        var dnaColor = function(nt) {
+            if (nt in dnaToColor) {
+                return dnaToColor[nt];
+            }
+            return null;
         }
 
         var aaColor = function(aa) {
