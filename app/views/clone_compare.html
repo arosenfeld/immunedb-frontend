@@ -109,12 +109,12 @@
                 </td>
                 <td>{{ stat.counts[field].synonymous }} ({{ 100 * stat.counts[field].synonymous / stat.counts[field].sum | number:2}}%)</td>
                 <td>{{ stat.counts[field].nonconservative + stat.counts[field].conservative }} ({{ 100 * (stat.counts[field].nonconservative +
-                  stat.counts[field].conservative) / stat.counts[field].sum | number:2}}%)</td>
+                  stat.counts[field].conservative) / stat.counts[field].sum | number:2 }}%)</td>
 
                 <td class="active">{{ stat.counts[field].conservative }} ({{ 100 * stat.counts[field].conservative / (stat.counts[field].nonconservative +
-                  stat.counts[field].conservative) | number:2}}%)</td>
+                  stat.counts[field].conservative) | number:2 }}%)</td>
                 <td class="active">{{ stat.counts[field].nonconservative }} ({{ 100 * stat.counts[field].nonconservative / (stat.counts[field].nonconservative +
-                  stat.counts[field].conservative) | number:2}}%)</td>
+                  stat.counts[field].conservative) | number:2 }}%)</td>
               </tr>
             </tbody>
           </table>

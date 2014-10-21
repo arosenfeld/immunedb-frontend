@@ -2,34 +2,51 @@
     'use strict';
 
     angular.module('ImmunologyDirectives', []) .directive('clonePager', [
-            '$location', '$log', 'apiUrl', function($location, $log, apiUrl) {
+            '$location', '$log', 'ClonePagerService', 'apiUrl',
+            function($location, $log, clonePagerService, apiUrl) {
         return {
             restrict: 'E',
             scope: {
                 filter: '=',
-                clones: '=',
                 samples: '=',
-                pager: '='
             },
             templateUrl: 'partials/clone_pager.html',
             controller: function($scope) {
+
+                var updateClone = function(filter, page) {
+                    clonePagerService.getClones($scope.samples,
+                        filter, page)
+                        .then(
+                            function(result) {
+                                $scope.clones = result;
+                            },
+                            function(result) {
+                            }
+                        );
+                }
+
                 $scope.apiUrl = apiUrl;
                 $scope.page = 1;
                 $scope.checked_clones = [];
                 
                 $scope.prevPage = function() {
                     $scope.page = Math.max(1, $scope.page - 1);
-                    $scope.pager($scope.filter, $scope.page);
+                    updateClone($scope.filter, $scope.page);
                 }
 
                 $scope.nextPage = function() {
-                    $scope.pager($scope.filter, ++$scope.page);
+                    updateClone($scope.filter, ++$scope.page);
                 }
 
                 $scope.viewClones = function() {
                     $location.path('/clone_compare/' +
                         $scope.checked_clones.join());
                 }
+
+                var init = function() {
+                    updateClone($scope.filter, 1);
+                }
+                init();
             }
         }
     }])
@@ -44,7 +61,6 @@
                 charts: '=',
                 clones: '=?',
                 samples: '=',
-                pager: '='
             },
             templateUrl: 'partials/filtered_panel.html',
             compile: function(element, attrs) {

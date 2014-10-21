@@ -2,10 +2,9 @@
     'use strict';
 
     angular.module('ImmunologyApp') .controller('SampleCtrl', ['$scope',
-            '$http', '$routeParams', '$log', '$q', 'plotting', 'clonePager',
+            '$http', '$routeParams', '$log', '$q', 'plotting',
             'apiUrl',
-        function($scope, $http, $routeParams, $log, $q, plotting, clonePager,
-                apiUrl) {
+        function($scope, $http, $routeParams, $log, $q, plotting, apiUrl) {
 
             var columnPlots = [{
                 title: 'CDR3 Length',
@@ -55,18 +54,6 @@
                             true);
                     });
                 });
-            }
-
-            var updateClone = function(filter, page) {
-                clonePager.getClones($routeParams['sampleIds'].split(','),
-                    filter, page)
-                    .then(
-                        function(result) {
-                            $scope.clone_pager[filter] = result;
-                        },
-                        function(result) {
-                        }
-                    );
             }
 
             var getHeatmap = function(filter_type, samples, type) {
@@ -181,13 +168,6 @@
                             $('#vHeatmap' + field).highcharts(
                                 plotting.createHeatmap(result, 'V Gene Utilization'));
                         });
-                        /*
-                        var field = (filter.charAt(0).toUpperCase() +
-                            filter.slice(1)).replace('_',
-                            '');
-                        $('#vHeatmap' + field).highcharts(
-                            plotting.createHeatmap('V Gene Utilization'));
-                        */
 
                         // All the column charts for the filter
                         angular.forEach(columnPlots, function(p,
@@ -216,16 +196,6 @@
                     $scope.$parent.modal_text =
                         'There has been an error communicating with the database. If this occurs again, please contact <a href="mailto:ar374@drexel.edui?subject=SimLab DB Error">ar374@drexel.edu</a>.';
                 });
-
-                $scope.clone_pager = {};
-                angular.forEach(filters, function(filter, j) {
-                    if (filter.indexOf('clones') >= 0) {
-                        updateClone(filter, 1);
-                    }
-                });
-
-                // REMOVE
-                $scope.updateClone = updateClone;
             }
             init();
         }

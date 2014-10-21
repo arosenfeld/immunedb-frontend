@@ -1,7 +1,7 @@
 (function() {
     'use strict';
 
-    angular.module('ImmunologyApp').service('clonePager', ['$http', '$q',
+    angular.module('ImmunologyApp').service('ClonePagerService', ['$http', '$q',
             '$log', 'apiUrl',
         function($http, $q, $log, apiUrl) {
             this.getClones = function(samples, filter, page) {

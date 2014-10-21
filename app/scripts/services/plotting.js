@@ -40,8 +40,6 @@
                 },
 
                 createHeatmap: function(data, chart_title) {
-                    $log.debug(data);
-
                     return {
                         chart: {
                             type: 'heatmap',
