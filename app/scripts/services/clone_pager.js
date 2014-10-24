@@ -21,7 +21,10 @@
                         });
                         clone.compareStr = clone.compareStr.substring(1);
                     });
-                    def.resolve(clones);
+                    def.resolve({
+                        'clones': clones,
+                        'num_pages': data['num_pages']
+                    });
                 }).error(function(data, status) {
                     def.reject();
                 });

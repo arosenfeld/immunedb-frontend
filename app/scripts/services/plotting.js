@@ -43,8 +43,7 @@
                     return {
                         chart: {
                             type: 'heatmap',
-                            height: 250 + data['y_categories'].length *
-                                50
+                            height: 250 + data['y_categories'].length * 50
                         },
 
                         credits: {
@@ -97,12 +96,15 @@
                                         this.point.y] + '<br />' +
                                     '<b>Gene:</b> ' + data['x_categories'][this
                                         .point.x] + '<br />' +
-                                    '<b>% of Sample:</b> ' + this.point.value + '%';
+                                    '<b>% of Sample:</b> ' +
+                                    Math.pow(Math.E, this.point.value).toFixed(2) + '%';
                             }
                         },
 
                         series: [{
-                            data: data['data'],
+                            data: data['data'].map(function(point) {
+                                return [point[0], point[1], Math.log(point[2])];
+                            }),
                             turboThreshold: 0
                         }]
                     };

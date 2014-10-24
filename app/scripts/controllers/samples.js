@@ -24,8 +24,8 @@
             }, ];
 
             var filters = ['all', 'functional', 'nonfunctional', 'unique',
-                'unique_multiple', 'clones_all', 'clones_functional',
-                'clones_nonfunctional'
+                'unique_multiple',
+                //'clones_all', 'clones_functional', 'clones_nonfunctional'
             ];
 
             var getCounts = function() {
@@ -37,6 +37,7 @@
                         if (!(f in cnts)) {
                             cnts[f] = 0;
                         }
+
                         cnts[f] += parseInt(value[f].sequence_cnt);
                     }
                 });

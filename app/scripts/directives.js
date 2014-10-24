@@ -18,7 +18,8 @@
                         filter, page)
                         .then(
                             function(result) {
-                                $scope.clones = result;
+                                $scope.clones = result['clones']
+                                $scope.total_pages = result['num_pages'] 
                             },
                             function(result) {
                             }
