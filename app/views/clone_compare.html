@@ -6,25 +6,21 @@
     <table class="table">
       <thead>
         <tr class="active">
-          <th>
-            Count 
-          </th>
-          <th>
-            Position
-          </th>
-          <th>
-            Mutation
-          </th>
+          <th>Count</th>
+          <th>Position</th>
+          <th>NT Mutation</th>
+          <th>AA Mutation</th>
         </tr>
       </thead>
       <tbody ng-repeat="type in ['synonymous', 'conservative', 'nonconservative']" ng-show="data.mutations[type].length > 0">
         <tr class="info">
-          <td colspan="3"><strong>{{ type | capitalize }}</strong></td>
+          <td colspan="4"><strong>{{ type | capitalize }}</strong></td>
         </tr>
-        <tr ng-repeat="mut in data.mutations[type]">
-          <td>{{ mut[0] }}</td>
-          <td>{{ mut[1][0] }}</td>
-          <td><strong>{{ mut[1][1] }}</strong> to <strong>{{ mut[1][2] }}</strong></td>
+        <tr ng-repeat="mut in data.mutations[type] | orderBy:'position'">
+          <td>{{ mut.count }}</td>
+          <td>{{ mut.position }}</td>
+          <td><strong ng-bind-html="mut.from | dna"></strong> to <strong ng-bind-html="mut.to | dna"></strong></td>
+          <td><strong ng-bind-html="mut.aa_from | aminoAcid"></strong> to <strong ng-bind-html="mut.aa_to | aminoAcid"></strong></td>
         </tr>
       </tbody>
     </table>

@@ -37,7 +37,7 @@
             if (nt in dnaToColor) {
                 return dnaToColor[nt];
             }
-            return null;
+            return '#ff0000';
         }
 
         var aaColor = function(aa) {
@@ -54,6 +54,6 @@
             return null;
         }
 
-        return { aaColor: aaColor, aaLookup: aaLookup };
+        return { dnaColor:dnaColor, aaColor: aaColor, aaLookup: aaLookup };
     }]);
 })();

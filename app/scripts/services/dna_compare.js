@@ -53,7 +53,7 @@
 
             canvas.width = (labelMaxLength + germline.length) * CHAR_SPACE;
             canvas.height = (seqs.length + 3) * V_PER_SEQ + 35;
-            if (typeof mutations_stats != 'undefined') {
+            if (typeof mutation_stats != 'undefined') {
                 canvas.height += 2 * V_PER_SEQ;
             }
             ctx.font = 'bold 12px Courier New';
@@ -85,7 +85,7 @@
                         ctx.fillStyle = '#000000';
                     }
 
-                    if (typeof mutations_stats != 'undefined') {
+                    if (typeof mutation_stats != 'undefined') {
                         var mutation = seq.mutations[j];
                         if ('CUS'.indexOf(mutation) >= 0) {
                                 ctx.beginPath();

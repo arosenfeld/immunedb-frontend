@@ -38,6 +38,7 @@
                 if (typeof nt == 'undefined') {
                     return '';
                 }
+                alert(nt);
                 var fstring = '';
                 angular.forEach(nt, function(c, i) {
                     var color = lookups.dnaColor(c.toUpperCase()) || '#000000';
@@ -54,7 +55,8 @@
                     function(txt){return txt.charAt(0).toUpperCase() +
                     txt.substr(1).toLowerCase();}) : '';
             }
-        }).filter('orZero', function() {
+        })
+        .filter('orZero', function() {
             return function(input) {
                 if (isNaN(input)) {
                     return 0;
