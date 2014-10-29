@@ -22,7 +22,7 @@
                     templateUrl: 'views/clone_compare.html',
                     controller: 'ClonesCompareCtrl',
                 })
-                .when('/sequence/:seqId', {
+                .when('/sequence/:sampleId/:seqId', {
                     templateUrl: 'views/sequence.html',
                     controller: 'SequenceCtrl'
                 })

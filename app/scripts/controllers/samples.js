@@ -24,9 +24,8 @@
             }, ];
 
             var filters = ['all', 'functional', 'nonfunctional', 'unique',
-                'unique_multiple',
-                //'clones_all', 'clones_functional', 'clones_nonfunctional'
-            ];
+                           'unique_multiple', 'clones_all', 'clones_functional',
+                           'clones_nonfunctional'];
 
             var getCounts = function() {
                 var cnts = {};

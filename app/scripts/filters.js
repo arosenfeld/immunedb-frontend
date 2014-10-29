@@ -54,5 +54,12 @@
                     function(txt){return txt.charAt(0).toUpperCase() +
                     txt.substr(1).toLowerCase();}) : '';
             }
+        }).filter('orZero', function() {
+            return function(input) {
+                if (isNaN(input)) {
+                    return 0;
+                }
+                return input;
+            }
         });
 })();

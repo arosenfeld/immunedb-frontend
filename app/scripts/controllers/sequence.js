@@ -21,24 +21,15 @@
                 // Do the GET request for results
                 $http({
                     method: 'GET',
-                    url: apiUrl + 'sequences',
-                    params: {
-                        "q": {
-                            "filters": [{
-                                "name": "seq_id",
-                                "op": "eq",
-                                "val": $routeParams['seqId']
-                            }]
-                        }
-                    }
+                    url: apiUrl + 'sequence/' + $routeParams['sampleId'] + '/'
+                    + $routeParams['seqId'],
                 }).success(function(data, status) {
-                    $scope.seq = data['objects'][0];
+                    $scope.seq = data['sequence'];
                     dnaCompare.makeComparison(
                         $('#germline-compare').get(0),
                         $scope.seq.clone.germline,
-                        $scope.seq.clone.cdr3,
-                        [ $scope.seq ],
-                        false);
+                        $scope.seq.clone.cdr3_num_nts,
+                        [ $scope.seq ]);
                     $('#modal').modal('hide');
                 }).error(function(data, status, headers, config) {
                     $scope.$parent.modal_head = 'Error';

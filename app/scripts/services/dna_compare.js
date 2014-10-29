@@ -40,8 +40,8 @@
             ctx.stroke();
         }
 
-        var makeComparison = function(canvas, germline, cdr3, cdr3_num_nts,
-                                      seqs, mutation_stats, summary) {
+        var makeComparison = function(canvas, germline, cdr3_num_nts, seqs,
+                                      mutation_stats) {
             var ctx = canvas.getContext('2d');
 
             var labelMaxLength = 0;
@@ -53,7 +53,7 @@
 
             canvas.width = (labelMaxLength + germline.length) * CHAR_SPACE;
             canvas.height = (seqs.length + 3) * V_PER_SEQ + 35;
-            if (summary) {
+            if (typeof mutations_stats != 'undefined') {
                 canvas.height += 2 * V_PER_SEQ;
             }
             ctx.font = 'bold 12px Courier New';
@@ -85,21 +85,23 @@
                         ctx.fillStyle = '#000000';
                     }
 
-                    var mutation = seq.mutations[j];
-                    if ('CUS'.indexOf(mutation) >= 0) {
-                            ctx.beginPath();
-                            ctx.rect(left - 2, top - CHAR_SPACE + 8, 15, 15);
-                            ctx.lineWidth = 2;
+                    if (typeof mutations_stats != 'undefined') {
+                        var mutation = seq.mutations[j];
+                        if ('CUS'.indexOf(mutation) >= 0) {
+                                ctx.beginPath();
+                                ctx.rect(left - 2, top - CHAR_SPACE + 8, 15, 15);
+                                ctx.lineWidth = 2;
 
-                            if (mutation == 'C') {
-                                ctx.strokeStyle = '#ff0000';
-                            } else if (mutation == 'U') {
-                                ctx.strokeStyle = '#ff0000';
-                            } else if (mutation == 'S') {
-                                ctx.strokeStyle = '#00ff00';
-                            }
+                                if (mutation == 'C') {
+                                    ctx.strokeStyle = '#ff0000';
+                                } else if (mutation == 'U') {
+                                    ctx.strokeStyle = '#ff0000';
+                                } else if (mutation == 'S') {
+                                    ctx.strokeStyle = '#00ff00';
+                                }
 
-                            ctx.stroke();
+                                ctx.stroke();
+                        }
                     }
                     ctx.fillText(c, left, top);
                     if (j % 10 == 0) {
@@ -110,7 +112,7 @@
                 i++;
             });
 
-            if (summary) {
+            if (typeof mutation_stats != 'undefined') {
                 ctx.fillStyle = '#00ff00';
                 ctx.fillText('Synonymous Mutation %', LEFT_PAD, TOP_PAD + (1 + seqs.length) * V_PER_SEQ);
                 ctx.fillStyle = '#ff0000';
@@ -119,84 +121,84 @@
                 ctx.fillText('Conserved % of non-synonymous', LEFT_PAD + 15, TOP_PAD + (3 + seqs.length) * V_PER_SEQ);
                 ctx.fillStyle = '#ff5500';
                 ctx.fillText('Non-conserved % of non-synonymous', LEFT_PAD + 15, TOP_PAD + (4 + seqs.length) * V_PER_SEQ);
+
+                angular.forEach(mutation_stats.positions, function(vals, offset) {
+                    var nonsynonymous = vals['conservative'] +
+                        vals['nonconservative'];
+                    var silentPerc = Math.round(100 * vals['synonymous'] /
+                        seqs.length);
+                    var changePerc = Math.round(100 * nonsynonymous / seqs.length);
+                    var conservPerc = Math.round(100 * vals['conservative'] /
+                        nonsynonymous);
+                    var nonConservPerc = Math.round(100 * vals['nonconservative'] /
+                        nonsynonymous);
+                    ctx.font = '10px Courier New';
+                    ctx.textAlign = 'center';
+                    ctx.fillStyle = '#00ff00';
+                    ctx.fillText(silentPerc, LEFT_PAD + middlePad + offset *
+                        CHAR_SPACE + 5, TOP_PAD + (1 + seqs.length) * V_PER_SEQ);
+                    ctx.fillStyle = '#ff0000';
+                    ctx.fillText(changePerc, LEFT_PAD + middlePad + offset *
+                        CHAR_SPACE + 5, TOP_PAD + (2 + seqs.length) * V_PER_SEQ);
+                    if (changePerc > 0) {
+                        ctx.fillStyle = '#ff0055';
+                        ctx.fillText(conservPerc, LEFT_PAD + middlePad + offset *
+                            CHAR_SPACE + 5, TOP_PAD + (3 + seqs.length) * V_PER_SEQ);
+                        ctx.fillStyle = '#ff5500';
+                        ctx.fillText(nonConservPerc, LEFT_PAD + middlePad + offset *
+                            CHAR_SPACE + 5, TOP_PAD + (4 + seqs.length) * V_PER_SEQ);
+                    }
+
+                });
+
+                ctx.textAlign = 'left';
+                ctx.font = 'bold 12px Courier New';
+
+                var regions = [
+                    {
+                        'name': 'FR1',
+                        'start': 0,
+                        'end': 77,
+                        'color': '#0000ff'
+                    },{
+                        'name': 'CDR1',
+                        'start': 78,
+                        'end': 113,
+                        'color': '#00ff00'
+                    },{
+                        'name': 'FR2',
+                        'start': 114,
+                        'end': 164,
+                        'color': '#0000ff'
+                    },{
+                        'name': 'CDR2',
+                        'start': 165,
+                        'end': 194,
+                        'color': '#00ff00'
+                    },{
+                        'name': 'FR3',
+                        'start': 195,
+                        'end': 308,
+                        'color': '#0000ff'
+                    },{
+                        'name': 'CDR3',
+                        'start': 309,
+                        'end': 308 + cdr3_num_nts,
+                        'color': '#00ff00'
+                    },
+                ];
+
+                angular.forEach(regions, function(region, i) {
+                    drawRegion(ctx, 
+                        region.color,
+                        LEFT_PAD + middlePad,
+                        25,
+                        CHAR_SPACE,
+                        region.start,
+                        region.end,
+                        region.name);
+                });
             }
-
-            angular.forEach(mutation_stats.positions, function(vals, offset) {
-                var nonsynonymous = vals['conservative'] +
-                    vals['nonconservative'];
-                var silentPerc = Math.round(100 * vals['synonymous'] /
-                    seqs.length);
-                var changePerc = Math.round(100 * nonsynonymous / seqs.length);
-                var conservPerc = Math.round(100 * vals['conservative'] /
-                    nonsynonymous);
-                var nonConservPerc = Math.round(100 * vals['nonconservative'] /
-                    nonsynonymous);
-                ctx.font = '10px Courier New';
-                ctx.textAlign = 'center';
-                ctx.fillStyle = '#00ff00';
-                ctx.fillText(silentPerc, LEFT_PAD + middlePad + offset *
-                    CHAR_SPACE + 5, TOP_PAD + (1 + seqs.length) * V_PER_SEQ);
-                ctx.fillStyle = '#ff0000';
-                ctx.fillText(changePerc, LEFT_PAD + middlePad + offset *
-                    CHAR_SPACE + 5, TOP_PAD + (2 + seqs.length) * V_PER_SEQ);
-                if (changePerc > 0) {
-                    ctx.fillStyle = '#ff0055';
-                    ctx.fillText(conservPerc, LEFT_PAD + middlePad + offset *
-                        CHAR_SPACE + 5, TOP_PAD + (3 + seqs.length) * V_PER_SEQ);
-                    ctx.fillStyle = '#ff5500';
-                    ctx.fillText(nonConservPerc, LEFT_PAD + middlePad + offset *
-                        CHAR_SPACE + 5, TOP_PAD + (4 + seqs.length) * V_PER_SEQ);
-                }
-
-            });
-
-            ctx.textAlign = 'left';
-            ctx.font = 'bold 12px Courier New';
-
-            var regions = [
-                {
-                    'name': 'FR1',
-                    'start': 0,
-                    'end': 77,
-                    'color': '#0000ff'
-                },{
-                    'name': 'CDR1',
-                    'start': 78,
-                    'end': 113,
-                    'color': '#00ff00'
-                },{
-                    'name': 'FR2',
-                    'start': 114,
-                    'end': 164,
-                    'color': '#0000ff'
-                },{
-                    'name': 'CDR2',
-                    'start': 165,
-                    'end': 194,
-                    'color': '#00ff00'
-                },{
-                    'name': 'FR3',
-                    'start': 195,
-                    'end': 308,
-                    'color': '#0000ff'
-                },{
-                    'name': 'CDR3',
-                    'start': 309,
-                    'end': 308 + cdr3_num_nts,
-                    'color': '#00ff00'
-                },
-            ];
-
-            angular.forEach(regions, function(region, i) {
-                drawRegion(ctx, 
-                    region.color,
-                    LEFT_PAD + middlePad,
-                    25,
-                    CHAR_SPACE,
-                    region.start,
-                    region.end,
-                    region.name);
-            });
 
         }
 

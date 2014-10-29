@@ -41,11 +41,9 @@
                             dnaCompare.makeComparison(
                                 $('#compare-' + cloneId).get(0),
                                 info.clone.germline,
-                                info.clone.cdr3,
                                 info.clone.cdr3_num_nts,
                                 info.seqs,
-                                info.mutation_stats,
-                                true);
+                                info.mutation_stats);
                         }
                     }, 0);
                     $('#modal').modal('hide');
