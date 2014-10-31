@@ -1,7 +1,7 @@
 (function() {
     'use strict';
 
-    angular.module('ImmunologyApp').service('clonePager', ['$http', '$q',
+    angular.module('ImmunologyApp').service('ClonePagerService', ['$http', '$q',
             '$log', 'apiUrl',
         function($http, $q, $log, apiUrl) {
             this.getClones = function(samples, filter, page) {
@@ -21,7 +21,10 @@
                         });
                         clone.compareStr = clone.compareStr.substring(1);
                     });
-                    def.resolve(clones);
+                    def.resolve({
+                        'clones': clones,
+                        'num_pages': data['num_pages']
+                    });
                 }).error(function(data, status) {
                     def.reject();
                 });

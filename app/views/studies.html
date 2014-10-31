@@ -34,7 +34,6 @@
                   <th></th>
                   <th>#</th>
                   <th>Sample</th>
-                  <th>Note</th>
                   <th>Total Seqs.</th>
                   <th>Valid Seqs.</th>
                   <th>Invalid Seqs.</th>
@@ -53,14 +52,12 @@
                     <input type="checkbox" checklist-model="checked_samples" checklist-value="sample.id"></input>
                   </td>
                   <td>{{ sample.id }}</td>
-                  <td>{{ sample.name }}</td>
-                  <td>{{ sample.info }}</td>
+                  <td>{{ sample.name }} <a ng-show="sample.info" data-toggle="tooltip" title="{{ sample.info }}"><span class="glyphicon glyphicon-question-sign"></span></a></td>
                   <td>{{ sample.valid_cnt + sample.no_result_cnt | number}}</td>
                   <td>{{ sample.valid_cnt | number }}</td>
                   <td>{{ sample.no_result_cnt | number }}</td>
                   <td>{{ 100 * sample.functional_cnt / sample.valid_cnt | number : 2}}</td>
-                  <td><a href="#/samples/{{ sample.id }}">More<span class="glyphicon glyphicon-chevron-right"></span></a>
-                  </td>
+                  <td><a href="#/samples/{{ sample.id }}">View Sample<span class="glyphicon glyphicon-chevron-right"></span></a> </td>
                 </tr>
               </tbody>
             </table>

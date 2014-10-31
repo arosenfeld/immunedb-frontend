@@ -40,7 +40,8 @@
             ctx.stroke();
         }
 
-        var makeComparison = function(canvas, germline, cdr3, seqs, summary) {
+        var makeComparison = function(canvas, germline, cdr3_num_nts, seqs,
+                                      mutation_stats) {
             var ctx = canvas.getContext('2d');
 
             var labelMaxLength = 0;
@@ -51,16 +52,14 @@
             });
 
             canvas.width = (labelMaxLength + germline.length) * CHAR_SPACE;
-            canvas.height = (seqs.length + 1) * V_PER_SEQ + 35;
-            if (summary) {
+            canvas.height = (seqs.length + 3) * V_PER_SEQ + 35;
+            if (typeof mutation_stats != 'undefined') {
                 canvas.height += 2 * V_PER_SEQ;
             }
             ctx.font = 'bold 12px Courier New';
 
             ctx.fillText('Germline', LEFT_PAD, TOP_PAD);
             var middlePad = (CHAR_SPACE - 12) * labelMaxLength;
-            // TODO: There must be a better way to do this
-            germline = correctGermline(germline, seqs[0].junction_nt);
 
             drawSequence(germline, ctx, middlePad, 0);
 
@@ -78,40 +77,37 @@
                     var aaStart = j - (j % 3);
                     var nt = seq.sequence.substring(aaStart, aaStart + 3);
 
+
                     if (lookups.aaLookup(nt) != null) {
                         ctx.fillStyle = lookups.aaColor(lookups.aaLookup(nt));
                     } else {
                         ctx.fillStyle = '#000000';
                     }
-
-                    // TODO: Compare with one change, not against
-                    // germline
-                    if (seq.sequence[j] != germline[j]) {
-                        var gAA = lookups.aaLookup(germline.substring(aaStart,
-                            aaStart + 3));
-                        var sAA = lookups.aaLookup(seq.sequence.substring(
-                            aaStart, aaStart + 3));
-
-                        if (gAA != null && sAA != null) {
-                            ctx.beginPath();
-                            ctx.rect(left - 2, top - CHAR_SPACE + 8, 15, 15);
-                            ctx.lineWidth = 2;
-                            if (!(j in diffs)) {
-                                diffs[j] = { 'silent': 0, 'change': 0 }
-                            }
-
-                            if (gAA != sAA) {
-                                ctx.strokeStyle = '#ff0000';
-                                diffs[j]['change']++;
-                            } else if (gAA == sAA) {
-                                ctx.strokeStyle = '#00ff00';
-                                diffs[j]['silent']++;
-                            }
-
-                            ctx.stroke();
-                        }
+                    
+                    if (j < seq.read_start) {
+                        ctx.globalAlpha = 0.4;
                     }
                     ctx.fillText(c, left, top);
+                    ctx.globalAlpha = 1;
+
+                    if (typeof mutation_stats != 'undefined') {
+                        var mutation = seq.mutations[j];
+                        if ('CUS'.indexOf(mutation) >= 0) {
+                                ctx.beginPath();
+                                ctx.rect(left - 2, top - CHAR_SPACE + 8, 15, 15);
+                                ctx.lineWidth = 2;
+
+                                if (mutation == 'C') {
+                                    ctx.strokeStyle = '#ff0000';
+                                } else if (mutation == 'U') {
+                                    ctx.strokeStyle = '#ff0000';
+                                } else if (mutation == 'S') {
+                                    ctx.strokeStyle = '#00ff00';
+                                }
+
+                                ctx.stroke();
+                        }
+                    }
                     if (j % 10 == 0) {
                         ctx.fillStyle = '#000000';
                         ctx.fillText(j, left, 10);
@@ -120,83 +116,98 @@
                 i++;
             });
 
-            if (summary) {
+            if (typeof mutation_stats != 'undefined') {
                 ctx.fillStyle = '#00ff00';
-                ctx.fillText('Synonyms Mutation %', LEFT_PAD, TOP_PAD + (1 + seqs.length) * V_PER_SEQ);
+                ctx.fillText('Synonymous Mutation %', LEFT_PAD, TOP_PAD + (1 + seqs.length) * V_PER_SEQ);
                 ctx.fillStyle = '#ff0000';
-                ctx.fillText('Non-synonyms Mutation %', LEFT_PAD, TOP_PAD + (2 + seqs.length) * V_PER_SEQ);
+                ctx.fillText('Non-synonymous Mutation %', LEFT_PAD, TOP_PAD + (2 + seqs.length) * V_PER_SEQ);
+                ctx.fillStyle = '#ff0055';
+                ctx.fillText('Conserved % of non-synonymous', LEFT_PAD + 15, TOP_PAD + (3 + seqs.length) * V_PER_SEQ);
+                ctx.fillStyle = '#ff5500';
+                ctx.fillText('Non-conserved % of non-synonymous', LEFT_PAD + 15, TOP_PAD + (4 + seqs.length) * V_PER_SEQ);
+
+                angular.forEach(mutation_stats.positions, function(vals, offset) {
+                    var nonsynonymous = vals['conservative'] +
+                        vals['nonconservative'];
+                    var silentPerc = Math.round(100 * vals['synonymous'] /
+                        seqs.length);
+                    var changePerc = Math.round(100 * nonsynonymous / seqs.length);
+                    var conservPerc = Math.round(100 * vals['conservative'] /
+                        nonsynonymous);
+                    var nonConservPerc = Math.round(100 * vals['nonconservative'] /
+                        nonsynonymous);
+                    ctx.font = '10px Courier New';
+                    ctx.textAlign = 'center';
+                    ctx.fillStyle = '#00ff00';
+                    ctx.fillText(silentPerc, LEFT_PAD + middlePad + offset *
+                        CHAR_SPACE + 5, TOP_PAD + (1 + seqs.length) * V_PER_SEQ);
+                    ctx.fillStyle = '#ff0000';
+                    ctx.fillText(changePerc, LEFT_PAD + middlePad + offset *
+                        CHAR_SPACE + 5, TOP_PAD + (2 + seqs.length) * V_PER_SEQ);
+                    if (changePerc > 0) {
+                        ctx.fillStyle = '#ff0055';
+                        ctx.fillText(conservPerc, LEFT_PAD + middlePad + offset *
+                            CHAR_SPACE + 5, TOP_PAD + (3 + seqs.length) * V_PER_SEQ);
+                        ctx.fillStyle = '#ff5500';
+                        ctx.fillText(nonConservPerc, LEFT_PAD + middlePad + offset *
+                            CHAR_SPACE + 5, TOP_PAD + (4 + seqs.length) * V_PER_SEQ);
+                    }
+
+                });
+
+                ctx.textAlign = 'left';
+                ctx.font = 'bold 12px Courier New';
+
+                var regions = [
+                    {
+                        'name': 'FR1',
+                        'start': 0,
+                        'end': 77,
+                        'color': '#0000ff'
+                    },{
+                        'name': 'CDR1',
+                        'start': 78,
+                        'end': 113,
+                        'color': '#00ff00'
+                    },{
+                        'name': 'FR2',
+                        'start': 114,
+                        'end': 164,
+                        'color': '#0000ff'
+                    },{
+                        'name': 'CDR2',
+                        'start': 165,
+                        'end': 194,
+                        'color': '#00ff00'
+                    },{
+                        'name': 'FR3',
+                        'start': 195,
+                        'end': 308,
+                        'color': '#0000ff'
+                    },{
+                        'name': 'CDR3',
+                        'start': 309,
+                        'end': 308 + cdr3_num_nts,
+                        'color': '#00ff00'
+                    },{
+                        'name': 'FR4',
+                        'start': 308 + cdr3_num_nts + 1,
+                        'end': germline.length - 1,
+                        'color': '#0000ff'
+                    },
+                ];
+
+                angular.forEach(regions, function(region, i) {
+                    drawRegion(ctx, 
+                        region.color,
+                        LEFT_PAD + middlePad,
+                        25,
+                        CHAR_SPACE,
+                        region.start,
+                        region.end,
+                        region.name);
+                });
             }
-
-
-            angular.forEach(diffs, function(vals, offset) {
-                var t = '';
-                var silentPerc = Math.round(100 * vals['silent'] /
-                    seqs.length);
-                var changePerc = Math.round(100 * vals['change'] /
-                    seqs.length);
-                ctx.font = '10px Courier New';
-                ctx.textAlign = 'center';
-                ctx.fillStyle = '#00ff00';
-                ctx.fillText(silentPerc, LEFT_PAD + middlePad + offset *
-                    CHAR_SPACE + 5, TOP_PAD + (1 + seqs.length) * V_PER_SEQ);
-                ctx.fillStyle = '#ff0000';
-                ctx.fillText(changePerc, LEFT_PAD + middlePad + offset *
-                    CHAR_SPACE + 5, TOP_PAD + (2 + seqs.length) * V_PER_SEQ);
-
-            });
-
-            ctx.textAlign = 'left';
-            ctx.font = 'bold 12px Courier New';
-            // TODO: Loop this
-            drawRegion(ctx, 
-                '#0000ff', 
-                LEFT_PAD + middlePad,
-                25,
-                CHAR_SPACE,
-                0,
-                77,
-                'FR1');
-            drawRegion(ctx, 
-                '#0000ff', 
-                LEFT_PAD + middlePad,
-                25,
-                CHAR_SPACE,
-                114,
-                164,
-                'FR2');
-            drawRegion(ctx, 
-                '#0000ff', 
-                LEFT_PAD + middlePad,
-                25,
-                CHAR_SPACE,
-                195,
-                308,
-                'FR3');
-            drawRegion(ctx, 
-                '#00ff00', 
-                LEFT_PAD + middlePad,
-                25,
-                CHAR_SPACE,
-                78,
-                113,
-                'CDR1');
-
-            drawRegion(ctx, 
-                '#00ff00', 
-                LEFT_PAD + middlePad,
-                25,
-                CHAR_SPACE,
-                165,
-                194,
-                'CDR2');
-            drawRegion(ctx, 
-                '#00ff00', 
-                LEFT_PAD + middlePad,
-                25,
-                CHAR_SPACE,
-                309,
-                308 + cdr3.length * 3,
-                'CDR3');
 
         }
 

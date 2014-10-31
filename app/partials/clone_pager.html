@@ -4,33 +4,39 @@
       <thead>
         <tr class="active">
           <th></th>
-          <th>Copy #</th>
+          <th>Total Seqs.</th>
+          <th>Unique Seqs.</th>
+          <th>ID</th>
+          <th>Subject</th>
           <th>V Gene</th>
           <th>J Gene</th>
-          <th>Samples Present</th>
           <th>CDR3 Length</th>
           <th>CDR3 AA</th>
+          <th>Present in Sample #'s</th>
         </tr>
       </thead>
       <tbody>
-        <tr ng-repeat="clone in clones">
-          <td><input type="checkbox" checklist-model="checked_clones" checklist-value="clone.compareStr"></input></td>
-          <td>{{ clone.copy_number | number }}</td>
-          <td>{{ clone.clone.v_gene }}</td>
-          <td>{{ clone.clone.j_gene }}</td>
-          <td>{{ clone.samples }}</td>
-          <td>{{ clone.clone.cdr3.length | number }}</td>
-          <td ng-bind-html="clone.clone.cdr3 | aminoAcid" class="text-mono"></td>
+        <tr ng-repeat="freq in clones">
+          <td><input type="checkbox" checklist-model="checked_clones" checklist-value="freq.compareStr"></input></td>
+          <td>{{ freq.total_sequences | number }}</td>
+          <td>{{ freq.unique_sequences | number }}</td>
+          <td>{{ freq.clone.id }}</td>
+          <td>{{ freq.clone.subject.identifier}} ({{ freq.clone.subject.study.name}} Study)</td>
+          <td>{{ freq.clone.v_gene }}</td>
+          <td>{{ freq.clone.j_gene }}</td>
+          <td>{{ freq.clone.cdr3_num_nts | number }}</td>
+          <td ng-bind-html="freq.clone.cdr3_aa | aminoAcid" class="text-mono"></td>
+          <td>{{ freq.samples }}</td>
         </tr>
         <tr>
-          <td colspan="7">
-            <button ng-click="viewClones()" class="btn btn-primary btn-lg btn-pad" ng-disabled="checked_clones.length == 0">Compare Selected</button>
+          <td colspan="10">
+            <button ng-click="viewClones()" class="btn btn-primary btn-lg btn-pad" ng-disabled="checked_clones.length == 0">Show Selected</button>
             <div style="float: right"><a href="{{ apiUrl }}data/clone_overlap/{{ filter }}/{{ samples.join(',') }}" class="btn btn-info">Export All
             (csv)</a></div>
           </td>
         </tr>
         <tr>
-          <td colspan="7">
+          <td colspan="10">
             <ul class="pager">
               <li><a href="" ng-click="prevPage()">Previous</a></li>
               <li>Page {{ page }}</li>

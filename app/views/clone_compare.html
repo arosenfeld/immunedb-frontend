@@ -1,3 +1,34 @@
+<script type="text/ng-template" id="mutationsModal.html">
+  <div class="modal-header">
+      <h4 class="modal-title">{{ title }}</h4>
+  </div>
+  <div class="modal-body">
+    <table class="table">
+      <thead>
+        <tr class="active">
+          <th>Count</th>
+          <th>Position</th>
+          <th>NT Mutation</th>
+          <th>AA Mutation</th>
+        </tr>
+      </thead>
+      <tbody ng-repeat="type in ['synonymous', 'conservative', 'nonconservative']" ng-show="data.mutations[type].length > 0">
+        <tr class="info">
+          <td colspan="4"><strong>{{ type | capitalize }}</strong></td>
+        </tr>
+        <tr ng-repeat="mut in data.mutations[type] | orderBy:'position'">
+          <td>{{ mut.count }}</td>
+          <td>{{ mut.position }}</td>
+          <td><strong ng-bind-html="mut.from | dna"></strong> to <strong ng-bind-html="mut.to | dna"></strong></td>
+          <td><strong ng-bind-html="mut.aa_from | aminoAcid"></strong> to <strong ng-bind-html="mut.aa_to | aminoAcid"></strong></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-primary" ng-click="dismiss()">Dismiss</button>
+  </div>
+</script>
 <div class="header">
   <ol class="breadcrumb">
     <li><a href="#/clones"><i class="fa fa-sitemap fa-fw"></i>Clones</a> </li>
@@ -7,7 +38,7 @@
 
 <h3>Mutation Analysis</h3>
 <div class="table-responsive">
-  <table class="table table-bordered">
+  <table class="table table-bordered" ng-repeat="info in cloneInfo">
     <thead>
       <tr class="active">
         <th>Clone #</th>
@@ -17,17 +48,19 @@
         <th>CDR3 AA</th>
       </tr>
     </thead>
-    <tbody ng-repeat="info in cloneInfo">
+    <tbody>
       <tr>
         <td>{{ info.clone.id }}</td>
         <td>{{ info.clone.v_gene }}</td>
         <td>{{ info.clone.j_gene }}</td>
-        <td>{{ info.clone.cdr3.length }}</td>
-        <td ng-bind-html="info.clone.cdr3 | aminoAcid" class="text-mono"></td>
+        <td>{{ info.clone.cdr3_nt.length }}</td>
+        <td ng-bind-html="info.clone.cdr3_aa | aminoAcid" class="text-mono"></td>
       </tr>
       <tr>
         <td colspan="5">
-          <table class="table table-bordered">
+          <h4 class="faded text-center" ng-hide="showSeqs">Hid {{ info.seqs.length }} sequences for brevity.  Click <a ng-click="showSeqs = !showSeqs">here</a> to show.</h4>
+          <h4 ng-show="showSeqs">Sequences (<a ng-click="showSeqs = !showSeqs">Hide</a>)</h4>
+          <table class="table table-bordered" ng-show="showSeqs">
             <thead>
               <tr class="info">
                 <th>Sample #</th>
@@ -39,20 +72,70 @@
               <tr>
                 <td>{{ stat.sample.id }}</td>
                 <td><a href="#/samples/{{ stat.sample.id }}" target="_blank">{{ stat.sample.name }}</a></td>
-                <td><a href="#/sequence/{{ stat.seq_id }}" target="_blank">{{ stat.seq_id }}</a></td>
+                <td><a href="#/sequence/{{stat.sample.id}}/{{ stat.seq_id }}" target="_blank">{{ stat.seq_id }}</a></td>
               </tr>
             </tbody>
           </table>
         </td>
       </tr>
       <tr>
-        <td class="text-mono" colspan="5">
-          <div class="slideWrap">
-            <span class="scroller">
-              <canvas id="compare-{{ info.clone.id }}">
-              Your browser doesn't support HTML5! Please download a newer browser.
-              </canvas>
-            </span>
+        <td colspan="5" ng-init="field='unique'">
+          <h4>
+            {{ field == 'total' ? 'Total' : 'Unique' }} Mutations
+            <button ng-click="field = (field == 'unique' ? 'total' : 'unique')" class="btn btn-primary btn-align">
+              Switch to {{ field == 'total' ? 'Unique' : 'Total' }} Mutations
+            </button>
+          </h4>
+          <table class="table table-bordered">
+            <thead>
+              <tr class="info">
+                <th>Region</th>
+                <th>Synonymous</th>
+                <th>Non-Synonymous</th>
+                <th>Conservative</th>
+                <th>Non-Conservative</th>
+              </tr>
+            </thead>
+            <tbody ng-repeat="(region, stat) in info.mutation_stats.regions">
+              <tr>
+                <td>
+                  <strong>{{ region | uppercase }}</strong>
+                  <button ng-disabled="stat.counts[field].synonymous + stat.counts[field].nonconservative + stat.counts[field].conservative == 0" class="btn btn-default btn-xs"
+                  ng-click="openModal('Mutations', stat)">Show Mutations</button>
+                </td>
+                <td>
+                  {{ stat.counts[field].synonymous }}
+                  <span class="faded">({{ 100 * stat.counts[field].synonymous / stat.counts[field].sum | orZero | number:2 }}%)
+                </td>
+                <td>
+                  {{ stat.counts[field].nonconservative + stat.counts[field].conservative }}
+                  <span class="faded">({{ 100 * (stat.counts[field].nonconservative + stat.counts[field].conservative) / stat.counts[field].sum | orZero | number:2 }}%)</span>
+                </td>
+                <td class="active">
+                  {{ stat.counts[field].conservative }}
+                  <span class="faded">({{ 100 * stat.counts[field].conservative / (stat.counts[field].nonconservative + stat.counts[field].conservative) | orZero | number:2 }}%)</span>
+                </td>
+                <td class="active">
+                  {{ stat.counts[field].nonconservative }}
+                  <span class="faded">({{ 100 * stat.counts[field].nonconservative / (stat.counts[field].nonconservative + stat.counts[field].conservative) | orZero | number:2 }}%)</span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="5">
+          <h4 class="faded text-center" ng-hide="showComp">Comparison hidden for brevity.  Click <a ng-click="showComp = !showComp">here</a> to show.</h4>
+          <h4 ng-show="showComp">Sequence Comparison (<a ng-click="showComp = !showComp">Hide</a>)</h4>
+          <div class="text-mono">
+            <div  class="slideWrap" ng-show="showComp">
+              <span class="scroller">
+                <canvas id="compare-{{ info.clone.id }}">
+                Your browser doesn't support HTML5! Please download a newer browser.
+                </canvas>
+              </span>
+            </div>
           </div>
         </td>
       </tr>

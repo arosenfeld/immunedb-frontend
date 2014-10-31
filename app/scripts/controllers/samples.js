@@ -2,10 +2,9 @@
     'use strict';
 
     angular.module('ImmunologyApp') .controller('SampleCtrl', ['$scope',
-            '$http', '$routeParams', '$log', 'plotting', 'clonePager',
+            '$http', '$routeParams', '$log', '$q', 'plotting',
             'apiUrl',
-        function($scope, $http, $routeParams, $log, plotting, clonePager,
-                apiUrl) {
+        function($scope, $http, $routeParams, $log, $q, plotting, apiUrl) {
 
             var columnPlots = [{
                 title: 'CDR3 Length',
@@ -25,9 +24,8 @@
             }, ];
 
             var filters = ['all', 'functional', 'nonfunctional', 'unique',
-                'unique_multiple', 'clones_all', 'clones_functional',
-                'clones_nonfunctional'
-            ];
+                           'unique_multiple', 'clones_all', 'clones_functional',
+                           'clones_nonfunctional'];
 
             var getCounts = function() {
                 var cnts = {};
@@ -38,6 +36,7 @@
                         if (!(f in cnts)) {
                             cnts[f] = 0;
                         }
+
                         cnts[f] += parseInt(value[f].sequence_cnt);
                     }
                 });
@@ -57,16 +56,19 @@
                 });
             }
 
-            var updateClone = function(filter, page) {
-                clonePager.getClones($routeParams['sampleIds'].split(','),
-                    filter, page)
-                    .then(
-                        function(result) {
-                            $scope.clone_pager[filter] = result;
-                        },
-                        function(result) {
-                        }
-                    );
+            var getHeatmap = function(filter_type, samples, type) {
+                var def = $q.defer();
+                $http({
+                    method: 'GET',
+                    url: apiUrl + type + '/' + filter_type + '/' +
+                        samples.join(',')
+                }).success(function(data, status) {
+                    def.resolve(data);
+                }).error(function(data, status, headers, config) {
+                    def.reject();
+                });
+
+                return def.promise;
             }
 
             var init = function() {
@@ -92,7 +94,6 @@
                             filter.slice(1)).replace('_',
                             ''))
                             .highcharts().reflow();
-
                         // All column plots for the filter
                         angular.forEach(columnPlots, function(
                             plot, i) {
@@ -152,6 +153,7 @@
                             });
 
                     // Count how many sequences are in each filter
+                    $log.debug($scope.groupedStats);
                     $scope.cnts = getCounts();
 
                     // Create all the charts
@@ -159,15 +161,14 @@
                     $scope.charts = {};
                     angular.forEach(filters, function(filter, j) {
                         // v_call heatmap for the filter
-                        var field = (filter.charAt(0).toUpperCase() +
-                            filter.slice(1)).replace('_',
-                            '');
-                        $('#vHeatmap' + field).highcharts(
-                            plotting.createHeatmap(
-                                $scope.groupedStats,
-                                'V Gene Utilization',
-                                filter,
-                                'v_call_dist'));
+                        getHeatmap(filter, $scope.sampleIds, 'v_usage')
+                            .then(function(result) {
+                            var field = (filter.charAt(0).toUpperCase() +
+                                filter.slice(1)).replace('_',
+                                '');
+                            $('#vHeatmap' + field).highcharts(
+                                plotting.createHeatmap(result, 'V Gene Utilization'));
+                        });
 
                         // All the column charts for the filter
                         angular.forEach(columnPlots, function(p,
@@ -196,16 +197,6 @@
                     $scope.$parent.modal_text =
                         'There has been an error communicating with the database. If this occurs again, please contact <a href="mailto:ar374@drexel.edui?subject=SimLab DB Error">ar374@drexel.edu</a>.';
                 });
-
-                $scope.clone_pager = {};
-                angular.forEach(filters, function(filter, j) {
-                    if (filter.indexOf('clones') >= 0) {
-                        updateClone(filter, 1);
-                    }
-                });
-
-                // REMOVE
-                $scope.updateClone = updateClone;
             }
             init();
         }

@@ -1,0 +1,63 @@
+<div class="header">
+  <ol class="breadcrumb">
+    <li><a href="#/subjects"><i class="fa fa-users fa-fw"></i>Subjects</a></li>
+  </ol>
+</div>
+<div class="table-responsive">
+  <button ng-click="viewSamples()" class="btn btn-primary btn-lg btn-pad" ng-disabled="checked_samples.length == 0">Compare Selected</button>
+  <form novalidate>
+    <table class="table table-bordered">
+      <thead>
+        <tr class="active">
+          <th>#</th>
+          <th>Study</th>
+          <th>Identifier</th>
+          <th>Unique Sequences</th>
+          <th>Total Clones</th>
+          <th>Samples</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr ng-repeat="subject in objects">
+          <td>{{ subject.id }}</td>
+          <td>{{ subject.study.name }}</td>
+          <td>{{ subject.identifier }}</td>
+          <td>{{ subject.unique_seqs | number }}</td>
+          <td>{{ subject.total_clones | number }}</td>
+          <td>
+            <table class="table table-bordered">
+              <thead>
+                <tr class="info">
+                  <th></th>
+                  <th>ID</th>
+                  <th>Name</th>
+                  <th>Date</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr ng-repeat="sample in subject.samples">
+                  <td>
+                    <input type="checkbox" checklist-model="checked_samples" checklist-value="sample.id"></input>
+                  </td>
+                  <td>{{ sample.id }}</td>
+                  <td><a href="#/samples/{{ sample.id }}">{{ sample.name }}</a></td>
+                  <td>{{ sample.date}}</td>
+                </tr>
+              </tbody>
+            </table>
+          </td>
+        </tr>
+      </tbody>
+      <tr>
+        <td colspan="6">
+          <ul class="pager">
+            <li><a href="" ng-click="prevPage()" ng-show="pageable">Previous</a></li>
+            <li>Page {{ page }}</li>
+            <li><a href="" ng-click="nextPage()" ng-show="pageable">Next</a></li>
+          </ul>
+        </td>
+      </tr>
+    </table>
+    <button ng-click="viewSamples()" class="btn btn-primary btn-lg btn-pad" ng-disabled="checked_samples.length == 0">Compare Selected</button>
+  </form>
+</div>
