@@ -12,9 +12,9 @@
           <th>#</th>
           <th>Study</th>
           <th>Identifier</th>
-          <th>Samples</th>
           <th>Unique Sequences</th>
           <th>Total Clones</th>
+          <th>Samples</th>
         </tr>
       </thead>
       <tbody>
@@ -22,6 +22,8 @@
           <td>{{ subject.id }}</td>
           <td>{{ subject.study.name }}</td>
           <td>{{ subject.identifier }}</td>
+          <td>{{ subject.unique_seqs | number }}</td>
+          <td>{{ subject.total_clones | number }}</td>
           <td>
             <table class="table table-bordered">
               <thead>
@@ -44,8 +46,6 @@
               </tbody>
             </table>
           </td>
-          <td>{{ subject.unique_seqs | number }}</td>
-          <td>{{ subject.total_clones | number }}</td>
         </tr>
       </tbody>
       <tr>
