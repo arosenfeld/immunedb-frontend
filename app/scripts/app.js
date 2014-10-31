@@ -34,5 +34,5 @@
                     redirectTo: '/studies'
                 });
         })
-        .constant('apiUrl', 'http://129.25.28.237:2000/api/');
+        .constant('apiUrl', 'http://129.25.28.237:5000/api/');
 })();
