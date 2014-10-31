@@ -6,6 +6,7 @@
           <th></th>
           <th>Total Seqs.</th>
           <th>Unique Seqs.</th>
+          <th>ID</th>
           <th>Subject</th>
           <th>V Gene</th>
           <th>J Gene</th>
@@ -19,7 +20,8 @@
           <td><input type="checkbox" checklist-model="checked_clones" checklist-value="freq.compareStr"></input></td>
           <td>{{ freq.total_sequences | number }}</td>
           <td>{{ freq.unique_sequences | number }}</td>
-          <td>{{ freq.clone.subject.identifier}} ({{ freq.clone.subject.study.name}})</td>
+          <td>{{ freq.clone.id }}</td>
+          <td>{{ freq.clone.subject.identifier}} ({{ freq.clone.subject.study.name}} Study)</td>
           <td>{{ freq.clone.v_gene }}</td>
           <td>{{ freq.clone.j_gene }}</td>
           <td>{{ freq.clone.cdr3_num_nts | number }}</td>
@@ -27,17 +29,17 @@
           <td>{{ freq.samples }}</td>
         </tr>
         <tr>
-          <td colspan="9">
+          <td colspan="10">
             <button ng-click="viewClones()" class="btn btn-primary btn-lg btn-pad" ng-disabled="checked_clones.length == 0">Show Selected</button>
             <div style="float: right"><a href="{{ apiUrl }}data/clone_overlap/{{ filter }}/{{ samples.join(',') }}" class="btn btn-info">Export All
             (csv)</a></div>
           </td>
         </tr>
         <tr>
-          <td colspan="9">
+          <td colspan="10">
             <ul class="pager">
               <li><a href="" ng-click="prevPage()">Previous</a></li>
-              <li>Page {{ page }} / {{ total_pages }}</li>
+              <li>Page {{ page }}</li>
               <li><a href="" ng-click="nextPage()">Next</a></li>
             </ul>
           </td>

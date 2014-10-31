@@ -26,6 +26,10 @@
                     templateUrl: 'views/sequence.html',
                     controller: 'SequenceCtrl'
                 })
+                .when('/subjects/', {
+                    templateUrl: 'views/subjects.html',
+                    controller: 'SubjectsCtrl',
+                })
                 .otherwise({
                     redirectTo: '/studies'
                 });

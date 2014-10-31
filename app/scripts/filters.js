@@ -38,7 +38,6 @@
                 if (typeof nt == 'undefined') {
                     return '';
                 }
-                alert(nt);
                 var fstring = '';
                 angular.forEach(nt, function(c, i) {
                     var color = lookups.dnaColor(c.toUpperCase()) || '#000000';

@@ -10,6 +10,8 @@
                 'clones': 'clones',
                 'clone_compare': 'clones',
                 'sequence': 'studies',
+                'subjects': 'subjects',
+                'subject': 'subjects',
             };
             var menuClass = function(page) {
                 var current = $location.path().split('/')[1];

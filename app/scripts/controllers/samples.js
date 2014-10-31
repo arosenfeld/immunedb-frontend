@@ -153,6 +153,7 @@
                             });
 
                     // Count how many sequences are in each filter
+                    $log.debug($scope.groupedStats);
                     $scope.cnts = getCounts();
 
                     // Create all the charts

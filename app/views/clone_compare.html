@@ -38,7 +38,7 @@
 
 <h3>Mutation Analysis</h3>
 <div class="table-responsive">
-  <table class="table table-bordered">
+  <table class="table table-bordered" ng-repeat="info in cloneInfo">
     <thead>
       <tr class="active">
         <th>Clone #</th>
@@ -48,7 +48,7 @@
         <th>CDR3 AA</th>
       </tr>
     </thead>
-    <tbody ng-repeat="info in cloneInfo">
+    <tbody>
       <tr>
         <td>{{ info.clone.id }}</td>
         <td>{{ info.clone.v_gene }}</td>
@@ -58,7 +58,7 @@
       </tr>
       <tr>
         <td colspan="5">
-          <h4 class="faded text-center" ng-hide="showSeqs">Sequences hidden for brevity.  Click <a ng-click="showSeqs = !showSeqs">here</a> to show.</h4>
+          <h4 class="faded text-center" ng-hide="showSeqs">Hid {{ info.seqs.length }} sequences for brevity.  Click <a ng-click="showSeqs = !showSeqs">here</a> to show.</h4>
           <h4 ng-show="showSeqs">Sequences (<a ng-click="showSeqs = !showSeqs">Hide</a>)</h4>
           <table class="table table-bordered" ng-show="showSeqs">
             <thead>
@@ -125,13 +125,17 @@
         </td>
       </tr>
       <tr>
-        <td class="text-mono" colspan="5">
-          <div class="slideWrap">
-            <span class="scroller">
-              <canvas id="compare-{{ info.clone.id }}">
-              Your browser doesn't support HTML5! Please download a newer browser.
-              </canvas>
-            </span>
+        <td colspan="5">
+          <h4 class="faded text-center" ng-hide="showComp">Comparison hidden for brevity.  Click <a ng-click="showComp = !showComp">here</a> to show.</h4>
+          <h4 ng-show="showComp">Sequence Comparison (<a ng-click="showComp = !showComp">Hide</a>)</h4>
+          <div class="text-mono">
+            <div  class="slideWrap" ng-show="showComp">
+              <span class="scroller">
+                <canvas id="compare-{{ info.clone.id }}">
+                Your browser doesn't support HTML5! Please download a newer browser.
+                </canvas>
+              </span>
+            </div>
           </div>
         </td>
       </tr>

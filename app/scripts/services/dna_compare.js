@@ -60,8 +60,6 @@
 
             ctx.fillText('Germline', LEFT_PAD, TOP_PAD);
             var middlePad = (CHAR_SPACE - 12) * labelMaxLength;
-            // TODO: There must be a better way to do this
-            //germline = correctGermline(germline, seqs[0].junction_nt);
 
             drawSequence(germline, ctx, middlePad, 0);
 
@@ -79,11 +77,18 @@
                     var aaStart = j - (j % 3);
                     var nt = seq.sequence.substring(aaStart, aaStart + 3);
 
+
                     if (lookups.aaLookup(nt) != null) {
                         ctx.fillStyle = lookups.aaColor(lookups.aaLookup(nt));
                     } else {
                         ctx.fillStyle = '#000000';
                     }
+                    
+                    if (j < seq.read_start) {
+                        ctx.globalAlpha = 0.4;
+                    }
+                    ctx.fillText(c, left, top);
+                    ctx.globalAlpha = 1;
 
                     if (typeof mutation_stats != 'undefined') {
                         var mutation = seq.mutations[j];
@@ -103,7 +108,6 @@
                                 ctx.stroke();
                         }
                     }
-                    ctx.fillText(c, left, top);
                     if (j % 10 == 0) {
                         ctx.fillStyle = '#000000';
                         ctx.fillText(j, left, 10);
@@ -185,6 +189,11 @@
                         'start': 309,
                         'end': 308 + cdr3_num_nts,
                         'color': '#00ff00'
+                    },{
+                        'name': 'FR4',
+                        'start': 308 + cdr3_num_nts + 1,
+                        'end': germline.length - 1,
+                        'color': '#0000ff'
                     },
                 ];
 
