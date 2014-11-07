@@ -15,6 +15,7 @@
           <th>Unique Sequences</th>
           <th>Total Clones</th>
           <th>Samples</th>
+          <th></th>
         </tr>
       </thead>
       <tbody>
@@ -24,32 +25,12 @@
           <td>{{ subject.identifier }}</td>
           <td>{{ subject.unique_seqs | number }}</td>
           <td>{{ subject.total_clones | number }}</td>
-          <td>
-            <table class="table table-bordered">
-              <thead>
-                <tr class="info">
-                  <th></th>
-                  <th>ID</th>
-                  <th>Name</th>
-                  <th>Date</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr ng-repeat="sample in subject.samples">
-                  <td>
-                    <input type="checkbox" checklist-model="checked_samples" checklist-value="sample.id"></input>
-                  </td>
-                  <td>{{ sample.id }}</td>
-                  <td><a href="#/samples/{{ sample.id }}">{{ sample.name }}</a></td>
-                  <td>{{ sample.date}}</td>
-                </tr>
-              </tbody>
-            </table>
-          </td>
+          <td>{{ subject.total_samples | number }}</td>
+          <td><a href="#/subject/{{ subject.id }}">View Subject<span class="glyphicon glyphicon-chevron-right"></span></a> </td>
         </tr>
       </tbody>
       <tr>
-        <td colspan="6">
+        <td colspan="7">
           <ul class="pager">
             <li><a href="" ng-click="prevPage()" ng-show="pageable">Previous</a></li>
             <li>Page {{ page }}</li>

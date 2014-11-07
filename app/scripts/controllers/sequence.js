@@ -1,8 +1,8 @@
 (function() {
     'use strict';
     angular.module('ImmunologyApp') .controller('SequenceCtrl', ['$scope',
-            '$http', '$routeParams', '$log', 'dnaCompare', 'apiUrl',
-        function($scope, $http, $routeParams, $log, dnaCompare, apiUrl) {
+            '$http', '$routeParams', '$log', 'dnaCompare', 'APIService',
+        function($scope, $http, $routeParams, $log, dnaCompare, APIService) {
             var init = function() {
                 // Show the loading popup
                 $scope.$parent.modal_head = 'Querying';
@@ -21,7 +21,7 @@
                 // Do the GET request for results
                 $http({
                     method: 'GET',
-                    url: apiUrl + 'sequence/' + $routeParams['sampleId'] + '/'
+                    url: APIService.getUrl() + 'sequence/' + $routeParams['sampleId'] + '/'
                     + $routeParams['seqId'],
                 }).success(function(data, status) {
                     $scope.seq = data['sequence'];

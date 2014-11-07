@@ -3,9 +3,9 @@
 
     angular.module('ImmunologyApp').controller('ClonesCompareCtrl', ['$scope',
             '$http', '$routeParams', '$timeout', '$log', '$modal', 'dnaCompare',
-            'apiUrl',
+            'APIService',
         function($scope, $http, $routeParams, $timeout, $log, $modal,
-                dnaCompare, apiUrl) {
+                dnaCompare, APIService) {
 
             $scope.openModal = function(title, mutations) {
                 $modal.open({
@@ -31,7 +31,7 @@
 
                 $http({
                     method: 'GET',
-                    url: apiUrl + 'clone_compare/' + $routeParams['uids']
+                    url: APIService.getUrl() + 'clone_compare/' + $routeParams['uids']
                 }).success(function(data, status) {
                     $scope.cloneInfo = data['clones'];
                     $timeout(function() {

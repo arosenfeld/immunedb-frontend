@@ -154,6 +154,7 @@
                     }
 
                 });
+            }
 
                 ctx.textAlign = 'left';
                 ctx.font = 'bold 12px Courier New';
@@ -207,8 +208,6 @@
                         region.end,
                         region.name);
                 });
-            }
-
         }
 
         return { makeComparison: makeComparison };

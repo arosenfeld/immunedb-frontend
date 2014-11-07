@@ -28,7 +28,21 @@
         <div class="modal-header">
           <h4 class="modal-title">{{ modal_head }}</h4>
         </div>
-        <div class="modal-body" ng-bind-html="modal_text">
+        <div class="modal-body">
+          <div ng-bind-html="modal_text"></div>
+          <div ng-show="modal_head == 'Error'">
+            <strong>Change Database:</strong>
+            <div class="dropdown">
+              <button class="btn btn-default dropdown-toggle" type="button" id="database-menu">
+                Database Version: {{ db_version }}<span class="caret"></span>
+              </button>
+              <ul class="dropdown-menu" role="menu" aria-labelledby="database-menu">
+                <li role="presentation" ng-repeat="(key, api) in apis">
+                  <a role="menuitem" tabindex="-1" ng-click="apiChange(key)">{{ api.name }}</a>
+                </li>
+              </ul>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -47,6 +61,18 @@
       </div>
 
       <ul class="nav navbar-top-links navbar-right">
+        <li>
+          <div class="dropdown">
+            <button class="btn btn-default dropdown-toggle" type="button" id="database-menu">
+              Database Version: {{ db_version }}<span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu" role="menu" aria-labelledby="database-menu">
+              <li role="presentation" ng-repeat="(key, api) in apis">
+                <a role="menuitem" tabindex="-1" ng-click="apiChange(key)">{{ api.name }}</a>
+              </li>
+            </ul>
+          </div>
+        </li>
         <li class="version">
           <i class="fa fa-info-circle fa-fw"></i> <span style="color: #f00; font-weight: bold">DEVELOPMENT REVISION</span> 
         </li>
@@ -111,6 +137,7 @@
   <script src="scripts/filters.js"></script>
   <script src="scripts/directives.js"></script>
 
+  <script src="scripts/services/api.js"></script>
   <script src="scripts/services/plotting.js"></script>
   <script src="scripts/services/clone_pager.js"></script>
   <script src="scripts/services/lookups.js"></script>
@@ -124,6 +151,7 @@
   <script src="scripts/controllers/clone_compare.js"></script>
   <script src="scripts/controllers/sequence.js"></script>
   <script src="scripts/controllers/subjects.js"></script>
+  <script src="scripts/controllers/subject.js"></script>
   <script src="scripts/controllers/high_chart.js"></script>
 
   <script src="scripts/vendor/highcharts.js"></script>
