@@ -2,8 +2,8 @@
     'use strict';
 
     angular.module('ImmunologyApp') .controller('StudiesCtrl', ['$scope',
-            '$http', '$location', 'apiUrl',
-        function($scope, $http, $location, apiUrl) {
+            '$http', '$location', 'APIService',
+        function($scope, $http, $location, APIService) {
 
             $scope.checked_samples = [];
 
@@ -28,7 +28,7 @@
 
                 $http({
                     method: 'GET',
-                    url: apiUrl + 'studies'
+                    url: APIService.getUrl() + 'studies'
                 }).success(function(data, status) {
                     $scope.rows = data['objects'];
 

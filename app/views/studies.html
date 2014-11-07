@@ -47,7 +47,7 @@
                     <strong>{{ sample.date }}</strong>
                   </td>
                 </tr>
-                <tr>
+                <tr ng-class="sample.valid_cnt > 0 ? '' : 'warning'">
                   <td>
                     <input type="checkbox" checklist-model="checked_samples" checklist-value="sample.id"></input>
                   </td>

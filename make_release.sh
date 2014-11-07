@@ -12,6 +12,7 @@ then
         echo ">>> Updating version in app/index.html"
         sed -i "s/<span.*>DEVELOPMENT REVISION<\/span>/v$version, release/g" app/index.html
         sed -i "s/2000/5000/g" app/scripts/app.js
+        sed -i "s/200/500/g" app/scripts/controllers/main.js
         echo ">>> Committing new branch"
         git commit -a -m "Release version $version"
         git checkout master

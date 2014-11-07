@@ -1,32 +1,39 @@
 (function() {
     'use strict';
 
-    angular.module('ImmunologyDirectives', []) .directive('clonePager', [
-            '$location', '$log', 'ClonePagerService', 'apiUrl',
-            function($location, $log, clonePagerService, apiUrl) {
+    angular.module('ImmunologyDirectives', [])
+    .directive('clonePager', [
+            '$location', '$log', 'ClonePagerService', 'APIService',
+            function($location, $log, clonePagerService, APIService) {
         return {
             restrict: 'E',
             scope: {
                 filter: '=',
-                samples: '=',
+                samples: '=?',
+                subject: '=?',
             },
             templateUrl: 'partials/clone_pager.html',
             controller: function($scope) {
-
                 var updateClone = function(filter, page) {
-                    clonePagerService.getClones($scope.samples,
-                        filter, page)
-                        .then(
-                            function(result) {
-                                $scope.clones = result['clones']
-                                $scope.total_pages = result['num_pages'] 
-                            },
-                            function(result) {
-                            }
-                        );
+                    if (typeof $scope.subject == 'undefined') {
+                        var call = clonePagerService.getClonesBySample(
+                            $scope.samples, filter, page);
+                    } else {
+                        var call = clonePagerService.getClonesBySubject(
+                            $scope.subject, filter, page);
+                    }
+
+                    call.then(
+                        function(result) {
+                            $scope.clones = result['clones']
+                            $scope.total_pages = result['num_pages'] 
+                        },
+                        function(result) {
+                        }
+                    );
                 }
 
-                $scope.apiUrl = apiUrl;
+                $scope.apiUrl = APIService.getUrl();
                 $scope.page = 1;
                 $scope.checked_clones = [];
                 
@@ -46,6 +53,14 @@
 
                 var init = function() {
                     updateClone($scope.filter, 1);
+                    $scope.exportUrl = APIService.getUrl() + 'data/';
+                    if (typeof $scope.subject == 'undefined') {
+                        $scope.exportUrl += 'clone_overlap/' + $scope.filter +
+                            '/' + $scope.samples.join(',');
+                    } else {
+                        $scope.exportUrl += 'subject_clones/' + $scope.filter +
+                            '/' + $scope.subject;
+                    }
                 }
                 init();
             }

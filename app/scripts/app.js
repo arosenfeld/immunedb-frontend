@@ -2,7 +2,7 @@
     'use strict';
 
     angular.module('ImmunologyApp', [ 'ngAnimate', 'ngCookies', 'ngResource',
-    'ngRoute', 'ngSanitize', 'highcharts-ng', 'checklist-model',
+    'ngCookies', 'ngRoute', 'ngSanitize', 'highcharts-ng', 'checklist-model',
     'ui.bootstrap', 'ImmunologyFilters', 'ImmunologyDirectives' ])
         .config(function($routeProvider) {
             $routeProvider
@@ -30,9 +30,22 @@
                     templateUrl: 'views/subjects.html',
                     controller: 'SubjectsCtrl',
                 })
+                .when('/subject/:subjectId', {
+                    templateUrl: 'views/subject.html',
+                    controller: 'SubjectCtrl',
+                })
                 .otherwise({
                     redirectTo: '/studies'
                 });
         })
-        .constant('apiUrl', 'http://129.25.28.237:5000/api/');
+        .constant('apis', {
+            'primary': {
+                'name': 'Similarity 85%',
+                'url': 'http://129.25.28.237:5000/api/'
+            },
+            'similarity-65': {
+                'name': 'Similarity 65%',
+                'url': 'http://129.25.28.237:2001/api/'
+            }
+        });
 })();

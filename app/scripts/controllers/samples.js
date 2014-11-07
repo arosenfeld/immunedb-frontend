@@ -3,8 +3,8 @@
 
     angular.module('ImmunologyApp') .controller('SampleCtrl', ['$scope',
             '$http', '$routeParams', '$log', '$q', 'plotting',
-            'apiUrl',
-        function($scope, $http, $routeParams, $log, $q, plotting, apiUrl) {
+            'APIService',
+        function($scope, $http, $routeParams, $log, $q, plotting, APIService) {
 
             var columnPlots = [{
                 title: 'CDR3 Length',
@@ -60,7 +60,7 @@
                 var def = $q.defer();
                 $http({
                     method: 'GET',
-                    url: apiUrl + type + '/' + filter_type + '/' +
+                    url: APIService.getUrl() + type + '/' + filter_type + '/' +
                         samples.join(',')
                 }).success(function(data, status) {
                     def.resolve(data);
@@ -113,7 +113,7 @@
                 // Do the GET request for results
                 $http({
                     method: 'GET',
-                    url: apiUrl + 'stats',
+                    url: APIService.getUrl() + 'stats',
                     params: {
                         "q": {
                             "filters": [{
@@ -153,7 +153,6 @@
                             });
 
                     // Count how many sequences are in each filter
-                    $log.debug($scope.groupedStats);
                     $scope.cnts = getCounts();
 
                     // Create all the charts

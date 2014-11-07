@@ -2,8 +2,8 @@
     'use strict';
 
     angular.module('ImmunologyApp') .controller('ClonesCtrl', ['$scope',
-            '$http', '$q', '$location', '$log', 'apiUrl',
-        function($scope, $http, $q, $location, $log, apiUrl) {
+            '$http', '$q', '$location', '$log', 'APIService',
+        function($scope, $http, $q, $location, $log, APIService) {
 
             $scope.prevPage = function() {
                 $scope.page = Math.max(1, $scope.page - 1);
@@ -32,10 +32,10 @@
                 var def = $q.defer();
                 $http({
                     method: 'GET',
-                    url: apiUrl + 'clones',
+                    url: APIService.getUrl() + 'clones',
                     params: {
                         'page': page,
-                        'per_page': 25
+                        'per_page': 25,
                     }
                 }).success(function(data, status) {
                     var objs = data['objects'];
