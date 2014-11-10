@@ -4,6 +4,7 @@
   </ol>
 </div>
 <div>
+  <div class="alert alert-danger" role="alert" ng-show="showWildcardReminder()">None of your filters contain a wildcard.  Did you forget one?</div>
   <div class="panel panel-info">
     <div class="panel-heading">
       <h3 class="panel-title">Filter Clones (* for wildcard)</h3>
@@ -43,16 +44,21 @@
     <table class="table table-bordered">
       <thead>
         <tr>
-          <th>#</th>
-          <th>Subject</th>
-          <th>V Gene</th>
-          <th>J Gene</th>
-          <th>CDR3 Length</th>
-          <th>CDR3 AA</th>
+          <th><a ng-click="updateOrder('id')">#</a></th>
+          <th><a ng-click="updateOrder('subject_id')">Subject</a></th>
+          <th><a ng-click="updateOrder('v_gene')">V Gene</a></th>
+          <th><a ng-click="updateOrder('j_gene')">J Gene</a></th>
+          <th><a ng-click="updateOrder('cdr3_num_nts')">CDR3 Length</a></th>
+          <th><a ng-click="updateOrder('cdr3_aa')">CDR3 AA</a></th>
         </tr>
       </thead>
       <tbody>
-        <tbody ng-repeat="clone in clones">
+        <tbody ng-show="clones.length == 0">
+          <tr>
+            <td colspan="6" class="text-center">No results.</td>
+          </tr>
+        </tbody>
+        <tbody ng-repeat="clone in clones" ng-show="clones.length > 0">
           <tr class="active">
             <td>{{ clone.id }}</td>
             <td>{{ clone.subject.identifier}} ({{ clone.subject.study.name}})</td>
@@ -83,11 +89,10 @@
                   </tr>
                 </tbody>
               </table>
-
             </td>
           </tr>
         </tbody>
-        <tr>
+        <tr ng-show="clones.length > 0">
           <td colspan="6">
             <ul class="pager">
               <li><a href="" ng-click="prevPage()" ng-show="pageable">Previous</a></li>

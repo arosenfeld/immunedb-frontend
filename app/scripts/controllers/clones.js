@@ -28,7 +28,27 @@
                 $location.path('/clone_compare/' + $scope.checked_samples.join());
             }
 
+            $scope.showWildcardReminder = function() {
+                var ret = false;
+                if ($scope.clones.length == 0) {
+                    angular.forEach($scope.filter, function(val, key) {
+                        if (val.length > 0 && val.indexOf('*') < 0) {
+                            ret = true;
+                        }
+                    });
+                }
+                return ret;
+            }
+
             $scope.updateClones = function() {
+                $scope.clones = [];
+                $scope.$parent.modal_head = 'Querying';
+                $scope.$parent.modal_text =
+                    'Loading data from database...';
+                $('#modal').modal('show');
+                $scope.$parent.page_title = 'Clones';
+
+
                 $scope.page = 1;
                 getClones().then(function(result) {
                     $scope.clones = result;
@@ -52,6 +72,7 @@
                         'per_page': 25,
                         'filter': typeof($scope.filter) == 'undefined' ? ''
                             : angular.toJson($scope.filter),
+                        'order_field': $scope.orderField,
                     }
                 }).success(function(data, status) {
                     def.resolve(data['objects']);
@@ -62,13 +83,12 @@
                 return def.promise;
             }
 
-            var init = function() {
-                $scope.$parent.modal_head = 'Querying';
-                $scope.$parent.modal_text =
-                    'Loading data from database...';
-                $('#modal').modal('show');
-                $scope.$parent.page_title = 'Clones';
+            $scope.updateOrder = function(field) {
+                $scope.orderField = field;
+                $scope.updateClones();
+            }
 
+            var init = function() {
                 $scope.updateClones();
             }
 
