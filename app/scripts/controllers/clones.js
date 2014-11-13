@@ -75,7 +75,7 @@
                         'order_field': $scope.orderField,
                     }
                 }).success(function(data, status) {
-                    def.resolve(data['objects']);
+                    def.resolve(data['clones']);
                 }).error(function(data, status, headers, config) {
                     def.reject();
                 });

@@ -30,7 +30,7 @@
                     method: 'GET',
                     url: APIService.getUrl() + 'studies'
                 }).success(function(data, status) {
-                    $scope.rows = data['objects'];
+                    $scope.rows = data['studies'];
 
                     angular.forEach($scope.rows, function(row, i) {
                         row.samples.sort(function(a, b) {
