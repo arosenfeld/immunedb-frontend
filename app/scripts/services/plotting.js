@@ -116,7 +116,7 @@
                         series.push({
                             name: plottable[i]['sample']['name'],
                             data: angular.fromJson(
-                                plottable[i][type][series_key]),
+                                plottable[i]['filters'][type][series_key]),
                             turboThreshold: 0
                         });
                     }

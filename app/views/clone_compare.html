@@ -51,10 +51,10 @@
     <tbody>
       <tr>
         <td>{{ info.clone.id }}</td>
-        <td>{{ info.clone.v_gene }}</td>
-        <td>{{ info.clone.j_gene }}</td>
+        <td>{{ info.clone.group.v_gene }}</td>
+        <td>{{ info.clone.group.j_gene }}</td>
         <td>{{ info.clone.cdr3_nt.length }}</td>
-        <td ng-bind-html="info.clone.cdr3_aa | aminoAcid" class="text-mono"></td>
+        <td ng-bind-html="info.clone.group.cdr3_aa | aminoAcid" class="text-mono"></td>
       </tr>
       <tr>
         <td colspan="5">

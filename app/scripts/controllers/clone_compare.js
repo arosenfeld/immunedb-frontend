@@ -42,8 +42,8 @@
                 
                             dnaCompare.makeComparison(
                                 $('#compare-' + cloneId).get(0),
-                                info.clone.germline,
-                                info.clone.cdr3_num_nts,
+                                info.clone.group.germline,
+                                info.clone.group.cdr3_num_nts,
                                 info.seqs,
                                 info.mutation_stats);
                         }

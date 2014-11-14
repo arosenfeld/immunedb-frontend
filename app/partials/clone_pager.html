@@ -21,12 +21,12 @@
           <td>{{ freq.total_sequences | number }}</td>
           <td>{{ freq.unique_sequences | number }}</td>
           <td>{{ freq.clone.id }}</td>
-          <td>{{ freq.clone.subject.identifier}} ({{ freq.clone.subject.study.name}} Study)</td>
-          <td>{{ freq.clone.v_gene }}</td>
-          <td>{{ freq.clone.j_gene }}</td>
-          <td>{{ freq.clone.cdr3_num_nts | number }}</td>
-          <td ng-bind-html="freq.clone.cdr3_aa | aminoAcid" class="text-mono"></td>
-          <td>{{ freq.samples }}</td>
+          <td>{{ freq.clone.group.subject.identifier}} ({{ freq.clone.group.subject.study.name}} Study)</td>
+          <td>{{ freq.clone.group.v_gene }}</td>
+          <td>{{ freq.clone.group.j_gene }}</td>
+          <td>{{ freq.clone.group.cdr3_num_nts | number }}</td>
+          <td ng-bind-html="freq.clone.group.cdr3_aa | aminoAcid" class="text-mono"></td>
+          <td>{{ freq.samples.join(',') }}</td>
         </tr>
         <tr>
           <td colspan="10">

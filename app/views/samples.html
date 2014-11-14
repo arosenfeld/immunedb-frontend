@@ -38,21 +38,49 @@
         </th>
         <th>Funct. Clones <a data-toggle="tooltip" title="Number of functional clones"><span class="glyphicon glyphicon-question-sign"></span></a>
         </th>
+        <th></th>
       </tr>
     </thead>
-    <tbody>
-      <tr ng-repeat="stat in meta">
+    <tbody ng-repeat="stat in groupedStats">
+      <tr>
         <td>{{ stat.sample.id }}</td>
         <td>{{ stat.sample.name }}</td>
         <td>{{ stat.sample.valid_cnt + stat.sample.no_result_cnt | number}}</td>
         <td>{{ stat.sample.valid_cnt | number }}</td>
         <td>{{ stat.sample.no_result_cnt | number }}</td>
-        <td>{{ 100 * stat.all.in_frame_cnt / stat.sample.valid_cnt | number : 2}}%</td>
+        <td>{{ 100 * stat.filters.all.in_frame_cnt / stat.sample.valid_cnt | number : 2}}%</td>
         <td>{{ 100 * stat.sample.functional_cnt / stat.sample.valid_cnt | number : 2}}%</td>
-        <td>{{ stat.unique.sequence_cnt | number }}</td>
-        <td>{{ stat.unique_multiple.sequence_cnt | number }}</td>
-        <td>{{ stat.clones_all.sequence_cnt | number }}</td>
-        <td>{{ stat.clones_functional.sequence_cnt | number }}</td>
+        <td>{{ stat.filters.unique.sequence_cnt | number }}</td>
+        <td>{{ stat.filters.unique_multiple.sequence_cnt | number }}</td>
+        <td>{{ stat.filters.clones_all.sequence_cnt | number }}</td>
+        <td>{{ stat.filters.clones_functional.sequence_cnt | number }}</td>
+        <td><a ng-click="showDetails = !showDetails">Details<span class="glyphicon glyphicon-chevron-right"></span></a></td>
+      </tr>
+      <tr ng-show="showDetails">
+        <td colspan="12">
+          <table class="table table-condensed table-bordered">
+            <thead>
+              <tr>
+                <th>Subject</th>
+                <th>Subset</th>
+                <th>Tissue</th>
+                <th>Disease</th>
+                <th>Lab</th>
+                <th>Experimenter</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>{{ stat.sample.subject.identifier }}</td>
+                <td>{{ stat.sample.subset }}</td>
+                <td>{{ stat.sample.tissue }}</td>
+                <td>{{ stat.sample.disease }}</td>
+                <td>{{ stat.sample.lab }}</td>
+                <td>{{ stat.sample.experimenter }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </td>
       </tr>
     </tbody>
   </table>
