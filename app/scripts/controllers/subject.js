@@ -29,6 +29,9 @@
                 getSubject($routeParams['subjectId']).then(
                     function(result) {
                         $scope.subject = result;
+                        $scope.sample_ids = result.samples.map(function(e) {
+                            return String(e.id);
+                        });
                         $('#modal').modal('hide');
                     },
                     function(result) {

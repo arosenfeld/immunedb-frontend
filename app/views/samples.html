@@ -1,6 +1,6 @@
 <div class="header">
   <ol class="breadcrumb">
-    <li><a href="#/studies">Studies</a>
+    <li><a href="#/{{ api_path }}/studies">Studies</a>
     </li>
     <li>Sample Comparison</li>
   </ol>
@@ -69,7 +69,7 @@
             </thead>
             <tbody>
               <tr>
-                <td><a href="#/subject/{{ stat.sample.subject.id }}" target="_new">{{ stat.sample.subject.identifier }}</a></td>
+                <td><a href="#/{{ api_path }}/subject/{{ stat.sample.subject.id }}" target="_new">{{ stat.sample.subject.identifier }}</a></td>
                 <td>{{ stat.sample.subset }}</td>
                 <td>{{ stat.sample.tissue }}</td>
                 <td>{{ stat.sample.disease }}</td>
@@ -146,45 +146,53 @@
 <div class="tab-content">
   <filtered-panel
     filter="clones_all"
+    api-path="api_path"
     heatmap="vHeatmapClonesall"
     charts="charts.clones_all"
     samples="sampleIds"></filtered-panel>
 
   <filtered-panel
     filter="clones_functional"
+    api-path="api_path"
     heatmap="vHeatmapClonesfunctional"
     charts="charts.clones_functional"
     samples="sampleIds"></filtered-panel>
 
   <filtered-panel
     filter="clones_nonfunctional"
+    api-path="api_path"
     heatmap="vHeatmapClonesnonfunctional"
     charts="charts.clones_nonfunctional"
     samples="sampleIds"></filtered-panel>
 
   <filtered-panel
     tclass="tab-pane in active"
+    api-path="api_path"
     filter="unique_multiple"
     heatmap="vHeatmapUniquemultiple"
     charts="charts.unique_multiple"></filtered-panel>
 
   <filtered-panel
     filter="unique"
+    api-path="api_path"
     heatmap="vHeatmapUnique"
     charts="charts.unique"></filtered-panel>
 
   <filtered-panel
     filter="functional"
+    api-path="api_path"
     heatmap="vHeatmapFunctional"
     charts="charts.functional"></filtered-panel>
 
   <filtered-panel
     filter="nonfunctional"
+    api-path="api_path"
     heatmap="vHeatmapNonfunctional"
     charts="charts.nonfunctional"></filtered-panel>
 
   <filtered-panel
     filter="all"
+    api-path="api_path"
     heatmap="vHeatmapAll"
     charts="charts.all"></filtered-panel>
 </div>

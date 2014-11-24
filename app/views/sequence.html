@@ -1,7 +1,7 @@
 <div class="header">
   <ol class="breadcrumb">
-    <li><a href="#/studies">Studies</a></li>
-    <li><a href="#/samples/{{ seq.sample.id }}">{{ seq.sample.name }}</a></li>
+    <li><a href="#/{{ api_path }}/studies">Studies</a></li>
+    <li><a href="#/{{ api_path }}/samples/{{ seq.sample.id }}">{{ seq.sample.name }}</a></li>
     <li>Sequence <i>{{ seq_id }}</i></li>
   </ol>
 </div>
@@ -26,7 +26,7 @@
         Sample
         <a data-toggle="tooltip" title="The sample which contains this sequence"><span class="glyphicon glyphicon-question-sign"></span>
       </th>
-      <td><a href="#/samples/{{ seq.sample.id }}" target="_blank">{{
+      <td><a href="#/{{ api_path }}/samples/{{ seq.sample.id }}" target="_blank">{{
         seq.sample.name }}</a> (#{{ seq.sample.id }})</td>
     </tr>
 
@@ -180,7 +180,7 @@
         <a data-toggle="tooltip" title="The clone ID for this clone in the
         currently selected database version"><span class="glyphicon glyphicon-question-sign"></span>
       </th>
-      <td><a href="#/clone_compare/{{ seq.clone.id }}" target="_blank">{{
+      <td><a href="#/{{ api_path }}/clone_compare/{{ seq.clone.id }}" target="_blank">{{
         seq.clone.id }}</a></td>
       <th>
         Clone Group ID
@@ -219,8 +219,8 @@
     </thead>
     <tbody>
       <tr ng-repeat="dup in seq.duplicates">
-        <td><a href="#/samples/{{ dup.sample.id }}" target="_blank">{{ dup.sample.name }}</a> (#{{ dup.sample.id }})</td>
-        <td><a href="#/sequence/{{ dup.sample.id }}/{{ dup.seq_id }}" target="_blank">{{ dup.seq_id }}</a></td>
+        <td><a href="#/{{ api_path }}/samples/{{ dup.sample.id }}" target="_blank">{{ dup.sample.name }}</a> (#{{ dup.sample.id }})</td>
+        <td><a href="#/{{ api_path }}/sequence/{{ dup.sample.id }}/{{ dup.seq_id }}" target="_blank">{{ dup.seq_id }}</a></td>
         <td>{{ dup.alignment }}</td>
         <td>{{ dup.copy_number }}</td>
       </tr>

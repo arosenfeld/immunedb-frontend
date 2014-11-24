@@ -31,7 +31,7 @@
 </script>
 <div class="header">
   <ol class="breadcrumb">
-    <li><a href="#/clones"><i class="fa fa-sitemap fa-fw"></i>Clones</a> </li>
+    <li><a href="#/{{ api_path }}/clones"><i class="fa fa-sitemap fa-fw"></i>Clones</a> </li>
     <li>Clone Comparison</li>
   </ol>
 </div>
@@ -72,8 +72,8 @@
             <tbody ng-repeat="stat in info.seqs">
               <tr>
                 <td>{{ stat.sample.id }}</td>
-                <td><a href="#/samples/{{ stat.sample.id }}" target="_blank">{{ stat.sample.name }}</a></td>
-                <td><a href="#/sequence/{{stat.sample.id}}/{{ stat.seq_id }}" target="_blank">{{ stat.seq_id }}</a></td>
+                <td><a href="#/{{ api_path }}/samples/{{ stat.sample.id }}" target="_blank">{{ stat.sample.name }}</a></td>
+                <td><a href="#/{{ api_path }}/sequence/{{stat.sample.id}}/{{ stat.seq_id }}" target="_blank">{{ stat.seq_id }}</a></td>
                 <td>{{ stat.copy_number }}</td>
               </tr>
             </tbody>

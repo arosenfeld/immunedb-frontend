@@ -1,6 +1,6 @@
 <div class="header">
   <ol class="breadcrumb">
-    <li><a href="#/studies">Studies</a>
+    <li><a href="#/{{ api_path }}/studies">Studies</a>
     </li>
   </ol>
 </div>
@@ -59,7 +59,7 @@
                   <td>{{ sample.valid_cnt | number }}</td>
                   <td>{{ sample.no_result_cnt | number }}</td>
                   <td>{{ 100 * sample.functional_cnt / sample.valid_cnt | number : 2}}</td>
-                  <td><a href="#/samples/{{ sample.id }}">View Sample<span class="glyphicon glyphicon-chevron-right"></span></a> </td>
+                  <td><a href="#/{{ api_path }}/samples/{{ sample.id }}">View Sample<span class="glyphicon glyphicon-chevron-right"></span></a> </td>
                 </tr>
                 <tr ng-show="showDetails">
                   <td colspan="9">

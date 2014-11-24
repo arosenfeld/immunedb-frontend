@@ -8,6 +8,7 @@
         return {
             restrict: 'E',
             scope: {
+                apiPath: '=',
                 filter: '=',
                 samples: '=?',
                 subject: '=?',
@@ -49,7 +50,7 @@
                 }
 
                 $scope.viewClones = function() {
-                    $location.path('/clone_compare/' +
+                    $location.path($scope.apiPath + '/clone_compare/' +
                         $scope.checked_clones.join());
                 }
 
@@ -74,6 +75,7 @@
             restrict: 'E',
             replace: true,
             scope: {
+                apiPath: '=',
                 tclass: '@',
                 filter: '@',
                 heatmap: '@',

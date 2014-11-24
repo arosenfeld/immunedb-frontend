@@ -1,6 +1,6 @@
 <div class="header">
   <ol class="breadcrumb">
-    <li><a href="#/clones"><i class="fa fa-sitemap fa-fw"></i>Clones</a></li>
+    <li><a href="#/{{ api_path }}/clones"><i class="fa fa-sitemap fa-fw"></i>Clones</a></li>
   </ol>
 </div>
 <div>
@@ -88,7 +88,7 @@
                   <tr ng-repeat="stat in clone.stats">
                     <td><input type="checkbox" checklist-model="checked_samples" checklist-value="clone.id + '_' + stat.sample.id"></input></td>
                     <td>{{ stat.sample.id }}</td>
-                    <td><a href="#/samples/{{ stat.sample.id }}" target="_blank">{{ stat.sample.name }}</a></td>
+                    <td><a href="#/{{ api_path }}/samples/{{ stat.sample.id }}" target="_blank">{{ stat.sample.name }}</a></td>
                     <td>{{ stat.unique_sequences }}</td>
                     <td>{{ stat.total_sequences }}</td>
                   </tr>

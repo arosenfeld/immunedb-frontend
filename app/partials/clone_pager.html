@@ -29,8 +29,23 @@
           <td>{{ freq.clone.group.j_gene }}</td>
           <td>{{ freq.clone.group.cdr3_num_nts | number }}</td>
           <td ng-bind-html="freq.clone.group.cdr3_aa | aminoAcid" class="text-mono"></td>
-          <td>
-            <span ng-repeat="sid in freq.samples" ng-class="samples.indexOf(sid) >= 0 ? '' : 'faded'">{{ sid }}<span ng-hide="$last">,</span></span>
+          <td width="20%">
+            <span ng-repeat="sid in freq.samples | slice:0:5"
+                  >
+                  <a href="#/samples/{{ sid }}" target="_new" 
+                    ng-class="samples.indexOf(sid) >= 0 ? '' : 'faded'">{{ sid }}</a><span ng-hide="$last">,</span>
+            </span>
+            <span ng-show="freq.samples.length > 5">
+              <a ng-click="showMore=!showMore" ng-show="!showMore">({{ freq.samples.length - 5 }} more...)</a>
+            </span>
+            <span ng-repeat="sid in freq.samples | slice:5"
+                  ng-show="showMore">
+                  <a href="#/samples/{{ sid }}" target="_new"
+                    ng-class="samples.indexOf(sid) >= 0 ? '' : 'faded'">{{ sid }}</a><span ng-hide="$last">,</span>
+            </span>
+            <span ng-show="showMore">
+              <a ng-click="showMore=!showMore">(Hide)</a>
+            </span>
           </td>
         </tr>
         <tr>

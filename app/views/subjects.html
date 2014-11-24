@@ -1,6 +1,6 @@
 <div class="header">
   <ol class="breadcrumb">
-    <li><a href="#/subjects"><i class="fa fa-users fa-fw"></i>Subjects</a></li>
+    <li><a href="#/{{ api_path }}/subjects"><i class="fa fa-users fa-fw"></i>Subjects</a></li>
   </ol>
 </div>
 <div class="table-responsive">
@@ -25,7 +25,7 @@
           <td>{{ subject.unique_seqs | number }}</td>
           <td>{{ subject.total_clones | number }}</td>
           <td>{{ subject.total_samples | number }}</td>
-          <td><a href="#/subject/{{ subject.id }}">View Subject<span class="glyphicon glyphicon-chevron-right"></span></a> </td>
+          <td><a href="#/{{ api_path }}/subject/{{ subject.id }}">View Subject<span class="glyphicon glyphicon-chevron-right"></span></a> </td>
         </tr>
       </tbody>
       <tr>

@@ -8,7 +8,7 @@
             $scope.checked_samples = [];
 
             $scope.viewSamples = function() {
-                $location.path('/samples/' + $scope.checked_samples.join());
+                $location.path($scope.api_path + '/samples/' + $scope.checked_samples.join());
             };
 
             var init = function() {
