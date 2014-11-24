@@ -11,11 +11,11 @@
     <li ng-repeat="m in missing">Sample #{{ m }}</li>
   </ul>
 </div>
-<h3>Basic Statistics</h3>
+<h3>Basic Statistics <a ng-click="showDetails=!showDetails">(Show Details)</a></h3>
 <div class="table-responsive">
   <table class="table table-bordered">
     <thead>
-      <tr>
+      <tr class="active">
         <th># <a data-toggle="tooltip" title="A globally unique ID for this sample"><span class="glyphicon glyphicon-question-sign"></span></a>
         </th>
         <th>Name <a data-toggle="tooltip" title="A name for the sample"><span class="glyphicon glyphicon-question-sign"></span></a>
@@ -38,7 +38,6 @@
         </th>
         <th>Funct. Clones <a data-toggle="tooltip" title="Number of functional clones"><span class="glyphicon glyphicon-question-sign"></span></a>
         </th>
-        <th></th>
       </tr>
     </thead>
     <tbody ng-repeat="stat in groupedStats">
@@ -54,13 +53,12 @@
         <td>{{ stat.filters.unique_multiple.sequence_cnt | number }}</td>
         <td>{{ stat.filters.clones_all.sequence_cnt | number }}</td>
         <td>{{ stat.filters.clones_functional.sequence_cnt | number }}</td>
-        <td><a ng-click="showDetails = !showDetails">Details<span class="glyphicon glyphicon-chevron-right"></span></a></td>
       </tr>
       <tr ng-show="showDetails">
         <td colspan="12">
           <table class="table table-condensed table-bordered">
             <thead>
-              <tr>
+              <tr class="info">
                 <th>Subject</th>
                 <th>Subset</th>
                 <th>Tissue</th>
@@ -71,7 +69,7 @@
             </thead>
             <tbody>
               <tr>
-                <td>{{ stat.sample.subject.identifier }}</td>
+                <td><a href="#/subject/{{ stat.sample.subject.id }}" target="_new">{{ stat.sample.subject.identifier }}</a></td>
                 <td>{{ stat.sample.subset }}</td>
                 <td>{{ stat.sample.tissue }}</td>
                 <td>{{ stat.sample.disease }}</td>

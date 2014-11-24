@@ -122,9 +122,9 @@
                 ctx.fillStyle = '#ff0000';
                 ctx.fillText('Non-synonymous Mutation %', LEFT_PAD, TOP_PAD + (2 + seqs.length) * V_PER_SEQ);
                 ctx.fillStyle = '#ff0055';
-                ctx.fillText('Conserved % of non-synonymous', LEFT_PAD + 15, TOP_PAD + (3 + seqs.length) * V_PER_SEQ);
+                ctx.fillText('Conserved %', LEFT_PAD + 15, TOP_PAD + (3 + seqs.length) * V_PER_SEQ);
                 ctx.fillStyle = '#ff5500';
-                ctx.fillText('Non-conserved % of non-synonymous', LEFT_PAD + 15, TOP_PAD + (4 + seqs.length) * V_PER_SEQ);
+                ctx.fillText('Non-conserved %', LEFT_PAD + 15, TOP_PAD + (4 + seqs.length) * V_PER_SEQ);
 
                 angular.forEach(mutation_stats.positions, function(vals, offset) {
                     var nonsynonymous = vals['conservative'] +
@@ -133,9 +133,9 @@
                         seqs.length);
                     var changePerc = Math.round(100 * nonsynonymous / seqs.length);
                     var conservPerc = Math.round(100 * vals['conservative'] /
-                        nonsynonymous);
+                        seqs.length);
                     var nonConservPerc = Math.round(100 * vals['nonconservative'] /
-                        nonsynonymous);
+                        seqs.length);
                     ctx.font = '10px Courier New';
                     ctx.textAlign = 'center';
                     ctx.fillStyle = '#00ff00';

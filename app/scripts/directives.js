@@ -15,6 +15,7 @@
             templateUrl: 'partials/clone_pager.html',
             controller: function($scope) {
                 var updateClone = function(filter, page) {
+                    $scope.pageable = false;
                     if (typeof $scope.subject == 'undefined') {
                         var call = clonePagerService.getClonesBySample(
                             $scope.samples, filter, page);
@@ -27,6 +28,7 @@
                         function(result) {
                             $scope.clones = result['clones']
                             $scope.total_pages = result['num_pages'] 
+                            $scope.pageable = true;
                         },
                         function(result) {
                         }
@@ -53,6 +55,7 @@
 
                 var init = function() {
                     updateClone($scope.filter, 1);
+                    $scope.pageable = false;
                     $scope.exportUrl = APIService.getUrl() + 'data/';
                     if (typeof $scope.subject == 'undefined') {
                         $scope.exportUrl += 'clone_overlap/' + $scope.filter +

@@ -16,6 +16,9 @@
         </tr>
       </thead>
       <tbody>
+        <tr>
+          <td colspan="10" class="text-center" ng-show="!clones">Loading...</td>
+        </tr>
         <tr ng-repeat="freq in clones">
           <td><input type="checkbox" checklist-model="checked_clones" checklist-value="freq.compareStr"></input></td>
           <td>{{ freq.total_sequences | number }}</td>
@@ -26,7 +29,9 @@
           <td>{{ freq.clone.group.j_gene }}</td>
           <td>{{ freq.clone.group.cdr3_num_nts | number }}</td>
           <td ng-bind-html="freq.clone.group.cdr3_aa | aminoAcid" class="text-mono"></td>
-          <td>{{ freq.samples.join(',') }}</td>
+          <td>
+            <span ng-repeat="sid in freq.samples" ng-class="samples.indexOf(sid) >= 0 ? '' : 'faded'">{{ sid }}<span ng-hide="$last">,</span></span>
+          </td>
         </tr>
         <tr>
           <td colspan="10">
@@ -38,9 +43,9 @@
         <tr>
           <td colspan="10">
             <ul class="pager">
-              <li><a href="" ng-click="prevPage()">Previous</a></li>
+              <li><a href="" ng-click="prevPage()" ng-show="pageable">Previous</a></li>
               <li>Page {{ page }}</li>
-              <li><a href="" ng-click="nextPage()">Next</a></li>
+              <li><a href="" ng-click="nextPage()" ng-show="pageable">Next</a></li>
             </ul>
           </td>
         </tr>

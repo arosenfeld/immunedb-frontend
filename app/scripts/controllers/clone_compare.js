@@ -39,10 +39,11 @@
                     $timeout(function() {
                         for (var cloneId in $scope.cloneInfo) {
                             var info = $scope.cloneInfo[cloneId];
+                            $log.debug(info);
                 
                             dnaCompare.makeComparison(
                                 $('#compare-' + cloneId).get(0),
-                                info.clone.group.germline,
+                                info.clone.germline,
                                 info.clone.group.cdr3_num_nts,
                                 info.seqs,
                                 info.mutation_stats);

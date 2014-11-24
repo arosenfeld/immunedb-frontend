@@ -66,6 +66,7 @@
                 <th>Sample #</th>
                 <th>Sample Name</th>
                 <th>Sequence ID</th>
+                <th>Copy Number</th>
               </tr>
             </thead>
             <tbody ng-repeat="stat in info.seqs">
@@ -73,6 +74,7 @@
                 <td>{{ stat.sample.id }}</td>
                 <td><a href="#/samples/{{ stat.sample.id }}" target="_blank">{{ stat.sample.name }}</a></td>
                 <td><a href="#/sequence/{{stat.sample.id}}/{{ stat.seq_id }}" target="_blank">{{ stat.seq_id }}</a></td>
+                <td>{{ stat.copy_number }}</td>
               </tr>
             </tbody>
           </table>

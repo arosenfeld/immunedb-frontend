@@ -129,7 +129,7 @@
                         angular.forEach(columnPlots, function(p,
                             i) {
                             if (!(filter in $scope.charts)) {
-                                $scope.charts[filter] = {};
+                                $scope.charts[filter] = [];
                             }
                             var c =
                                 plotting.createColumnChart(
@@ -141,7 +141,7 @@
                                     plotting.createSeries(
                                         $scope.plottable, p.key, filter)
                                 );
-                            $scope.charts[filter][p.key] = c;
+                            $scope.charts[filter].push(c);
                         });
                     });
 

@@ -25,10 +25,11 @@
                     + $routeParams['seqId'],
                 }).success(function(data, status) {
                     $scope.seq = data['sequence'];
+                    $scope.seq_id = $routeParams['seqId'];
                     dnaCompare.makeComparison(
                         $('#germline-compare').get(0),
-                        $scope.seq.clone.germline,
-                        $scope.seq.clone.cdr3_num_nts,
+                        $scope.seq.germline,
+                        $scope.seq.junction_nt.length,
                         [ $scope.seq ]);
                     $('#modal').modal('hide');
                 }).error(function(data, status, headers, config) {
