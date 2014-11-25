@@ -18,26 +18,43 @@
                 return $location.path().split('/')[2];
             }
 
-            var getApi = function() {
-                return $location.path().split('/')[1];
-            }
-
             var menuClass = function(page) {
                 return page === activeMap[getPage()] ? 'active' : '';
-            };
+            }
 
-            var apiChange = function(name) {
-                APIService.setName(name);
-                $scope.db_version = APIService.getReadable();
+            var apiChange = function(key) {
+                APIService.setName(key);
+                $scope.apiName = APIService.getReadable();
+            }
+
+            var showLoader = function() {
+                $scope.$parent.modal_head = 'Querying';
+                $scope.$parent.modal_text =
+                    '<i class="fa fa-spinner fa-spin"></i> Loading data from database...';
+                $('#modal').modal('show');
+            }
+
+            var hideLoader = function() {
+                $('#modal').modal('hide');
+            }
+
+            var showError = function() {
+                $scope.$parent.modal_head = 'Error';
+                $scope.$parent.modal_text = 'There has been an error' +
+                ' communicating with the database.';
             }
 
             var init = function() {
                 $scope.apis = apis;
-                $scope.api_path = getApi();
-                $scope.db_version = APIService.getReadable();
+                $scope.api_path = APIService.getName();
                 $scope.page = getPage();
                 $scope.menuClass = menuClass;
                 $scope.apiChange = apiChange;
+                $scope.apiName = APIService.getReadable();
+
+                $scope.showLoader = showLoader;
+                $scope.hideLoader = hideLoader;
+                $scope.showError = showError;
             }
 
             init();

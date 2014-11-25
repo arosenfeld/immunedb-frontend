@@ -33,7 +33,7 @@
               <strong>Change Database:</strong>
               <div class="dropdown">
                 <button class="btn btn-default dropdown-toggle" type="button" id="database-menu">
-                  Database Version: {{ db_version }}<span class="caret"></span>
+                  Database Version: {{ apiName }}<span class="caret"></span>
                 </button>
                 <ul class="dropdown-menu" role="menu" aria-labelledby="database-menu">
                   <li role="presentation" ng-repeat="(key, api) in apis">
@@ -57,7 +57,7 @@
           <li>
             <div class="dropdown">
               <button class="btn btn-default dropdown-toggle" type="button" id="database-menu">
-                Database Version: {{ db_version }}<span class="caret"></span>
+                Database Version: {{ apiName }}<span class="caret"></span>
               </button>
               <ul class="dropdown-menu" role="menu" aria-labelledby="database-menu">
                 <li role="presentation" ng-repeat="(key, api) in apis">
@@ -82,6 +82,9 @@
               </li>
               <li>
                 <a href="#/{{ api_path }}/subjects/" ng-class="menuClass('subjects')"><i class="fa fa-users fa-fw"></i>Subjects</a>
+              </li>
+              <li>
+                <a href="#/{{ api_path }}/sequences/" ng-class="menuClass('sequences')"><i class="fa fa-align-left fa-fw"></i>Sequences</a>
               </li>
             </ul>
           </div>
@@ -136,6 +139,7 @@
     <script src="scripts/controllers/clones.js"></script>
     <script src="scripts/controllers/clone_compare.js"></script>
     <script src="scripts/controllers/sequence.js"></script>
+    <script src="scripts/controllers/sequences.js"></script>
     <script src="scripts/controllers/subjects.js"></script>
     <script src="scripts/controllers/subject.js"></script>
     <script src="scripts/controllers/high_chart.js"></script>

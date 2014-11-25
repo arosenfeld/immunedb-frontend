@@ -17,7 +17,7 @@
       </thead>
       <tbody>
         <tr>
-          <td colspan="10" class="text-center" ng-show="!clones">Loading...</td>
+          <td colspan="10" class="text-center" ng-show="!clones">Loading <i class="fa fa-spinner fa-spin"></i></td>
         </tr>
         <tr ng-repeat="freq in clones">
           <td><input type="checkbox" checklist-model="checked_clones" checklist-value="freq.compareStr"></input></td>

@@ -1,0 +1,92 @@
+<div class="header">
+  <ol class="breadcrumb">
+    <li><a href="#/{{ api_path }}/sequences"><i class="fa fa-sitemap
+    fa-fw"></i>Sequences</a></li>
+  </ol>
+</div>
+<div>
+  <div class="panel panel-info">
+    <div class="panel-heading">
+      <h3 class="panel-title">Filter Sequences (Use * for wildcard) </h3>
+    </div>
+    <div class="panel-body">
+      <form class="form-inline" name="seq_filter" role="form" ng-submit="updateSequences()">
+        <div class="form-group">
+          <label class="sr-only" for="id_filter">Sequence ID</label>
+          <input type="number" class="form-control" ng-model="filter.id" id="id_filter" placeholder="Sequence ID">
+        </div>
+        <div class="form-group">
+          <label class="sr-only" for="v_call_filter">V-Gene</label>
+          <input type="text" class="form-control" ng-model="filter.v_call" id="v_call_filter" placeholder="V-Gene">
+        </div>
+        <div class="form-group">
+          <label class="sr-only" for="j_call_filter">J-Gene</label>
+          <input type="text" class="form-control" ng-model="filter.j_call" id="j_call_filter" placeholder="J-Gene">
+        </div>
+        <div class="form-group">
+          <label class="sr-only" for="cdr3_aa_filter">CDR3 AA</label>
+          <input type="text" class="form-control" ng-model="filter.cdr3_aa" id="cdr3_aa_filter" placeholder="CDR3 AA">
+        </div>
+        <div class="form-group">
+          <label class="sr-only" for="min_cdr3_len_filter">Min. CDR3 Length</label>
+          <input type="number" class="form-control" ng-model="filter.min_cdr3_num_nts" id="min_cdr3_len_filter" min="0" placeholder="Min. CDR3 NTs">
+        </div>
+        <div class="form-group">
+          <label class="sr-only" for="max_cdr3_len_filter">Max. CDR3 Length</label>
+          <input type="number" class="form-control" ng-model="filter.max_cdr3_num_nts" id="max_cdr3_len_filter" min="0" placeholder="Max. CDR3 NTs">
+        </div>
+        <div class="form-group">
+          <button type="submit" class="btn btn-info">Filter</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+<div class="table-responsive">
+  <form novalidate>
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th>Seq. ID</a></th>
+          <th>Subject</a></th>
+          <th>V Gene</a></th>
+          <th>J Gene</a></th>
+          <th>CDR3 Length</a></th>
+          <th>CDR3 AA</th>
+          <th>Alignment</th>
+          <th>Copy Number</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr ng-show="sequences.length == 0">
+          <td colspan="9" class="text-center">No results.</td>
+        </tr>
+        <tr class="active" ng-repeat="seq in sequences" ng-show="sequences.length > 0">
+          <td>{{ seq.seq_id }}</td>
+          <td><a href="#/{{ api_path }}/subject/{{ seq.sample.subject.id }}"
+            target="_new">{{ seq.sample.subject.identifier }}</a></td>
+          <td>{{ seq.v_call }}</td>
+          <td>{{ seq.j_call }}</td>
+          <td>{{ seq.cdr3_length }}</td>
+          <td ng-bind-html="seq.junction_aa | aminoAcid" class="text-mono"></td>
+          <td>{{ seq.alignment }}</td>
+          <td>{{ seq.copy_number }}</td>
+          <td>
+            <a href="#/{{ api_path }}/sequence/{{ seq.sample.id }}/{{ seq.seq_id }}" target="_new">View
+            Sequence <span class="glyphicon glyphicon-chevron-right"></span></a>
+          </td>
+        </tr>
+        <tr ng-show="sequences.length > 0">
+          <td colspan="9">
+            <ul class="pager">
+              <li><a href="" ng-click="prevPage()" ng-show="pageable">Previous</a></li>
+              <li>Page {{ page }}</li>
+              <li><a href="" ng-click="nextPage()" ng-show="pageable">Next</a></li>
+            </ul>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </form>
+</div>

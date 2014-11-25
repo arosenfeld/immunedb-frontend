@@ -55,12 +55,8 @@
             }
 
             var init = function() {
-                // Show the loading popup
-                $scope.$parent.modal_head = 'Querying';
-                $scope.$parent.modal_text =
-                    'Loading data from database...';
+                $scope.showLoader()
                 $scope.$parent.page_title = 'Sample Comparison';
-                $('#modal').modal('show');
 
                 // Resize (reflow) all plots when a tab is clicked
                 $('#funcTab a').click(function(e) {
@@ -145,11 +141,9 @@
                         });
                     });
 
-                    $('#modal').modal('hide');
+                    $scope.hideLoader();
                 }).error(function(data, status, headers, config) {
-                    $scope.$parent.modal_head = 'Error';
-                    $scope.$parent.modal_text =
-                        'There has been an error communicating with the database. If this occurs again, please contact <a href="mailto:ar374@drexel.edui?subject=SimLab DB Error">ar374@drexel.edu</a>.';
+                    $scope.showError();
                 });
             }
             init();

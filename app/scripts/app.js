@@ -34,6 +34,10 @@
                     templateUrl: 'views/subject.html',
                     controller: 'SubjectCtrl',
                 })
+                .when('/:apiPath/sequences/', {
+                    templateUrl: 'views/sequences.html',
+                    controller: 'SequencesCtrl',
+                })
                 .when('/:apiPath', {
                    redirectTo: function(routeParams, path, search) {
                        return routeParams.apiPath + '/studies';

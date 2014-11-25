@@ -23,10 +23,7 @@
             }
 
             var init = function() {
-                $scope.$parent.modal_head = 'Querying';
-                $scope.$parent.modal_text =
-                    'Loading data from database...';
-                $('#modal').modal('show');
+                $scope.showLoader();
                 $scope.$parent.page_title = 'Clone Comparison';
                 $scope.api = APIService.getUrl();
                 $scope.params = $routeParams['uids'];
@@ -39,7 +36,6 @@
                     $timeout(function() {
                         for (var cloneId in $scope.cloneInfo) {
                             var info = $scope.cloneInfo[cloneId];
-                            $log.debug(info);
                 
                             dnaCompare.makeComparison(
                                 $('#compare-' + cloneId).get(0),
@@ -49,11 +45,9 @@
                                 info.mutation_stats);
                         }
                     }, 0);
-                    $('#modal').modal('hide');
+                    $scope.hideLoader();
                 }).error(function(data, status, headers, config) {
-                    $scope.$parent.modal_head = 'Error';
-                    $scope.$parent.modal_text =
-                        'There has been an error communicating with the database. If this occurs again, please contact <a href="mailto:ar374@drexel.edui?subject=SimLab DB Error">ar374@drexel.edu</a>.';
+                    $scope.showError()
                 });
             }
 

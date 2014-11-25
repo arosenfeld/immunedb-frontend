@@ -1,14 +1,15 @@
 (function() {
     'use strict';
 
-    angular.module('ImmunologyApp').service('APIService', ['$cookieStore', '$log',
-            '$route', 'apis',
-        function($cookieStore, $log, $route, apis) {
+    angular.module('ImmunologyApp').service('APIService', ['$location', '$log',
+            'apis',
+        function($location, $log, apis) {
             this.getName = function() {
-                if(typeof $cookieStore.get('apiName') == 'undefined') {
-                    this.setName('primary');
+                var loc = $location.path().split('/')[1];
+                if (typeof loc == 'undefined') {
+                    return 'primary';
                 }
-                return $cookieStore.get('apiName');
+                return loc;
             }
 
             this.getReadable = function() {
@@ -20,8 +21,8 @@
             }
 
             this.setName = function(apiName) {
-                $cookieStore.put('apiName', apiName);
-                $route.reload();
+                $location.path(apiName + '/' +
+                    $location.path().split('/').slice(2).join('/'));
             }
         }]);
 })();
