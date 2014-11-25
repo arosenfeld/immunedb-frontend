@@ -47,10 +47,7 @@
             }
 
             var init = function() {
-                $scope.$parent.modal_head = 'Querying';
-                $scope.$parent.modal_text =
-                    'Loading data from database...';
-                $('#modal').modal('show');
+                $scope.showLoader();
                 $scope.$parent.page_title = 'Subjects';
 
                 $scope.page = 1;
@@ -58,12 +55,10 @@
                     function(result) {
                         $scope.objects = result;
                         $scope.pageable = true;
-                        $('#modal').modal('hide');
+                        $scope.hideLoader();
                     },
                     function(result) {
-                        $scope.$parent.modal_head = 'Error';
-                        $scope.$parent.modal_text =
-                            'There has been an error communicating with the database. If this occurs again, please contact <a href="mailto:ar374@drexel.edui?subject=SimLab DB Error">ar374@drexel.edu</a>.';
+                        $scope.showError();
                     }
                 );
             }

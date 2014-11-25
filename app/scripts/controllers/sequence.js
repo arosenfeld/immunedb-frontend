@@ -4,11 +4,7 @@
             '$http', '$routeParams', '$log', 'dnaCompare', 'APIService',
         function($scope, $http, $routeParams, $log, dnaCompare, APIService) {
             var init = function() {
-                // Show the loading popup
-                $scope.$parent.modal_head = 'Querying';
-                $scope.$parent.modal_text =
-                    'Loading data from database...';
-                $('#modal').modal('show');
+                $scope.showLoader()
                 $scope.$parent.page_title = 'Sequence Details';
 
                 // Enable help tooltips
@@ -31,11 +27,9 @@
                         $scope.seq.germline,
                         $scope.seq.junction_nt.length,
                         [ $scope.seq ]);
-                    $('#modal').modal('hide');
+                    $scope.hideLoader()
                 }).error(function(data, status, headers, config) {
-                    $scope.$parent.modal_head = 'Error';
-                    $scope.$parent.modal_text =
-                        'There has been an error communicating with the database. If this occurs again, please contact <a href="mailto:ar374@drexel.edui?subject=SimLab DB Error">ar374@drexel.edu</a>.';
+                    $scope.showError();
                 });
             }
 
