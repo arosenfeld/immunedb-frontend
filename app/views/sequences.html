@@ -38,6 +38,12 @@
         <div class="form-group">
           <button type="submit" class="btn btn-info">Filter</button>
         </div>
+        <div class="checkbox pull-right">
+          <label>
+            <input type="checkbox" class="form-control"
+            ng-model="filter.show_r1" id="show_r1"> Show R1 Sequences
+          </label>
+        </div>
       </form>
     </div>
   </div>
@@ -46,8 +52,8 @@
   <form novalidate>
     <table class="table table-bordered">
       <thead>
-        <tr>
-          <th>Seq. ID</a></th>
+        <tr class="active">
+          <th>Sequence ID</a></th>
           <th>Subject</a></th>
           <th>V Gene</a></th>
           <th>J Gene</a></th>
@@ -62,7 +68,7 @@
         <tr ng-show="sequences.length == 0">
           <td colspan="9" class="text-center">No results.</td>
         </tr>
-        <tr class="active" ng-repeat="seq in sequences" ng-show="sequences.length > 0">
+        <tr ng-repeat="seq in sequences" ng-show="sequences.length > 0">
           <td>{{ seq.seq_id }}</td>
           <td><a href="#/{{ api_path }}/subject/{{ seq.sample.subject.id }}"
             target="_new">{{ seq.sample.subject.identifier }}</a></td>

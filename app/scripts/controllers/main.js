@@ -9,7 +9,8 @@
                 'samples': 'studies',
                 'clones': 'clones',
                 'clone_compare': 'clones',
-                'sequence': 'studies',
+                'sequence': 'sequences',
+                'sequences': 'sequences',
                 'subjects': 'subjects',
                 'subject': 'subjects',
             };
