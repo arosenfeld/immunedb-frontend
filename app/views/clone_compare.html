@@ -139,14 +139,23 @@
         <td colspan="5">
           <h4 class="faded text-center" ng-hide="showComp">Comparison hidden for brevity.  Click <a ng-click="showComp = !showComp">here</a> to show.</h4>
           <h4 ng-show="showComp">Sequence Comparison (<a ng-click="showComp = !showComp">Hide</a>)</h4>
-          <div class="text-mono">
-            <div  class="slideWrap" ng-show="showComp">
+          <div ng-show="showComp">
+            <div class="slideWrap">
               <span class="scroller">
                 <canvas id="compare-{{ info.clone.id }}">
-                Your browser doesn't support HTML5! Please download a newer browser.
+                Your browser doesn't support HTML5! Please download a newer
+                browser.
                 </canvas>
               </span>
             </div>
+            <ul class="pager">
+              <li ng-show="pages[info.clone.id] > 0"><a href="" ng-click="prevPage(info.clone.id)">Previous</a></li>
+              <li>Page {{ pages[info.clone.id] + 1 }} / {{
+                ceil(info.seqs.length / SEQS_PER_CANVAS) }}</li>
+              <li
+                ng-show="pages[info.clone.id] + 1 < ceil(info.seqs.length /
+              SEQS_PER_CANVAS)"><a href="" ng-click="nextPage(info.clone.id)">Next</a></li>
+            </ul>
           </div>
         </td>
       </tr>

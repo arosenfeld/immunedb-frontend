@@ -52,7 +52,7 @@
                     url: APIService.getUrl() + 'clones/',
                     params: {
                         'page': $scope.page,
-                        'per_page': 25,
+                        'per_page': 10,
                         'filter': typeof($scope.filter) == 'undefined' ? ''
                             : angular.toJson($scope.filter),
                         'order_field': $scope.orderField,

@@ -53,12 +53,13 @@
           <th><a ng-click="updateOrder('j_gene')">J Gene</a></th>
           <th><a ng-click="updateOrder('cdr3_num_nts')">CDR3 Length</a></th>
           <th>CDR3 AA</th>
+          <th></th>
         </tr>
       </thead>
       <tbody>
         <tbody ng-show="clones.length == 0">
           <tr>
-            <td colspan="6" class="text-center">No results.</td>
+            <td colspan="7" class="text-center">No results.</td>
           </tr>
         </tbody>
         <tbody ng-repeat="clone in clones" ng-show="clones.length > 0">
@@ -69,9 +70,10 @@
             <td>{{ clone.group.j_gene }}</td>
             <td>{{ clone.group.cdr3_num_nts }}</td>
             <td ng-bind-html="clone.group.cdr3_aa | aminoAcid" class="text-mono"></td>
+            <td><a href="#/{{ api_path }}/clone_compare/{{ clone.id }}">View Clone<span class="glyphicon glyphicon-chevron-right"></span></a></td>
           </tr>
           <tr>
-            <td colspan="6" style="float:none; margin: 0 auto;">
+            <td colspan="7" style="float:none; margin: 0 auto;">
               <table class="table table-bordered">
                 <thead>
                   <tr class="info">
@@ -96,7 +98,7 @@
           </tr>
         </tbody>
         <tr ng-show="clones.length > 0">
-          <td colspan="6">
+          <td colspan="7">
             <ul class="pager">
               <li><a href="" ng-click="prevPage()" ng-show="pageable">Previous</a></li>
               <li>Page {{ page }}</li>
