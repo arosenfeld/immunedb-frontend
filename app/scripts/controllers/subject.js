@@ -2,8 +2,12 @@
     'use strict';
 
     angular.module('ImmunologyApp') .controller('SubjectCtrl', ['$scope',
-            '$http', '$q', '$routeParams', '$log', 'APIService',
-        function($scope, $http, $q, $routeParams, $log, APIService) {
+            '$http', '$q', '$routeParams', '$location', '$log', 'APIService',
+        function($scope, $http, $q, $routeParams, $location, $log, APIService) {
+            $scope.viewSamples = function() {
+                $location.path($scope.api_path + '/samples/' + $scope.checked_samples.join());
+            }
+
             var getSubject = function(sid) {
                 var def = $q.defer();
                 $http({
@@ -21,6 +25,7 @@
             var init = function() {
                 $scope.showLoader();
                 $scope.$parent.page_title = 'Subject';
+                $scope.checked_samples = [];
                 $scope.subject_id = $routeParams['subjectId'];
 
                 getSubject($routeParams['subjectId']).then(

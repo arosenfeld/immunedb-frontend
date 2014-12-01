@@ -9,7 +9,7 @@
 
             $scope.viewSamples = function() {
                 $location.path($scope.api_path + '/samples/' + $scope.checked_samples.join());
-            };
+            }
 
             var init = function() {
                 $scope.$parent.page_title = 'Studies';
