@@ -47,3 +47,8 @@ span.scroller {
 a.faded {
     color: #7d98bd;
 }
+
+.dna {
+    font-weight: bold;
+    letter-spacing: 4px;
+}

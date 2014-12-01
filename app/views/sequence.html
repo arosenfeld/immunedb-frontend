@@ -59,8 +59,8 @@
     <tr>
       <th>
       Alignment Method
-      <a data-toggle="tooltip" title="'Joined' if the sequence is from pRESTO
-      aligning R1 and R2 reads, otherwise R1 or R2"><span class="glyphicon glyphicon-question-sign"></span>
+      <a data-toggle="tooltip" title="'pRESTO' if the sequence is from pRESTO
+      aligning R1 and R2 reads, otherwise 'R1' or 'R2'"><span class="glyphicon glyphicon-question-sign"></span>
       </th>
       <td>{{ seq.alignment }}</td>
     </tr>
@@ -188,13 +188,20 @@
         CDR3 AAs, and subject, and is useful for finding similar clones across
         database versions"><span class="glyphicon glyphicon-question-sign"></span>
       </th>
-      <td>{{ seq.clone.group.id }}</td>
+      <td><a href="#/{{ api_path }}/clones/?group={{ seq.clone.group.id }}"
+        target="_blank">{{ seq.clone.group.id }}</a></td>
     </tr>
     <tr>
       <th>
         Consensus CDR3 Nucleotides
       </th>
       <td ng-bind-html="seq.clone.cdr3_nt | dna" colspan="3"></td>
+    </tr>
+    <tr>
+      <th>
+        Consensus CDR3 Amino Acids 
+      </th>
+      <td ng-bind-html="seq.clone.group.cdr3_aa | dna" colspan="3"></td>
     </tr>
   </table>
 </div>
