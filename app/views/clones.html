@@ -12,7 +12,13 @@
       <form class="form-inline" name="clone_filter" role="form" ng-submit="updateClones()">
         <div class="form-group">
           <label class="sr-only" for="id_filter">Clone ID</label>
-          <input type="number" class="form-control" ng-model="filter.id" id="id_filter" placeholder="Clone ID">
+          <input type="number" class="form-control" ng-model="filter.id"
+          id="id_filter" min="0" placeholder="Clone ID">
+        </div>
+        <div class="form-group">
+          <label class="sr-only" for="id_filter">Clone Group ID</label>
+          <input type="number" class="form-control" ng-model="filter.group_id"
+            id="group_id_filter" min="0" placeholder="Clone Group ID">
         </div>
         <div class="form-group">
           <label class="sr-only" for="v_gene_filter">V-Gene</label>
@@ -47,11 +53,12 @@
     <table class="table table-bordered">
       <thead>
         <tr class="active">
-          <th><a ng-click="updateOrder('id')">#</a></th>
-          <th><a ng-click="updateOrder('subject_id')">Subject</a></th>
-          <th><a ng-click="updateOrder('v_gene')">V Gene</a></th>
-          <th><a ng-click="updateOrder('j_gene')">J Gene</a></th>
-          <th><a ng-click="updateOrder('cdr3_num_nts')">CDR3 Length</a></th>
+          <th>Clone ID</th>
+          <th>Group ID</th>
+          <th>Subject</th>
+          <th>V Gene</th>
+          <th>J Gene</th>
+          <th>CDR3 Length</th>
           <th>CDR3 AA</th>
           <th></th>
         </tr>
@@ -59,21 +66,23 @@
       <tbody>
         <tbody ng-show="clones.length == 0">
           <tr>
-            <td colspan="7" class="text-center">No results.</td>
+            <td colspan="8" class="text-center">No results.</td>
           </tr>
         </tbody>
         <tbody ng-repeat="clone in clones" ng-show="clones.length > 0">
           <tr class="active">
             <td>{{ clone.id }}</td>
+            <td>{{ clone.group.id }}</td>
             <td>{{ clone.group.subject.identifier}} ({{ clone.group.subject.study.name}})</td>
             <td>{{ clone.group.v_gene }}</td>
             <td>{{ clone.group.j_gene }}</td>
             <td>{{ clone.group.cdr3_num_nts }}</td>
             <td ng-bind-html="clone.group.cdr3_aa | aminoAcid" class="text-mono"></td>
-            <td><a href="#/{{ api_path }}/clone_compare/{{ clone.id }}">View Clone<span class="glyphicon glyphicon-chevron-right"></span></a></td>
+            <td><a href="#/{{ api_path }}/clone_compare/{{ clone.id }}"
+              target="_new">View Clone<span class="glyphicon glyphicon-chevron-right"></span></a></td>
           </tr>
           <tr>
-            <td colspan="7" style="float:none; margin: 0 auto;">
+            <td colspan="8" style="float:none; margin: 0 auto;">
               <table class="table table-bordered">
                 <thead>
                   <tr class="info">
@@ -98,7 +107,7 @@
           </tr>
         </tbody>
         <tr ng-show="clones.length > 0">
-          <td colspan="7">
+          <td colspan="8">
             <ul class="pager">
               <li><a href="" ng-click="prevPage()" ng-show="pageable">Previous</a></li>
               <li>Page {{ page }}</li>

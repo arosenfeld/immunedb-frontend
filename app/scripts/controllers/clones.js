@@ -2,8 +2,8 @@
     'use strict';
 
     angular.module('ImmunologyApp').controller('ClonesCtrl', ['$scope',
-            '$http', '$q', '$location', '$log', 'APIService',
-        function($scope, $http, $q, $location, $log, APIService) {
+            '$http', '$q', '$routeParams', '$location', '$log', 'APIService',
+        function($scope, $http, $q, $routeParams, $location, $log, APIService) {
 
             $scope.prevPage = function() {
                 $scope.page = Math.max(1, $scope.page - 1);
@@ -47,6 +47,13 @@
 
             var getClones = function() {
                 var def = $q.defer();
+                if (!(typeof $routeParams['group'] == 'undefined')) {
+                    if (typeof($scope.filter) == 'undefined') {
+                        $scope.filter = {};
+                    }
+                    $scope.filter.group_id =
+                        parseInt($routeParams['group']);
+                }
                 $http({
                     method: 'GET',
                     url: APIService.getUrl() + 'clones/',

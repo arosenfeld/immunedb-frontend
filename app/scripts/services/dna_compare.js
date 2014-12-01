@@ -41,7 +41,7 @@
         }
 
         var makeComparison = function(canvas, germline, cdr3_num_nts, seqs,
-                                      mutation_stats) {
+                total_seqs, mutation_stats) {
             var ctx = canvas.getContext('2d');
 
             var labelMaxLength = 0;
@@ -130,12 +130,12 @@
                     var nonsynonymous = vals['conservative'] +
                         vals['nonconservative'];
                     var silentPerc = Math.round(100 * vals['synonymous'] /
-                        seqs.length);
-                    var changePerc = Math.round(100 * nonsynonymous / seqs.length);
+                        total_seqs);
+                    var changePerc = Math.round(100 * nonsynonymous / total_seqs);
                     var conservPerc = Math.round(100 * vals['conservative'] /
-                        seqs.length);
+                        total_seqs);
                     var nonConservPerc = Math.round(100 * vals['nonconservative'] /
-                        seqs.length);
+                        total_seqs);
                     ctx.font = '10px Courier New';
                     ctx.textAlign = 'center';
                     ctx.fillStyle = '#00ff00';

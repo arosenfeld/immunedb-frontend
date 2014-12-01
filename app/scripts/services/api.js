@@ -21,8 +21,9 @@
             }
 
             this.setName = function(apiName) {
-                $location.path(apiName + '/' +
-                    $location.path().split('/').slice(2).join('/'));
+                var path = apiName + '/'
+                path += $location.path().split('/').slice(2).join('/');
+                $location.path(path);
             }
         }]);
 })();

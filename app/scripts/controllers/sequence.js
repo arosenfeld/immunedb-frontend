@@ -26,7 +26,7 @@
                         $('#germline-compare').get(0),
                         $scope.seq.germline,
                         $scope.seq.junction_nt.length,
-                        [ $scope.seq ]);
+                        [ $scope.seq ], 1);
                     $scope.hideLoader()
                 }).error(function(data, status, headers, config) {
                     $scope.showError();

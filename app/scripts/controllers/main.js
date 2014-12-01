@@ -26,6 +26,7 @@
             var apiChange = function(key) {
                 APIService.setName(key);
                 $scope.apiName = APIService.getReadable();
+                $scope.apiChanged = true;
             }
 
             var showLoader = function() {
@@ -46,6 +47,7 @@
             }
 
             var init = function() {
+                $scope.apiChanged = false;
                 $scope.apis = apis;
                 $scope.api_path = APIService.getName();
                 $scope.page = getPage();

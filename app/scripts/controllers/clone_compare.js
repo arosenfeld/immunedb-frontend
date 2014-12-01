@@ -2,9 +2,9 @@
     'use strict';
 
     angular.module('ImmunologyApp').controller('ClonesCompareCtrl', ['$scope',
-            '$http', '$routeParams', '$timeout', '$log', '$modal', 'dnaCompare',
-            'APIService',
-        function($scope, $http, $routeParams, $timeout, $log, $modal,
+            '$http', '$location', '$routeParams', '$timeout', '$log', '$modal',
+            'dnaCompare', 'APIService',
+        function($scope, $http, $location, $routeParams, $timeout, $log, $modal,
                 dnaCompare, APIService) {
 
             $scope.SEQS_PER_CANVAS = 100;
@@ -39,6 +39,7 @@
                     info.clone.germline,
                     info.clone.group.cdr3_num_nts,
                     info.seqs.slice(page * $scope.SEQS_PER_CANVAS, (page + 1) * $scope.SEQS_PER_CANVAS),
+                    info.seqs.length,
                     info.mutation_stats);
             }
 

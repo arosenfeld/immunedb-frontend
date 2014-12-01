@@ -14,7 +14,7 @@
                     templateUrl: 'views/samples.html',
                     controller: 'SampleCtrl'
                 })
-                .when('/:apiPath/clones', {
+                .when('/:apiPath/clones/:group?', {
                     templateUrl: 'views/clones.html',
                     controller: 'ClonesCtrl',
                 })
@@ -26,7 +26,7 @@
                     templateUrl: 'views/sequence.html',
                     controller: 'SequenceCtrl'
                 })
-                .when('/:apiPath/subjects/', {
+                .when('/:apiPath/subjects', {
                     templateUrl: 'views/subjects.html',
                     controller: 'SubjectsCtrl',
                 })
@@ -34,7 +34,7 @@
                     templateUrl: 'views/subject.html',
                     controller: 'SubjectCtrl',
                 })
-                .when('/:apiPath/sequences/', {
+                .when('/:apiPath/sequences', {
                     templateUrl: 'views/sequences.html',
                     controller: 'SequencesCtrl',
                 })
@@ -54,7 +54,7 @@
             },
             'similarity-65': {
                 'name': 'Similarity 65%',
-                'url': 'http://129.25.28.237:2001/api/'
+                'url': 'http://129.25.28.237:2000/api/'
             }
         });
 })();
