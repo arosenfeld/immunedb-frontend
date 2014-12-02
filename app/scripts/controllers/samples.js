@@ -54,6 +54,15 @@
                 return def.promise;
             }
 
+            $scope.addPin = function() {
+                var names = [];
+                angular.forEach($scope.groupedStats, function(val, key) {
+                    names.push(val['sample']['name']);
+                });
+                $scope.pins.addPin('Samples ' + names.join(', '));
+                $scope.showNotify('This page has been pinned.');
+            }
+
             var init = function() {
                 $scope.showLoader()
                 $scope.$parent.page_title = 'Sample Comparison';

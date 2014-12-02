@@ -22,6 +22,12 @@
                 return def.promise;
             }
 
+            $scope.addPin = function() {
+                $scope.pins.addPin('Subject ' + $scope.subject['identifier'] + ' (' +
+                    $scope.subject['study']['name'] + ')');
+                $scope.showNotify('This page has been pinned.');
+            }
+
             var init = function() {
                 $scope.showLoader();
                 $scope.$parent.page_title = 'Subject';

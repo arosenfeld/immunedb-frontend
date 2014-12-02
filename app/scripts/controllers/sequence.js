@@ -3,6 +3,12 @@
     angular.module('ImmunologyApp') .controller('SequenceCtrl', ['$scope',
             '$http', '$routeParams', '$log', 'dnaCompare', 'APIService',
         function($scope, $http, $routeParams, $log, dnaCompare, APIService) {
+
+            $scope.addPin = function() {
+                $scope.pins.addPin('Sequence ' + $routeParams['seqId']);
+                $scope.showNotify('This page has been pinned.');
+            }
+
             var init = function() {
                 $scope.showLoader()
                 $scope.$parent.page_title = 'Sequence Details';

@@ -5,6 +5,11 @@
     <li>Sample Comparison</li>
   </ol>
 </div>
+<div class='notifications top-right'></div>
+<button type="button" class="btn btn-success pull-right"
+    ng-click="addPin()">
+  <i class="fa fa-thumb-tack fa-fw"></i> Pin Page
+</button>
 
 <div class="alert alert-warning" role="alert" ng-show="missing.length > 0"><strong>Warning</strong> The following samples do not have statistical information, or do not exist:
   <ul>
@@ -59,6 +64,7 @@
           <table class="table table-condensed table-bordered">
             <thead>
               <tr class="info">
+                <th>Date</th>
                 <th>Subject</th>
                 <th>Subset</th>
                 <th>Tissue</th>
@@ -69,6 +75,7 @@
             </thead>
             <tbody>
               <tr>
+                <td>{{ stat.sample.date }}</td>
                 <td><a href="#/{{ api_path }}/subject/{{ stat.sample.subject.id }}" target="_blank">{{ stat.sample.subject.identifier }}</a></td>
                 <td>{{ stat.sample.subset }}</td>
                 <td>{{ stat.sample.tissue }}</td>

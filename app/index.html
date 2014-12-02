@@ -12,6 +12,7 @@
     <!-- bower:css -->
     <link rel="stylesheet" href="components/bootstrap/dist/css/bootstrap.css" />
     <link rel="stylesheet" href="components/font-awesome/css/font-awesome.css" />
+    <link rel="stylesheet" href="components/bootstrap-notify/css/bootstrap-notify.css" />
     <!-- endbower -->
     <!-- endbuild -->
     <!-- build:css(.tmp) styles/main.css -->
@@ -86,6 +87,10 @@
               <li>
                 <a href="#/{{ api_path }}/sequences/" ng-class="menuClass('sequences')"><i class="fa fa-align-left fa-fw"></i>Sequences</a>
               </li>
+              <li>
+                <a href="#/{{ api_path }}/pins/"
+                ng-class="menuClass('pins')"><i class="fa fa-thumb-tack fa-fw"></i>Pinned Items</a>
+              </li>
             </ul>
           </div>
         </div>
@@ -118,6 +123,7 @@
     <script src="components/angular-route/angular-route.js"></script>
     <script src="components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
     <script src="components/checklist-model/checklist-model.js"></script>
+    <script src="components/bootstrap-notify/js/bootstrap-notify.js"></script>
     <!-- endbower -->
     <!-- endbuild -->
 
@@ -131,6 +137,7 @@
     <script src="scripts/services/clone_pager.js"></script>
     <script src="scripts/services/lookups.js"></script>
     <script src="scripts/services/dna_compare.js"></script>
+    <script src="scripts/services/pins.js"></script>
 
     <script src="scripts/controllers/main.js"></script>
     <script src="scripts/controllers/alert_modal.js"></script>
@@ -142,6 +149,7 @@
     <script src="scripts/controllers/sequences.js"></script>
     <script src="scripts/controllers/subjects.js"></script>
     <script src="scripts/controllers/subject.js"></script>
+    <script src="scripts/controllers/pins.js"></script>
     <script src="scripts/controllers/high_chart.js"></script>
 
     <script src="scripts/vendor/highcharts.js"></script>

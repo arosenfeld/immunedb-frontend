@@ -34,6 +34,10 @@
                     templateUrl: 'views/subject.html',
                     controller: 'SubjectCtrl',
                 })
+                .when('/:apiPath/pins', {
+                    templateUrl: 'views/pins.html',
+                    controller: 'PinsCtrl',
+                })
                 .when('/:apiPath/sequences', {
                     templateUrl: 'views/sequences.html',
                     controller: 'SequencesCtrl',
@@ -52,9 +56,11 @@
                 'name': 'Similarity 85%',
                 'url': 'http://129.25.28.237:2000/api/'
             },
+            /*
             'similarity-65': {
                 'name': 'Similarity 65%',
-                'url': 'http://129.25.28.237:2000/api/'
+                'url': 'http://129.25.28.237:2001/api/'
             }
+            */
         });
 })();

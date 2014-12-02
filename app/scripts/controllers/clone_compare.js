@@ -43,6 +43,15 @@
                     info.mutation_stats);
             }
 
+            $scope.addPin = function() {
+                var names = [];
+                angular.forEach($scope.cloneInfo, function(val, key) {
+                    names.push('Clones ' + val['clone']['id']);
+                });
+                $scope.pins.addPin(names.join(', '));
+                $scope.showNotify('This page has been pinned.');
+            }
+
             var init = function() {
                 $scope.showLoader();
                 $scope.$parent.page_title = 'Clone Comparison';
