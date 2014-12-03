@@ -9,9 +9,15 @@
   cannot be seen by others and will be erased when your browser cache is
   cleared.
 </div>
-<h3>Pinned Items <a ng-click="pins.clear()">(Clear All)</a></h3>
-
-<table class="table table-bordered">
+<h3>Pinned Items <a ng-click="pins.clear(); showPins=false">(Clear All)</a></h3>
+<div class="well text-center" ng-show="!showPins">
+  You don't have any pins.  Find the
+<button type="button" class="btn btn-success">
+  <i class="fa fa-thumb-tack fa-fw"></i> Pin Page
+</button>
+button at the top-right of pages to add pins.
+</div>
+<table class="table table-bordered" ng-show="showPins">
   <thead>
     <tr class="info">
       <th></th>
@@ -26,6 +32,7 @@
       <td>{{ pin }}</td>
       <td><a href="#{{ loc }}"
         target="_blank">View <span class="glyphicon glyphicon-chevron-right"></span></a></td>
+    </tr>
     </tr>
   </tbody>
 </table>

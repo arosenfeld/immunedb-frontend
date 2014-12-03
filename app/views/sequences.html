@@ -24,16 +24,9 @@
           <input type="text" class="form-control" ng-model="filter.j_call" id="j_call_filter" placeholder="J-Gene">
         </div>
         <div class="form-group">
-          <label class="sr-only" for="cdr3_aa_filter">CDR3 AA</label>
-          <input type="text" class="form-control" ng-model="filter.cdr3_aa" id="cdr3_aa_filter" placeholder="CDR3 AA">
-        </div>
-        <div class="form-group">
-          <label class="sr-only" for="min_cdr3_len_filter">Min. CDR3 Length</label>
-          <input type="number" class="form-control" ng-model="filter.min_cdr3_num_nts" id="min_cdr3_len_filter" min="0" placeholder="Min. CDR3 NTs">
-        </div>
-        <div class="form-group">
-          <label class="sr-only" for="max_cdr3_len_filter">Max. CDR3 Length</label>
-          <input type="number" class="form-control" ng-model="filter.max_cdr3_num_nts" id="max_cdr3_len_filter" min="0" placeholder="Max. CDR3 NTs">
+          <label class="sr-only" for="sample_id_filter">Sample ID</label>
+          <input type="text" class="form-control" ng-model="filter.sample_id"
+            id="sample_id_filter" placeholder="Sample ID">
         </div>
         <div class="form-group">
           <button type="submit" class="btn btn-info">Filter</button>
@@ -43,12 +36,6 @@
             <label>
               <input type="checkbox" class="form-control"
               ng-model="filter.show_r1" id="show_r1"> Show R1 Sequences
-            </label>
-          </div>
-          <div class="checkbox">
-            <label>
-              <input type="checkbox" class="form-control"
-              ng-model="filter.show_sc" id="show_sc"> Show Single Copy Sequences
             </label>
           </div>
         </div>

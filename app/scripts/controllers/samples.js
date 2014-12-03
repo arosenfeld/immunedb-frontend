@@ -54,6 +54,37 @@
                 return def.promise;
             }
 
+            var createColumns = function(filter) {
+                $scope.charts[filter] = [];
+                angular.forEach(columnPlots, function(p,
+                    i) {
+                    if (!(filter in $scope.charts)) {
+                        $scope.charts[filter] = [];
+                    }
+
+                    var c =
+                        plotting.createColumnChart(
+                            p.title,
+                            p.key,
+                            'Nucleotides',
+                            filter.indexOf('clone') < 0 ? 'Sequences' :
+                            'Clones',
+                            plotting.createSeries(
+                                $scope.plottable, p.key, filter,
+                                $scope.showOutliers));
+                    $scope.charts[filter].push(c);
+                });
+            }
+
+            $scope.toggleOutliers = function(show) {
+                $scope.showLoader();
+                $scope.showOutliers = show;
+                angular.forEach(filters, function(filter, j) {
+                    createColumns(filter);
+                });
+                $scope.hideLoader();
+            }
+
             $scope.addPin = function() {
                 var names = [];
                 angular.forEach($scope.groupedStats, function(val, key) {
@@ -66,6 +97,7 @@
             var init = function() {
                 $scope.showLoader()
                 $scope.$parent.page_title = 'Sample Comparison';
+                $scope.showOutliers = false;
 
                 // Resize (reflow) all plots when a tab is clicked
                 $('#funcTab a').click(function(e) {
@@ -129,25 +161,7 @@
                             $('#vHeatmap' + field).highcharts(
                                 plotting.createHeatmap(result, 'V Gene Utilization'));
                         });
-
-                        // All the column charts for the filter
-                        angular.forEach(columnPlots, function(p,
-                            i) {
-                            if (!(filter in $scope.charts)) {
-                                $scope.charts[filter] = [];
-                            }
-                            var c =
-                                plotting.createColumnChart(
-                                    p.title,
-                                    p.key,
-                                    'Nucleotides',
-                                    filter.indexOf('clone') < 0 ? 'Sequences' :
-                                    'Clones',
-                                    plotting.createSeries(
-                                        $scope.plottable, p.key, filter)
-                                );
-                            $scope.charts[filter].push(c);
-                        });
+                        createColumns(filter);
                     });
 
                     $scope.hideLoader();

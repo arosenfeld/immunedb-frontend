@@ -148,7 +148,22 @@
   <li>
     <a href="#all" role="tab" data-toggle="tab" ng-click="filter='All'"><span class="badge pull-right">{{ cnts.all | formatNumber }}</span> All</a>
   </li>
+
+  <li class="pull-right">
+    <a data-toggle="tooltip" title="Shows/hides data points outside [Q1 -
+          1.5*IQR, Q3 + 1.5*IQR]">
+      <button type="button" class="btn btn-primary pull-right"
+          ng-click="toggleOutliers(false)" ng-show="showOutliers">
+        <i class="fa fa-minus-square-o fa-fw"></i> Exclude Outliers
+      </button>
+      <button type="button" class="btn btn-primary pull-right"
+          ng-click="toggleOutliers(true)" ng-show="!showOutliers">
+        <i class="fa fa-plus-square-o fa-fw"></i> Include Outliers
+      </button>
+    </a>
+  </li>
 </ul>
+
 
 <div class="tab-content">
   <filtered-panel
