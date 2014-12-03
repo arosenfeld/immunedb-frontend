@@ -8,7 +8,7 @@
 
             var columnPlots = [{
                 title: 'CDR3 Length',
-                key: 'cdr3_len_dist',
+                key: 'cdr3_length_dist',
             }, {
                 title: 'V Gene Length',
                 key: 'v_length_dist',
@@ -26,23 +26,6 @@
             var filters = ['all', 'functional', 'nonfunctional', 'unique',
                            'unique_multiple', 'clones_all', 'clones_functional',
                            'clones_nonfunctional'];
-
-            var getCounts = function() {
-                var cnts = {};
-                angular.forEach($scope.groupedStats, function(value,
-                    sample_id) {
-                    for (var i in filters) {
-                        var f = filters[i];
-                        if (!(f in cnts)) {
-                            cnts[f] = 0;
-                        }
-
-                        cnts[f] += parseInt(value[f].sequence_cnt);
-                    }
-                });
-
-                return cnts;
-            }
 
             var changeZoom = function(min, max) {
                 angular.forEach(columnPlots, function(
@@ -71,13 +54,50 @@
                 return def.promise;
             }
 
+            var createColumns = function(filter) {
+                $scope.charts[filter] = [];
+                angular.forEach(columnPlots, function(p,
+                    i) {
+                    if (!(filter in $scope.charts)) {
+                        $scope.charts[filter] = [];
+                    }
+
+                    var c =
+                        plotting.createColumnChart(
+                            p.title,
+                            p.key,
+                            'Nucleotides',
+                            filter.indexOf('clone') < 0 ? 'Sequences' :
+                            'Clones',
+                            plotting.createSeries(
+                                $scope.plottable, p.key, filter,
+                                $scope.showOutliers));
+                    $scope.charts[filter].push(c);
+                });
+            }
+
+            $scope.toggleOutliers = function(show) {
+                $scope.showLoader();
+                $scope.showOutliers = show;
+                angular.forEach(filters, function(filter, j) {
+                    createColumns(filter);
+                });
+                $scope.hideLoader();
+            }
+
+            $scope.addPin = function() {
+                var names = [];
+                angular.forEach($scope.groupedStats, function(val, key) {
+                    names.push(val['sample']['name']);
+                });
+                $scope.pins.addPin('Samples ' + names.join(', '));
+                $scope.showNotify('This page has been pinned.');
+            }
+
             var init = function() {
-                // Show the loading popup
-                $scope.$parent.modal_head = 'Querying';
-                $scope.$parent.modal_text =
-                    'Loading data from database...';
+                $scope.showLoader()
                 $scope.$parent.page_title = 'Sample Comparison';
-                $('#modal').modal('show');
+                $scope.showOutliers = false;
 
                 // Resize (reflow) all plots when a tab is clicked
                 $('#funcTab a').click(function(e) {
@@ -113,37 +133,13 @@
                 // Do the GET request for results
                 $http({
                     method: 'GET',
-                    url: APIService.getUrl() + 'stats',
-                    params: {
-                        "q": {
-                            "filters": [{
-                                "name": "sample_id",
-                                "op": "in",
-                                "val": $routeParams['sampleIds']
-                                    .split(',')
-                            }]
-                        }
-                    }
+                    url: APIService.getUrl() + 'stats/' +
+                        $routeParams['sampleIds'],
                 }).success(function(data, status) {
                     // Group the stats by sample ID, then filter
                     $scope.sampleIds = $routeParams['sampleIds'].split(',');
-                    $scope.groupedStats = {}
-                    angular.forEach(data['objects'], function(data,
-                        i) {
-                        if (!(data.sample_id in $scope.groupedStats)) {
-                            $scope.groupedStats[data.sample_id] = {
-                                'sample': data.sample
-                            }
-                        }
-                        $scope.groupedStats[data.sample_id][
-                            data.filter_type
-                        ] = data;
-                    });
-                    $scope.meta = [];
-                    angular.forEach($scope.groupedStats, function(
-                        v, i) {
-                        $scope.meta.push(v);
-                    });
+                    $scope.groupedStats = data['stats']['stats'];
+                    $scope.cnts = data['stats']['counts'];
 
                     // Determine if any requested IDs are not available
                     $scope.missing =
@@ -151,9 +147,6 @@
                             function(req) {
                                 return !(req in $scope.groupedStats);
                             });
-
-                    // Count how many sequences are in each filter
-                    $scope.cnts = getCounts();
 
                     // Create all the charts
                     $scope.plottable = angular.fromJson($scope.groupedStats);
@@ -168,33 +161,12 @@
                             $('#vHeatmap' + field).highcharts(
                                 plotting.createHeatmap(result, 'V Gene Utilization'));
                         });
-
-                        // All the column charts for the filter
-                        angular.forEach(columnPlots, function(p,
-                            i) {
-                            if (!(filter in $scope.charts)) {
-                                $scope.charts[filter] = {};
-                            }
-                            var c =
-                                plotting.createColumnChart(
-                                    p.title,
-                                    p.key,
-                                    'Nucleotides',
-                                    filter.indexOf('clone') < 0 ? 'Sequences' :
-                                    'Clones',
-                                    plotting.createSeries(
-                                        $scope.plottable, p
-                                        .key, filter)
-                                );
-                            $scope.charts[filter][p.key] = c;
-                        });
+                        createColumns(filter);
                     });
 
-                    $('#modal').modal('hide');
+                    $scope.hideLoader();
                 }).error(function(data, status, headers, config) {
-                    $scope.$parent.modal_head = 'Error';
-                    $scope.$parent.modal_text =
-                        'There has been an error communicating with the database. If this occurs again, please contact <a href="mailto:ar374@drexel.edui?subject=SimLab DB Error">ar374@drexel.edu</a>.';
+                    $scope.showError();
                 });
             }
             init();

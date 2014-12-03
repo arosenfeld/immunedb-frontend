@@ -41,7 +41,7 @@
         }
 
         var makeComparison = function(canvas, germline, cdr3_num_nts, seqs,
-                                      mutation_stats) {
+                total_seqs, mutation_stats) {
             var ctx = canvas.getContext('2d');
 
             var labelMaxLength = 0;
@@ -122,20 +122,20 @@
                 ctx.fillStyle = '#ff0000';
                 ctx.fillText('Non-synonymous Mutation %', LEFT_PAD, TOP_PAD + (2 + seqs.length) * V_PER_SEQ);
                 ctx.fillStyle = '#ff0055';
-                ctx.fillText('Conserved % of non-synonymous', LEFT_PAD + 15, TOP_PAD + (3 + seqs.length) * V_PER_SEQ);
+                ctx.fillText('Conserved %', LEFT_PAD + 15, TOP_PAD + (3 + seqs.length) * V_PER_SEQ);
                 ctx.fillStyle = '#ff5500';
-                ctx.fillText('Non-conserved % of non-synonymous', LEFT_PAD + 15, TOP_PAD + (4 + seqs.length) * V_PER_SEQ);
+                ctx.fillText('Non-conserved %', LEFT_PAD + 15, TOP_PAD + (4 + seqs.length) * V_PER_SEQ);
 
                 angular.forEach(mutation_stats.positions, function(vals, offset) {
                     var nonsynonymous = vals['conservative'] +
                         vals['nonconservative'];
                     var silentPerc = Math.round(100 * vals['synonymous'] /
-                        seqs.length);
-                    var changePerc = Math.round(100 * nonsynonymous / seqs.length);
+                        total_seqs);
+                    var changePerc = Math.round(100 * nonsynonymous / total_seqs);
                     var conservPerc = Math.round(100 * vals['conservative'] /
-                        nonsynonymous);
+                        total_seqs);
                     var nonConservPerc = Math.round(100 * vals['nonconservative'] /
-                        nonsynonymous);
+                        total_seqs);
                     ctx.font = '10px Courier New';
                     ctx.textAlign = 'center';
                     ctx.fillStyle = '#00ff00';
@@ -156,58 +156,58 @@
                 });
             }
 
-                ctx.textAlign = 'left';
-                ctx.font = 'bold 12px Courier New';
+            ctx.textAlign = 'left';
+            ctx.font = 'bold 12px Courier New';
 
-                var regions = [
-                    {
-                        'name': 'FR1',
-                        'start': 0,
-                        'end': 77,
-                        'color': '#0000ff'
-                    },{
-                        'name': 'CDR1',
-                        'start': 78,
-                        'end': 113,
-                        'color': '#00ff00'
-                    },{
-                        'name': 'FR2',
-                        'start': 114,
-                        'end': 164,
-                        'color': '#0000ff'
-                    },{
-                        'name': 'CDR2',
-                        'start': 165,
-                        'end': 194,
-                        'color': '#00ff00'
-                    },{
-                        'name': 'FR3',
-                        'start': 195,
-                        'end': 308,
-                        'color': '#0000ff'
-                    },{
-                        'name': 'CDR3',
-                        'start': 309,
-                        'end': 308 + cdr3_num_nts,
-                        'color': '#00ff00'
-                    },{
-                        'name': 'FR4',
-                        'start': 308 + cdr3_num_nts + 1,
-                        'end': germline.length - 1,
-                        'color': '#0000ff'
-                    },
-                ];
+            var regions = [
+                {
+                    'name': 'FR1',
+                    'start': 0,
+                    'end': 77,
+                    'color': '#0000ff'
+                },{
+                    'name': 'CDR1',
+                    'start': 78,
+                    'end': 113,
+                    'color': '#00ff00'
+                },{
+                    'name': 'FR2',
+                    'start': 114,
+                    'end': 164,
+                    'color': '#0000ff'
+                },{
+                    'name': 'CDR2',
+                    'start': 165,
+                    'end': 194,
+                    'color': '#00ff00'
+                },{
+                    'name': 'FR3',
+                    'start': 195,
+                    'end': 308,
+                    'color': '#0000ff'
+                },{
+                    'name': 'CDR3',
+                    'start': 309,
+                    'end': 308 + cdr3_num_nts,
+                    'color': '#00ff00'
+                },{
+                    'name': 'FR4',
+                    'start': 308 + cdr3_num_nts + 1,
+                    'end': germline.length - 1,
+                    'color': '#0000ff'
+                },
+            ];
 
-                angular.forEach(regions, function(region, i) {
-                    drawRegion(ctx, 
-                        region.color,
-                        LEFT_PAD + middlePad,
-                        25,
-                        CHAR_SPACE,
-                        region.start,
-                        region.end,
-                        region.name);
-                });
+            angular.forEach(regions, function(region, i) {
+                drawRegion(ctx, 
+                    region.color,
+                    LEFT_PAD + middlePad,
+                    25,
+                    CHAR_SPACE,
+                    region.start,
+                    region.end,
+                    region.name);
+            });
         }
 
         return { makeComparison: makeComparison };

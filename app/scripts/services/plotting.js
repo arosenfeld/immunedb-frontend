@@ -110,16 +110,29 @@
                     };
                 },
 
-                createSeries: function(plottable, series_key, type) {
+                createSeries: function(plottable, seriesKey, type, showOutliers) {
                     var series = [];
-                    for (var i in plottable) {
+                    angular.forEach(plottable, function(plot, i) {
+                        var jsonData = angular.fromJson(
+                            plot['filters'][type][seriesKey]);
+                        if (showOutliers) {
+                            var data = jsonData;
+                        } else {
+                            var data = [];
+                            var outliers = plot['outliers'][type][seriesKey];
+                            angular.forEach(jsonData, function(v, k) {
+                                if (v[1] >= outliers['min'] 
+                                        && v[1] <= outliers['max']) {
+                                    data.push(v);
+                                }
+                            })
+                        }
                         series.push({
-                            name: plottable[i]['sample']['name'],
-                            data: angular.fromJson(
-                                plottable[i][type][series_key]),
+                            name: plot['sample']['name'],
+                            data: data,
                             turboThreshold: 0
                         });
-                    }
+                    });
                     return series;
                 },
 

@@ -8,6 +8,7 @@
         return {
             restrict: 'E',
             scope: {
+                apiPath: '=',
                 filter: '=',
                 samples: '=?',
                 subject: '=?',
@@ -15,6 +16,7 @@
             templateUrl: 'partials/clone_pager.html',
             controller: function($scope) {
                 var updateClone = function(filter, page) {
+                    $scope.pageable = false;
                     if (typeof $scope.subject == 'undefined') {
                         var call = clonePagerService.getClonesBySample(
                             $scope.samples, filter, page);
@@ -27,6 +29,7 @@
                         function(result) {
                             $scope.clones = result['clones']
                             $scope.total_pages = result['num_pages'] 
+                            $scope.pageable = true;
                         },
                         function(result) {
                         }
@@ -47,12 +50,13 @@
                 }
 
                 $scope.viewClones = function() {
-                    $location.path('/clone_compare/' +
+                    $location.path($scope.apiPath + '/clone_compare/' +
                         $scope.checked_clones.join());
                 }
 
                 var init = function() {
                     updateClone($scope.filter, 1);
+                    $scope.pageable = false;
                     $scope.exportUrl = APIService.getUrl() + 'data/';
                     if (typeof $scope.subject == 'undefined') {
                         $scope.exportUrl += 'clone_overlap/' + $scope.filter +
@@ -71,6 +75,7 @@
             restrict: 'E',
             replace: true,
             scope: {
+                apiPath: '=',
                 tclass: '@',
                 filter: '@',
                 heatmap: '@',

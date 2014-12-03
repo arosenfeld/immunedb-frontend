@@ -41,7 +41,7 @@
                 var fstring = '';
                 angular.forEach(nt, function(c, i) {
                     var color = lookups.dnaColor(c.toUpperCase()) || '#000000';
-                    fstring += '<span style="color: ' + color
+                    fstring += '<span class="dna" style="color: ' + color
                         + '">' + c + '</span>';
                 });
 
@@ -62,5 +62,10 @@
                 }
                 return input;
             }
+        })
+        .filter('slice', function() {
+          return function(arr, start, end) {
+            return (arr || []).slice(start, end);
+          };
         });
 })();

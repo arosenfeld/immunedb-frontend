@@ -31,17 +31,28 @@
 </script>
 <div class="header">
   <ol class="breadcrumb">
-    <li><a href="#/clones"><i class="fa fa-sitemap fa-fw"></i>Clones</a> </li>
+    <li><a href="#/{{ api_path }}/clones"><i class="fa fa-sitemap fa-fw"></i>Clones</a> </li>
     <li>Clone Comparison</li>
   </ol>
 </div>
+<div class='notifications top-right'></div>
+<button type="button" class="btn btn-success pull-right"
+    ng-click="addPin()">
+  <i class="fa fa-thumb-tack fa-fw"></i> Pin Page
+</button>
+
+<div class="alert alert-danger" role="alert" ng-show="apiChanged">
+<strong>Warning: </strong><p>This information may be incorrect since clone
+identification is not be consistent across.</p> <p>Please use the
+clone group IDs to compare similar clones across versions.</p></div>
 
 <h3>Mutation Analysis</h3>
 <div class="table-responsive">
   <table class="table table-bordered" ng-repeat="info in cloneInfo">
     <thead>
       <tr class="active">
-        <th>Clone #</th>
+        <th>Clone ID</th>
+        <th>Group ID</th>
         <th>V Gene</th>
         <th>J Gene</th>
         <th>CDR3 Length</th>
@@ -51,13 +62,15 @@
     <tbody>
       <tr>
         <td>{{ info.clone.id }}</td>
-        <td>{{ info.clone.v_gene }}</td>
-        <td>{{ info.clone.j_gene }}</td>
+        <td><a href="#/{{ api_path }}/clones/?group={{ info.clone.group.id }}"
+          target="_blank">{{ info.clone.group.id }}</a></td>
+        <td>{{ info.clone.group.v_gene }}</td>
+        <td>{{ info.clone.group.j_gene }}</td>
         <td>{{ info.clone.cdr3_nt.length }}</td>
-        <td ng-bind-html="info.clone.cdr3_aa | aminoAcid" class="text-mono"></td>
+        <td ng-bind-html="info.clone.group.cdr3_aa | aminoAcid" class="text-mono"></td>
       </tr>
       <tr>
-        <td colspan="5">
+        <td colspan="6">
           <h4 class="faded text-center" ng-hide="showSeqs">Hid {{ info.seqs.length }} sequences for brevity.  Click <a ng-click="showSeqs = !showSeqs">here</a> to show.</h4>
           <h4 ng-show="showSeqs">Sequences (<a ng-click="showSeqs = !showSeqs">Hide</a>)</h4>
           <table class="table table-bordered" ng-show="showSeqs">
@@ -66,20 +79,22 @@
                 <th>Sample #</th>
                 <th>Sample Name</th>
                 <th>Sequence ID</th>
+                <th>Copy Number</th>
               </tr>
             </thead>
             <tbody ng-repeat="stat in info.seqs">
               <tr>
                 <td>{{ stat.sample.id }}</td>
-                <td><a href="#/samples/{{ stat.sample.id }}" target="_blank">{{ stat.sample.name }}</a></td>
-                <td><a href="#/sequence/{{stat.sample.id}}/{{ stat.seq_id }}" target="_blank">{{ stat.seq_id }}</a></td>
+                <td><a href="#/{{ api_path }}/samples/{{ stat.sample.id }}" target="_blank">{{ stat.sample.name }}</a></td>
+                <td><a href="#/{{ api_path }}/sequence/{{stat.sample.id}}/{{ stat.seq_id }}" target="_blank">{{ stat.seq_id }}</a></td>
+                <td>{{ stat.copy_number }}</td>
               </tr>
             </tbody>
           </table>
         </td>
       </tr>
       <tr>
-        <td colspan="5" ng-init="field='unique'">
+        <td colspan="6" ng-init="field='unique'">
           <h4>
             {{ field == 'total' ? 'Total' : 'Unique' }} Mutations
             <button ng-click="field = (field == 'unique' ? 'total' : 'unique')" class="btn btn-primary btn-align">
@@ -114,11 +129,19 @@
                 </td>
                 <td>
                   {{ stat.counts[field].synonymous }}
-                  <span class="faded">({{ 100 * stat.counts[field].synonymous / stat.counts[field].sum | orZero | number:2 }}%)
+                  <span class="faded">({{
+                    100 * stat.counts[field].synonymous /
+                    (stat.counts[field].nonconservative +
+                    stat.counts[field].conservative +
+                    stat.counts[field].synonymous) | orZero | number:2 }}%)</span>
                 </td>
                 <td>
                   {{ stat.counts[field].nonconservative + stat.counts[field].conservative }}
-                  <span class="faded">({{ 100 * (stat.counts[field].nonconservative + stat.counts[field].conservative) / stat.counts[field].sum | orZero | number:2 }}%)</span>
+                  <span class="faded">({{
+                    100 * (stat.counts[field].nonconservative + stat.counts[field].conservative) /
+                    (stat.counts[field].nonconservative +
+                    stat.counts[field].conservative +
+                    stat.counts[field].synonymous) | orZero | number:2 }}%)</span>
                 </td>
                 <td class="active">
                   {{ stat.counts[field].conservative }}
@@ -134,17 +157,26 @@
         </td>
       </tr>
       <tr>
-        <td colspan="5">
+        <td colspan="6">
           <h4 class="faded text-center" ng-hide="showComp">Comparison hidden for brevity.  Click <a ng-click="showComp = !showComp">here</a> to show.</h4>
           <h4 ng-show="showComp">Sequence Comparison (<a ng-click="showComp = !showComp">Hide</a>)</h4>
-          <div class="text-mono">
-            <div  class="slideWrap" ng-show="showComp">
+          <div ng-show="showComp">
+            <div class="slideWrap">
               <span class="scroller">
                 <canvas id="compare-{{ info.clone.id }}">
-                Your browser doesn't support HTML5! Please download a newer browser.
+                Your browser doesn't support HTML5! Please download a newer
+                browser.
                 </canvas>
               </span>
             </div>
+            <ul class="pager">
+              <li ng-show="pages[info.clone.id] > 0"><a href="" ng-click="prevPage(info.clone.id)">Previous</a></li>
+              <li>Page {{ pages[info.clone.id] + 1 }} / {{
+                ceil(info.seqs.length / SEQS_PER_CANVAS) }}</li>
+              <li
+                ng-show="pages[info.clone.id] + 1 < ceil(info.seqs.length /
+              SEQS_PER_CANVAS)"><a href="" ng-click="nextPage(info.clone.id)">Next</a></li>
+            </ul>
           </div>
         </td>
       </tr>

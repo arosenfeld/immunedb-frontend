@@ -2,8 +2,12 @@
     'use strict';
 
     angular.module('ImmunologyApp') .controller('SubjectCtrl', ['$scope',
-            '$http', '$q', '$routeParams', '$log', 'APIService',
-        function($scope, $http, $q, $routeParams, $log, APIService) {
+            '$http', '$q', '$routeParams', '$location', '$log', 'APIService',
+        function($scope, $http, $q, $routeParams, $location, $log, APIService) {
+            $scope.viewSamples = function() {
+                $location.path($scope.api_path + '/samples/' + $scope.checked_samples.join());
+            }
+
             var getSubject = function(sid) {
                 var def = $q.defer();
                 $http({
@@ -18,23 +22,28 @@
                 return def.promise;
             }
 
+            $scope.addPin = function() {
+                $scope.pins.addPin('Subject ' + $scope.subject['identifier'] + ' (' +
+                    $scope.subject['study']['name'] + ')');
+                $scope.showNotify('This page has been pinned.');
+            }
+
             var init = function() {
-                $scope.$parent.modal_head = 'Querying';
-                $scope.$parent.modal_text =
-                    'Loading data from database...';
-                $('#modal').modal('show');
+                $scope.showLoader();
                 $scope.$parent.page_title = 'Subject';
+                $scope.checked_samples = [];
                 $scope.subject_id = $routeParams['subjectId'];
 
                 getSubject($routeParams['subjectId']).then(
                     function(result) {
                         $scope.subject = result;
-                        $('#modal').modal('hide');
+                        $scope.sample_ids = result.samples.map(function(e) {
+                            return String(e.id);
+                        });
+                        $scope.hideLoader();
                     },
                     function(result) {
-                        $scope.$parent.modal_head = 'Error';
-                        $scope.$parent.modal_text =
-                            'There has been an error communicating with the database. If this occurs again, please contact <a href="mailto:ar374@drexel.edui?subject=SimLab DB Error">ar374@drexel.edu</a>.';
+                        $scope.showError();
                     }
                 );
             }

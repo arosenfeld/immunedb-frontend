@@ -6,46 +6,55 @@
     'ui.bootstrap', 'ImmunologyFilters', 'ImmunologyDirectives' ])
         .config(function($routeProvider) {
             $routeProvider
-                .when('/studies', {
+                .when('/:apiPath/studies', {
                     templateUrl: 'views/studies.html',
                     controller: 'StudiesCtrl',
                 })
-                .when('/samples/:sampleIds', {
+                .when('/:apiPath/samples/:sampleIds', {
                     templateUrl: 'views/samples.html',
                     controller: 'SampleCtrl'
                 })
-                .when('/clones', {
+                .when('/:apiPath/clones/:group?', {
                     templateUrl: 'views/clones.html',
                     controller: 'ClonesCtrl',
                 })
-                .when('/clone_compare/:uids', {
+                .when('/:apiPath/clone_compare/:uids', {
                     templateUrl: 'views/clone_compare.html',
                     controller: 'ClonesCompareCtrl',
                 })
-                .when('/sequence/:sampleId/:seqId', {
+                .when('/:apiPath/sequence/:sampleId/:seqId', {
                     templateUrl: 'views/sequence.html',
                     controller: 'SequenceCtrl'
                 })
-                .when('/subjects/', {
+                .when('/:apiPath/subjects', {
                     templateUrl: 'views/subjects.html',
                     controller: 'SubjectsCtrl',
                 })
-                .when('/subject/:subjectId', {
+                .when('/:apiPath/subject/:subjectId', {
                     templateUrl: 'views/subject.html',
                     controller: 'SubjectCtrl',
                 })
+                .when('/:apiPath/pins', {
+                    templateUrl: 'views/pins.html',
+                    controller: 'PinsCtrl',
+                })
+                .when('/:apiPath/sequences', {
+                    templateUrl: 'views/sequences.html',
+                    controller: 'SequencesCtrl',
+                })
+                .when('/:apiPath', {
+                   redirectTo: function(routeParams, path, search) {
+                       return routeParams.apiPath + '/studies';
+                   }
+                })
                 .otherwise({
-                    redirectTo: '/studies'
+                    redirectTo: '/primary'
                 });
         })
         .constant('apis', {
             'primary': {
                 'name': 'Similarity 85%',
-                'url': 'http://129.25.28.237:5000/api/'
+                'url': 'http://129.25.28.237:2000/api/'
             },
-            'similarity-65': {
-                'name': 'Similarity 65%',
-                'url': 'http://129.25.28.237:5001/api/'
-            }
         });
 })();

@@ -1,42 +1,34 @@
 (function() {
     'use strict';
 
-    angular.module('ImmunologyApp').controller('ClonesCtrl', ['$scope',
-            '$http', '$q', '$routeParams', '$location', '$log', 'APIService',
-        function($scope, $http, $q, $routeParams, $location, $log, APIService) {
+    angular.module('ImmunologyApp').controller('SequencesCtrl', ['$scope',
+            '$http', '$q', '$location', '$log', 'APIService',
+        function($scope, $http, $q, $location, $log, APIService) {
 
             $scope.prevPage = function() {
                 $scope.page = Math.max(1, $scope.page - 1);
                 $scope.pageable = false;
-                getClones($scope.page).then(function(result) {
-                    $scope.clones = result;
+                getSequences($scope.page).then(function(result) {
+                    $scope.sequences = result;
                     $scope.pageable = true;
                 });
             }
 
             $scope.nextPage = function() {
                 $scope.pageable = false;
-                getClones(++$scope.page).then(function(result) {
-                    $scope.clones = result;
+                getSequences(++$scope.page).then(function(result) {
+                    $scope.sequences = result;
                     $scope.pageable = true;
                 });
             }
 
-            $scope.checked_samples = [];
-
-            $scope.viewSamples = function() {
-                $location.path($scope.api_path + '/clone_compare/' + $scope.checked_samples.join());
-            }
-
-            $scope.updateClones = function() {
-                $scope.clones = [];
+            $scope.updateSequences = function() {
                 $scope.showLoader();
                 $scope.$parent.page_title = 'Clones';
 
-
                 $scope.page = 1;
-                getClones().then(function(result) {
-                    $scope.clones = result;
+                getSequences().then(function(result) {
+                    $scope.sequences = result;
                     $scope.pageable = true;
                     $scope.hideLoader();
                 },
@@ -45,27 +37,20 @@
                 });
             }
 
-            var getClones = function() {
+            var getSequences = function() {
                 var def = $q.defer();
-                if (!(typeof $routeParams['group'] == 'undefined')) {
-                    if (typeof($scope.filter) == 'undefined') {
-                        $scope.filter = {};
-                    }
-                    $scope.filter.group_id =
-                        parseInt($routeParams['group']);
-                }
                 $http({
                     method: 'GET',
-                    url: APIService.getUrl() + 'clones/',
+                    url: APIService.getUrl() + 'sequences/',
                     params: {
                         'page': $scope.page,
-                        'per_page': 10,
+                        'per_page': 25,
                         'filter': typeof($scope.filter) == 'undefined' ? ''
                             : angular.toJson($scope.filter),
                         'order_field': $scope.orderField,
                     }
                 }).success(function(data, status) {
-                    def.resolve(data['clones']);
+                    def.resolve(data['sequences']);
                 }).error(function(data, status, headers, config) {
                     def.reject();
                 });
@@ -75,11 +60,11 @@
 
             $scope.updateOrder = function(field) {
                 $scope.orderField = field;
-                $scope.updateClones();
+                $scope.updateSequences();
             }
 
             var init = function() {
-                $scope.updateClones();
+                $scope.updateSequences();
             }
 
             init();

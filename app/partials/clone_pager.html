@@ -16,17 +16,37 @@
         </tr>
       </thead>
       <tbody>
+        <tr>
+          <td colspan="10" class="text-center" ng-show="!clones">Loading <i class="fa fa-spinner fa-spin"></i></td>
+        </tr>
         <tr ng-repeat="freq in clones">
           <td><input type="checkbox" checklist-model="checked_clones" checklist-value="freq.compareStr"></input></td>
           <td>{{ freq.total_sequences | number }}</td>
           <td>{{ freq.unique_sequences | number }}</td>
           <td>{{ freq.clone.id }}</td>
-          <td>{{ freq.clone.subject.identifier}} ({{ freq.clone.subject.study.name}} Study)</td>
-          <td>{{ freq.clone.v_gene }}</td>
-          <td>{{ freq.clone.j_gene }}</td>
-          <td>{{ freq.clone.cdr3_num_nts | number }}</td>
-          <td ng-bind-html="freq.clone.cdr3_aa | aminoAcid" class="text-mono"></td>
-          <td>{{ freq.samples }}</td>
+          <td>{{ freq.clone.group.subject.identifier}} ({{ freq.clone.group.subject.study.name}} Study)</td>
+          <td>{{ freq.clone.group.v_gene }}</td>
+          <td>{{ freq.clone.group.j_gene }}</td>
+          <td>{{ freq.clone.group.cdr3_num_nts | number }}</td>
+          <td ng-bind-html="freq.clone.group.cdr3_aa | aminoAcid" class="text-mono"></td>
+          <td width="20%">
+            <span ng-repeat="sid in freq.samples | slice:0:5"
+                  >
+                  <a href="#/samples/{{ sid }}" target="_new" 
+                    ng-class="samples.indexOf(sid) >= 0 ? '' : 'faded'">{{ sid }}</a><span ng-hide="$last">,</span>
+            </span>
+            <span ng-show="freq.samples.length > 5">
+              <a ng-click="showMore=!showMore" ng-show="!showMore">({{ freq.samples.length - 5 }} more...)</a>
+            </span>
+            <span ng-repeat="sid in freq.samples | slice:5"
+                  ng-show="showMore">
+                  <a href="#/samples/{{ sid }}" target="_new"
+                    ng-class="samples.indexOf(sid) >= 0 ? '' : 'faded'">{{ sid }}</a><span ng-hide="$last">,</span>
+            </span>
+            <span ng-show="showMore">
+              <a ng-click="showMore=!showMore">(Hide)</a>
+            </span>
+          </td>
         </tr>
         <tr>
           <td colspan="10">
@@ -38,9 +58,9 @@
         <tr>
           <td colspan="10">
             <ul class="pager">
-              <li><a href="" ng-click="prevPage()">Previous</a></li>
+              <li><a href="" ng-click="prevPage()" ng-show="pageable">Previous</a></li>
               <li>Page {{ page }}</li>
-              <li><a href="" ng-click="nextPage()">Next</a></li>
+              <li><a href="" ng-click="nextPage()" ng-show="pageable">Next</a></li>
             </ul>
           </td>
         </tr>

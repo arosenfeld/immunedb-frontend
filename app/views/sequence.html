@@ -1,12 +1,21 @@
 <div class="header">
   <ol class="breadcrumb">
-    <li><a href="#/studies">Studies</a></li>
-    <li><a href="#/samples/{{ seq.sample.id }}">{{ seq.sample.name }}</a></li>
-    <li>Sequence <i>{{ seq.seq_id }}</i></li>
+    <li><a href="#/{{ api_path }}/studies">Studies</a></li>
+    <li><a href="#/{{ api_path }}/samples/{{ seq.sample.id }}">{{ seq.sample.name }}</a></li>
+    <li>Sequence <i>{{ seq_id }}</i></li>
   </ol>
 </div>
+<div class='notifications top-right'></div>
+<button type="button" class="btn btn-success pull-right"
+    ng-click="addPin()">
+  <i class="fa fa-thumb-tack fa-fw"></i> Pin Page
+</button>
 
-<h3>Sequence Details</h3>
+<h3>Sequence Details
+    <span class="faded" ng-if="seq_id!=seq.seq_id">
+        (Alias of {{ seq.seq_id }})
+    </span>
+</h3>
 <div class="table-responsive">
   <table class="table table-bordered">
     <tr class="active">
@@ -17,12 +26,13 @@
         Name
         <a data-toggle="tooltip" title="A sample-unique identifier for this sequence"><span class="glyphicon glyphicon-question-sign"></span>
       </th>
-      <td>{{ seq.seq_id }}</th>
+      <td>{{ seq_id }}</th>
       <th>
         Sample
         <a data-toggle="tooltip" title="The sample which contains this sequence"><span class="glyphicon glyphicon-question-sign"></span>
       </th>
-      <td>#{{ seq.sample.id }}: <a href="#/samples/{{ seq.sample.id }}" target="_blank">{{ seq.sample.name }}</a></td>
+      <td><a href="#/{{ api_path }}/samples/{{ seq.sample.id }}" target="_blank">{{
+        seq.sample.name }}</a> (#{{ seq.sample.id }})</td>
     </tr>
 
     <tr>
@@ -44,7 +54,22 @@
         <a data-toggle="tooltip" title="If the sequence is in-frame and there is no stop codon"><span class="glyphicon glyphicon-question-sign"></span>
       </th>
       <td>{{ seq.functional ? 'Yes' : 'No' }}</td>
+      <th>
+        Copy # in Sample
+        <a data-toggle="tooltip" title="Copies of this sequence (after filling in germline) that occured in the sample"><span class="glyphicon glyphicon-question-sign"></span>
+      </th>
+      <td>{{ seq.copy_number }}</td>
     </tr>
+
+    <tr>
+      <th>
+      Alignment Method
+      <a data-toggle="tooltip" title="'pRESTO' if the sequence is from pRESTO
+      aligning R1 and R2 reads, otherwise 'R1' or 'R2'"><span class="glyphicon glyphicon-question-sign"></span>
+      </th>
+      <td>{{ seq.alignment }}</td>
+    </tr>
+
 
     <tr class="active">
       <th colspan="4" class="text-center">Sample</th>
@@ -52,16 +77,17 @@
 
     <tr>
       <th>Subject</th>
-      <td>{{ seq.subject.identifier }}</td>
+      <td><a href="#/{{ api_path }}/subject/{{ seq.sample.subject.id }}">{{ seq.sample.subject.identifier
+      }}</a></td>
       <th>Subset</th>
-      <td>{{ seq.subset ? seq.subset : 'N/A' }}</td>
+      <td>{{ seq.sample.subset ? seq.sample.subset : 'N/A' }}</td>
     </tr>
 
     <tr>
       <th>Disease</th>
-      <td>{{ seq.disease | uppercase }}</td>
+      <td>{{ seq.sample.disease }}</td>
       <th>Tissue</th>
-      <td>{{ seq.tissue }}</td>
+      <td>{{ seq.sample.tissue ? seq.sample.tissue : 'N/A' }}</td>
     </tr>
 
     <tr class="active">
@@ -70,14 +96,14 @@
 
     <tr>
       <th>Date</th>
-      <td>{{ seq.date }}</td>
+      <td>{{ seq.sample.date }}</td>
       <th>Lab</th>
-      <td>{{ seq.lab }}</td>
+      <td>{{ seq.sample.lab }}</td>
     </tr>
 
     <tr>
       <th>Experimenter</th>
-      <td>{{ seq.experimenter }}</td>
+      <td>{{ seq.sample.experimenter }}</td>
     </tr>
 
     <tr class="active">
@@ -99,10 +125,11 @@
 
     <tr>
       <th>
-        Gapped Length
-        <a data-toggle="tooltip" title="The sequence's V gene length after IMGT gapping"><span class="glyphicon glyphicon-question-sign"></span>
+        Match
+        <a data-toggle="tooltip" title="The number of nucleotides matching the
+        germline"><span class="glyphicon glyphicon-question-sign"></span>
       </th>
-      <td>{{ seq.v_gap_length }}</td>
+      <td>{{ seq.v_match }} <span class="faded">({{ 100 * seq.v_match / seq.v_length | number:1 }}%)</span></td>
     </tr>
 
     <tr class="active">
@@ -117,37 +144,99 @@
       <td>{{ seq.j_call }}</td>
       <th>
         Length
-        <a data-toggle="tooltip" title="The sequence's J gene length"><span class="glyphicon glyphicon-question-sign"></span>
+        <a data-toggle="tooltip" title="The sequence's J gene conserved region length"><span class="glyphicon glyphicon-question-sign"></span>
       </th>
       <td>{{ seq.j_length }}</td>
     </tr>
 
     <tr>
       <th>
-        Gapped Length
-        <a data-toggle="tooltip" title="The sequence's J gene length after IMGT gapping"><span class="glyphicon glyphicon-question-sign"></span>
+        Match
+        <a data-toggle="tooltip" title="The number of nucleotides matching the
+        germline"><span class="glyphicon glyphicon-question-sign"></span>
       </th>
-      <td>{{ seq.j_gap_length }}</td>
+      <td>{{ seq.j_match }} <span class="faded">({{ 100 * seq.j_match / seq.j_length | number:1 }}%)</span></td>
     </tr>
+  </table>
+</div>
 
+<h3>Sequence View</h3>
+<div class="slideWrap">
+  <span class="scroller">
+      <canvas id="germline-compare">
+      Your browser doesn't support HTML5! Please download a newer browser.
+      </canvas>
+  </span>
+</div>
+
+<h3>Clone Information</h3>
+<div class="table-responsive">
+  <table class="table table-bordered" ng-show="!seq.clone">
+    <tr>
+      <td class="text-center"><strong>This sequence does not belong to a clone</strong></td>
+    </tr>
+  </table>
+  <table class="table table-bordered" ng-show="seq.clone">
     <tr class="active">
-      <th colspan="4" class="text-center">Details</th>
+      <th colspan="4" class="text-center">General</th>
     </tr>
-
     <tr>
       <th>
-        Sequence
+        Clone ID
+        <a data-toggle="tooltip" title="The clone ID for this clone in the
+        currently selected database version"><span class="glyphicon glyphicon-question-sign"></span>
       </th>
-      <td colspan="3">
-        <div class="slideWrap">
-          <span class="scroller">
-              <canvas id="germline-compare">
-              Your browser doesn't support HTML5! Please download a newer browser.
-              </canvas>
-          </span>
-        </div>
-      </td>
+      <td><a href="#/{{ api_path }}/clone_compare/{{ seq.clone.id }}" target="_blank">{{
+        seq.clone.id }}</a></td>
+      <th>
+        Clone Group ID
+        <a data-toggle="tooltip" title="The group of the clone as defined by V, J,
+        CDR3 AAs, and subject, and is useful for finding similar clones across
+        database versions"><span class="glyphicon glyphicon-question-sign"></span>
+      </th>
+      <td><a href="#/{{ api_path }}/clones/?group={{ seq.clone.group.id }}"
+        target="_blank">{{ seq.clone.group.id }}</a></td>
     </tr>
+    <tr>
+      <th>
+        Consensus CDR3 Nucleotides
+      </th>
+      <td ng-bind-html="seq.clone.cdr3_nt | dna" colspan="3"></td>
+    </tr>
+    <tr>
+      <th>
+        Consensus CDR3 Amino Acids 
+      </th>
+      <td ng-bind-html="seq.clone.group.cdr3_aa | dna" colspan="3"></td>
+    </tr>
+  </table>
+</div>
 
+<h3>Identical Sequences
+<small>All other reads sharing the exact same germline-filled sequence</small>
+</h3>
+<div class="table-responsive">
+  <table class="table table-bordered" ng-show="seq.duplicates.length == 0">
+    <tr>
+      <td class="text-center"><strong>There are no sequences that are identical to this one</strong></td>
+    </tr>
+  </table>
+  <table class="table table-bordered" ng-show="seq.duplicates.length > 0">
+    <thead>
+      <tr>
+        <th>Sample</th>
+        <th>Sequence ID</th>
+        <th>Alignment Method</th>
+        <th>Copy Number</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr ng-repeat="dup in seq.duplicates">
+        <td><a href="#/{{ api_path }}/samples/{{ dup.sample.id }}" target="_blank">{{ dup.sample.name }}</a> (#{{ dup.sample.id }})</td>
+        <td><a href="#/{{ api_path }}/sequence/{{ dup.sample.id }}/{{ dup.seq_id }}" target="_blank">{{ dup.seq_id }}</a></td>
+        <td>{{ dup.alignment }}</td>
+        <td>{{ dup.copy_number }}</td>
+      </tr>
+    </tbody>
   </table>
 </div>

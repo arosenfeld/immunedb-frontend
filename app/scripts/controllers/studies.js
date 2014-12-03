@@ -2,23 +2,18 @@
     'use strict';
 
     angular.module('ImmunologyApp') .controller('StudiesCtrl', ['$scope',
-            '$http', '$location', 'APIService',
-        function($scope, $http, $location, APIService) {
+            '$log', '$http', '$location', 'APIService',
+        function($scope, $log, $http, $location, APIService) {
 
             $scope.checked_samples = [];
 
             $scope.viewSamples = function() {
-                $location.path('/samples/' + $scope.checked_samples.join());
-            };
+                $location.path($scope.api_path + '/samples/' + $scope.checked_samples.join());
+            }
 
             var init = function() {
-                $scope.$parent.modal_head = 'Querying';
-                $scope.$parent.modal_text =
-                    'Loading data from database...';
                 $scope.$parent.page_title = 'Studies';
-
-
-                $('#modal').modal('show');
+                $scope.showLoader();
 
                 $(function() {
                     $('[data-toggle="tooltip"]').tooltip({
@@ -30,7 +25,7 @@
                     method: 'GET',
                     url: APIService.getUrl() + 'studies'
                 }).success(function(data, status) {
-                    $scope.rows = data['objects'];
+                    $scope.rows = data['studies'];
 
                     angular.forEach($scope.rows, function(row, i) {
                         row.samples.sort(function(a, b) {
@@ -49,15 +44,9 @@
                             return a.name.localeCompare(b.name);
                         });
                     });
-
-                    $('#modal').modal('hide');
+                    $scope.hideLoader();
                 }).error(function(data, status) {
-                    $scope.$parent.modal_head = 'Error';
-                    $scope.$parent.modal_text =
-                        'There has been an error communicating' +
-                        'with the database. If this occurs again, please contact ' +
-                        '<a href="mailto:ar374@drexel.edui?subject=SimLab DB' +
-                        ' Error">ar374@drexel.edu</a>.';
+                    $scope.showError();
                 });
             };
 
