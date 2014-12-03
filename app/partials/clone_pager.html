@@ -32,7 +32,7 @@
           <td width="20%">
             <span ng-repeat="sid in freq.samples | slice:0:5"
                   >
-                  <a href="#/samples/{{ sid }}" target="_new" 
+                  <a href="#/{{ apiPath }}/samples/{{ sid }}" target="_new" 
                     ng-class="samples.indexOf(sid) >= 0 ? '' : 'faded'">{{ sid }}</a><span ng-hide="$last">,</span>
             </span>
             <span ng-show="freq.samples.length > 5">
@@ -40,7 +40,7 @@
             </span>
             <span ng-repeat="sid in freq.samples | slice:5"
                   ng-show="showMore">
-                  <a href="#/samples/{{ sid }}" target="_new"
+                  <a href="#/{{ apiPath }}/samples/{{ sid }}" target="_new"
                     ng-class="samples.indexOf(sid) >= 0 ? '' : 'faded'">{{ sid }}</a><span ng-hide="$last">,</span>
             </span>
             <span ng-show="showMore">

@@ -49,7 +49,7 @@
       <tr>
         <td>{{ stat.sample.id }}</td>
         <td>{{ stat.sample.name }}</td>
-        <td>{{ stat.sample.valid_cnt + stat.sample.no_result_cnt | number}}</td>
+        <td>{{ stat.sample.valid_cnt + stat.sample.no_result_cnt | number }}</td>
         <td>{{ stat.sample.valid_cnt | number }}</td>
         <td>{{ stat.sample.no_result_cnt | number }}</td>
         <td>{{ 100 * stat.filters.all.in_frame_cnt / stat.sample.valid_cnt | number : 2}}%</td>
