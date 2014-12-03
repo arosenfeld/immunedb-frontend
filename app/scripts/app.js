@@ -54,7 +54,7 @@
         .constant('apis', {
             'primary': {
                 'name': 'Similarity 85%',
-                'url': 'http://129.25.28.237:2000/api/'
+                'url': 'http://129.25.28.237:5000/api/'
             },
         });
 })();
