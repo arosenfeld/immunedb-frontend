@@ -56,11 +56,9 @@
                 'name': 'Similarity 85%',
                 'url': 'http://129.25.28.237:2000/api/'
             },
-            /*
             'similarity-65': {
                 'name': 'Similarity 65%',
                 'url': 'http://129.25.28.237:2001/api/'
             }
-            */
         });
 })();
