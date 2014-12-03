@@ -115,7 +115,8 @@
                     angular.forEach(plottable, function(plot, i) {
                         var jsonData = angular.fromJson(
                             plot['filters'][type][seriesKey]);
-                        if (showOutliers) {
+                        if (showOutliers || typeof plot['outliers'][type][seriesKey] ==
+                            'undefined') {
                             var data = jsonData;
                         } else {
                             var data = [];
