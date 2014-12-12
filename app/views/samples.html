@@ -150,17 +150,14 @@
   </li>
 
   <li class="pull-right">
-    <a data-toggle="tooltip" title="Shows/hides data points outside [Q1 -
-          1.5*IQR, Q3 + 1.5*IQR]">
       <button type="button" class="btn btn-primary pull-right"
-          ng-click="toggleOutliers(false)" ng-show="showOutliers">
+          ng-click="toggleOutliers(false);showOutliers=false" ng-show="showOutliers">
         <i class="fa fa-minus-square-o fa-fw"></i> Exclude Outliers
       </button>
       <button type="button" class="btn btn-primary pull-right"
-          ng-click="toggleOutliers(true)" ng-show="!showOutliers">
+          ng-click="toggleOutliers(true);showOutliers=true" ng-show="!showOutliers">
         <i class="fa fa-plus-square-o fa-fw"></i> Include Outliers
       </button>
-    </a>
   </li>
 </ul>
 
