@@ -8,7 +8,7 @@
             '#a4993d', 'Y': '#398439', 'W': '#cc99ff', 'S': '#7dd624', 'T':
             '#00ff99', 'G': '#00ff00', 'A': '#69b3dd', 'M': '#99ccff', 'C':
             '#00ffff', 'F': '#00ccff', 'L': '#3366ff', 'V': '#0000ff', 'I':
-            '#000080', 'X': '#a0a0a0',
+            '#000080', '*': '#a0a0a0',
         }
 
         var dnaToColor = {
@@ -20,8 +20,8 @@
 
         var ntToAA = {
             'TTT': 'F', 'TTC': 'F', 'TTA': 'L', 'TTG': 'L', 'TCT': 'S', 'TCC':
-            'S', 'TCA': 'S', 'TCG': 'S', 'TAT': 'Y', 'TAC': 'Y', 'TAA': 'X',
-            'TAG': 'X', 'TGT': 'C', 'TGC': 'C', 'TGA': 'X', 'TGG': 'W', 'CTT':
+            'S', 'TCA': 'S', 'TCG': 'S', 'TAT': 'Y', 'TAC': 'Y', 'TAA': '*',
+            'TAG': '*', 'TGT': 'C', 'TGC': 'C', 'TGA': '*', 'TGG': 'W', 'CTT':
             'L', 'CTC': 'L', 'CTA': 'L', 'CTG': 'L', 'CCT': 'P', 'CCC': 'P',
             'CCA': 'P', 'CCG': 'P', 'CAT': 'H', 'CAC': 'H', 'CAA': 'Q', 'CAG':
             'Q', 'CGT': 'R', 'CGC': 'R', 'CGA': 'R', 'CGG': 'R', 'ATT': 'I',

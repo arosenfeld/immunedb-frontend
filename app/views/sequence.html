@@ -139,30 +139,35 @@
         Gene
         <a data-toggle="tooltip" title="The sequence's V gene"><span class="glyphicon glyphicon-question-sign"></span>
       </th>
-      <td>{{ seq.v_call }}</td>
-      <th>
-        Total Length
-        <a data-toggle="tooltip" title="The sequence's V gene length"><span class="glyphicon glyphicon-question-sign"></span>
-      </th>
-      <td>{{ seq.v_length }}</td>
+      <td colspan="3">{{ seq.v_call }}</td>
+    </tr>
+
+    <tr class="info">
+      <th colspan="4" class="text-center">Excluding Gaps</th>
     </tr>
 
     <tr>
+      <th>
+        Total Length
+        <a data-toggle="tooltip" title="The sequence's V gene length excluding
+        gaps"><span class="glyphicon glyphicon-question-sign"></span>
+      </th>
+      <td>{{ seq.v_length }}</td>
       <th>
         Total Match
         <a data-toggle="tooltip" title="The number of V gene bases matching the
         germline"><span class="glyphicon glyphicon-question-sign"></span>
       </th>
       <td>{{ seq.v_match }} <span class="faded">({{ 100 * seq.v_match / seq.v_length | number:1 }}%)</span></td>
-      <th>
-        Pre-CDR3 Length
-        <a data-toggle="tooltip" title="The number of V gene bases
-        before the CDR3"><span class="glyphicon glyphicon-question-sign"></span>
-      </th>
-      <td>{{ seq.pre_cdr3_length }}</td>
     </tr>
 
     <tr>
+      <th>
+        Pre-CDR3 Length
+        <a data-toggle="tooltip" title="The number of V gene bases
+        before the CDR3 excluding gaps"><span class="glyphicon glyphicon-question-sign"></span>
+      </th>
+      <td>{{ seq.pre_cdr3_length }}</td>
       <th>
         Pre-CDR3 Match
         <a data-toggle="tooltip" title="The number of V gene bases matching the
@@ -170,6 +175,25 @@
       </th>
       <td>{{ seq.pre_cdr3_match }} <span class="faded">({{ 100 *
       seq.pre_cdr3_match / seq.pre_cdr3_length | number:1 }}%)</span></td>
+    </tr>
+
+
+    <tr class="info">
+      <th colspan="4" class="text-center">Including Gaps</th>
+    </tr>
+    <tr>
+      <th>
+        Total Length
+        <a data-toggle="tooltip" title="The sequence's V gene length including
+        gaps"><span class="glyphicon glyphicon-question-sign"></span>
+      </th>
+      <td>{{ seq.v_length + seq.num_gaps }}</td>
+      <th>
+        Pre-CDR3 Length
+        <a data-toggle="tooltip" title="The number of V gene bases
+        before the CDR3 including gaps"><span class="glyphicon glyphicon-question-sign"></span>
+      </th>
+      <td>{{ seq.pre_cdr3_length + seq.num_gaps }}</td>
     </tr>
 
     <tr class="active">
@@ -181,30 +205,28 @@
         Gene
         <a data-toggle="tooltip" title="The sequence's J gene"><span class="glyphicon glyphicon-question-sign"></span>
       </th>
-      <td>{{ seq.j_call }}</td>
+      <td colspan="3">{{ seq.j_call }}</td>
+
+    <tr>
       <th>
         Total Length
         <a data-toggle="tooltip" title="The sequence's J gene length"><span class="glyphicon glyphicon-question-sign"></span>
       </th>
       <td>{{ seq.j_length }}</td>
-    </tr>
-
-    <tr>
       <th>
         Total Match
         <a data-toggle="tooltip" title="The number of J gene bases matching the
         germline"><span class="glyphicon glyphicon-question-sign"></span>
       </th>
       <td>{{ seq.j_match }} <span class="faded">({{ 100 * seq.j_match / seq.j_length | number:1 }}%)</span></td>
+
+    <tr>
       <th>
         Post-CDR3 Length
         <a data-toggle="tooltip" title="The number of J gene bases
         after the CDR3"><span class="glyphicon glyphicon-question-sign"></span>
       </th>
       <td>{{ seq.post_cdr3_length }}</td>
-    </tr>
-
-    <tr>
       <th>
         Post-CDR3 Match
         <a data-toggle="tooltip" title="The number of J gene bases matching the
