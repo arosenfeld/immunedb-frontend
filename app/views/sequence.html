@@ -107,6 +107,30 @@
     </tr>
 
     <tr class="active">
+      <th colspan="4" class="text-center">CDR3</th>
+    </tr>
+
+    <tr>
+      <th>
+        NT Sequence
+        <a data-toggle="tooltip" title="The CDR3 nucleotides"><span class="glyphicon glyphicon-question-sign"></span>
+      </th>
+      <td colspan="3" ng-bind-html="seq.junction_nt | dna"></td>
+    </tr>
+    <tr>
+      <th>
+        AA Sequence
+        <a data-toggle="tooltip" title="The CDR3 amino acids"><span class="glyphicon glyphicon-question-sign"></span>
+      </th>
+      <td ng-bind-html="seq.junction_aa | aminoAcid"></td>
+      <th>
+      Length
+        <a data-toggle="tooltip" title="Number of nucleotides in the CDR3"><span class="glyphicon glyphicon-question-sign"></span>
+      </th>
+      <td>{{ seq.junction_nt.length }}</td>
+    </tr>
+
+    <tr class="active">
       <th colspan="4" class="text-center">V Gene</th>
     </tr>
 
@@ -117,7 +141,7 @@
       </th>
       <td>{{ seq.v_call }}</td>
       <th>
-        Length
+        Total Length
         <a data-toggle="tooltip" title="The sequence's V gene length"><span class="glyphicon glyphicon-question-sign"></span>
       </th>
       <td>{{ seq.v_length }}</td>
@@ -125,11 +149,27 @@
 
     <tr>
       <th>
-        Match
-        <a data-toggle="tooltip" title="The number of nucleotides matching the
+        Total Match
+        <a data-toggle="tooltip" title="The number of V gene bases matching the
         germline"><span class="glyphicon glyphicon-question-sign"></span>
       </th>
       <td>{{ seq.v_match }} <span class="faded">({{ 100 * seq.v_match / seq.v_length | number:1 }}%)</span></td>
+      <th>
+        Pre-CDR3 Length
+        <a data-toggle="tooltip" title="The number of V gene bases
+        before the CDR3"><span class="glyphicon glyphicon-question-sign"></span>
+      </th>
+      <td>{{ seq.pre_cdr3_length }}</td>
+    </tr>
+
+    <tr>
+      <th>
+        Pre-CDR3 Match
+        <a data-toggle="tooltip" title="The number of V gene bases matching the
+        germline before the CDR3"><span class="glyphicon glyphicon-question-sign"></span>
+      </th>
+      <td>{{ seq.pre_cdr3_match }} <span class="faded">({{ 100 *
+      seq.pre_cdr3_match / seq.pre_cdr3_length | number:1 }}%)</span></td>
     </tr>
 
     <tr class="active">
@@ -143,20 +183,37 @@
       </th>
       <td>{{ seq.j_call }}</td>
       <th>
-        Length
-        <a data-toggle="tooltip" title="The sequence's J gene conserved region length"><span class="glyphicon glyphicon-question-sign"></span>
+        Total Length
+        <a data-toggle="tooltip" title="The sequence's J gene length"><span class="glyphicon glyphicon-question-sign"></span>
       </th>
       <td>{{ seq.j_length }}</td>
     </tr>
 
     <tr>
       <th>
-        Match
-        <a data-toggle="tooltip" title="The number of nucleotides matching the
+        Total Match
+        <a data-toggle="tooltip" title="The number of J gene bases matching the
         germline"><span class="glyphicon glyphicon-question-sign"></span>
       </th>
       <td>{{ seq.j_match }} <span class="faded">({{ 100 * seq.j_match / seq.j_length | number:1 }}%)</span></td>
+      <th>
+        Post-CDR3 Length
+        <a data-toggle="tooltip" title="The number of J gene bases
+        after the CDR3"><span class="glyphicon glyphicon-question-sign"></span>
+      </th>
+      <td>{{ seq.post_cdr3_length }}</td>
     </tr>
+
+    <tr>
+      <th>
+        Post-CDR3 Match
+        <a data-toggle="tooltip" title="The number of J gene bases matching the
+        germline after the CDR3"><span class="glyphicon glyphicon-question-sign"></span>
+      </th>
+      <td>{{ seq.post_cdr3_match }} <span class="faded">({{ 100 *
+      seq.post_cdr3_match / seq.post_cdr3_length | number:1 }}%)</span></td>
+    </tr>
+
   </table>
 </div>
 

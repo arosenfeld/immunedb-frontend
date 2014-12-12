@@ -87,6 +87,7 @@
                     if (j < seq.read_start) {
                         ctx.globalAlpha = 0.4;
                     }
+
                     ctx.fillText(c, left, top);
                     ctx.globalAlpha = 1;
 

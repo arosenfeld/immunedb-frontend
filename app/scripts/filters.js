@@ -26,7 +26,7 @@
                 var fstring = '';
                 angular.forEach(aa, function(c, i) {
                     var color = lookups.aaColor(c.toUpperCase()) || '#000000';
-                    fstring += '<span style="color: ' + color 
+                    fstring += '<span class="dna" style="color: ' + color 
                         + '">' + c + '</span>';
                 });
 
