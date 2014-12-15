@@ -4,8 +4,9 @@
     angular.module('ImmunologyApp').factory('lineage', ['lookups', '$log',
         function(lookups, $log) {
             return {
-                makeTree: function(json_path, elem_name) {
-                        var vis = d3.select(elem_name).append('svg:svg')
+                makeTree: function(jsonPath, elemName, colorBy) {
+                        d3.select(elemName + ' > *').remove();
+                        var vis = d3.select(elemName).append('svg:svg')
                               .attr('width', '100%')
                               .attr('height', 500)
                               .append('svg:g')
@@ -35,7 +36,7 @@
                             });
                         vis.call(tip);
 
-                        d3.json(json_path, function(error, root) {
+                        d3.json(jsonPath, function(error, root) {
                             var nodes = tree.nodes(root);
                             var links = tree.links(nodes);
                             var diagonal = d3.svg.diagonal().projection(function(d) { return [d.y, d.x]; });
@@ -61,8 +62,10 @@
                                 .attr('fill', function(d) {
                                     if(d.data.seq_ids.length == 0) {
                                         return '#000000';
-                                    } else if(typeof d.data.tissues != 'undefined') {
-                                        return '#' + lookups.attribToColor(d.data.tissues);
+                                    } else if(typeof d.data[colorBy] !=
+                                        'undefined' && d.data[colorBy].length > 0) {
+                                        return '#' +
+                                            lookups.attribToColor(d.data[colorBy]);
                                     }
                                     return '#0000ff';
                                 });

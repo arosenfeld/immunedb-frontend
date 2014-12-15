@@ -158,15 +158,36 @@ clone group IDs to compare similar clones across versions.</p></div>
       </tr>
       <tr>
         <td colspan="6">
-            <h4>Lineage Tree</h4>
+            <h4>
+              Lineage Tree
+              <small>All sequences for this tree are shown, not just for selected samples</small>
+              <div class="btn-group btn-align" style="float:right">
+                <button type="button" class="btn btn-default btn-info dropdown-toggle" data-toggle="dropdown">
+                  Color By...<span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu pull-right" role="menu">
+                  <li>
+                    <a ng-click="info.colorBy='tissues';updateTree(info.clone.id)">
+                      <i class="fa fa-check fa-fw"
+                      ng-show="info.colorBy=='tissues'"></i>Tissue
+                    </a>
+                  </li>
+                  <li>
+                    <a ng-click="info.colorBy='subsets';updateTree(info.clone.id)">
+                      <i class="fa fa-check fa-fw"
+                      ng-show="info.colorBy=='subsets'"></i>Subset
+                    </a>
+                  </li>
+                </ul>
+              </div>
+            </h4>
             <div id="tree_{{ info.clone.id }}"></div>
         </td>
       </tr>
       <tr>
         <td colspan="6">
-          <h4 class="faded text-center" ng-hide="showComp">Comparison hidden for brevity.  Click <a ng-click="showComp = !showComp">here</a> to show.</h4>
-          <h4 ng-show="showComp">Sequence Comparison (<a ng-click="showComp = !showComp">Hide</a>)</h4>
-          <div ng-show="showComp">
+          <h4>Sequence Comparison</h4>
+          <div>
             <div class="slideWrap">
               <span class="scroller">
                 <canvas id="compare-{{ info.clone.id }}">
