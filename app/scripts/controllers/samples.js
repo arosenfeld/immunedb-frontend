@@ -21,6 +21,9 @@
             }, {
                 title: 'J Nucleotides Matching Germline',
                 key: 'j_match_dist',
+            }, {
+                title: 'Copy Number',
+                key: 'copy_number_dist',
             }];
 
             var filters = ['all', 'functional', 'nonfunctional', 'unique',

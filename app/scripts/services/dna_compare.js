@@ -108,9 +108,9 @@
                                 ctx.stroke();
                         }
                     }
-                    if (j % 10 == 0) {
+                    if (j == 0 || (j + 1) % 10 == 0) {
                         ctx.fillStyle = '#000000';
-                        ctx.fillText(j, left, 10);
+                        ctx.fillText(j + 1, left, 10);
                     }
                 });
                 i++;

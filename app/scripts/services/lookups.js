@@ -54,6 +54,18 @@
             return null;
         }
 
-        return { dnaColor:dnaColor, aaColor: aaColor, aaLookup: aaLookup };
+        var attribToColor = function(str) {
+            var hash = 0;
+            for (var i = 0; i < str.length; i++) {
+                hash = str.charCodeAt(i) + ((hash << 5) - hash);
+            }
+            return ((hash>>24)&0xFF).toString(16) + 
+                ((hash>>16)&0xFF).toString(16) + 
+                ((hash>>8)&0xFF).toString(16) + 
+                (hash&0xFF).toString(16);
+        } 
+
+        return { dnaColor: dnaColor, aaColor: aaColor, aaLookup: aaLookup,
+                 attribToColor: attribToColor };
     }]);
 })();

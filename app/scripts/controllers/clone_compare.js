@@ -3,9 +3,9 @@
 
     angular.module('ImmunologyApp').controller('ClonesCompareCtrl', ['$scope',
             '$http', '$location', '$routeParams', '$timeout', '$log', '$modal',
-            'dnaCompare', 'APIService',
+            'dnaCompare', 'lineage', 'APIService',
         function($scope, $http, $location, $routeParams, $timeout, $log, $modal,
-                dnaCompare, APIService) {
+                dnaCompare, lineage, APIService) {
 
             $scope.SEQS_PER_CANVAS = 100;
 
@@ -68,6 +68,8 @@
                     $timeout(function(){
                         for (var cid in $scope.cloneInfo) {
                             updateScroller(cid, 0);
+                            lineage.makeTree(APIService.getUrl() +
+                                'clone_tree/' + cid, '#tree_' + cid);
                             $scope.pages[cid] = 0;
                         }
                     }, 0);
