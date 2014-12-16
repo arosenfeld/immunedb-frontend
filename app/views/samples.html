@@ -49,11 +49,11 @@
       <tr>
         <td>{{ stat.sample.id }}</td>
         <td>{{ stat.sample.name }}</td>
-        <td>{{ stat.sample.valid_cnt + stat.sample.no_result_cnt | number }}</td>
-        <td>{{ stat.sample.valid_cnt | number }}</td>
-        <td>{{ stat.sample.no_result_cnt | number }}</td>
-        <td>{{ 100 * stat.filters.all.in_frame_cnt / stat.sample.valid_cnt | number : 2}}%</td>
-        <td>{{ 100 * stat.sample.functional_cnt / stat.sample.valid_cnt | number : 2}}%</td>
+        <td>{{ stat.filters.all.sequence_cnt + stat.filters.all.no_result_cnt | number }}</td>
+        <td>{{ stat.filters.all.sequence_cnt | number }}</td>
+        <td>{{ stat.filters.all.no_result_cnt | number }}</td>
+        <td>{{ 100 * stat.filters.all.in_frame_cnt / stat.filters.all.sequence_cnt | number : 2}}%</td>
+        <td>{{ 100 * stat.filters.all.functional_cnt / stat.filters.all.sequence_cnt | number : 2}}%</td>
         <td>{{ stat.filters.unique.sequence_cnt | number }}</td>
         <td>{{ stat.filters.unique_multiple.sequence_cnt | number }}</td>
         <td>{{ stat.filters.clones_all.sequence_cnt | number }}</td>

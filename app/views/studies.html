@@ -76,7 +76,8 @@
                       </thead>
                       <tbody>
                         <tr>
-                          <td>{{ sample.subject.identifier }}</td>
+                          <td><a href="#/{{ api_path }}/subject/{{ sample.subject.id }}" target="_blank">{{
+                            sample.subject.identifier }}</a></td>
                           <td>{{ sample.subset }}</td>
                           <td>{{ sample.tissue }}</td>
                           <td>{{ sample.disease }}</td>

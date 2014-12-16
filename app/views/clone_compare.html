@@ -20,7 +20,8 @@
           <td>{{ mut.count }}</td>
           <td>{{ mut.position }}</td>
           <td><strong ng-bind-html="mut.from | dna"></strong> to <strong ng-bind-html="mut.to | dna"></strong></td>
-          <td><strong ng-bind-html="mut.aa_from | aminoAcid"></strong> to <strong ng-bind-html="mut.aa_to | aminoAcid"></strong></td>
+          <td ng-if="mut.aa_from != mut.aa_to"><strong ng-bind-html="mut.aa_from | aminoAcid"></strong> to <strong ng-bind-html="mut.aa_to | aminoAcid"></strong></td>
+          <td ng-if="mut.aa_from == mut.aa_to">N/A</td>
         </tr>
       </tbody>
     </table>

@@ -66,17 +66,39 @@
             var i = 0;
             var diffs = {}
             angular.forEach(seqs, function(seq, id) {
+                $log.debug(seq);
                 ctx.fillStyle = '#000000';
                 var label = seq.sample.id + ': ' + seq.seq_id;
                 ctx.fillText(label, LEFT_PAD, TOP_PAD + V_PER_SEQ
                     * (1 + i));
+
+                ctx.beginPath();
+                ctx.strokeStyle = '#db0004';
+
+                ctx.globalAlpha = 0.3;
+                ctx.lineWidth = 2;
+                ctx.moveTo(LEFT_PAD + middlePad - 2,
+                           TOP_PAD + V_PER_SEQ * (i + 1) + 3);
+                ctx.lineTo(LEFT_PAD + middlePad + (seq.v_length - 1) *
+                            CHAR_SPACE + 8,
+                           TOP_PAD + V_PER_SEQ * (i + 1) + 3);
+                ctx.stroke();
+                ctx.beginPath();
+                ctx.strokeStyle = '#1d912c';
+                var jStart = (seq.sequence.length - seq.j_length) * CHAR_SPACE;
+                ctx.moveTo(LEFT_PAD + middlePad + jStart - 3,
+                           TOP_PAD + V_PER_SEQ * (i + 1) + 3);
+                ctx.lineTo(LEFT_PAD + middlePad + jStart + seq.j_length *
+                           CHAR_SPACE - 3,
+                           TOP_PAD + V_PER_SEQ * (i + 1) + 3);
+                ctx.stroke()
+                ctx.globalAlpha = 1;
 
                 angular.forEach(seq.sequence, function(c, j) {
                     var left = LEFT_PAD + middlePad + (CHAR_SPACE * j);
                     var top = TOP_PAD + V_PER_SEQ * (i + 1);
                     var aaStart = j - (j % 3);
                     var nt = seq.sequence.substring(aaStart, aaStart + 3);
-
 
                     if (lookups.aaLookup(nt) != null) {
                         ctx.fillStyle = lookups.aaColor(lookups.aaLookup(nt));
