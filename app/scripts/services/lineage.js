@@ -6,13 +6,23 @@
             return {
                 makeTree: function(jsonPath, elemName, colorBy) {
                         d3.select(elemName + ' > *').remove();
+                        var diameter = 960;
+
+                        var tree = d3.layout.tree()
+                            .separation(function(a, b) { return (a.parent == b.parent ? 1 : 2) / a.depth; })
+                            .size([360, diameter / 2]);
+
+
+                        var diagonal = d3.svg.diagonal.radial().projection(
+                            function(d) { return [d.y, d.x / 180 * Math.PI];
+                        });
+
                         var vis = d3.select(elemName).append('svg:svg')
-                              .attr('width', '100%')
-                              .attr('height', 500)
+                              .attr("width", diameter)
+                              .attr("height", diameter)
                               .append('svg:g')
-                              .attr('transform', 'translate(40, 0)')
-                         
-                        var tree = d3.layout.tree().size([500,500]);
+                              .attr("transform", "translate(" + diameter / 2 +
+                              "," + diameter / 2 + ")");
 
                         var tip = d3.tip()
                             .attr('class', 'd3-tip')
@@ -39,7 +49,6 @@
                         d3.json(jsonPath, function(error, root) {
                             var nodes = tree.nodes(root);
                             var links = tree.links(nodes);
-                            var diagonal = d3.svg.diagonal().projection(function(d) { return [d.y, d.x]; });
 
                             var link = vis.selectAll('pathlink')
                                 .data(links)
@@ -50,7 +59,7 @@
                             var node = vis.selectAll('g.node')
                                 .data(nodes)
                                 .enter().append('svg:g')
-                                .attr('transform', function(d) { return 'translate(' + d.y + ',' + d.x + ')'; });
+                                .attr('transform', function(d) { return 'rotate(' + (d.x - 90) + ')translate(' + d.y + ')'; });
 
                             node.append('svg:circle')
                                 .attr('r', function(d) {
@@ -59,11 +68,14 @@
                                     }
                                     return 2 * (1 + Math.log(d.data.copy_number));
                                 })
-                                .attr('fill', function(d) {
-                                    if(d.data.seq_ids.length == 0) {
+                                .attr('fill', function(d, i) {
+                                    if(i == 0) {
+                                        return '#949494';
+                                    } else if(d.data.seq_ids.length == 0) {
                                         return '#000000';
                                     } else if(typeof d.data[colorBy] !=
                                         'undefined' && d.data[colorBy].length > 0) {
+                                        $log.debug(lookups.attribToColor(d.data[colorBy]));
                                         return '#' +
                                             lookups.attribToColor(d.data[colorBy]);
                                     }
@@ -76,11 +88,12 @@
                                     .on('mouseout', tip.hide);
 
                             node.append('svg:text')
-                                .attr('dx', function(d) { return d.children ? -8 : 8; })
-                                .attr('dy', 3)
-                                .attr('text-anchor', function(d) { return d.children ? 'end' : 'start'; })
+                                .attr("text-anchor", function(d) { return d.x < 180 ? "start" : "end"; })
+                                .attr("transform", function(d) { return d.x < 180 ? "translate(8)" : "rotate(180)"; })
+                                .attr('dy', '.31em')
                                 .text(function(d) { return d.data.mutations.length; });
                     });
+                    d3.select(elemName).style("height", diameter + "px");
                 }
             };
         }

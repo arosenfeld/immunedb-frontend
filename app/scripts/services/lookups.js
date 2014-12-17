@@ -61,8 +61,7 @@
             }
             return ((hash>>24)&0xFF).toString(16) + 
                 ((hash>>16)&0xFF).toString(16) + 
-                ((hash>>8)&0xFF).toString(16) + 
-                (hash&0xFF).toString(16);
+                ((hash>>8)&0xFF).toString(16);
         } 
 
         return { dnaColor: dnaColor, aaColor: aaColor, aaLookup: aaLookup,

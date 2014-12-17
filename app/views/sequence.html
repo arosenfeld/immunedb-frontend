@@ -42,12 +42,14 @@
     <tr>
       <th>
         Name
-        <a data-toggle="tooltip" title="A sample-unique identifier for this sequence"><span class="glyphicon glyphicon-question-sign"></span>
+        <a data-toggle="tooltip" title="A sample-unique identifier for this
+        sequence"><span class="glyphicon glyphicon-question-sign"></span></a>
       </th>
       <td>{{ seq_id }}</th>
       <th>
         Sample
-        <a data-toggle="tooltip" title="The sample which contains this sequence"><span class="glyphicon glyphicon-question-sign"></span>
+        <a data-toggle="tooltip" title="The sample which contains this
+        sequence"><span class="glyphicon glyphicon-question-sign"></span></a>
       </th>
       <td><a href="#/{{ api_path }}/samples/{{ seq.sample.id }}" target="_blank">{{
         seq.sample.name }}</a> (#{{ seq.sample.id }})</td>
@@ -56,12 +58,14 @@
     <tr>
       <th>
         In-Frame
-        <a data-toggle="tooltip" title="If the sequence's length is divisible by 3"><span class="glyphicon glyphicon-question-sign"></span>
+        <a data-toggle="tooltip" title="If the sequence's length is divisible by
+        3"><span class="glyphicon glyphicon-question-sign"></span></a>
       </th>
       <td>{{ seq.in_frame ? 'Yes' : 'No' }}</td>
       <th>
         Stop Codon
-        <a data-toggle="tooltip" title="If the sequence's contained a stop codon"><span class="glyphicon glyphicon-question-sign"></span>
+        <a data-toggle="tooltip" title="If the sequence's contained a stop
+        codon"><span class="glyphicon glyphicon-question-sign"></span></a>
       </th>
       <td>{{ seq.stop ? 'Yes' : 'No' }}</td>
     </tr>
@@ -69,23 +73,35 @@
     <tr>
       <th>
         Functional
-        <a data-toggle="tooltip" title="If the sequence is in-frame and there is no stop codon"><span class="glyphicon glyphicon-question-sign"></span>
+        <a data-toggle="tooltip" title="If the sequence is in-frame and there is
+        no stop codon"><span class="glyphicon
+        glyphicon-question-sign"></span></a>
       </th>
       <td>{{ seq.functional ? 'Yes' : 'No' }}</td>
       <th>
-        Copy # in Sample
-        <a data-toggle="tooltip" title="Copies of this sequence (after filling in germline) that occured in the sample"><span class="glyphicon glyphicon-question-sign"></span>
+      Alignment Method
+      <a data-toggle="tooltip" title="'pRESTO' if the sequence is from pRESTO
+      aligning R1 and R2 reads, otherwise 'R1' or 'R2'"><span class="glyphicon
+      glyphicon-question-sign"></span></a>
       </th>
-      <td>{{ seq.copy_number }}</td>
+      <td>{{ seq.alignment }}</td>
     </tr>
 
     <tr>
       <th>
-      Alignment Method
-      <a data-toggle="tooltip" title="'pRESTO' if the sequence is from pRESTO
-      aligning R1 and R2 reads, otherwise 'R1' or 'R2'"><span class="glyphicon glyphicon-question-sign"></span>
+        Copy Number in Sample
+        <a data-toggle="tooltip" title="Copies of this sequence (after filling
+        in germline) that occured in the sample"><span class="glyphicon
+        glyphicon-question-sign"></span></a>
       </th>
-      <td>{{ seq.alignment }}</td>
+      <td>{{ seq.copy_number }}</td>
+      <th>
+        Total Copy Number
+        <a data-toggle="tooltip" title="Copies of this sequence (after filling
+        in germline) that occured anywhere"><span class="glyphicon
+        glyphicon-question-sign"></span></a>
+      </th>
+      <td>{{ seq.total_copy_number }}</td>
     </tr>
 
 
@@ -131,19 +147,19 @@
     <tr>
       <th>
         NT Sequence
-        <a data-toggle="tooltip" title="The CDR3 nucleotides"><span class="glyphicon glyphicon-question-sign"></span>
+        <a data-toggle="tooltip" title="The CDR3 nucleotides"><span class="glyphicon glyphicon-question-sign"></span></a>
       </th>
       <td colspan="3" ng-bind-html="seq.junction_nt | dna"></td>
     </tr>
     <tr>
       <th>
         AA Sequence
-        <a data-toggle="tooltip" title="The CDR3 amino acids"><span class="glyphicon glyphicon-question-sign"></span>
+        <a data-toggle="tooltip" title="The CDR3 amino acids"><span class="glyphicon glyphicon-question-sign"></span></a>
       </th>
       <td ng-bind-html="seq.junction_aa | aminoAcid"></td>
       <th>
       Length
-        <a data-toggle="tooltip" title="Number of nucleotides in the CDR3"><span class="glyphicon glyphicon-question-sign"></span>
+        <a data-toggle="tooltip" title="Number of nucleotides in the CDR3"><span class="glyphicon glyphicon-question-sign"></span></a>
       </th>
       <td>{{ seq.junction_nt.length }}</td>
     </tr>
@@ -155,7 +171,7 @@
     <tr>
       <th>
         Gene
-        <a data-toggle="tooltip" title="The sequence's V gene"><span class="glyphicon glyphicon-question-sign"></span>
+        <a data-toggle="tooltip" title="The sequence's V gene"><span class="glyphicon glyphicon-question-sign"></span></a>
       </th>
       <td colspan="3">{{ seq.v_call }}</td>
     </tr>
@@ -168,13 +184,13 @@
       <th>
         Total Length
         <a data-toggle="tooltip" title="The sequence's V gene length excluding
-        gaps"><span class="glyphicon glyphicon-question-sign"></span>
+        gaps"><span class="glyphicon glyphicon-question-sign"></span></a>
       </th>
       <td>{{ seq.v_length }}</td>
       <th>
         Total Match
         <a data-toggle="tooltip" title="The number of V gene bases matching the
-        germline"><span class="glyphicon glyphicon-question-sign"></span>
+        germline"><span class="glyphicon glyphicon-question-sign"></span></a>
       </th>
       <td>{{ seq.v_match }} <span class="faded">({{ 100 * seq.v_match / seq.v_length | number:1 }}%)</span></td>
     </tr>
@@ -183,13 +199,13 @@
       <th>
         Pre-CDR3 Length
         <a data-toggle="tooltip" title="The number of V gene bases
-        before the CDR3 excluding gaps"><span class="glyphicon glyphicon-question-sign"></span>
+        before the CDR3 excluding gaps"><span class="glyphicon glyphicon-question-sign"></span></a>
       </th>
       <td>{{ seq.pre_cdr3_length }}</td>
       <th>
         Pre-CDR3 Match
         <a data-toggle="tooltip" title="The number of V gene bases matching the
-        germline before the CDR3"><span class="glyphicon glyphicon-question-sign"></span>
+        germline before the CDR3"><span class="glyphicon glyphicon-question-sign"></span></a>
       </th>
       <td>{{ seq.pre_cdr3_match }} <span class="faded">({{ 100 *
       seq.pre_cdr3_match / seq.pre_cdr3_length | number:1 }}%)</span></td>
@@ -203,13 +219,13 @@
       <th>
         Total Length
         <a data-toggle="tooltip" title="The sequence's V gene length including
-        gaps"><span class="glyphicon glyphicon-question-sign"></span>
+        gaps"><span class="glyphicon glyphicon-question-sign"></span></a>
       </th>
       <td>{{ seq.v_length + seq.num_gaps }}</td>
       <th>
         Pre-CDR3 Length
         <a data-toggle="tooltip" title="The number of V gene bases
-        before the CDR3 including gaps"><span class="glyphicon glyphicon-question-sign"></span>
+        before the CDR3 including gaps"><span class="glyphicon glyphicon-question-sign"></span></a>
       </th>
       <td>{{ seq.pre_cdr3_length + seq.num_gaps }}</td>
     </tr>
@@ -221,20 +237,20 @@
     <tr>
       <th>
         Gene
-        <a data-toggle="tooltip" title="The sequence's J gene"><span class="glyphicon glyphicon-question-sign"></span>
+        <a data-toggle="tooltip" title="The sequence's J gene"><span class="glyphicon glyphicon-question-sign"></span></a>
       </th>
       <td colspan="3">{{ seq.j_call }}</td>
 
     <tr>
       <th>
         Total Length
-        <a data-toggle="tooltip" title="The sequence's J gene length"><span class="glyphicon glyphicon-question-sign"></span>
+        <a data-toggle="tooltip" title="The sequence's J gene length"><span class="glyphicon glyphicon-question-sign"></span></a>
       </th>
       <td>{{ seq.j_length }}</td>
       <th>
         Total Match
         <a data-toggle="tooltip" title="The number of J gene bases matching the
-        germline"><span class="glyphicon glyphicon-question-sign"></span>
+        germline"><span class="glyphicon glyphicon-question-sign"></span></a>
       </th>
       <td>{{ seq.j_match }} <span class="faded">({{ 100 * seq.j_match / seq.j_length | number:1 }}%)</span></td>
 
@@ -242,13 +258,13 @@
       <th>
         Post-CDR3 Length
         <a data-toggle="tooltip" title="The number of J gene bases
-        after the CDR3"><span class="glyphicon glyphicon-question-sign"></span>
+        after the CDR3"><span class="glyphicon glyphicon-question-sign"></span></a>
       </th>
       <td>{{ seq.post_cdr3_length }}</td>
       <th>
         Post-CDR3 Match
         <a data-toggle="tooltip" title="The number of J gene bases matching the
-        germline after the CDR3"><span class="glyphicon glyphicon-question-sign"></span>
+        germline after the CDR3"><span class="glyphicon glyphicon-question-sign"></span></a>
       </th>
       <td>{{ seq.post_cdr3_match }} <span class="faded">({{ 100 *
       seq.post_cdr3_match / seq.post_cdr3_length | number:1 }}%)</span></td>
@@ -280,15 +296,15 @@
       <th>
         Clone ID
         <a data-toggle="tooltip" title="The clone ID for this clone in the
-        currently selected database version"><span class="glyphicon glyphicon-question-sign"></span>
+        currently selected database version"><span class="glyphicon glyphicon-question-sign"></span></a>
       </th>
       <td><a href="#/{{ api_path }}/clone_compare/{{ seq.clone.id }}" target="_blank">{{
         seq.clone.id }}</a></td>
       <th>
         Clone Group ID
         <a data-toggle="tooltip" title="The group of the clone as defined by V, J,
-        CDR3 AAs, and subject, and is useful for finding similar clones across
-        database versions"><span class="glyphicon glyphicon-question-sign"></span>
+        CDR3 AAs, and subject. This can be useful for finding similar clones across
+        database versions"><span class="glyphicon glyphicon-question-sign"></span></a>
       </th>
       <td><a href="#/{{ api_path }}/clones/?group={{ seq.clone.group.id }}"
         target="_blank">{{ seq.clone.group.id }}</a></td>
