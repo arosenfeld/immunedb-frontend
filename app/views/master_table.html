@@ -1,0 +1,34 @@
+<div class="header">
+  <ol class="breadcrumb">
+    <li>Master Table Export</li>
+    <li>{{ type }}</li>
+    <li>{{ id }}</li>
+  </ol>
+</div>
+
+<h3>Export Master Table</h3>
+<div class="table-responsive">
+  <table class="table table-bordered">
+    <tr class="active">
+      <th colspan="4" class="text-center">Export Fields</th>
+    </tr>
+    <tr>
+      <th></th>
+      <th>Header Text</th>
+      <th>Verbose Name</th>
+      <th>Description</th>
+    </tr>
+    <tr ng-repeat="field in fields">
+      <td ng-if="field.on"><input type="checkbox" name="fields.header" checked></td>
+      <td ng-if="!field.on"><input type="checkbox" name="fields.header"></td>
+      <td class="text-mono-thin">{{ field.header }}</td>
+      <td>{{ field.name }}</td>
+      <td>{{ field.desc }}</td>
+    </tr>
+    <tr>
+      <td colspan="4" class="text-center">
+        <button class="btn btn-success">Download</button>
+      </td>
+    </tr>
+  </table>
+</div>

@@ -6,7 +6,7 @@
         function($location, $log, apis) {
             this.getName = function() {
                 var loc = $location.path().split('/')[1];
-                if (typeof loc == 'undefined') {
+                if (typeof loc == 'undefined' || !(loc in apis)) {
                     return 'primary';
                 }
                 return loc;

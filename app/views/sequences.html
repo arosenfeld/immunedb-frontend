@@ -29,10 +29,16 @@
             id="sample_id_filter" placeholder="Sample ID">
         </div>
         <div class="form-group">
-          <label class="sr-only" for="copy_number_filter">Minimum Copy Number</label>
-          <input type="number" min="1" class="form-control" ng-model="filter.copy_number"
-            id="copy_number_filter" placeholder="Minimum Copy Number">
+          <label class="sr-only" for="min_copy_number_filter">Minimum Copy Number</label>
+          <input type="number" min="1" class="form-control" ng-model="filter.min_copy_number"
+            id="min_copy_number_filter" placeholder="Minimum Copy Number">
         </div>
+        <div class="form-group">
+          <label class="sr-only" for="max_copy_number_filter">Maximum Copy Number</label>
+          <input type="number" min="1" class="form-control" ng-model="filter.max_copy_number"
+            id="max_copy_number_filter" placeholder="Maximum Copy Number">
+        </div>
+
         <div class="form-group">
           <button type="submit" class="btn btn-info">Filter</button>
         </div>

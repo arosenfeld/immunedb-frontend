@@ -4,7 +4,7 @@
     angular.module('ImmunologyApp').factory('lineage', ['lookups', '$log',
         function(lookups, $log) {
             return {
-                makeTree: function(jsonPath, elemName, colorBy) {
+                makeTree: function(jsonPath, elemName, colorBy, hideLargeLeaves) {
                         d3.select(elemName + ' > *').remove();
                         var width = $(elemName).width();
                         var height = 800;
@@ -42,6 +42,15 @@
                         }
                          
                         var tree = d3.layout.tree().nodeSize([50, 50]);
+                        if (hideLargeLeaves) {
+                            tree.children(function(d) {
+                                if (d.children.length < 50) {
+                                    return d.children;
+                                }
+                                d['hiding'] = true;
+                                return [];
+                            });
+                        }
 
                         var tip = d3.tip()
                             .attr('class', 'd3-tip')
@@ -99,7 +108,6 @@
                                     if(d.data.seq_ids.length == 0) {
                                         return '#000000';
                                     } else if(typeof d.data[colorBy] != 'undefined' && d.data[colorBy].length > 0) {
-                                        $log.debug(d.data[colorBy], lookups.attribToColor(d.data[colorBy]));
                                         return lookups.attribToColor(d.data[colorBy]);
                                     }
                                     return '#0000ff';
@@ -117,7 +125,12 @@
                                 })
                                 .attr('dy', 3)
                                 .attr('text-anchor', function(d) { return d.children ? 'end' : 'start'; })
-                                .text(function(d) { return d.data.mutations.length; });
+                                .text(function(d) {
+                                    if (d.depth == 0) {
+                                        return 'Germline';
+                                    }
+                                    return d.data.mutations.length;
+                                });
                     });
                 }
             };

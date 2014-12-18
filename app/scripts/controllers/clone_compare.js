@@ -55,7 +55,8 @@
             $scope.updateTree = function(cloneId) {
                 lineage.makeTree(APIService.getUrl() +
                     'clone_tree/' + cloneId, '#tree_' + cloneId,
-                    $scope.cloneInfo[cloneId].colorBy);
+                    $scope.cloneInfo[cloneId].colorBy,
+                    !$scope.cloneInfo[cloneId].showFanouts);
             }
 
             var init = function() {
@@ -71,6 +72,7 @@
                 }).success(function(data, status) {
                     $scope.cloneInfo = data['clones'];
                     angular.forEach($scope.cloneInfo, function(value, key) {
+                        value['showFanouts'] = true;
                         value['colorBy'] = 'tissues';
                     });
 

@@ -42,6 +42,10 @@
                     templateUrl: 'views/sequences.html',
                     controller: 'SequencesCtrl',
                 })
+                .when('/:apiPath/master_table/:type/:id', {
+                    templateUrl: 'views/master_table.html',
+                    controller: 'MasterTableCtrl',
+                })
                 .when('/:apiPath', {
                    redirectTo: function(routeParams, path, search) {
                        return routeParams.apiPath + '/studies';

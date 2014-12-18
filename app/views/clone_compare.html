@@ -101,14 +101,17 @@ clone group IDs to compare similar clones across versions.</p></div>
             <button ng-click="field = (field == 'unique' ? 'total' : 'unique')" class="btn btn-primary btn-align">
               Switch to {{ field == 'total' ? 'Unique' : 'Total' }} Mutations
             </button>
-            <div class="btn-group btn-align" style="float:right">
-              <button type="button" class="btn btn-default btn-info dropdown-toggle" data-toggle="dropdown">
-                Export FASTA...<span class="caret"></span>
-              </button>
-              <ul class="dropdown-menu pull-right" role="menu">
-                <li><a href="{{ api }}data/sequences/fasta/false/{{ info.clone.id }}/{{ params }}" target="_blank">Original sequences</a></li>
-                <li><a href="{{ api }}data/sequences/fasta/true/{{ info.clone.id }}/{{ params }}" target="_blank">Fill in germline</a></li>
-              </ul>
+            <div class="btn-group" style="float:right">
+              <a type="button" class="btn btn-default" href="#/{{ api_path }}/master_table/clone/{{ info.clone.id }}" target="_blank">Export Master Table...</a>
+              <div class="btn-group btn-align">
+                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                  Export FASTA...<span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu pull-right" role="menu">
+                  <li><a href="{{ api }}data/sequences/fasta/false/{{ info.clone.id }}/{{ params }}" target="_blank">Original sequences</a></li>
+                  <li><a href="{{ api }}data/sequences/fasta/true/{{ info.clone.id }}/{{ params }}" target="_blank">Fill in germline</a></li>
+                </ul>
+              </div>
             </div>
           </h4>
           <table class="table table-bordered">
@@ -161,25 +164,33 @@ clone group IDs to compare similar clones across versions.</p></div>
         <td colspan="6">
           <h4>
             Lineage Tree
-            <small>All sequences for this tree are shown, not just for selected samples</small>
-            <div class="btn-group btn-align" style="float:right">
-              <button type="button" class="btn btn-default btn-info dropdown-toggle" data-toggle="dropdown">
-                Color By...<span class="caret"></span>
-              </button>
-              <ul class="dropdown-menu pull-right" role="menu">
-                <li>
-                  <a ng-click="info.colorBy='tissues';updateTree(info.clone.id)">
-                    <i class="fa fa-check fa-fw"
-                    ng-show="info.colorBy=='tissues'"></i>Tissue
-                  </a>
-                </li>
-                <li>
-                  <a ng-click="info.colorBy='subsets';updateTree(info.clone.id)">
-                    <i class="fa fa-check fa-fw"
-                    ng-show="info.colorBy=='subsets'"></i>Subset
-                  </a>
-                </li>
-              </ul>
+            <small>All sequences for this clone.  Labels indicate the number of mutation from most recent ancestor.</small>
+            <div style="float:right">
+
+              <div class="btn-group" role="group">
+                <button type="button" class="btn btn-default"
+                  ng-click="info.showFanouts=!info.showFanouts;updateTree(info.clone.id)">{{ info.showFanouts ? 'Hide' : 'Show' }} Large Leaf Fanouts</button>
+
+                <div class="btn-group" role="group">
+                  <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                    Color By...<span class="caret"></span>
+                  </button>
+                  <ul class="dropdown-menu pull-right" role="menu">
+                    <li>
+                      <a ng-click="info.colorBy='tissues';updateTree(info.clone.id)">
+                        <i class="fa fa-check fa-fw"
+                        ng-show="info.colorBy=='tissues'"></i>Tissue
+                      </a>
+                    </li>
+                    <li>
+                      <a ng-click="info.colorBy='subsets';updateTree(info.clone.id)">
+                        <i class="fa fa-check fa-fw"
+                        ng-show="info.colorBy=='subsets'"></i>Subset
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
             </div>
           </h4>
           <div id="tree_{{ info.clone.id }}" class="text-center"></div>
