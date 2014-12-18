@@ -6,29 +6,52 @@
             return {
                 makeTree: function(jsonPath, elemName, colorBy) {
                         d3.select(elemName + ' > *').remove();
-                        var diameter = 960;
+                        var width = $(elemName).width();
+                        var height = 800;
+                        var offset = [0, 0];
+                        var zoom = function() {
+                          vis.attr('transform', 'translate(' +
+                              d3.event.translate + ')scale(' + d3.event.scale + ')');
+                        }
 
-                        var tree = d3.layout.tree()
-                            .separation(function(a, b) { return (a.parent == b.parent ? 1 : 2) / a.depth; })
-                            .size([360, diameter / 2]);
+                        var drag = d3.behavior.drag()
+                            .on('drag', function(d) {
+                                offset[0] += d3.event.dx;
+                                offset[1] += d3.event.dy;
+                                vis.attr('transform', 'translate(' + offset + ')');
+                            });
 
+                        var vis = d3.select(elemName).append('svg')
+                              .attr('width', width)
+                              .attr('height', height)
+                              .append('g')
+                              .call(drag)
+                              .call(d3.behavior.zoom().on('zoom', zoom));
 
-                        var diagonal = d3.svg.diagonal.radial().projection(
-                            function(d) { return [d.y, d.x / 180 * Math.PI];
-                        });
+                        vis.append('rect')
+                            .attr('class', 'overlay')
+                            .attr('width', width)
+                            .attr('height', height);
+                        vis = vis.append('g');
 
-                        var vis = d3.select(elemName).append('svg:svg')
-                              .attr("width", diameter)
-                              .attr("height", diameter)
-                              .append('svg:g')
-                              .attr("transform", "translate(" + diameter / 2 +
-                              "," + diameter / 2 + ")");
+                        var scaleCircle = function(cn) {
+                            if (cn == 0) {
+                                return 2;
+                            }
+                            return 2 * (1 + Math.log(cn));
+                        }
+                         
+                        var tree = d3.layout.tree().nodeSize([50, 50]);
 
                         var tip = d3.tip()
                             .attr('class', 'd3-tip')
                             .offset([-10, 0])
                             .html(function(d) {
                                 var label = '<span style="color: #a0a0a0">Copy Number: </span>' + d.data.copy_number + '<br/>';
+                                label += '<span style="color: #a0a0a0">Tissue(s): </span>' + d.data.tissues + '<br/>';
+                                if (d.data.subsets.length > 0) {
+                                    label += '<span style="color: #a0a0a0">Subsets(s): </span>' + d.data.subsets + '<br/>';
+                                }
                                 label += '<span style="color: #a0a0a0">Seq ID(s): </span><br/>';
                                 if (d.data.seq_ids.length > 0) {
                                     angular.forEach(d.data.seq_ids, function(val, key) {
@@ -46,6 +69,9 @@
                             });
                         vis.call(tip);
 
+                        var diagonal = d3.svg.diagonal()
+                            .projection(function(d) { return [d.x + width / 2,
+                            d.y + 25]; });
                         d3.json(jsonPath, function(error, root) {
                             var nodes = tree.nodes(root);
                             var links = tree.links(nodes);
@@ -59,25 +85,22 @@
                             var node = vis.selectAll('g.node')
                                 .data(nodes)
                                 .enter().append('svg:g')
-                                .attr('transform', function(d) { return 'rotate(' + (d.x - 90) + ')translate(' + d.y + ')'; });
+                                .attr('transform', function(d) {
+                                    var x = d.x + width / 2;
+                                    var y = d.y + 25;
+                                    return 'translate(' + x + ',' + y + ')';
+                                });
 
                             node.append('svg:circle')
                                 .attr('r', function(d) {
-                                    if (d.data.copy_number == 0) {
-                                        return 2;
-                                    }
-                                    return 2 * (1 + Math.log(d.data.copy_number));
+                                    return scaleCircle(d.data.copy_number);
                                 })
-                                .attr('fill', function(d, i) {
-                                    if(i == 0) {
-                                        return '#949494';
-                                    } else if(d.data.seq_ids.length == 0) {
+                                .attr('fill', function(d) {
+                                    if(d.data.seq_ids.length == 0) {
                                         return '#000000';
-                                    } else if(typeof d.data[colorBy] !=
-                                        'undefined' && d.data[colorBy].length > 0) {
-                                        $log.debug(lookups.attribToColor(d.data[colorBy]));
-                                        return '#' +
-                                            lookups.attribToColor(d.data[colorBy]);
+                                    } else if(typeof d.data[colorBy] != 'undefined' && d.data[colorBy].length > 0) {
+                                        $log.debug(d.data[colorBy], lookups.attribToColor(d.data[colorBy]));
+                                        return lookups.attribToColor(d.data[colorBy]);
                                     }
                                     return '#0000ff';
                                 });
@@ -88,12 +111,14 @@
                                     .on('mouseout', tip.hide);
 
                             node.append('svg:text')
-                                .attr("text-anchor", function(d) { return d.x < 180 ? "start" : "end"; })
-                                .attr("transform", function(d) { return d.x < 180 ? "translate(8)" : "rotate(180)"; })
-                                .attr('dy', '.31em')
+                                .attr('dx', function(d) {
+                                    var off = scaleCircle(d.data.copy_number);
+                                    return d.children ? -6 - off : 6 + off;
+                                })
+                                .attr('dy', 3)
+                                .attr('text-anchor', function(d) { return d.children ? 'end' : 'start'; })
                                 .text(function(d) { return d.data.mutations.length; });
                     });
-                    d3.select(elemName).style("height", diameter + "px");
                 }
             };
         }

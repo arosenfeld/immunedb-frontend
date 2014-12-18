@@ -72,7 +72,7 @@ clone group IDs to compare similar clones across versions.</p></div>
       </tr>
       <tr>
         <td colspan="6">
-          <h4 class="faded text-center" ng-hide="showSeqs">Hid {{ info.seqs.length }} sequences for brevity.  Click <a ng-click="showSeqs = !showSeqs">here</a> to show.</h4>
+          <h4 class="faded text-center" ng-hide="showSeqs">Click <a ng-click="showSeqs = !showSeqs">here</a> to show all {{ info.seqs.length }} sequences.</h4>
           <h4 ng-show="showSeqs">Sequences (<a ng-click="showSeqs = !showSeqs">Hide</a>)</h4>
           <table class="table table-bordered" ng-show="showSeqs">
             <thead>
@@ -159,30 +159,30 @@ clone group IDs to compare similar clones across versions.</p></div>
       </tr>
       <tr>
         <td colspan="6">
-            <h4>
-              Lineage Tree
-              <small>All sequences for this tree are shown, not just for selected samples</small>
-              <div class="btn-group btn-align" style="float:right">
-                <button type="button" class="btn btn-default btn-info dropdown-toggle" data-toggle="dropdown">
-                  Color By...<span class="caret"></span>
-                </button>
-                <ul class="dropdown-menu pull-right" role="menu">
-                  <li>
-                    <a ng-click="info.colorBy='tissues';updateTree(info.clone.id)">
-                      <i class="fa fa-check fa-fw"
-                      ng-show="info.colorBy=='tissues'"></i>Tissue
-                    </a>
-                  </li>
-                  <li>
-                    <a ng-click="info.colorBy='subsets';updateTree(info.clone.id)">
-                      <i class="fa fa-check fa-fw"
-                      ng-show="info.colorBy=='subsets'"></i>Subset
-                    </a>
-                  </li>
-                </ul>
-              </div>
-            </h4>
-            <div id="tree_{{ info.clone.id }}" class="text-center"></div>
+          <h4>
+            Lineage Tree
+            <small>All sequences for this tree are shown, not just for selected samples</small>
+            <div class="btn-group btn-align" style="float:right">
+              <button type="button" class="btn btn-default btn-info dropdown-toggle" data-toggle="dropdown">
+                Color By...<span class="caret"></span>
+              </button>
+              <ul class="dropdown-menu pull-right" role="menu">
+                <li>
+                  <a ng-click="info.colorBy='tissues';updateTree(info.clone.id)">
+                    <i class="fa fa-check fa-fw"
+                    ng-show="info.colorBy=='tissues'"></i>Tissue
+                  </a>
+                </li>
+                <li>
+                  <a ng-click="info.colorBy='subsets';updateTree(info.clone.id)">
+                    <i class="fa fa-check fa-fw"
+                    ng-show="info.colorBy=='subsets'"></i>Subset
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </h4>
+          <div id="tree_{{ info.clone.id }}" class="text-center"></div>
         </td>
       </tr>
       <tr>

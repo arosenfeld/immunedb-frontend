@@ -1,22 +1,3 @@
-/*
-.node circle {
-    fill: #fff;
-    stroke: steelblue;
-    stroke-width: 1.5px;
-}
-
-.node {
-    font: 10px sans-serif;
-}
-
-.link {
-    fill: none;
-    stroke: #ccc;
-    stroke-width: 1.5px;
-}
-*/
-
-/******/
 .node circle {
   fill: #fff;
   stroke: steelblue;
@@ -32,7 +13,11 @@
   stroke: #ccc;
   stroke-width: 1.5px;
 }
-/******/
+
+.overlay {
+    visibility: hidden;
+    pointer-events: all;
+}
 
 .d3-tip {
     line-height: 1;

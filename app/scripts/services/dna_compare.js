@@ -78,7 +78,7 @@
                 ctx.lineWidth = 2;
                 ctx.moveTo(LEFT_PAD + middlePad - 2,
                            TOP_PAD + V_PER_SEQ * (i + 1) + 3);
-                ctx.lineTo(LEFT_PAD + middlePad + (seq.v_length - 1) *
+                ctx.lineTo(LEFT_PAD + middlePad + (seq.v_extent - 1) *
                             CHAR_SPACE + 8,
                            TOP_PAD + V_PER_SEQ * (i + 1) + 3);
                 ctx.stroke();

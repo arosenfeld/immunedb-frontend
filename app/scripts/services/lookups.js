@@ -55,14 +55,15 @@
         }
 
         var attribToColor = function(str) {
-            var hash = 0;
+            var hash = 5381;
             for (var i = 0; i < str.length; i++) {
-                hash = str.charCodeAt(i) + ((hash << 5) - hash);
+                hash = ((hash << 5) + hash) + str.charCodeAt(i);
             }
-            return ((hash>>24)&0xFF).toString(16) + 
-                ((hash>>16)&0xFF).toString(16) + 
-                ((hash>>8)&0xFF).toString(16);
-        } 
+            var r = (hash & 0xFF0000) >> 16;
+            var g = (hash & 0x00FF00) >> 8;
+            var b = hash & 0x0000FF;
+            return "#" + ("0" + r.toString(16)).substr(-2) + ("0" + g.toString(16)).substr(-2) + ("0" + b.toString(16)).substr(-2);
+        }            
 
         return { dnaColor: dnaColor, aaColor: aaColor, aaLookup: aaLookup,
                  attribToColor: attribToColor };
