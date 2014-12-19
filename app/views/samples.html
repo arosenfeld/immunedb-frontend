@@ -43,6 +43,7 @@
         </th>
         <th>Funct. Clones <a data-toggle="tooltip" title="Number of functional clones"><span class="glyphicon glyphicon-question-sign"></span></a>
         </th>
+        <th></th>
       </tr>
     </thead>
     <tbody ng-repeat="stat in groupedStats">
@@ -58,6 +59,9 @@
         <td>{{ stat.filters.unique_multiple.sequence_cnt | number }}</td>
         <td>{{ stat.filters.clones_all.sequence_cnt | number }}</td>
         <td>{{ stat.filters.clones_functional.sequence_cnt | number }}</td>
+        <td>
+          <a type="button" class="btn btn-default btn-xs" href="#/{{ api_path }}/master_table/sample/{{ stat.sample.id }}" target="_blank">Export Master Table...</a>
+        </td>
       </tr>
       <tr ng-show="showDetails">
         <td colspan="12">

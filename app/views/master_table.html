@@ -8,6 +8,12 @@
 
 <h3>Export Master Table</h3>
 <div class="table-responsive">
+<div class="panel panel-default">
+  <div class="panel-body">
+    <strong>Master tables</strong> are tab-delimited files which contain one
+    header line followed by one line per sequence. Note that reads which could
+    not be assigned a V or J will not be included in the table.
+  </div>
   <table class="table table-bordered">
     <tr class="active">
       <th colspan="4" class="text-center">Export Fields</th>
@@ -19,15 +25,14 @@
       <th>Description</th>
     </tr>
     <tr ng-repeat="field in fields">
-      <td ng-if="field.on"><input type="checkbox" name="fields.header" checked></td>
-      <td ng-if="!field.on"><input type="checkbox" name="fields.header"></td>
+      <td><input type="checkbox" checklist-model="checked_fields" checklist-value="field.header"></td>
       <td class="text-mono-thin">{{ field.header }}</td>
       <td>{{ field.name }}</td>
-      <td>{{ field.desc }}</td>
+      <td ng-bind-html="field.desc"></td>
     </tr>
     <tr>
       <td colspan="4" class="text-center">
-        <button class="btn btn-success">Download</button>
+        <a class="btn btn-success" href="{{ apiUrl }}data/master_table/{{ type | lowercase }}/{{ id }}/?fields={{ checked_fields.join(',') }}" target="_blank">Download</a>
       </td>
     </tr>
   </table>

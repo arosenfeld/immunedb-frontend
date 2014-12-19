@@ -47,7 +47,7 @@
 identification is not be consistent across.</p> <p>Please use the
 clone group IDs to compare similar clones across versions.</p></div>
 
-<h3>Mutation Analysis</h3>
+<h3>Clone Details</h3>
 <div class="table-responsive">
   <table class="table table-bordered" ng-repeat="info in cloneInfo">
     <thead>
@@ -72,6 +72,19 @@ clone group IDs to compare similar clones across versions.</p></div>
       </tr>
       <tr>
         <td colspan="6">
+            <div class="btn-group" style="float:right">
+              <a type="button" class="btn btn-default" href="#/{{ api_path }}/master_table/clone/{{ info.clone.id }}" target="_blank">Export Master Table...</a>
+              <div class="btn-group btn-align">
+                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                  Export FASTA...<span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu pull-right" role="menu">
+                  <li><a href="{{ api }}data/sequences/fasta/false/{{ info.clone.id }}/{{ params }}" target="_blank">Original sequences</a></li>
+                  <li><a href="{{ api }}data/sequences/fasta/true/{{ info.clone.id }}/{{ params }}" target="_blank">Fill in germline</a></li>
+                </ul>
+              </div>
+            </div>
+
           <h4 class="faded text-center" ng-hide="showSeqs">Click <a ng-click="showSeqs = !showSeqs">here</a> to show all {{ info.seqs.length }} sequences.</h4>
           <h4 ng-show="showSeqs">Sequences (<a ng-click="showSeqs = !showSeqs">Hide</a>)</h4>
           <table class="table table-bordered" ng-show="showSeqs">
@@ -101,18 +114,6 @@ clone group IDs to compare similar clones across versions.</p></div>
             <button ng-click="field = (field == 'unique' ? 'total' : 'unique')" class="btn btn-primary btn-align">
               Switch to {{ field == 'total' ? 'Unique' : 'Total' }} Mutations
             </button>
-            <div class="btn-group" style="float:right">
-              <a type="button" class="btn btn-default" href="#/{{ api_path }}/master_table/clone/{{ info.clone.id }}" target="_blank">Export Master Table...</a>
-              <div class="btn-group btn-align">
-                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-                  Export FASTA...<span class="caret"></span>
-                </button>
-                <ul class="dropdown-menu pull-right" role="menu">
-                  <li><a href="{{ api }}data/sequences/fasta/false/{{ info.clone.id }}/{{ params }}" target="_blank">Original sequences</a></li>
-                  <li><a href="{{ api }}data/sequences/fasta/true/{{ info.clone.id }}/{{ params }}" target="_blank">Fill in germline</a></li>
-                </ul>
-              </div>
-            </div>
           </h4>
           <table class="table table-bordered">
             <thead>
