@@ -2,9 +2,9 @@
     'use strict';
 
     angular.module('ImmunologyApp').service('PinService', ['$log',
-            '$cookies', '$cookieStore', '$location',
-        function($log, $cookies, $cookieStore, $location) {
-            var PREFIX = 'pin_';
+            '$cookies', '$cookieStore', '$location', 'APIService',
+        function($log, $cookies, $cookieStore, $location, APIService) {
+            var PREFIX = 'pins_' + APIService.getName() + '_';
             this.addPin = function(data) {
                 $cookieStore.put(PREFIX + $location.path(), data);
             }

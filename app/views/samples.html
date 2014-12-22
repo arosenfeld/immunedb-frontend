@@ -100,17 +100,17 @@
   <li class="dropdown">
     <a role="button" data-toggle="dropdown">Clones <span class="caret"></span></a>
     <ul class="dropdown-menu" role="menu">
-      <li>
+      <li ng-class="cnts.clones_all == 0 ? 'disabled' : ''">
         <a href="#clones_all" role="tab" data-toggle="tab" ng-click="filter='All Clones'">
           <span class="badge pull-right">{{ cnts.clones_all | formatNumber }}</span>All
         </a>
       </li>
-      <li>
+      <li ng-class="cnts.clones_functional == 0 ? 'disabled' : ''">
         <a href="#clones_functional" role="tab" data-toggle="tab" ng-click="filter='Functional Clones'">
           <span class="badge pull-right">{{ cnts.clones_functional | formatNumber }}</span>Functional
         </a>
       </li>
-      <li>
+      <li ng-class="cnts.clones_nonfunctional == 0 ? 'disabled' : ''">
         <a href="#clones_nonfunctional" role="tab" data-toggle="tab" ng-click="filter='Non-Functional Clones'">
           <span class="badge pull-right">{{ cnts.clones_nonfunctional | formatNumber }}</span>Non-Functional
         </a>
@@ -120,12 +120,12 @@
   <li class="dropdown">
     <a role="button" data-toggle="dropdown">Unique <span class="caret"></span></a>
     <ul class="dropdown-menu" role="menu">
-      <li>
+      <li ng-class="cnts.unique == 0 ? 'disabled' : ''">
         <a href="#unique" role="tab" data-toggle="tab" ng-click="filter='All Unique'">
           <span class="badge pull-right">{{ cnts.unique | formatNumber }}</span>All
         </a>
       </li>
-      <li>
+      <li ng-class="cnts.unique_multiple == 0 ? 'disabled' : ''">
         <a href="#unique_multiple" role="tab" data-toggle="tab" ng-click="filter='Unique with Copy Number > 1'">
           <span class="badge pull-right">{{ cnts.unique_multiple | formatNumber }}</span>Copy # > 1
         </a>
@@ -136,12 +136,12 @@
   <li class="dropdown">
     <a role="button" data-toggle="dropdown">Functionality <span class="caret"></span></a>
     <ul class="dropdown-menu" role="menu">
-      <li>
+      <li ng-class="cnts.functional == 0 ? 'disabled' : ''">
         <a href="#functional" role="tab" data-toggle="tab" ng-click="filter='Functional'">
           <span class="badge pull-right">{{ cnts.functional | formatNumber }}</span>Functional
         </a>
       </li>
-      <li>
+      <li ng-class="cnts.nonfunctional == 0 ? 'disabled' : ''">
         <a href="#nonfunctional" role="tab" data-toggle="tab" ng-click="filter='Non-Functional'">
           <span class="badge pull-right">{{ cnts.nonfunctional | formatNumber }}</span>Non-Functional
         </a>
@@ -149,7 +149,7 @@
     </ul>
   </li>
 
-  <li>
+  <li ng-class="cnts.all == 0 ? 'disabled' : ''">
     <a href="#all" role="tab" data-toggle="tab" ng-click="filter='All'"><span class="badge pull-right">{{ cnts.all | formatNumber }}</span> All</a>
   </li>
 
@@ -165,8 +165,7 @@
   </li>
 </ul>
 
-
-<div class="tab-content">
+<div class="tab-content" id="filtered-panels">
   <filtered-panel
     filter="clones_all"
     api-path="api_path"
