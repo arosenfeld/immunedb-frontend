@@ -1,7 +1,7 @@
 <div class="header">
   <ol class="breadcrumb">
-    <li><a href="#/{{ api_path }}/studies">Studies</a></li>
-    <li><a href="#/{{ api_path }}/samples/{{ seq.sample.id }}">{{ seq.sample.name }}</a></li>
+    <li><a href="#/{{ apiPath }}/studies">Studies</a></li>
+    <li><a href="#/{{ apiPath }}/samples/{{ seq.sample.id }}">{{ seq.sample.name }}</a></li>
     <li>Sequence <i>{{ seq_id }}</i></li>
   </ol>
 </div>
@@ -51,7 +51,7 @@
         <a data-toggle="tooltip" title="The sample which contains this
         sequence"><span class="glyphicon glyphicon-question-sign"></span></a>
       </th>
-      <td><a href="#/{{ api_path }}/samples/{{ seq.sample.id }}" target="_blank">{{
+      <td><a href="#/{{ apiPath }}/samples/{{ seq.sample.id }}" target="_blank">{{
         seq.sample.name }}</a> (#{{ seq.sample.id }})</td>
     </tr>
 
@@ -111,7 +111,7 @@
 
     <tr>
       <th>Subject</th>
-      <td><a href="#/{{ api_path }}/subject/{{ seq.sample.subject.id }}">{{ seq.sample.subject.identifier
+      <td><a href="#/{{ apiPath }}/subject/{{ seq.sample.subject.id }}">{{ seq.sample.subject.identifier
       }}</a></td>
       <th>Subset</th>
       <td>{{ seq.sample.subset ? seq.sample.subset : 'N/A' }}</td>
@@ -298,7 +298,7 @@
         <a data-toggle="tooltip" title="The clone ID for this clone in the
         currently selected database version"><span class="glyphicon glyphicon-question-sign"></span></a>
       </th>
-      <td><a href="#/{{ api_path }}/clone_compare/{{ seq.clone.id }}" target="_blank">{{
+      <td><a href="#/{{ apiPath }}/clone_compare/{{ seq.clone.id }}" target="_blank">{{
         seq.clone.id }}</a></td>
       <th>
         Clone Group ID
@@ -306,7 +306,7 @@
         CDR3 AAs, and subject. This can be useful for finding similar clones across
         database versions"><span class="glyphicon glyphicon-question-sign"></span></a>
       </th>
-      <td><a href="#/{{ api_path }}/clones/?group={{ seq.clone.group.id }}"
+      <td><a href="#/{{ apiPath }}/clones/?group={{ seq.clone.group.id }}"
         target="_blank">{{ seq.clone.group.id }}</a></td>
     </tr>
     <tr>
@@ -344,8 +344,8 @@
     </thead>
     <tbody>
       <tr ng-repeat="dup in seq.duplicates">
-        <td><a href="#/{{ api_path }}/samples/{{ dup.sample.id }}" target="_blank">{{ dup.sample.name }}</a> (#{{ dup.sample.id }})</td>
-        <td><a href="#/{{ api_path }}/sequence/{{ dup.sample.id }}/{{ dup.seq_id }}" target="_blank">{{ dup.seq_id }}</a></td>
+        <td><a href="#/{{ apiPath }}/samples/{{ dup.sample.id }}" target="_blank">{{ dup.sample.name }}</a> (#{{ dup.sample.id }})</td>
+        <td><a href="#/{{ apiPath }}/sequence/{{ dup.sample.id }}/{{ dup.seq_id }}" target="_blank">{{ dup.seq_id }}</a></td>
         <td>{{ dup.alignment }}</td>
         <td>{{ dup.copy_number }}</td>
       </tr>

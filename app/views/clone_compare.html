@@ -32,7 +32,7 @@
 </script>
 <div class="header">
   <ol class="breadcrumb">
-    <li><a href="#/{{ api_path }}/clones"><i class="fa fa-sitemap fa-fw"></i>Clones</a> </li>
+    <li><a href="#/{{ apiPath }}/clones"><i class="fa fa-sitemap fa-fw"></i>Clones</a> </li>
     <li>Clone Comparison</li>
   </ol>
 </div>
@@ -63,7 +63,7 @@ clone group IDs to compare similar clones across versions.</p></div>
     <tbody>
       <tr>
         <td>{{ info.clone.id }}</td>
-        <td><a href="#/{{ api_path }}/clones/?group={{ info.clone.group.id }}"
+        <td><a href="#/{{ apiPath }}/clones/?group={{ info.clone.group.id }}"
           target="_blank">{{ info.clone.group.id }}</a></td>
         <td>{{ info.clone.group.v_gene }}</td>
         <td>{{ info.clone.group.j_gene }}</td>
@@ -73,7 +73,7 @@ clone group IDs to compare similar clones across versions.</p></div>
       <tr>
         <td colspan="6">
             <div class="btn-group" style="float:right">
-              <a type="button" class="btn btn-default" href="#/{{ api_path }}/master_table/clone/{{ info.clone.id }}" target="_blank">Export Master Table...</a>
+              <a type="button" class="btn btn-default" href="#/{{ apiPath }}/master_table/clone/{{ info.clone.id }}" target="_blank">Export Master Table...</a>
               <div class="btn-group btn-align">
                 <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
                   Export FASTA...<span class="caret"></span>
@@ -99,8 +99,8 @@ clone group IDs to compare similar clones across versions.</p></div>
             <tbody ng-repeat="stat in info.seqs">
               <tr>
                 <td>{{ stat.sample.id }}</td>
-                <td><a href="#/{{ api_path }}/samples/{{ stat.sample.id }}" target="_blank">{{ stat.sample.name }}</a></td>
-                <td><a href="#/{{ api_path }}/sequence/{{stat.sample.id}}/{{ stat.seq_id }}" target="_blank">{{ stat.seq_id }}</a></td>
+                <td><a href="#/{{ apiPath }}/samples/{{ stat.sample.id }}" target="_blank">{{ stat.sample.name }}</a></td>
+                <td><a href="#/{{ apiPath }}/sequence/{{stat.sample.id}}/{{ stat.seq_id }}" target="_blank">{{ stat.seq_id }}</a></td>
                 <td>{{ stat.copy_number }}</td>
               </tr>
             </tbody>

@@ -1,6 +1,6 @@
 <div class="header">
   <ol class="breadcrumb">
-    <li><a href="#/{{ api_path }}/subjects"><i class="fa fa-users fa-fw"></i>Subjects</a></li>
+    <li><a href="#/{{ apiPath }}/subjects"><i class="fa fa-users fa-fw"></i>Subjects</a></li>
     <li>{{ subject.identifier}} ({{ subject.study.name}})</li>
   </ol>
 </div>
@@ -61,7 +61,7 @@
         <td>{{ sample.valid_cnt | number }}</td>
         <td>{{ sample.no_result_cnt | number }}</td>
         <td>{{ 100 * sample.functional_cnt / sample.valid_cnt | number : 2}}</td>
-        <td><a href="#/{{ api_path }}/samples/{{ sample.id }}">View Sample<span class="glyphicon glyphicon-chevron-right"></span></a> </td>
+        <td><a href="#/{{ apiPath }}/samples/{{ sample.id }}">View Sample<span class="glyphicon glyphicon-chevron-right"></span></a> </td>
       </tr>
     </tbody>
   </table>
@@ -69,5 +69,5 @@
 
   <h3>Clones</h3>
   <clone-pager filter="'clones_functional'" subject="subject_id"
-    api-path="api_path" samples="sample_ids"></clone-pager>
+    api-path="apiPath" samples="sample_ids"></clone-pager>
 </div>
