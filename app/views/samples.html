@@ -1,6 +1,6 @@
 <div class="header">
   <ol class="breadcrumb">
-    <li><a href="#/{{ api_path }}/studies">Studies</a>
+    <li><a href="#/{{ apiPath }}/studies">Studies</a>
     </li>
     <li>Sample Comparison</li>
   </ol>
@@ -60,7 +60,7 @@
         <td>{{ stat.filters.clones_all.sequence_cnt | number }}</td>
         <td>{{ stat.filters.clones_functional.sequence_cnt | number }}</td>
         <td>
-          <a type="button" class="btn btn-primary btn-xs" href="#/{{ api_path }}/master_table/sample/{{ stat.sample.id }}" target="_blank">Export Master Table...</a>
+          <a type="button" class="btn btn-primary btn-xs" href="#/{{ apiPath }}/master_table/sample/{{ stat.sample.id }}" target="_blank">Export Master Table...</a>
         </td>
       </tr>
       <tr ng-show="showDetails">
@@ -80,7 +80,7 @@
             <tbody>
               <tr>
                 <td>{{ stat.sample.date }}</td>
-                <td><a href="#/{{ api_path }}/subject/{{ stat.sample.subject.id }}" target="_blank">{{ stat.sample.subject.identifier }}</a></td>
+                <td><a href="#/{{ apiPath }}/subject/{{ stat.sample.subject.id }}" target="_blank">{{ stat.sample.subject.identifier }}</a></td>
                 <td>{{ stat.sample.subset }}</td>
                 <td>{{ stat.sample.tissue }}</td>
                 <td>{{ stat.sample.disease }}</td>
@@ -168,53 +168,53 @@
 <div class="tab-content" id="filtered-panels">
   <filtered-panel
     filter="clones_all"
-    api-path="api_path"
+    api-path="apiPath"
     heatmap="vHeatmapClonesall"
     charts="charts.clones_all"
     samples="sampleIds"></filtered-panel>
 
   <filtered-panel
     filter="clones_functional"
-    api-path="api_path"
+    api-path="apiPath"
     heatmap="vHeatmapClonesfunctional"
     charts="charts.clones_functional"
     samples="sampleIds"></filtered-panel>
 
   <filtered-panel
     filter="clones_nonfunctional"
-    api-path="api_path"
+    api-path="apiPath"
     heatmap="vHeatmapClonesnonfunctional"
     charts="charts.clones_nonfunctional"
     samples="sampleIds"></filtered-panel>
 
   <filtered-panel
     tclass="tab-pane in active"
-    api-path="api_path"
+    api-path="apiPath"
     filter="unique_multiple"
     heatmap="vHeatmapUniquemultiple"
     charts="charts.unique_multiple"></filtered-panel>
 
   <filtered-panel
     filter="unique"
-    api-path="api_path"
+    api-path="apiPath"
     heatmap="vHeatmapUnique"
     charts="charts.unique"></filtered-panel>
 
   <filtered-panel
     filter="functional"
-    api-path="api_path"
+    api-path="apiPath"
     heatmap="vHeatmapFunctional"
     charts="charts.functional"></filtered-panel>
 
   <filtered-panel
     filter="nonfunctional"
-    api-path="api_path"
+    api-path="apiPath"
     heatmap="vHeatmapNonfunctional"
     charts="charts.nonfunctional"></filtered-panel>
 
   <filtered-panel
     filter="all"
-    api-path="api_path"
+    api-path="apiPath"
     heatmap="vHeatmapAll"
     charts="charts.all"></filtered-panel>
 </div>

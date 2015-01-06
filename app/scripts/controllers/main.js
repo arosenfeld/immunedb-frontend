@@ -28,7 +28,7 @@
             $scope.apiChange = function(key) {
                 APIService.setName(key);
                 $scope.apiName = APIService.getReadable();
-                $scope.api_path = APIService.getName();
+                $scope.apiPath = APIService.getName();
                 $scope.apiChanged = true;
             }
 
@@ -60,7 +60,7 @@
             var init = function() {
                 $scope.apiChanged = false;
                 $scope.apis = apis;
-                $scope.api_path = APIService.getName();
+                $scope.apiPath = APIService.getName();
                 $scope.page = getPage();
                 $scope.menuClass = menuClass;
                 $scope.apiName = APIService.getReadable();

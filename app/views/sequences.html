@@ -1,6 +1,6 @@
 <div class="header">
   <ol class="breadcrumb">
-    <li><a href="#/{{ api_path }}/sequences"><i class="fa fa-sitemap
+    <li><a href="#/{{ apiPath }}/sequences"><i class="fa fa-sitemap
     fa-fw"></i>Sequences</a></li>
   </ol>
 </div>
@@ -87,7 +87,7 @@
         <tr ng-repeat="seq in sequences" ng-show="sequences.length > 0"
           ng-class="seq.levenshtein_dist ? 'danger' : ''">
           <td>{{ seq.seq_id }}</td>
-          <td><a href="#/{{ api_path }}/subject/{{ seq.sample.subject.id }}"
+          <td><a href="#/{{ apiPath }}/subject/{{ seq.sample.subject.id }}"
             target="_blank">{{ seq.sample.subject.identifier }}</a></td>
           <td>{{ seq.v_call }}</td>
           <td>{{ seq.j_call }}</td>
@@ -97,7 +97,7 @@
           <td>{{ seq.functional ? 'Yes' : 'No' }}</td>
           <td>{{ seq.copy_number }}</td>
           <td>
-            <a href="#/{{ api_path }}/sequence/{{ seq.sample.id }}/{{ seq.seq_id }}" target="_blank">View
+            <a href="#/{{ apiPath }}/sequence/{{ seq.sample.id }}/{{ seq.seq_id }}" target="_blank">View
             Sequence <span class="glyphicon glyphicon-chevron-right"></span></a>
           </td>
         </tr>

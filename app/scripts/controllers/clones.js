@@ -25,7 +25,7 @@
             $scope.checked_samples = [];
 
             $scope.viewSamples = function() {
-                $location.path($scope.api_path + '/clone_compare/' + $scope.checked_samples.join());
+                $location.path($scope.apiPath + '/clone_compare/' + $scope.checked_samples.join());
             }
 
             $scope.updateClones = function() {

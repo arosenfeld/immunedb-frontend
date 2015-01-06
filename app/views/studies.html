@@ -1,6 +1,6 @@
 <div class="header">
   <ol class="breadcrumb">
-    <li><a href="#/{{ api_path }}/studies">Studies</a>
+    <li><a href="#/{{ apiPath }}/studies">Studies</a>
     </li>
   </ol>
 </div>
@@ -71,7 +71,7 @@
                   <td>{{ sample.sequence_cnt | number }}</td>
                   <td>{{ sample.no_result_cnt | number }}</td>
                   <td>{{ 100 * sample.functional_cnt / sample.sequence_cnt | number : 2}}</td>
-                  <td><a href="#/{{ api_path }}/samples/{{ sample.id }}">View Sample<span class="glyphicon glyphicon-chevron-right"></span></a> </td>
+                  <td><a href="#/{{ apiPath }}/samples/{{ sample.id }}">View Sample<span class="glyphicon glyphicon-chevron-right"></span></a> </td>
                 </tr>
                 <tr ng-show="showDetails">
                   <td colspan="9">
@@ -88,7 +88,7 @@
                       </thead>
                       <tbody>
                         <tr>
-                          <td><a href="#/{{ api_path }}/subject/{{ sample.subject.id }}" target="_blank">{{
+                          <td><a href="#/{{ apiPath }}/subject/{{ sample.subject.id }}" target="_blank">{{
                             sample.subject.identifier }}</a></td>
                           <td>{{ sample.subset }}</td>
                           <td>{{ sample.tissue }}</td>
