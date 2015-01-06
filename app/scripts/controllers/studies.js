@@ -24,6 +24,7 @@
             var init = function() {
                 $scope.$parent.page_title = 'Studies';
                 $scope.showLoader();
+                $scope.api = APIService.getUrl();
 
                 $(function() {
                     $('[data-toggle="tooltip"]').tooltip({

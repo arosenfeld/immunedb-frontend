@@ -79,8 +79,9 @@ clone group IDs to compare similar clones across versions.</p></div>
                   Export FASTA...<span class="caret"></span>
                 </button>
                 <ul class="dropdown-menu pull-right" role="menu">
-                  <li><a href="{{ api }}data/sequences/fasta/false/{{ info.clone.id }}/{{ params }}" target="_blank">Original sequences</a></li>
-                  <li><a href="{{ api }}data/sequences/fasta/true/{{ info.clone.id }}/{{ params }}" target="_blank">Fill in germline</a></li>
+                  <li><a href="{{ api }}data/fasta/orig/clone/{{ info.clone.id }}" target="_blank">Original sequences</a></li>
+                  <li><a href="{{ api }}data/fasta/fill/clone/{{ info.clone.id }}" target="_blank">Fill in germline</a></li>
+                  <li><a href="{{ api }}data/fasta/clip/clone/{{ info.clone.id }}" target="_blank">CLIP Formatted</a></li>
                 </ul>
               </div>
             </div>

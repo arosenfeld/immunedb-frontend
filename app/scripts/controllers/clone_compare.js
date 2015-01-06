@@ -63,7 +63,6 @@
                 $scope.showLoader();
                 $scope.$parent.page_title = 'Clone Comparison';
                 $scope.api = APIService.getUrl();
-                $scope.params = $routeParams['uids'];
                 $scope.pages = {};
 
                 $http({
