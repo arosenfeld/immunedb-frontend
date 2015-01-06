@@ -57,8 +57,8 @@
         })
         .constant('apis', {
             'primary': {
-                'name': 'Dunn-Walters Datasets',
-                'url': 'http://129.25.28.237:3000/api/'
-            }
+                'name': 'Similarity 85%',
+                'url': 'http://129.25.28.237:2000/api/'
+            },
         });
 })();
