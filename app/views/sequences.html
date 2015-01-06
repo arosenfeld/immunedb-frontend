@@ -80,7 +80,9 @@
       </thead>
       <tbody>
         <tr ng-show="sequences.length == 0">
-          <td colspan="10" class="text-center">No results.</td>
+          <td colspan="10" class="text-center">No results.
+            <p><strong>Perhaps show R1 sequences or Probable Indel / Misalignments?</strong></p>
+          </td>
         </tr>
         <tr ng-repeat="seq in sequences" ng-show="sequences.length > 0"
           ng-class="seq.levenshtein_dist ? 'danger' : ''">

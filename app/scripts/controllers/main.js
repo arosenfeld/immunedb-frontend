@@ -2,9 +2,10 @@
     'use strict';
 
     angular.module('ImmunologyApp').controller('MainCtrl', ['$scope', '$log',
-            '$routeParams', '$location', 'apis', 'APIService', 'PinService',
-        function($scope, $log, $routeParams, $location, apis, APIService,
-                PinService) {
+            '$rootScope', '$route', '$routeParams', '$location', 'apis', 
+            'APIService', 'PinService',
+        function($scope, $log, $rootScope, $route, $routeParams, $location, 
+                apis, APIService, PinService) {
             var activeMap = {
                 'studies': 'studies',
                 'samples': 'studies',
@@ -27,6 +28,7 @@
             $scope.apiChange = function(key) {
                 APIService.setName(key);
                 $scope.apiName = APIService.getReadable();
+                $scope.api_path = APIService.getName();
                 $scope.apiChanged = true;
             }
 
