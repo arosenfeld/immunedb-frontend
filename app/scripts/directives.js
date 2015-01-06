@@ -85,7 +85,6 @@
             },
             templateUrl: 'partials/filtered_panel.html',
             controller: function($scope) {
-                $log.debug($scope);
             },
             compile: function(element, attrs) {
                 if (!attrs.tclass) {
