@@ -17,6 +17,13 @@
                 });
             }
 
+            $scope.rowClass = function(sample_status) {
+                if (sample_status == 'noreads') {
+                    return 'danger';
+                }
+                return '';
+            }
+
             var init = function() {
                 $scope.$parent.page_title = 'Studies';
                 $scope.showLoader();
