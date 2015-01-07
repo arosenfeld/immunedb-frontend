@@ -57,8 +57,8 @@
         })
         .constant('apis', {
             'primary': {
-                'name': 'Similarity 85%',
-                'url': 'http://129.25.28.237:2000/api/'
+                'name': 'YOUR DB NAME',
+                'url': 'http://your/db/api'
             },
         });
 })();
