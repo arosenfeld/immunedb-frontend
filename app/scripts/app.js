@@ -42,9 +42,9 @@
                     templateUrl: 'views/sequences.html',
                     controller: 'SequencesCtrl',
                 })
-                .when('/:apiPath/master_table/:type/:id', {
-                    templateUrl: 'views/master_table.html',
-                    controller: 'MasterTableCtrl',
+                .when('/:apiPath/export/:type/:id', {
+                    templateUrl: 'views/export.html',
+                    controller: 'ExportCtrl',
                 })
                 .when('/:apiPath', {
                    redirectTo: function(routeParams, path, search) {

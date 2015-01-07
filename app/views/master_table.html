@@ -2,7 +2,7 @@
   <ol class="breadcrumb">
     <li>Master Table Export</li>
     <li>{{ type }}</li>
-    <li>{{ id }}</li>
+    <li>{{ id.length < 100 ? id : (id | slice:0:100) + '...' }}</li>
   </ol>
 </div>
 
