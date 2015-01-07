@@ -17,6 +17,7 @@
   <div style="float: right">
     <input type="text" class="form-control" placeholder="Search..." ng-model="sample_filter"></input>
   </div>
+  <span class="text-danger">Samples with no valid reads are shown in red.</span>
   <form novalidate>
     <table class="table table-bordered">
       <thead>
@@ -56,7 +57,8 @@
                 </tr>
                 <tr ng-class="rowClass(sample.status)">
                   <td>
-                    <input type="checkbox" checklist-model="checked_samples" checklist-value="sample.id"></input>
+                    <input type="checkbox" checklist-model="checked_samples"
+                      checklist-value="sample.id" ng-disabled="sample.status != 'reads'"></input>
                   </td>
                   <td>{{ sample.id }}</td>
                   <td>{{ sample.name }}

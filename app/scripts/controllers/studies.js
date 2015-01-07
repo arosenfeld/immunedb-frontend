@@ -13,7 +13,9 @@
 
             $scope.checkAll = function(study_id) {
                 angular.forEach($scope.rows[study_id].samples, function(value, key) {
-                    $scope.checked_samples.push(value.id);
+                    if (value.status == 'reads') {
+                        $scope.checked_samples.push(value.id);
+                    }
                 });
             }
 
