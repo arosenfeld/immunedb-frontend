@@ -11,10 +11,6 @@
                 $location.path($scope.apiPath + '/samples/' + $scope.checked_samples.join());
             }
 
-            $scope.exportMasterTable = function() {
-                $location.path($scope.api_path + '/master_table/sample/' + $scope.checked_samples.join());
-            }
-
             $scope.checkAll = function(study_id) {
                 angular.forEach($scope.rows[study_id].samples, function(value, key) {
                     $scope.checked_samples.push(value.id);

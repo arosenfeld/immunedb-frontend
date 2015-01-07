@@ -72,20 +72,10 @@ clone group IDs to compare similar clones across versions.</p></div>
       </tr>
       <tr>
         <td colspan="6">
-            <div class="btn-group" style="float:right">
-              <a type="button" class="btn btn-default" href="#/{{ apiPath }}/master_table/clone/{{ info.clone.id }}" target="_blank">Export Master Table...</a>
-              <div class="btn-group btn-align">
-                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-                  Export FASTA...<span class="caret"></span>
-                </button>
-                <ul class="dropdown-menu pull-right" role="menu">
-                  <li><a href="{{ api }}data/fasta/orig/clone/{{ info.clone.id }}" target="_blank">Original sequences</a></li>
-                  <li><a href="{{ api }}data/fasta/fill/clone/{{ info.clone.id }}" target="_blank">Fill in germline</a></li>
-                  <li><a href="{{ api }}data/fasta/clip/clone/{{ info.clone.id }}" target="_blank">CLIP Formatted</a></li>
-                </ul>
-              </div>
-            </div>
-
+          <div class="pull-right">
+            <a type="button" class="btn btn-primary" href="#/{{ apiPath }}/export/clone/{{ info.clone.id }}" target="_blank">Export
+            Sequences...</a>
+          </div>
           <h4 class="faded text-center" ng-hide="showSeqs">Click <a ng-click="showSeqs = !showSeqs">here</a> to show all {{ info.seqs.length }} sequences.</h4>
           <h4 ng-show="showSeqs">Sequences (<a ng-click="showSeqs = !showSeqs">Hide</a>)</h4>
           <table class="table table-bordered" ng-show="showSeqs">

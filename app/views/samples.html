@@ -60,7 +60,8 @@
         <td>{{ stat.filters.clones_all.sequence_cnt | number }}</td>
         <td>{{ stat.filters.clones_functional.sequence_cnt | number }}</td>
         <td>
-          <a type="button" class="btn btn-primary btn-xs" href="#/{{ apiPath }}/master_table/sample/{{ stat.sample.id }}" target="_blank">Export Master Table...</a>
+          <a type="button" class="btn btn-primary btn-xs" href="#/{{ apiPath }}/export/sample/{{ stat.sample.id }}"
+          target="_blank">Export...</a>
         </td>
       </tr>
       <tr ng-show="showDetails">
