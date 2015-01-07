@@ -2,7 +2,7 @@
   <ol class="breadcrumb">
     <li>Sequence Export</li>
     <li>{{ type }}</li>
-    <li>{{ id }}</li>
+    <li>{{ id.split(',').length > 25 ? (id.split(',') | slice:0:25) + '...' : id }}</li>
   </ol>
 </div>
 
@@ -55,20 +55,6 @@
               <a role="menuitem" tabindex="-1" ng-click="changeType(f)">{{ f.text }}</a>
             </li>
           </ul>
-        </div>
-        <div class="checkbox">
-          <label>
-            <input type="checkbox" ng-model="duplicates"> <strong>Include duplicate sequences:</strong>
-              Duplicate sequences will be included in the output and will be
-              indicated by a copy number of zero.  To determine the sequence to
-              which it was collapsed, include the <span
-              class="text-mono-thin">identity_seq_id</span> field.
-          </label>
-        </div>
-        <div class="checkbox">
-          <label>
-            <input type="checkbox" ng-model="noresults"> <strong>Include unidentifiable sequence:</strong>
-          </label>
         </div>
       </td>
     </tr>
