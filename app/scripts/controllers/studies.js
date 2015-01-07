@@ -21,6 +21,7 @@
 
             $scope.rowClass = function(sample_status) {
                 if (sample_status == 'noreads') {
+                    $scope.anyInvalid = true;
                     return 'danger';
                 }
                 return '';

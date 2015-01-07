@@ -6,6 +6,8 @@
 </div>
 
 <div class="table-responsive">
+  <div class="alert alert-danger" role="alert" ng-show="anyInvalid"><strong>Note:</strong> One or
+  more samples have no identifiable reads and are shown in red.</div>
   <div class="btn-group" >
     <a type="button" ng-click="viewSamples()"
       class="btn btn-primary btn-lg btn-pad"
@@ -17,7 +19,6 @@
   <div style="float: right">
     <input type="text" class="form-control" placeholder="Search..." ng-model="sample_filter"></input>
   </div>
-  <span class="text-danger">Samples with no valid reads are shown in red.</span>
   <form novalidate>
     <table class="table table-bordered">
       <thead>
