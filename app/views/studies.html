@@ -1,12 +1,21 @@
 <div class="header">
   <ol class="breadcrumb">
-    <li><a href="#/{{ api_path }}/studies">Studies</a>
+    <li><a href="#/{{ apiPath }}/studies">Studies</a>
     </li>
   </ol>
 </div>
 
 <div class="table-responsive">
-  <button ng-click="viewSamples()" class="btn btn-primary btn-lg btn-pad" ng-disabled="checked_samples.length == 0">Compare Selected</button>
+  <div class="alert alert-danger" role="alert" ng-show="anyInvalid"><strong>Note:</strong> One or
+  more samples have no identifiable reads and are shown in red.</div>
+  <div class="btn-group" >
+    <a type="button" ng-click="viewSamples()"
+      class="btn btn-primary btn-lg btn-pad"
+      ng-disabled="checked_samples.length == 0">Compare</a>
+    <a type="button" class="btn btn-lg btn-default"
+      href="#/{{ apiPath }}/export/sample/{{ checked_samples.join(',') }}"
+      ng-disabled="checked_samples.length == 0" target="_blank">Export Sequences</a>
+  </div>
   <div style="float: right">
     <input type="text" class="form-control" placeholder="Search..." ng-model="sample_filter"></input>
   </div>
@@ -31,7 +40,7 @@
             <table class="table table-bordered">
               <thead>
                 <tr>
-                  <th></th>
+                  <th><input type="checkbox" ng-click="checkAll(row.id)"></input></th>
                   <th>#</th>
                   <th>Sample</th>
                   <th>Total Seqs.</th>
@@ -47,19 +56,20 @@
                     <strong>{{ sample.date }}</strong>
                   </td>
                 </tr>
-                <tr ng-class="sample.valid_cnt > 0 ? '' : 'warning'">
+                <tr ng-class="rowClass(sample.status)">
                   <td>
-                    <input type="checkbox" checklist-model="checked_samples" checklist-value="sample.id"></input>
+                    <input type="checkbox" checklist-model="checked_samples"
+                      checklist-value="sample.id" ng-disabled="sample.status != 'reads'"></input>
                   </td>
                   <td>{{ sample.id }}</td>
                   <td>{{ sample.name }}
                     <a ng-click="showDetails = !showDetails"><span class="glyphicon glyphicon-chevron-down"></a>
                     <a ng-show="sample.info" data-toggle="tooltip" title="{{ sample.info }}"><span class="glyphicon glyphicon-question-sign"></span></a></td>
-                  <td>{{ sample.valid_cnt + sample.no_result_cnt | number}}</td>
-                  <td>{{ sample.valid_cnt | number }}</td>
+                  <td>{{ sample.sequence_cnt + sample.no_result_cnt | number}}</td>
+                  <td>{{ sample.sequence_cnt | number }}</td>
                   <td>{{ sample.no_result_cnt | number }}</td>
-                  <td>{{ 100 * sample.functional_cnt / sample.valid_cnt | number : 2}}</td>
-                  <td><a href="#/{{ api_path }}/samples/{{ sample.id }}">View Sample<span class="glyphicon glyphicon-chevron-right"></span></a> </td>
+                  <td>{{ 100 * sample.functional_cnt / sample.sequence_cnt | number : 2}}</td>
+                  <td><a href="#/{{ apiPath }}/samples/{{ sample.id }}">View Sample<span class="glyphicon glyphicon-chevron-right"></span></a> </td>
                 </tr>
                 <tr ng-show="showDetails">
                   <td colspan="9">
@@ -76,7 +86,8 @@
                       </thead>
                       <tbody>
                         <tr>
-                          <td>{{ sample.subject.identifier }}</td>
+                          <td><a href="#/{{ apiPath }}/subject/{{ sample.subject.id }}" target="_blank">{{
+                            sample.subject.identifier }}</a></td>
                           <td>{{ sample.subset }}</td>
                           <td>{{ sample.tissue }}</td>
                           <td>{{ sample.disease }}</td>
@@ -93,6 +104,5 @@
         </tr>
       </tbody>
     </table>
-    <button ng-click="viewSamples()" class="btn btn-primary btn-lg btn-pad" ng-disabled="checked_samples.length == 0">Compare Selected</button>
   </form>
 </div>

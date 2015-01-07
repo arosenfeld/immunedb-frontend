@@ -8,7 +8,7 @@
             '#a4993d', 'Y': '#398439', 'W': '#cc99ff', 'S': '#7dd624', 'T':
             '#00ff99', 'G': '#00ff00', 'A': '#69b3dd', 'M': '#99ccff', 'C':
             '#00ffff', 'F': '#00ccff', 'L': '#3366ff', 'V': '#0000ff', 'I':
-            '#000080', 'X': '#a0a0a0',
+            '#000080', '*': '#a0a0a0',
         }
 
         var dnaToColor = {
@@ -20,8 +20,8 @@
 
         var ntToAA = {
             'TTT': 'F', 'TTC': 'F', 'TTA': 'L', 'TTG': 'L', 'TCT': 'S', 'TCC':
-            'S', 'TCA': 'S', 'TCG': 'S', 'TAT': 'Y', 'TAC': 'Y', 'TAA': 'X',
-            'TAG': 'X', 'TGT': 'C', 'TGC': 'C', 'TGA': 'X', 'TGG': 'W', 'CTT':
+            'S', 'TCA': 'S', 'TCG': 'S', 'TAT': 'Y', 'TAC': 'Y', 'TAA': '*',
+            'TAG': '*', 'TGT': 'C', 'TGC': 'C', 'TGA': '*', 'TGG': 'W', 'CTT':
             'L', 'CTC': 'L', 'CTA': 'L', 'CTG': 'L', 'CCT': 'P', 'CCC': 'P',
             'CCA': 'P', 'CCG': 'P', 'CAT': 'H', 'CAC': 'H', 'CAA': 'Q', 'CAG':
             'Q', 'CGT': 'R', 'CGC': 'R', 'CGA': 'R', 'CGG': 'R', 'ATT': 'I',
@@ -54,6 +54,18 @@
             return null;
         }
 
-        return { dnaColor:dnaColor, aaColor: aaColor, aaLookup: aaLookup };
+        var attribToColor = function(str) {
+            var hash = 5381;
+            for (var i = 0; i < str.length; i++) {
+                hash = ((hash << 5) + hash) + str.charCodeAt(i);
+            }
+            var r = (hash & 0xFF0000) >> 16;
+            var g = (hash & 0x00FF00) >> 8;
+            var b = hash & 0x0000FF;
+            return "#" + ("0" + r.toString(16)).substr(-2) + ("0" + g.toString(16)).substr(-2) + ("0" + b.toString(16)).substr(-2);
+        }            
+
+        return { dnaColor: dnaColor, aaColor: aaColor, aaLookup: aaLookup,
+                 attribToColor: attribToColor };
     }]);
 })();

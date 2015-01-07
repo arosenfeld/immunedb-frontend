@@ -3,9 +3,9 @@
 
     angular.module('ImmunologyApp').controller('ClonesCompareCtrl', ['$scope',
             '$http', '$location', '$routeParams', '$timeout', '$log', '$modal',
-            'dnaCompare', 'APIService',
+            'dnaCompare', 'lineage', 'APIService',
         function($scope, $http, $location, $routeParams, $timeout, $log, $modal,
-                dnaCompare, APIService) {
+                dnaCompare, lineage, APIService) {
 
             $scope.SEQS_PER_CANVAS = 100;
 
@@ -52,11 +52,17 @@
                 $scope.showNotify('This page has been pinned.');
             }
 
+            $scope.updateTree = function(cloneId) {
+                lineage.makeTree(APIService.getUrl() +
+                    'clone_tree/' + cloneId, '#tree_' + cloneId,
+                    $scope.cloneInfo[cloneId].colorBy,
+                    !$scope.cloneInfo[cloneId].showFanouts);
+            }
+
             var init = function() {
                 $scope.showLoader();
                 $scope.$parent.page_title = 'Clone Comparison';
                 $scope.api = APIService.getUrl();
-                $scope.params = $routeParams['uids'];
                 $scope.pages = {};
 
                 $http({
@@ -64,10 +70,16 @@
                     url: APIService.getUrl() + 'clone_compare/' + $routeParams['uids']
                 }).success(function(data, status) {
                     $scope.cloneInfo = data['clones'];
+                    angular.forEach($scope.cloneInfo, function(value, key) {
+                        value['showFanouts'] = true;
+                        value['colorBy'] = 'tissues';
+                    });
+
                     $scope.ceil = Math.ceil;
                     $timeout(function(){
                         for (var cid in $scope.cloneInfo) {
                             updateScroller(cid, 0);
+                            $scope.updateTree(cid);
                             $scope.pages[cid] = 0;
                         }
                     }, 0);

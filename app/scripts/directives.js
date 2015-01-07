@@ -70,7 +70,7 @@
             }
         }
     }])
-    .directive('filteredPanel', function() {
+    .directive('filteredPanel', ['$log', function($log) {
         return {
             restrict: 'E',
             replace: true,
@@ -84,11 +84,13 @@
                 samples: '=',
             },
             templateUrl: 'partials/filtered_panel.html',
+            controller: function($scope) {
+            },
             compile: function(element, attrs) {
                 if (!attrs.tclass) {
                     attrs.tclass = 'tab-pane';
                 }
             }
         }
-    });
+    }])
 })();

@@ -5,7 +5,7 @@
             '$http', '$q', '$routeParams', '$location', '$log', 'APIService',
         function($scope, $http, $q, $routeParams, $location, $log, APIService) {
             $scope.viewSamples = function() {
-                $location.path($scope.api_path + '/samples/' + $scope.checked_samples.join());
+                $location.path($scope.apiPath + '/samples/' + $scope.checked_samples.join());
             }
 
             var getSubject = function(sid) {

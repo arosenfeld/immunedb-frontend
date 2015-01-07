@@ -21,7 +21,10 @@
             }, {
                 title: 'J Nucleotides Matching Germline',
                 key: 'j_match_dist',
-            }, ];
+            }, {
+                title: 'Copy Number',
+                key: 'copy_number_dist',
+            }];
 
             var filters = ['all', 'functional', 'nonfunctional', 'unique',
                            'unique_multiple', 'clones_all', 'clones_functional',
@@ -70,18 +73,44 @@
                             filter.indexOf('clone') < 0 ? 'Sequences' :
                             'Clones',
                             plotting.createSeries(
-                                $scope.plottable, p.key, filter,
-                                $scope.showOutliers));
+                                $scope.plottable, p.key, filter));
                     $scope.charts[filter].push(c);
+                });
+            }
+
+            var updateAll = function(outlier_key) {
+                // Group the stats by sample ID, then filter
+                $scope.sampleIds = $routeParams['sampleIds'].split(',');
+                $scope.groupedStats = $scope.allData[outlier_key]['stats'];
+                $scope.cnts = $scope.allData[outlier_key]['counts'];
+
+                // Determine if any requested IDs are not available
+                $scope.missing =
+                    $routeParams['sampleIds'].split(',').filter(
+                        function(req) {
+                            return !(req in $scope.groupedStats);
+                        });
+
+                // Create all the charts
+                $scope.plottable = angular.fromJson($scope.groupedStats);
+                $scope.charts = {};
+                angular.forEach(filters, function(filter, j) {
+                    // v_call heatmap for the filter
+                    getHeatmap(filter, $scope.sampleIds, 'v_usage')
+                        .then(function(result) {
+                        var field = (filter.charAt(0).toUpperCase() +
+                            filter.slice(1)).replace('_',
+                            '');
+                        $('#vHeatmap' + field).highcharts(
+                            plotting.createHeatmap(result, 'V Gene Utilization'));
+                    });
+                    createColumns(filter);
                 });
             }
 
             $scope.toggleOutliers = function(show) {
                 $scope.showLoader();
-                $scope.showOutliers = show;
-                angular.forEach(filters, function(filter, j) {
-                    createColumns(filter);
-                });
+                updateAll(show ? 'with_outliers' : 'no_outliers')
                 $scope.hideLoader();
             }
 
@@ -136,34 +165,8 @@
                     url: APIService.getUrl() + 'stats/' +
                         $routeParams['sampleIds'],
                 }).success(function(data, status) {
-                    // Group the stats by sample ID, then filter
-                    $scope.sampleIds = $routeParams['sampleIds'].split(',');
-                    $scope.groupedStats = data['stats']['stats'];
-                    $scope.cnts = data['stats']['counts'];
-
-                    // Determine if any requested IDs are not available
-                    $scope.missing =
-                        $routeParams['sampleIds'].split(',').filter(
-                            function(req) {
-                                return !(req in $scope.groupedStats);
-                            });
-
-                    // Create all the charts
-                    $scope.plottable = angular.fromJson($scope.groupedStats);
-                    $scope.charts = {};
-                    angular.forEach(filters, function(filter, j) {
-                        // v_call heatmap for the filter
-                        getHeatmap(filter, $scope.sampleIds, 'v_usage')
-                            .then(function(result) {
-                            var field = (filter.charAt(0).toUpperCase() +
-                                filter.slice(1)).replace('_',
-                                '');
-                            $('#vHeatmap' + field).highcharts(
-                                plotting.createHeatmap(result, 'V Gene Utilization'));
-                        });
-                        createColumns(filter);
-                    });
-
+                    $scope.allData = data;
+                    updateAll('no_outliers');
                     $scope.hideLoader();
                 }).error(function(data, status, headers, config) {
                     $scope.showError();

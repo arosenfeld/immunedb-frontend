@@ -42,6 +42,10 @@
                     templateUrl: 'views/sequences.html',
                     controller: 'SequencesCtrl',
                 })
+                .when('/:apiPath/export/:type/:id', {
+                    templateUrl: 'views/export.html',
+                    controller: 'ExportCtrl',
+                })
                 .when('/:apiPath', {
                    redirectTo: function(routeParams, path, search) {
                        return routeParams.apiPath + '/studies';
@@ -53,8 +57,8 @@
         })
         .constant('apis', {
             'primary': {
-                'name': 'Similarity 85%',
-                'url': 'http://129.25.28.237:5000/api/'
+                'name': 'YOUR DB NAME',
+                'url': 'http://your/db/api'
             },
         });
 })();

@@ -4,8 +4,6 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="">
-    <meta name="author" content="">
 
     <title>Systems Immunology Lab Database</title>
     <!-- build:css(.) styles/vendor.css -->
@@ -18,6 +16,7 @@
     <!-- build:css(.tmp) styles/main.css -->
     <link rel="stylesheet" href="styles/sb-admin2.css">
     <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/lineage.css">
     <!-- endbuild -->
   </head>
 
@@ -51,7 +50,7 @@
     <div id="wrapper">
       <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
         <div class="navbar-header">
-          <a class="navbar-brand" href="#/{{ api_path }}">Systems Immunology Lab Database</a>
+          <a class="navbar-brand" href="#/{{ apiPath }}">Systems Immunology Lab Database</a>
         </div>
 
         <ul class="nav navbar-top-links navbar-right">
@@ -68,7 +67,7 @@
             </div>
           </li>
           <li class="version">
-            <i class="fa fa-info-circle fa-fw"></i> v3.0.0, release 
+            <i class="fa fa-info-circle fa-fw"></i> v4.0.0, release
           </li>
         </ul>
 
@@ -76,20 +75,24 @@
           <div class="sidebar-nav navbar-collapse">
             <ul class="nav" id="side-menu">
               <li>
-                <a href="#/{{ api_path }}/studies/" ng-class="menuClass('studies')"><i class="fa fa-table fa-fw"></i>Studies</a>
+                <a href="#/{{ apiPath }}/studies/"
+                  ng-class="menuClass('studies')"><i class="fa fa-table fa-fw"></i>Studies</a>
               </li>
               <li>
-                <a href="#/{{ api_path }}/clones/" ng-class="menuClass('clones')"><i class="fa fa-sitemap fa-fw"></i>Clones</a>
+                <a href="#/{{ apiPath }}/clones/"
+                  ng-class="menuClass('clones')"><i class="fa fa-sitemap fa-fw"></i>Clones</a>
               </li>
               <li>
-                <a href="#/{{ api_path }}/subjects/" ng-class="menuClass('subjects')"><i class="fa fa-users fa-fw"></i>Subjects</a>
+                <a href="#/{{ apiPath }}/subjects/"
+                  ng-class="menuClass('subjects')"><i class="fa fa-users fa-fw"></i>Subjects</a>
               </li>
               <li>
-                <a href="#/{{ api_path }}/sequences/" ng-class="menuClass('sequences')"><i class="fa fa-align-left fa-fw"></i>Sequences</a>
+                <a href="#/{{ apiPath }}/sequences/"
+                  ng-class="menuClass('sequences')"><i class="fa fa-align-left fa-fw"></i>Sequences</a>
               </li>
               <li>
-                <a href="#/{{ api_path }}/pins/"
-                ng-class="menuClass('pins')"><i class="fa fa-thumb-tack fa-fw"></i>Pinned Items</a>
+                <a href="#/{{ apiPath }}/pins/"
+                  ng-class="menuClass('pins')"><i class="fa fa-thumb-tack fa-fw"></i>Pinned Pages</a>
               </li>
             </ul>
           </div>
@@ -113,6 +116,8 @@
     <!-- bower:js -->
     <script src="components/jquery/dist/jquery.js"></script>
     <script src="components/es5-shim/es5-shim.js"></script>
+    <script src="components/d3/d3.js"></script>
+    <script src="components/d3-tip/index.js"></script>
     <script src="components/angular/angular.js"></script>
     <script src="components/json3/lib/json3.js"></script>
     <script src="components/bootstrap/dist/js/bootstrap.js"></script>
@@ -138,8 +143,10 @@
     <script src="scripts/services/lookups.js"></script>
     <script src="scripts/services/dna_compare.js"></script>
     <script src="scripts/services/pins.js"></script>
+    <script src="scripts/services/lineage.js"></script>
 
     <script src="scripts/controllers/main.js"></script>
+    <script src="scripts/controllers/export.js"></script>
     <script src="scripts/controllers/alert_modal.js"></script>
     <script src="scripts/controllers/studies.js"></script>
     <script src="scripts/controllers/samples.js"></script>

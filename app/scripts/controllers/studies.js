@@ -8,12 +8,29 @@
             $scope.checked_samples = [];
 
             $scope.viewSamples = function() {
-                $location.path($scope.api_path + '/samples/' + $scope.checked_samples.join());
+                $location.path($scope.apiPath + '/samples/' + $scope.checked_samples.join());
+            }
+
+            $scope.checkAll = function(study_id) {
+                angular.forEach($scope.rows[study_id].samples, function(value, key) {
+                    if (value.status == 'reads') {
+                        $scope.checked_samples.push(value.id);
+                    }
+                });
+            }
+
+            $scope.rowClass = function(sample_status) {
+                if (sample_status == 'noreads') {
+                    $scope.anyInvalid = true;
+                    return 'danger';
+                }
+                return '';
             }
 
             var init = function() {
                 $scope.$parent.page_title = 'Studies';
                 $scope.showLoader();
+                $scope.api = APIService.getUrl();
 
                 $(function() {
                     $('[data-toggle="tooltip"]').tooltip({

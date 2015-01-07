@@ -1,0 +1,89 @@
+<div class="header">
+  <ol class="breadcrumb">
+    <li>Sequence Export</li>
+    <li>{{ type }}</li>
+    <li>{{ id.split(',').length > 25 ? (id.split(',') | slice:0:25) + '...' : id }}</li>
+  </ol>
+</div>
+
+<h3>Data Export</h3>
+<div class="table-responsive">
+<div class="panel panel-default">
+  <div class="panel-body">
+    This page allows sequences to be exported in multiple formats
+    <ul>
+      <li>
+        <strong>Tab Delimited:</strong> Contain one header line followed by one
+        line per sequence including the fields selected.  Best for importing
+        into spreadsheet software.
+      </li>
+      <li>
+        <strong>FASTA Original:</strong> A <a
+        href="http://en.wikipedia.org/wiki/FASTA_format"
+        target="_blank">FASTA</a> file with a header comprised of the selected
+        fields.  Sequences include <i>N</i>'s to align the sequences to their
+        assigned germline, and dashes according to <a
+        href="http://www.imgt.org/IMGTScientificChart/Numbering/IMGTnumbering.html"
+        target="_blank">IMGT</a> numbering.
+      </li>
+      <li>
+        <strong>FASTA Germline Filled:</strong> Same as above except <i>N</i>'s
+        are replaced with their germline bases.
+      </li>
+      <li>
+        <strong>FASTA CLIP:</strong> Same as FASTA Original but germlines
+        will be included as a separate entry beginning with <i>&gt;&gt;</i>
+        rather than one.  Multiple sequences may come after a single germline
+        and indicates all have the same germline sequence.
+      </li>
+    </ul>
+    For all FASTA formats, fields will be included in the header separated by a
+    pipe ("|") symbol.
+  </div>
+  <table class="table table-bordered">
+    <tr class="active">
+      <th colspan="4" class="text-center">Export Options</th>
+    </tr>
+    <tr>
+      <td colspan="4">
+        <div class="dropdown">
+          <button class="btn btn-default dropdown-toggle" type="button">
+            {{ format ? formatText : 'Export Format' }} <span class="caret"></span>
+          </button>
+          <ul class="dropdown-menu" role="menu">
+            <li role="presentation" ng-repeat="f in formats">
+              <a role="menuitem" tabindex="-1" ng-click="changeType(f)">{{ f.text }}</a>
+            </li>
+          </ul>
+        </div>
+      </td>
+    </tr>
+    <tbody ng-show="format">
+      <tr class="active">
+        <th colspan="4" class="text-center">Export Fields</th>
+      </tr>
+      <tr>
+        <th></th>
+        <th>Header Text</th>
+        <th>Verbose Name</th>
+        <th>Description</th>
+      </tr>
+      <tr ng-repeat="field in fields">
+        <td>
+          <input type="checkbox" checklist-model="checked_fields"
+            checklist-value="field.header" ng-disabled="forceSeq && field.header == 'seq_id'">
+        </td>
+        <td class="text-mono-thin">{{ field.header }}</td>
+        <td>{{ field.name }}</td>
+        <td ng-bind-html="field.desc"></td>
+      </tr>
+      <tr>
+        <td colspan="4" class="text-center">
+          <a class="btn btn-success"
+            href="{{ apiUrl }}data/export/{{ format }}/{{ type | lowercase }}/{{ id }}/?fields={{ checked_fields.join(',') }}&duplicates={{ duplicates }}&noresults={{ noresults }}"
+            target="_blank">Download</a>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

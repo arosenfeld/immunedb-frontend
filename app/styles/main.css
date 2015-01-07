@@ -12,6 +12,10 @@ li .badge {
     font-weight: bold;
 }
 
+.text-mono-thin {
+    font-family: "Courier New", Courier, monospace;
+}
+
 div.slideWrap {
     overflow-x: scroll;
     white-space: nowrap;
@@ -51,4 +55,10 @@ a.faded {
 .dna {
     font-weight: bold;
     letter-spacing: 4px;
+}
+
+.bottom-align-text {
+    position: absolute;
+    bottom: 0;
+    right: 0;
 }
