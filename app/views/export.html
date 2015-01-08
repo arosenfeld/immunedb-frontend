@@ -62,9 +62,19 @@
               Duplicate sequences will be included in the output and will be
               indicated by a copy number of zero.  To determine the sequence to
               which it was collapsed, include the <span
-              class="text-mono-thin">identity_seq_id</span> field.
+              class="text-mono-thin">duplicate_of_seq_id</span> field.
           </label>
         </div>
+        <div class="checkbox">
+          <label>
+            <input type="checkbox" ng-model="noresults"> <strong>Include
+            unidentified sequences:</strong> Sequences that could not be
+            assigned a V- or J-gene will be included in the output.  All fields
+            except <span class="text-mono-thin">seq_id</span> and those related
+            to the sample will be "None".
+          </label>
+        </div>
+
       </td>
     </tr>
     <tbody ng-show="format">

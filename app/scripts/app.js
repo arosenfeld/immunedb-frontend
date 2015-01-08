@@ -57,8 +57,8 @@
         })
         .constant('apis', {
             'primary': {
-                'name': 'YOUR DB NAME',
-                'url': 'http://your/db/api'
+                'name': 'Dunn-Walters',
+                'url': 'http://129.25.28.237:4000/api/'
             },
         });
 })();
