@@ -68,8 +68,16 @@
                   <td>{{ sample.sequence_cnt + sample.no_result_cnt | number}}</td>
                   <td>{{ sample.sequence_cnt | number }}</td>
                   <td>{{ sample.no_result_cnt | number }}</td>
-                  <td>{{ 100 * sample.functional_cnt / sample.sequence_cnt | number : 2}}</td>
-                  <td><a href="#/{{ apiPath }}/samples/{{ sample.id }}">View Sample<span class="glyphicon glyphicon-chevron-right"></span></a> </td>
+                  <td>
+                    <span ng-show="sample.status =='reads'">
+                      {{ 100 * sample.functional_cnt / sample.sequence_cnt | number : 2}}
+                    </span>
+                    <span ng-show="sample.status != 'reads'">
+                      N/A
+                    </span>
+                  </td>
+                  <td><a href="#/{{ apiPath }}/samples/{{ sample.id }}"
+                    ng-show="sample.status == 'reads'">View Sample<span class="glyphicon glyphicon-chevron-right"></span></a> </td>
                 </tr>
                 <tr ng-show="showDetails">
                   <td colspan="9">
