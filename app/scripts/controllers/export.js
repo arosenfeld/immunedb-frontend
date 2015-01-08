@@ -73,6 +73,23 @@
                     'desc': 'Unique identifier for the sequence within the sample.',
                 },
                 {
+                    'header': 'identity_seq_id',
+                    'name': 'Identity Sequence ID',
+                    'desc': 'The <span class="text-mono-thin">seq_id</span> ' +
+                    'which globally identifies this germline-filled sequence. ' +
+                    'This can be useful when finding duplicate sequences across ' +
+                    'samples.'
+                },
+                {
+                    'header': 'duplicate_of_seq_id',
+                    'name': 'Duplicate Sequence ID',
+                    'desc': '<span class="text-mono-thin">seq_id</span> of the ' +
+                    'sequence in the same sample to which the sequence was collapsed if any.  For ' +
+                    'this to be useful, include duplicate sequences in the ' +
+                    'export.  Duplicate sequences will have a ' +
+                    '<span class="mono-text-thin">copy_number</span> of zero.',
+                },
+                {
                     'header': 'subject_id',
                     'name': 'Subject ID',
                     'desc': 'The subject ID as it appears in the database.',
