@@ -77,6 +77,7 @@
             scope: {
                 apiPath: '=',
                 tclass: '@',
+                cnt: '=',
                 filter: '@',
                 heatmap: '@',
                 charts: '=',
