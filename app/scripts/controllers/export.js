@@ -332,6 +332,7 @@
                 $scope.id = $routeParams['id'];
                 $scope.duplicates = false;
                 $scope.noresults = false;
+                $scope.min_copy_number = 1;
 
                 $scope.hideLoader()
             }
