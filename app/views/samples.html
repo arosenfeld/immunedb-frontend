@@ -43,7 +43,11 @@
         </th>
         <th>Funct. Clones <a data-toggle="tooltip" title="Number of functional clones"><span class="glyphicon glyphicon-question-sign"></span></a>
         </th>
-        <th></th>
+        <th>
+          <a type="button" class="btn btn-primary btn-xs"
+            href="#/{{ apiPath }}/export/sample/{{ selectedSamples.join(',') }}"
+            target="_blank" ng-disabled="selectedSamples.length == 0">Export...</a>
+        </th>
       </tr>
     </thead>
     <tbody ng-repeat="stat in groupedStats">
@@ -53,15 +57,17 @@
         <td>{{ stat.filters.all.sequence_cnt + stat.filters.all.no_result_cnt | number }}</td>
         <td>{{ stat.filters.all.sequence_cnt | number }}</td>
         <td>{{ stat.filters.all.no_result_cnt | number }}</td>
-        <td>{{ 100 * stat.filters.all.in_frame_cnt / stat.filters.all.sequence_cnt | number : 2}}%</td>
-        <td>{{ 100 * stat.filters.all.functional_cnt / stat.filters.all.sequence_cnt | number : 2}}%</td>
+        <td>{{ 100 * stat.filters.all.in_frame_cnt /
+          (stat.filters.all.sequence_cnt > 0 ?stat.filters.all.sequence_cnt : 1) | number : 2}}%</td>
+        <td>{{ 100 * stat.filters.all.functional_cnt / 
+          (stat.filters.all.sequence_cnt > 0 ?stat.filters.all.sequence_cnt : 1)| number : 2}}%</td>
         <td>{{ stat.filters.unique.sequence_cnt | number }}</td>
         <td>{{ stat.filters.unique_multiple.sequence_cnt | number }}</td>
         <td>{{ stat.filters.clones_all.sequence_cnt | number }}</td>
         <td>{{ stat.filters.clones_functional.sequence_cnt | number }}</td>
         <td>
-          <a type="button" class="btn btn-primary btn-xs" href="#/{{ apiPath }}/export/sample/{{ stat.sample.id }}"
-          target="_blank">Export...</a>
+          <input type="checkbox" checklist-model="selectedSamples"
+            checklist-value="stat.sample.id"></input>
         </td>
       </tr>
       <tr ng-show="showDetails">

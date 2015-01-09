@@ -164,6 +164,7 @@
                     $scope.allData = data;
                     $scope.showOutliers = false;
                     $scope.showPartials = false;
+                    $scope.selectedSamples = [];
                     $scope.updateAll();
                     $scope.hideLoader();
                 }).error(function(data, status, headers, config) {
