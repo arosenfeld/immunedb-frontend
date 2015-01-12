@@ -2,9 +2,9 @@
     'use strict';
 
     angular.module('ImmunologyApp') .controller('SampleCtrl', ['$scope',
-            '$http', '$routeParams', '$log', '$q', 'plotting',
+            '$http', '$routeParams', '$log', '$q', 'plotting', '$timeout',
             'APIService',
-        function($scope, $http, $routeParams, $log, $q, plotting, APIService) {
+        function($scope, $http, $routeParams, $log, $q, plotting, $timeout, APIService) {
 
             var columnPlots = [{
                 title: 'CDR3 Length',
@@ -42,12 +42,13 @@
                 });
             }
 
-            var getHeatmap = function(filter_type, samples, type) {
+            var getHeatmap = function(samples, filterType) {
                 var def = $q.defer();
                 $http({
                     method: 'GET',
-                    url: APIService.getUrl() + type + '/' + filter_type + '/' +
-                        samples.join(',')
+                    url: APIService.getUrl() + 'v_usage/' + filterType + '/' +
+                        $scope.showOutliers + '/' + !$scope.showPartials +
+                        '/' + samples.join(',')
                 }).success(function(data, status) {
                     def.resolve(data);
                 }).error(function(data, status, headers, config) {
@@ -55,6 +56,21 @@
                 });
 
                 return def.promise;
+            }
+
+            var reflowCharts = function() {
+                angular.forEach(filters, function(filter, j) {
+                    // v_call heatmap for the filter
+                    $('#vHeatmap' + (filter.charAt(0).toUpperCase() +
+                        filter.slice(1)).replace('_',
+                        ''))
+                        .highcharts().reflow();
+                    // All column plots for the filter
+                    angular.forEach(columnPlots, function(plot, i) {
+                        $('#' + plot.key + '_' +
+                            filter).highcharts().reflow();
+                    });
+                });
             }
 
             var createColumns = function(filter) {
@@ -65,8 +81,7 @@
                         $scope.charts[filter] = [];
                     }
 
-                    var c =
-                        plotting.createColumnChart(
+                    var c = plotting.createColumnChart(
                             p.title,
                             p.key,
                             'Nucleotides',
@@ -78,11 +93,13 @@
                 });
             }
 
-            var updateAll = function(outlier_key) {
+            $scope.updateAll = function(reflow) {
                 // Group the stats by sample ID, then filter
+                var outlierKey = $scope.showOutliers ? 'outliers' : 'no_outliers';
+                var readKey = $scope.showPartials ? 'all_reads' : 'full_reads';
                 $scope.sampleIds = $routeParams['sampleIds'].split(',');
-                $scope.groupedStats = $scope.allData[outlier_key]['stats'];
-                $scope.cnts = $scope.allData[outlier_key]['counts'];
+                $scope.groupedStats = $scope.allData[outlierKey][readKey]['stats'];
+                $scope.cnts = $scope.allData[outlierKey][readKey]['counts'];
 
                 // Determine if any requested IDs are not available
                 $scope.missing =
@@ -96,22 +113,22 @@
                 $scope.charts = {};
                 angular.forEach(filters, function(filter, j) {
                     // v_call heatmap for the filter
-                    getHeatmap(filter, $scope.sampleIds, 'v_usage')
+                    getHeatmap($scope.sampleIds, filter)
                         .then(function(result) {
-                        var field = (filter.charAt(0).toUpperCase() +
-                            filter.slice(1)).replace('_',
-                            '');
-                        $('#vHeatmap' + field).highcharts(
-                            plotting.createHeatmap(result, 'V Gene Utilization'));
+                            var field = (filter.charAt(0).toUpperCase() +
+                                filter.slice(1)).replace('_',
+                                '');
+                            $('#vHeatmap' + field).highcharts(
+                                plotting.createHeatmap(result, 'V Gene Utilization'));
                     });
                     createColumns(filter);
                 });
-            }
 
-            $scope.toggleOutliers = function(show) {
-                $scope.showLoader();
-                updateAll(show ? 'with_outliers' : 'no_outliers')
-                $scope.hideLoader();
+                if (reflow) {
+                    $timeout(function() {
+                        reflowCharts()
+                    }, 0);
+                }
             }
 
             $scope.addPin = function() {
@@ -126,9 +143,7 @@
             var init = function() {
                 $scope.showLoader()
                 $scope.$parent.page_title = 'Sample Comparison';
-                $scope.showOutliers = false;
 
-                // Resize (reflow) all plots when a tab is clicked
                 $('#funcTab a').click(function(e) {
                     if ($(this).parent('li').hasClass('active')) {
                         $($(this).attr('href')).hide();
@@ -137,19 +152,7 @@
                         $(this).tab('show');
                     }
 
-                    angular.forEach(filters, function(filter, j) {
-                        // v_call heatmap for the filter
-                        $('#vHeatmap' + (filter.charAt(0).toUpperCase() +
-                            filter.slice(1)).replace('_',
-                            ''))
-                            .highcharts().reflow();
-                        // All column plots for the filter
-                        angular.forEach(columnPlots, function(
-                            plot, i) {
-                            $('#' + plot.key + '_' +
-                                filter).highcharts().reflow();
-                        });
-                    });
+                    reflowCharts();
                 });
 
                 // Enable help tooltips
@@ -166,7 +169,10 @@
                         $routeParams['sampleIds'],
                 }).success(function(data, status) {
                     $scope.allData = data;
-                    updateAll('no_outliers');
+                    $scope.showOutliers = false;
+                    $scope.showPartials = false;
+                    $scope.selectedSamples = [];
+                    $scope.updateAll();
                     $scope.hideLoader();
                 }).error(function(data, status, headers, config) {
                     $scope.showError();

@@ -6,6 +6,9 @@
 </div>
 
 <div class="table-responsive">
+  <div class="alert alert-warning" role="alert"
+  ng-show="anyProcessing"><strong>Note:</strong> One or more samples are still
+  processing and are show in yellow.</div>
   <div class="alert alert-danger" role="alert" ng-show="anyInvalid"><strong>Note:</strong> One or
   more samples have no identifiable reads and are shown in red.</div>
   <div class="btn-group" >

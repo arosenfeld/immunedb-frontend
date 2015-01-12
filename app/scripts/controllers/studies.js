@@ -23,6 +23,9 @@
                 if (sample_status == 'noreads') {
                     $scope.anyInvalid = true;
                     return 'danger';
+                } else if (sample_status == 'processing') {
+                    $scope.anyProcessing = true;
+                    return 'warning';
                 }
                 return '';
             }
