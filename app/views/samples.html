@@ -250,20 +250,20 @@
     No results for any filter for this outlier/partial read combination.
 
     <button type="button" class="btn btn-primary"
-        ng-click="showOutliers = false; updateAll()" ng-show="showOutliers">
+        ng-click="showOutliers = false; updateAll(true)" ng-show="showOutliers">
       <i class="fa fa-minus-square-o fa-fw"></i> Exclude Outliers
     </button>
     <button type="button" class="btn btn-primary"
-        ng-click="showOutliers = true; updateAll()" ng-show="!showOutliers">
+        ng-click="showOutliers = true; updateAll(true)" ng-show="!showOutliers">
       <i class="fa fa-plus-square-o fa-fw"></i> Include Outliers
     </button>
 
     <button type="button" class="btn btn-primary"
-        ng-click="showPartials = false; updateAll()" ng-show="showPartials">
+        ng-click="showPartials = false; updateAll(true)" ng-show="showPartials">
       <i class="fa fa-minus-square-o fa-fw"></i> Exclude Partial Reads 
     </button>
     <button type="button" class="btn btn-primary"
-        ng-click="showPartials = true; updateAll()" ng-show="!showPartials">
+        ng-click="showPartials = true; updateAll(true);" ng-show="!showPartials">
       <i class="fa fa-plus-square-o fa-fw"></i> Include Partial Reads
     </button>
   </div>

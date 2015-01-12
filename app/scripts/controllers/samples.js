@@ -2,9 +2,9 @@
     'use strict';
 
     angular.module('ImmunologyApp') .controller('SampleCtrl', ['$scope',
-            '$http', '$routeParams', '$log', '$q', 'plotting',
+            '$http', '$routeParams', '$log', '$q', 'plotting', '$timeout',
             'APIService',
-        function($scope, $http, $routeParams, $log, $q, plotting, APIService) {
+        function($scope, $http, $routeParams, $log, $q, plotting, $timeout, APIService) {
 
             var columnPlots = [{
                 title: 'CDR3 Length',
@@ -58,6 +58,21 @@
                 return def.promise;
             }
 
+            var reflowCharts = function() {
+                angular.forEach(filters, function(filter, j) {
+                    // v_call heatmap for the filter
+                    $('#vHeatmap' + (filter.charAt(0).toUpperCase() +
+                        filter.slice(1)).replace('_',
+                        ''))
+                        .highcharts().reflow();
+                    // All column plots for the filter
+                    angular.forEach(columnPlots, function(plot, i) {
+                        $('#' + plot.key + '_' +
+                            filter).highcharts().reflow();
+                    });
+                });
+            }
+
             var createColumns = function(filter) {
                 $scope.charts[filter] = [];
                 angular.forEach(columnPlots, function(p,
@@ -66,8 +81,7 @@
                         $scope.charts[filter] = [];
                     }
 
-                    var c =
-                        plotting.createColumnChart(
+                    var c = plotting.createColumnChart(
                             p.title,
                             p.key,
                             'Nucleotides',
@@ -79,7 +93,7 @@
                 });
             }
 
-            $scope.updateAll = function() {
+            $scope.updateAll = function(reflow) {
                 // Group the stats by sample ID, then filter
                 var outlierKey = $scope.showOutliers ? 'outliers' : 'no_outliers';
                 var readKey = $scope.showPartials ? 'all_reads' : 'full_reads';
@@ -109,6 +123,12 @@
                     });
                     createColumns(filter);
                 });
+
+                if (reflow) {
+                    $timeout(function() {
+                        reflowCharts()
+                    }, 0);
+                }
             }
 
             $scope.addPin = function() {
@@ -124,7 +144,6 @@
                 $scope.showLoader()
                 $scope.$parent.page_title = 'Sample Comparison';
 
-                // Resize (reflow) all plots when a tab is clicked
                 $('#funcTab a').click(function(e) {
                     if ($(this).parent('li').hasClass('active')) {
                         $($(this).attr('href')).hide();
@@ -133,19 +152,7 @@
                         $(this).tab('show');
                     }
 
-                    angular.forEach(filters, function(filter, j) {
-                        // v_call heatmap for the filter
-                        $('#vHeatmap' + (filter.charAt(0).toUpperCase() +
-                            filter.slice(1)).replace('_',
-                            ''))
-                            .highcharts().reflow();
-                        // All column plots for the filter
-                        angular.forEach(columnPlots, function(
-                            plot, i) {
-                            $('#' + plot.key + '_' +
-                                filter).highcharts().reflow();
-                        });
-                    });
+                    reflowCharts();
                 });
 
                 // Enable help tooltips
