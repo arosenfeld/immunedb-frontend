@@ -152,7 +152,8 @@
                 {
                     'header': 'alignment',
                     'name': 'Alignment Method',
-                    'desc': 'The read number or alignment method for the sequence (R1, R2, pRESTO).',
+                    'desc': 'The read number or alignment method for the '
+                            + 'sequence (R1, R2, R1+R2).',
                 },
                 {
                     'header': 'in_frame',
