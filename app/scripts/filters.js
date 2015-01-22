@@ -63,6 +63,19 @@
                 return input;
             }
         })
+        .filter('geneTies', function($sce) {
+            return function(input) {
+                return 'IGHV' + input.replace('IGHV', '')
+                    .replace(/\*[^|]*/g, '')
+                    .split('|')
+                    .filter(
+                        function(value, index, self) {
+                            return self.indexOf(value) === index;
+                        })
+                    .sort()
+                    .join('|');
+            }
+        })
         .filter('slice', function() {
           return function(arr, start, end) {
             return (arr || []).slice(start, end);

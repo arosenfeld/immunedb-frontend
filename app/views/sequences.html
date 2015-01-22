@@ -66,11 +66,11 @@
     <table class="table table-bordered">
       <thead>
         <tr class="active">
-          <th>Sequence ID</a></th>
-          <th>Subject</a></th>
-          <th>V Gene</a></th>
-          <th>J Gene</a></th>
-          <th>CDR3 Length</a></th>
+          <th>Sequence ID</th>
+          <th>Subject</th>
+          <th>V Gene</th>
+          <th>J Gene</th>
+          <th>CDR3 Length</th>
           <th>CDR3 AA</th>
           <th>Alignment</th>
           <th>Functional</th>
@@ -89,7 +89,13 @@
           <td>{{ seq.seq_id }}</td>
           <td><a href="#/{{ apiPath }}/subject/{{ seq.sample.subject.id }}"
             target="_blank">{{ seq.sample.subject.identifier }}</a></td>
-          <td>{{ seq.v_call }}</td>
+          <td>
+            <span ng-show="!full">
+              {{ seq.v_call | geneTies }}
+            </span>
+            <span ng-show="full">{{ seq.v_call }}</span>
+            <a ng-click="full=!full"><i class="fa fa-ellipsis-h"></i></a>
+          </td>
           <td>{{ seq.j_call }}</td>
           <td>{{ seq.cdr3_length }}</td>
           <td ng-bind-html="seq.junction_aa | aminoAcid" class="text-mono"></td>

@@ -1,10 +1,9 @@
 (function() {
     'use strict';
 
-    angular.module('ImmunologyApp').factory('plotting', ['$log',
-        function($log) {
+    angular.module('ImmunologyApp').factory('plotting', ['$log', '$filter',
+        function($log, $filter) {
             return {
-
                 createColumnChart: function(chart_title, key, x_label,
                                             y_label, all_series) {
                     return {
@@ -57,7 +56,10 @@
                         xAxis: {
                             categories: data['x_categories'],
                             labels: {
-                                rotation: -45
+                                rotation: -45,
+                                formatter: function() {
+                                    return $filter('geneTies')(this.value);
+                                },
                             },
                             title: 'IGHV Gene',
                         },

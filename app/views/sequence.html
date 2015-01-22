@@ -80,8 +80,8 @@
       <td>{{ seq.functional ? 'Yes' : 'No' }}</td>
       <th>
       Alignment Method
-      <a data-toggle="tooltip" title="'pRESTO' if the sequence is from pRESTO
-      aligning R1 and R2 reads, otherwise 'R1' or 'R2'"><span class="glyphicon
+      <a data-toggle="tooltip" title="'R1+R2' if the sequence is an aligned
+      bi-directional read, otherwise 'R1' or 'R2'"><span class="glyphicon
       glyphicon-question-sign"></span></a>
       </th>
       <td>{{ seq.alignment }}</td>
@@ -330,7 +330,8 @@
 <div class="table-responsive">
   <table class="table table-bordered" ng-show="seq.duplicates.length == 0">
     <tr>
-      <td class="text-center"><strong>There are no sequences that are identical to this one</strong></td>
+      <td class="text-center"><strong>There are no sequences in the sample which
+      have a different read length, but are identical to this one</strong></td>
     </tr>
   </table>
   <table class="table table-bordered" ng-show="seq.duplicates.length > 0">

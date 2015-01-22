@@ -69,7 +69,10 @@
                     <a ng-click="showDetails = !showDetails"><span class="glyphicon glyphicon-chevron-down"></a>
                     <a ng-show="sample.info" data-toggle="tooltip" title="{{ sample.info }}"><span class="glyphicon glyphicon-question-sign"></span></a></td>
                   <td>{{ sample.sequence_cnt + sample.no_result_cnt | number}}</td>
-                  <td>{{ sample.sequence_cnt | number }}</td>
+                  <td>{{ sample.sequence_cnt | number }}
+                  <span class="faded">
+                    ({{ 100 * sample.sequence_cnt / (sample.sequence_cnt + sample.no_result_cnt) | number:2 }}%)
+                    </span></td>
                   <td>{{ sample.no_result_cnt | number }}</td>
                   <td>
                     <span ng-show="sample.status =='reads'">
