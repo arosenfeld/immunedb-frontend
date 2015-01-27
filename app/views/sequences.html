@@ -16,12 +16,12 @@
           <input  class="form-control" ng-model="filter.seq_id" id="id_filter" placeholder="Sequence ID">
         </div>
         <div class="form-group">
-          <label class="sr-only" for="v_call_filter">V-Gene</label>
-          <input type="text" class="form-control" ng-model="filter.v_call" id="v_call_filter" placeholder="V-Gene">
+          <label class="sr-only" for="v_gene_filter">V-Gene</label>
+          <input type="text" class="form-control" ng-model="filter.v_gene" id="v_gene_filter" placeholder="V-Gene">
         </div>
         <div class="form-group">
-          <label class="sr-only" for="j_call_filter">J-Gene</label>
-          <input type="text" class="form-control" ng-model="filter.j_call" id="j_call_filter" placeholder="J-Gene">
+          <label class="sr-only" for="j_gene_filter">J-Gene</label>
+          <input type="text" class="form-control" ng-model="filter.j_gene" id="j_gene_filter" placeholder="J-Gene">
         </div>
         <div class="form-group">
           <label class="sr-only" for="sample_id_filter">Sample ID</label>
@@ -85,19 +85,19 @@
           </td>
         </tr>
         <tr ng-repeat="seq in sequences" ng-show="sequences.length > 0"
-          ng-class="seq.levenshtein_dist ? 'danger' : ''">
+          ng-class="seq.probable_indel_or_misalign ? 'danger' : ''">
           <td>{{ seq.seq_id }}</td>
           <td><a href="#/{{ apiPath }}/subject/{{ seq.sample.subject.id }}"
             target="_blank">{{ seq.sample.subject.identifier }}</a></td>
           <td>
             <span ng-show="!full">
-              {{ seq.v_call | geneTies }}
+              {{ seq.v_gene | geneTies }}
             </span>
-            <span ng-show="full">{{ seq.v_call }}</span>
+            <span ng-show="full">{{ seq.v_gene }}</span>
             <a ng-click="full=!full"><i class="fa fa-ellipsis-h"></i></a>
           </td>
-          <td>{{ seq.j_call }}</td>
-          <td>{{ seq.cdr3_length }}</td>
+          <td>{{ seq.j_gene }}</td>
+          <td>{{ seq.junction_num_nts }}</td>
           <td ng-bind-html="seq.junction_aa | aminoAcid" class="text-mono"></td>
           <td>{{ seq.alignment }}</td>
           <td>{{ seq.functional ? 'Yes' : 'No' }}</td>

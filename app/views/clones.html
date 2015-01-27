@@ -70,7 +70,13 @@
             <td>{{ clone.id }}</td>
             <td>{{ clone.group.id }}</td>
             <td>{{ clone.group.subject.identifier}} ({{ clone.group.subject.study.name}})</td>
-            <td>{{ clone.group.v_gene }}</td>
+            <td>
+              <span ng-show="!full">
+                {{ clone.group.v_gene | geneTies }}
+              </span>
+              <span ng-show="full">{{ clone.group.v_gene }}</span>
+              <a ng-click="full=!full"><i class="fa fa-ellipsis-h"></i></a>
+            </td>
             <td>{{ clone.group.j_gene }}</td>
             <td>{{ clone.group.cdr3_num_nts }}</td>
             <td ng-bind-html="clone.group.cdr3_aa | aminoAcid" class="text-mono"></td>
