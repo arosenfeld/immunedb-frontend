@@ -32,8 +32,8 @@
                 'v_length',
                 'j_match',
                 'j_length',
-                'v_call',
-                'j_call',
+                'v_gene',
+                'j_gene',
                 'cdr3_nt',
                 'cdr3_aa',
                 'sequence_filled',
@@ -71,14 +71,6 @@
                     'header': 'seq_id',
                     'name': 'Sequence ID',
                     'desc': 'Unique identifier for the sequence within the sample.',
-                },
-                {
-                    'header': 'identity_seq_id',
-                    'name': 'Identity Sequence ID',
-                    'desc': 'The <span class="text-mono-thin">seq_id</span> ' +
-                    'which globally identifies this germline-filled sequence. ' +
-                    'This can be useful when finding duplicate sequences across ' +
-                    'samples.'
                 },
                 {
                     'header': 'duplicate_of_seq_id',
@@ -176,11 +168,10 @@
                     'desc': 'The number of reads in the same sample with the exact same sequence.',
                 },
                 {
-                    'header': 'levenshtein_dist',
-                    'name': 'Levenshtein Distance',
-                    'desc': 'For misaligned or indel probable sequences, the <a '
-                        + 'href="http://en.wikipedia.org/wiki/Levenshtein_distance" target="_blank">Levenshtein '
-                        + 'distance</a> of the sequence to the germline.',
+                    'header': 'probable_indel_or_misalign',
+                    'name': 'Insertion/Deletion or Poor Alignment',
+                    'desc': 'A boolean flag if the sequence likely contains an ' +
+                            'insertion/deletion or is not well aligned.'
                 },
                 {
                     'header': 'num_gaps',
@@ -215,12 +206,12 @@
                     'desc': 'Total number of bases in the J-gene, excluding gaps.',
                 },
                 {
-                    'header': 'v_call',
+                    'header': 'v_gene',
                     'name': 'V Gene',
                     'desc': 'The V gene assigned to the sequence.',
                 },
                 {
-                    'header': 'j_call',
+                    'header': 'j_gene',
                     'name': 'J Gene',
                     'desc': 'The J gene assigned to the sequence.',
                 },
