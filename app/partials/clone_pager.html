@@ -3,7 +3,6 @@
     <table class="table table-bordered">
       <thead>
         <tr class="active">
-          <th></th>
           <th>Total Seqs.</th>
           <th>Unique Seqs.</th>
           <th>ID</th>
@@ -13,6 +12,7 @@
           <th>CDR3 Length</th>
           <th>CDR3 AA</th>
           <th>Samples Present</th>
+          <th></th>
         </tr>
       </thead>
       <tbody>
@@ -21,7 +21,6 @@
         </tr>
         <tbody ng-repeat="freq in clones">
           <tr>
-            <td><input type="checkbox" checklist-model="checked_clones" checklist-value="freq.compareStr"></input></td>
             <td>{{ freq.total_sequences | number }}</td>
             <td>{{ freq.unique_sequences | number }}</td>
             <td>{{ freq.clone.id }}</td>
@@ -42,30 +41,40 @@
               ng-show="freq.other_samples.length > 0"> (plus {{
                 freq.other_samples.length }} others)</span></a>
             </td>
+            <td>
+              <a href="#/{{ apiPath }}/clone_compare/{{ freq.clone.id }}"
+              target="_blank">View <i class="fa fa-angle-right fa-lg"></i></a>
+            </td>
           </tr>
           <tr ng-show="showSamples">
             <td colspan="10">
               <table class="table table-condensed">
+                <tr>
+                  <th>Sample ID</th>
+                  <th>Sample Name</th>
+                  <th>Total Seqs.</th>
+                  <th>Unique Seqs.</th>
+                </tr>
                 <tr class="active">
-                  <th colspan="2">Selected Samples</th>
+                  <th colspan="4" class="text-center">Selected Samples</th>
                 </tr>
                 <tr ng-repeat="sample in freq.selected_samples">
-                  <td>{{ sample[0] }}</td>
+                  <td>{{ sample.id }}</td>
                   <td>
-                    <a href="#/{{ apiPath }}/samples/{{ sample[0] }}" target="_new">
-                      {{ sample[1] }}
+                    <a href="#/{{ apiPath }}/samples/{{ sample.id }}" target="_new">
+                      {{ sample.name }}
                     </a>
                   </td>
                 </tr>
                 <tbody ng-show="freq.other_samples.length > 0">
                   <tr class="active">
-                    <th colspan="2">Other Samples</th>
+                    <th colspan="4" class="text-center">Other Samples</th>
                   </tr>
                   <tr ng-repeat="sample in freq.other_samples">
-                    <td>{{ sample[0] }}</td>
+                    <td>{{ sample.id }}</td>
                     <td>
-                      <a href="#/{{ apiPath }}/samples/{{ sample[0] }}" target="_new">
-                        {{ sample[1] }}
+                      <a href="#/{{ apiPath }}/samples/{{ sample.id }}" target="_new">
+                        {{ sample.name }}
                       </a>
                     </td>
                   </tr>
@@ -76,7 +85,6 @@
         </tbody>
         <tr>
           <td colspan="10">
-            <button ng-click="viewClones()" class="btn btn-primary btn-lg btn-pad" ng-disabled="checked_clones.length == 0">Show Selected</button>
             <div style="float: right"><a href="{{ exportUrl }}" target="_blank" class="btn btn-info">Export All
             (csv)</a></div>
           </td>
