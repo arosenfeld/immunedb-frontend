@@ -6,11 +6,11 @@
   </ol>
 </div>
 
-<h3>Data Export</h3>
+<h3>Sequence Export</h3>
 <div class="table-responsive">
 <div class="panel panel-default">
   <div class="panel-body">
-    This page allows sequences to be exported in multiple formats
+    This page allows sequences to be exported in multiple formats:
     <ul>
       <li>
         <strong>Tab Delimited:</strong> Contain one header line followed by one
@@ -63,11 +63,11 @@
         </div>
         <div ng-show="format">
           <div class="row">
-            <div ng-class="'form-group col-sm-2' + (!min_copy_number ||
-            min_copy_number < 1 ? ' has-error' : '')">
+            <div ng-class="'form-group col-sm-2' + (!minCopyNumber ||
+            minCopyNumber < 1 ? ' has-error' : '')">
               <label>Minimum Copy Number:</label>
-              <input type="number" class="form-control" name="min_copy_number"
-                min="1" ng-model="min_copy_number">
+              <input type="number" class="form-control" name="minCopyNumber"
+                min="1" ng-model="minCopyNumber">
             </div>
           </div>
           <div class="checkbox">
@@ -114,8 +114,10 @@
       <tr>
         <td colspan="4" class="text-center">
           <a class="btn btn-success"
-            ng-disabled="!min_copy_number || min_copy_number < 1"
-            href="{{ apiUrl }}data/export/{{ format }}/{{ type | lowercase }}/{{ id }}/?fields={{ checked_fields.join(',') }}&duplicates={{ duplicates }}&noresults={{ noresults }}&min_copy_number={{ min_copy_number }}"
+            ng-disabled="!minCopyNumber || minCopyNumber < 1"
+            href="{{ apiUrl }}data/export_sequences/{{ format }}/{{ type | lowercase }}/{{
+              id }}/?fields={{ checked_fields.join(',') }}&duplicates={{
+                duplicates }}&noresults={{ noresults }}&min_copy_number={{ minCopyNumber }}"
             target="_blank">Download</a>
         </td>
       </tr>

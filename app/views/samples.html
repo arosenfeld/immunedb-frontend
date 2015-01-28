@@ -44,10 +44,16 @@
         <th>Funct. Clones <a data-toggle="tooltip" title="Number of functional clones"><i class="fa fa-question-circle"></i></a>
         </th>
         <th>
-          <a type="button" class="btn btn-primary btn-xs"
-            href="#/{{ apiPath }}/export/sample/{{ selectedSamples.join(',') }}"
-            target="_blank" ng-disabled="selectedSamples.length == 0">Export...</a>
-        </th>
+        <div class="btn-group">
+          <button type="button" class="btn btn-primary btn-xs dropdown-toggle" data-toggle="dropdown" aria-expanded="false"
+            ng-disabled="selectedSamples.length == 0">
+            Export...<span class="caret"></span>
+          </button>
+          <ul class="dropdown-menu dropdown-menu-right" role="menu">
+            <li><a href="#/{{ apiPath }}/export_sequences/sample/{{ selectedSamples.join(',') }}" target="_blank">Sequences</a></li>
+            <li><a href="#/{{ apiPath }}/export_clones/sample/{{ selectedSamples.join(',') }}" target="_blank">Clones</a></li>
+          </ul>
+        </div>
       </tr>
     </thead>
     <tbody ng-repeat="stat in groupedStats">
@@ -59,7 +65,7 @@
         <td>{{ stat.filters.all.no_result_cnt | number }}</td>
         <td>{{ 100 * stat.filters.all.in_frame_cnt /
           (stat.filters.all.sequence_cnt > 0 ?stat.filters.all.sequence_cnt : 1) | number : 2}}%</td>
-        <td>{{ 100 * stat.filters.all.functional_cnt / 
+        <td>{{ 100 * stat.filters.all.functional_cnt /
           (stat.filters.all.sequence_cnt > 0 ?stat.filters.all.sequence_cnt : 1)| number : 2}}%</td>
         <td>{{ stat.filters.unique.sequence_cnt | number }}</td>
         <td>{{ stat.filters.unique_multiple.sequence_cnt | number }}</td>
@@ -164,7 +170,7 @@
     <li class="pull-right">
         <button type="button" class="btn btn-primary pull-right"
             ng-click="showPartials = false; updateAll()" ng-show="showPartials">
-          <i class="fa fa-minus-square-o fa-fw"></i> Exclude Partial Reads 
+          <i class="fa fa-minus-square-o fa-fw"></i> Exclude Partial Reads
         </button>
         <button type="button" class="btn btn-primary pull-right"
             ng-click="showPartials = true; updateAll()" ng-show="!showPartials">
@@ -260,7 +266,7 @@
 
     <button type="button" class="btn btn-primary"
         ng-click="showPartials = false; updateAll(true)" ng-show="showPartials">
-      <i class="fa fa-minus-square-o fa-fw"></i> Exclude Partial Reads 
+      <i class="fa fa-minus-square-o fa-fw"></i> Exclude Partial Reads
     </button>
     <button type="button" class="btn btn-primary"
         ng-click="showPartials = true; updateAll(true);" ng-show="!showPartials">

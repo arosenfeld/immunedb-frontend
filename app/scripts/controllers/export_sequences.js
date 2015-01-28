@@ -1,6 +1,6 @@
 (function() {
     'use strict';
-    angular.module('ImmunologyApp').controller('ExportCtrl', ['$scope',
+    angular.module('ImmunologyApp').controller('ExportSequencesCtrl', ['$scope',
             '$http', '$routeParams', '$log', 'APIService',
         function($scope, $http, $routeParams, $log, APIService) {
             var fasta_fields = [
@@ -324,7 +324,7 @@
                 $scope.id = $routeParams['id'];
                 $scope.duplicates = false;
                 $scope.noresults = false;
-                $scope.min_copy_number = 1;
+                $scope.minCopyNumber = 1;
 
                 $scope.hideLoader()
             }

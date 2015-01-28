@@ -56,13 +56,15 @@
           <th>J Gene</th>
           <th>CDR3 Length</th>
           <th>CDR3 AA</th>
+          <th>Unique Seqs.</th>
+          <th>Total Seqs.</th>
           <th></th>
         </tr>
       </thead>
       <tbody>
         <tbody ng-show="clones.length == 0">
           <tr>
-            <td colspan="8" class="text-center">No results.</td>
+            <td colspan="10" class="text-center">No results.</td>
           </tr>
         </tbody>
         <tbody ng-repeat="clone in clones" ng-show="clones.length > 0">
@@ -80,12 +82,14 @@
             <td>{{ clone.group.j_gene }}</td>
             <td>{{ clone.group.cdr3_num_nts }}</td>
             <td ng-bind-html="clone.group.cdr3_aa | aminoAcid" class="text-mono"></td>
+            <td>{{ clone.unique_sequences | number }}</td>
+            <td>{{ clone.total_sequences | number }}</td>
             <td><a href="#/{{ apiPath }}/clone_compare/{{ clone.id }}"
               target="_blank">View <i class="fa fa-angle-right fa-lg"></i></a></td>
           </tr>
           <tr>
-            <td colspan="8" style="float:none; margin: 0 auto;">
-              <table class="table table-bordered">
+            <td colspan="10" style="float:none; margin: 0 auto;">
+              <table class="table table-condensed table-bordered">
                 <thead>
                   <tr class="info">
                     <th></th>
@@ -100,8 +104,8 @@
                     <td><input type="checkbox" checklist-model="checked_samples" checklist-value="clone.id + '_' + stat.sample.id"></input></td>
                     <td>{{ stat.sample.id }}</td>
                     <td><a href="#/{{ apiPath }}/samples/{{ stat.sample.id }}" target="_blank">{{ stat.sample.name }}</a></td>
-                    <td>{{ stat.unique_sequences }}</td>
-                    <td>{{ stat.total_sequences }}</td>
+                    <td>{{ stat.unique_sequences | number }}</td>
+                    <td>{{ stat.total_sequences | number }}</td>
                   </tr>
                 </tbody>
               </table>
@@ -109,7 +113,7 @@
           </tr>
         </tbody>
         <tr ng-show="clones.length > 0">
-          <td colspan="8">
+          <td colspan="10">
             <ul class="pager">
               <li><a href="" ng-click="prevPage()" ng-show="pageable">Previous</a></li>
               <li>Page {{ page }}</li>
