@@ -59,11 +59,22 @@
                     !$scope.cloneInfo[cloneId].showFanouts);
             }
 
+            $scope.setThreshold = function(threshold) {
+                $scope.threshold = threshold;
+            }
+
             var init = function() {
                 $scope.showLoader();
                 $scope.$parent.page_title = 'Clone Comparison';
                 $scope.api = APIService.getUrl();
                 $scope.pages = {};
+                $scope.cutoffs = [
+                    ['All Mutations', 0],
+                    ['20% of sequences', 20],
+                    ['80% of sequences', 80],
+                    ['100% of sequences', 100]
+                ];
+                $scope.setThreshold(0);
 
                 $http({
                     method: 'GET',

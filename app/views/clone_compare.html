@@ -101,10 +101,27 @@ clone group IDs to compare similar clones across versions.</p></div>
       <tr>
         <td colspan="6" ng-init="field='unique'">
           <h4>
-            {{ field == 'total' ? 'Total' : 'Unique' }} Mutations
-            <button ng-click="field = (field == 'unique' ? 'total' : 'unique')" class="btn btn-primary btn-align">
-              Switch to {{ field == 'total' ? 'Unique' : 'Total' }} Mutations
-            </button>
+              <div class="btn-group" role="group">
+                <div class="btn-group" role="group">
+                  <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                    Frequency Threshold: {{ threshold == 0 ? 'All' : threshold +
+                    '%' }}<span class="caret"></span>
+                  </button>
+                  <ul class="dropdown-menu" role="menu">
+                    <li ng-repeat="cutoff in cutoffs">
+                      <a ng-click="setThreshold(cutoff[1])">
+                        <i class="fa fa-check fa-fw"
+                        ng-show="cutoff[1] == threshold"></i>{{ cutoff[0] }}
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+
+                <button type="button" class="btn btn-default"
+                  ng-click="field = (field == 'unique' ? 'total' : 'unique')">Switch to {{ field == 'total' ? 'Unique' : 'Total' }} Mutations
+                </button>
+              </div>
+
           </h4>
           <table class="table table-bordered">
             <thead>
@@ -116,7 +133,7 @@ clone group IDs to compare similar clones across versions.</p></div>
                 <th>Non-Conservative</th>
               </tr>
             </thead>
-            <tbody ng-repeat="(region, stat) in info.mutation_stats.regions">
+            <tbody ng-repeat="(region, stat) in info.mutation_stats.regions[threshold]">
               <tr>
                 <td>
                   <strong>{{ region | uppercase }}</strong>
