@@ -11,11 +11,13 @@
   <i class="fa fa-thumb-tack fa-fw"></i> Pin Page
 </button>
 
-<h3>Sequence Details
-    <span class="faded" ng-if="seq_id!=seq.seq_id">
-        (Alias of {{ seq.seq_id }})
-    </span>
-</h3>
+<h3>Sequence Details</h3>
+<div class="alert alert-warning" role="alert" ng-show="seq_id!=seq.seq_id">
+  <strong>Note: </strong> The requested sequence is a duplicate of <strong>{{
+    seq.seq_id }}</strong>, which is shown below
+</div>
+
+
 <div class="alert alert-danger" role="alert"
 ng-show="seq.probable_indel_or_misalign">
   <strong>Warning:</strong> This sequence has been flagged as having a possible indel or bad
@@ -32,7 +34,7 @@ ng-show="seq.probable_indel_or_misalign">
         <a data-toggle="tooltip" title="A sample-unique identifier for this
         sequence"><i class="fa fa-question-circle"></i></a>
       </th>
-      <td>{{ seq_id }}</th>
+      <td>{{ seq.seq_id }}</th>
       <th>
         Sample
         <a data-toggle="tooltip" title="The sample which contains this
@@ -314,13 +316,13 @@ ng-show="seq.probable_indel_or_misalign">
 <small>All other reads sharing the same germline-filled sequence</small>
 </h3>
 <div class="table-responsive">
-  <table class="table table-bordered" ng-show="seq.duplicates.length == 0">
+  <table class="table table-bordered" ng-show="seq.possible_duplicates.length == 0">
     <tr>
       <td class="text-center"><strong>There are no sequences in the sample which
       have a different read length, but are identical to this one</strong></td>
     </tr>
   </table>
-  <table class="table table-bordered" ng-show="seq.duplicates.length > 0">
+  <table class="table table-bordered" ng-show="seq.possible_duplicates.length > 0">
     <thead>
       <tr>
         <th>Sample</th>
@@ -330,7 +332,7 @@ ng-show="seq.probable_indel_or_misalign">
       </tr>
     </thead>
     <tbody>
-      <tr ng-repeat="dup in seq.duplicates">
+      <tr ng-repeat="dup in seq.possible_duplicates">
         <td><a href="#/{{ apiPath }}/samples/{{ dup.sample.id }}" target="_blank">{{ dup.sample.name }}</a> (#{{ dup.sample.id }})</td>
         <td><a href="#/{{ apiPath }}/sequence/{{ dup.sample.id }}/{{ dup.seq_id }}" target="_blank">{{ dup.seq_id }}</a></td>
         <td>{{ dup.alignment }}</td>
