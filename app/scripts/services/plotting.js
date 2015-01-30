@@ -34,7 +34,11 @@
 
                         loading: false,
                         series: all_series,
-                        key: key
+                        key: key,
+
+                        exporting: {
+                            scale: 4,
+                        },
                     }
                 },
 
@@ -105,10 +109,17 @@
 
                         series: [{
                             data: data['data'].map(function(point) {
-                                return [point[0], point[1], Math.log(point[2])];
+                                if (point[2] != 'none') {
+                                    return [point[0], point[1], Math.log(point[2])];
+                                }
+                                return [point[0], point[1], 0];
                             }),
                             turboThreshold: 0
-                        }]
+                        }],
+
+                        exporting: {
+                            sourceWidth: 2000
+                        },
                     };
                 },
 
