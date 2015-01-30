@@ -1,6 +1,6 @@
 <div class="header">
   <ol class="breadcrumb">
-    <li><a href="#/{{ apiPath }}/studies">Studies</a></li>
+    <li><i class="fa fa-table fa-fw"></i> <a href="#/{{ apiPath }}/studies">Studies</a></li>
     <li><a href="#/{{ apiPath }}/samples/{{ seq.sample.id }}">{{ seq.sample.name }}</a></li>
     <li>Sequence <i>{{ seq_id }}</i></li>
   </ol>
@@ -11,29 +11,16 @@
   <i class="fa fa-thumb-tack fa-fw"></i> Pin Page
 </button>
 
-<div class="alert alert-danger" role="alert" ng-show="seq.levenshtein_dist">
-  <p><strong>This sequence has been flagged as having a possible indel or bad
-  alignment </strong></p>
-  <p>This occurs when at least one of the following are true:
-  <ul>
-    <li>The V match percentage is less than 60%</li>
-    <li>The sequence was shorter than the germline after alignment, indicating a
-    poor J alignment</li>
-  </ul>
-  </p>
-  <p>
-  When this occurs, the <a
-  href="http://en.wikipedia.org/wiki/Levenshtein_distance" class="alert-link"
-  target="_blank">Levenshtein distance</a> is calculated.  The value for this
-  sequence is <strong>{{ seq.levenshtein_dist }}</strong>, indicating the
-  sequence is <strong>{{ 100 * (seq.germline.length - seq.levenshtein_dist)/
-  seq.germline.length | number:2 }}%</strong> similar to the germline.</p>
-</div>
 <h3>Sequence Details
     <span class="faded" ng-if="seq_id!=seq.seq_id">
         (Alias of {{ seq.seq_id }})
     </span>
 </h3>
+<div class="alert alert-danger" role="alert"
+ng-show="seq.probable_indel_or_misalign">
+  <strong>Warning:</strong> This sequence has been flagged as having a possible indel or bad
+  alignment
+</div>
 <div class="table-responsive">
   <table class="table table-bordered">
     <tr class="active">
@@ -316,7 +303,7 @@
     </tr>
     <tr>
       <th>
-        Consensus CDR3 Amino Acids 
+        Consensus CDR3 Amino Acids
       </th>
       <td ng-bind-html="seq.clone.group.cdr3_aa | aminoAcid" colspan="3"></td>
     </tr>
