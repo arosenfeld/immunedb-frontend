@@ -96,8 +96,8 @@
                             formatter: function() {
                                 return '<b>Sample:</b> ' + data['y_categories'][
                                         this.point.y] + '<br />' +
-                                    '<b>Gene:</b> ' + data['x_categories'][this
-                                        .point.x] + '<br />' +
+                                    '<b>Gene:</b> ' + $filter('geneTies')(data['x_categories'][this
+                                        .point.x]) + '<br />' +
                                     '<b>% of Sample:</b> ' +
                                     Math.pow(Math.E, this.point.value).toFixed(2) + '%';
                             }

@@ -111,7 +111,18 @@ clone group IDs to compare similar clones across versions.</p></div>
                     <li ng-repeat="cutoff in cutoffs">
                       <a ng-click="setThreshold(cutoff[1])">
                         <i class="fa fa-check fa-fw"
-                        ng-show="cutoff[1] == threshold"></i>{{ cutoff[0] }}
+                        ng-show="cutoff[1] == threshold"></i><span
+                          ng-bind-html="cutoff[0]"></span>
+                          <span class="badge pull-right">
+                          {{
+                            info.mutation_stats.regions[cutoff[1]].all.counts[field].synonymous
+                            +
+                            info.mutation_stats.regions[cutoff[1]].all.counts[field].nonconservative
+                            +
+                            info.mutation_stats.regions[cutoff[1]].all.counts[field].conservative
+                            | formatNumber
+                          }}
+                          </span>
                       </a>
                     </li>
                   </ul>

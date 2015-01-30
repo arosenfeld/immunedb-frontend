@@ -69,10 +69,10 @@
                 $scope.api = APIService.getUrl();
                 $scope.pages = {};
                 $scope.cutoffs = [
-                    ['All Mutations', 0],
-                    ['20% of sequences', 20],
-                    ['80% of sequences', 80],
-                    ['100% of sequences', 100]
+                    ['All', 0],
+                    ['&ge; 20%', 20],
+                    ['&ge; 80%', 80],
+                    ['&ge; 100%', 100]
                 ];
                 $scope.setThreshold(0);
 
