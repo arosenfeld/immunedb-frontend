@@ -13,9 +13,7 @@
 
             $scope.checkAll = function(study_id) {
                 angular.forEach($scope.rows[study_id].samples, function(value, key) {
-                    if (value.status == 'reads') {
-                        $scope.checked_samples.push(value.id);
-                    }
+                    $scope.checked_samples.push(value.id);
                 });
             }
 
@@ -56,7 +54,7 @@
                                 srt);
                             var bs = b.date.split('-').map(
                                 srt);
-                            var ddif = new Date(bs[0], bs[1], bs[2]) - 
+                            var ddif = new Date(bs[0], bs[1], bs[2]) -
                                 new Date(as[0], as[1], as[2]);
                             if (ddif != 0) {
                                 return ddif;
