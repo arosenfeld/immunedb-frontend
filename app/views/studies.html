@@ -1,6 +1,7 @@
 <div class="header">
   <ol class="breadcrumb">
-    <li><a href="#/{{ apiPath }}/studies">Studies</a>
+    <li>
+      <i class="fa fa-table fa-fw"></i> <a href="#/{{ apiPath }}/studies">Studies</a>
     </li>
   </ol>
 </div>
@@ -16,8 +17,11 @@
       class="btn btn-primary btn-lg btn-pad"
       ng-disabled="checked_samples.length == 0">Compare</a>
     <a type="button" class="btn btn-lg btn-default"
-      href="#/{{ apiPath }}/export/sample/{{ checked_samples.join(',') }}"
+      href="#/{{ apiPath }}/export_sequences/sample/{{ checked_samples.join(',') }}"
       ng-disabled="checked_samples.length == 0" target="_blank">Export Sequences</a>
+    <a type="button" class="btn btn-lg btn-default"
+      href="#/{{ apiPath }}/export_clones/sample/{{ checked_samples.join(',') }}"
+      ng-disabled="checked_samples.length == 0" target="_blank">Export Clones</a>
   </div>
   <div style="float: right">
     <input type="text" class="form-control" placeholder="Search..." ng-model="sample_filter"></input>
@@ -34,7 +38,8 @@
       <tbody ng-repeat="row in rows">
         <tr class="active">
           <td>{{ row.id }}</td>
-          <td><a ng-click="show = !show">{{ row.name }} <span class="glyphicon glyphicon-chevron-down" id="study-arrow-{{ row.id }}"></span></a>
+          <td><a ng-click="show = !show">{{ row.name }} <i class="fa
+          fa-angle-down fa-lg"></i></a>
           </td>
           <td>{{ row.samples.length }}</td>
         </tr>
@@ -66,8 +71,9 @@
                   </td>
                   <td>{{ sample.id }}</td>
                   <td>{{ sample.name }}
-                    <a ng-click="showDetails = !showDetails"><span class="glyphicon glyphicon-chevron-down"></a>
-                    <a ng-show="sample.info" data-toggle="tooltip" title="{{ sample.info }}"><span class="glyphicon glyphicon-question-sign"></span></a></td>
+                    <a ng-click="showDetails = !showDetails"> <i class="fa
+                    fa-angle-down fa-lg"></i></a>
+                    <a ng-show="sample.info" data-toggle="tooltip" title="{{ sample.info }}"><i class="fa fa-question-circle"></i></a></td>
                   <td>{{ sample.sequence_cnt + sample.no_result_cnt | number}}</td>
                   <td>{{ sample.sequence_cnt | number }}
                   <span class="faded">
@@ -83,7 +89,7 @@
                     </span>
                   </td>
                   <td><a href="#/{{ apiPath }}/samples/{{ sample.id }}"
-                    ng-show="sample.status == 'reads'">View Sample<span class="glyphicon glyphicon-chevron-right"></span></a> </td>
+                    ng-show="sample.status == 'reads'">View <i class="fa fa-angle-right fa-lg"></i></a></td>
                 </tr>
                 <tr ng-show="showDetails">
                   <td colspan="9">

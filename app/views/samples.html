@@ -1,6 +1,6 @@
 <div class="header">
   <ol class="breadcrumb">
-    <li><a href="#/{{ apiPath }}/studies">Studies</a>
+    <li><i class="fa fa-table fa-fw"></i> <a href="#/{{ apiPath }}/studies">Studies</a>
     </li>
     <li>Sample Comparison</li>
   </ol>
@@ -11,7 +11,8 @@
   <i class="fa fa-thumb-tack fa-fw"></i> Pin Page
 </button>
 
-<div class="alert alert-warning" role="alert" ng-show="missing.length > 0"><strong>Warning</strong> The following samples do not have statistical information, or do not exist:
+<div class="alert alert-warning" role="alert" ng-show="missing.length >
+0"><strong>Warning: </strong> The following samples do not have statistical information, or do not exist:
   <ul>
     <li ng-repeat="m in missing">Sample #{{ m }}</li>
   </ul>
@@ -21,33 +22,39 @@
   <table class="table table-bordered">
     <thead>
       <tr class="active">
-        <th># <a data-toggle="tooltip" title="A globally unique ID for this sample"><span class="glyphicon glyphicon-question-sign"></span></a>
+        <th># <a data-toggle="tooltip" title="A globally unique ID for this sample"><i class="fa fa-question-circle"></i></a>
         </th>
-        <th>Name <a data-toggle="tooltip" title="A name for the sample"><span class="glyphicon glyphicon-question-sign"></span></a>
+        <th>Name <a data-toggle="tooltip" title="A name for the sample"><i class="fa fa-question-circle"></i></a>
         </th>
-        <th>Total <a data-toggle="tooltip" title="Total sequences in the sample"><span class="glyphicon glyphicon-question-sign"></span></a>
+        <th>Total <a data-toggle="tooltip" title="Total sequences in the sample"><i class="fa fa-question-circle"></i></a>
         </th>
-        <th>Valid <a data-toggle="tooltip" title="Sequences which have V and J regions that match a germline"><span class="glyphicon glyphicon-question-sign"></span></a>
+        <th>Valid <a data-toggle="tooltip" title="Sequences which have V and J regions that match a germline"><i class="fa fa-question-circle"></i></a>
         </th>
-        <th>Invalid <a data-toggle="tooltip" title="Sequences which have V and J regions that do not match a germline"><span class="glyphicon glyphicon-question-sign"></span></a>
+        <th>Invalid <a data-toggle="tooltip" title="Sequences which have V and J regions that do not match a germline"><i class="fa fa-question-circle"></i></a>
         </th>
-        <th>In-frame <a data-toggle="tooltip" title="Sequences which have a number of nucleotides divisible by three"><span class="glyphicon glyphicon-question-sign"></span></a>
+        <th>In-frame <a data-toggle="tooltip" title="Sequences which have a number of nucleotides divisible by three"><i class="fa fa-question-circle"></i></a>
         </th>
-        <th>Functional <a data-toggle="tooltip" title="Sequences which are in-frame and contain no stop codons"><span class="glyphicon glyphicon-question-sign"></span></a>
+        <th>Functional <a data-toggle="tooltip" title="Sequences which are in-frame and contain no stop codons"><i class="fa fa-question-circle"></i></a>
         </th>
-        <th>Unique <a data-toggle="tooltip" title="Unique sequences"><span class="glyphicon glyphicon-question-sign"></span></a>
+        <th>Unique <a data-toggle="tooltip" title="Unique sequences"><i class="fa fa-question-circle"></i></a>
         </th>
-        <th>Unique CN &gt; 1 <a data-toggle="tooltip" title="Unique sequences with copy number greater than one"><span class="glyphicon glyphicon-question-sign"></span></a>
+        <th>Unique CN &gt; 1 <a data-toggle="tooltip" title="Unique sequences with copy number greater than one"><i class="fa fa-question-circle"></i></a>
         </th>
-        <th>Clones <a data-toggle="tooltip" title="Number of clones"><span class="glyphicon glyphicon-question-sign"></span></a>
+        <th>Clones <a data-toggle="tooltip" title="Number of clones"><i class="fa fa-question-circle"></i></a>
         </th>
-        <th>Funct. Clones <a data-toggle="tooltip" title="Number of functional clones"><span class="glyphicon glyphicon-question-sign"></span></a>
+        <th>Funct. Clones <a data-toggle="tooltip" title="Number of functional clones"><i class="fa fa-question-circle"></i></a>
         </th>
         <th>
-          <a type="button" class="btn btn-primary btn-xs"
-            href="#/{{ apiPath }}/export/sample/{{ selectedSamples.join(',') }}"
-            target="_blank" ng-disabled="selectedSamples.length == 0">Export...</a>
-        </th>
+        <div class="btn-group">
+          <button type="button" class="btn btn-primary btn-xs dropdown-toggle" data-toggle="dropdown" aria-expanded="false"
+            ng-disabled="selectedSamples.length == 0">
+            Export...<span class="caret"></span>
+          </button>
+          <ul class="dropdown-menu dropdown-menu-right" role="menu">
+            <li><a href="#/{{ apiPath }}/export_sequences/sample/{{ selectedSamples.join(',') }}" target="_blank">Sequences</a></li>
+            <li><a href="#/{{ apiPath }}/export_clones/sample/{{ selectedSamples.join(',') }}" target="_blank">Clones</a></li>
+          </ul>
+        </div>
       </tr>
     </thead>
     <tbody ng-repeat="stat in groupedStats">
@@ -59,7 +66,7 @@
         <td>{{ stat.filters.all.no_result_cnt | number }}</td>
         <td>{{ 100 * stat.filters.all.in_frame_cnt /
           (stat.filters.all.sequence_cnt > 0 ?stat.filters.all.sequence_cnt : 1) | number : 2}}%</td>
-        <td>{{ 100 * stat.filters.all.functional_cnt / 
+        <td>{{ 100 * stat.filters.all.functional_cnt /
           (stat.filters.all.sequence_cnt > 0 ?stat.filters.all.sequence_cnt : 1)| number : 2}}%</td>
         <td>{{ stat.filters.unique.sequence_cnt | number }}</td>
         <td>{{ stat.filters.unique_multiple.sequence_cnt | number }}</td>
@@ -164,7 +171,7 @@
     <li class="pull-right">
         <button type="button" class="btn btn-primary pull-right"
             ng-click="showPartials = false; updateAll()" ng-show="showPartials">
-          <i class="fa fa-minus-square-o fa-fw"></i> Exclude Partial Reads 
+          <i class="fa fa-minus-square-o fa-fw"></i> Exclude Partial Reads
         </button>
         <button type="button" class="btn btn-primary pull-right"
             ng-click="showPartials = true; updateAll()" ng-show="!showPartials">
@@ -188,7 +195,7 @@
       filter="clones_all"
       cnt="cnts.clones_all"
       api-path="apiPath"
-      heatmap="vHeatmapClonesall"
+      heatmap="vHeatmap_clones_all"
       charts="charts.clones_all"
       samples="sampleIds"></filtered-panel>
 
@@ -196,7 +203,7 @@
       filter="clones_functional"
       cnt="cnts.functional"
       api-path="apiPath"
-      heatmap="vHeatmapClonesfunctional"
+      heatmap="vHeatmap_clones_functional"
       charts="charts.clones_functional"
       samples="sampleIds"></filtered-panel>
 
@@ -204,7 +211,7 @@
       filter="clones_nonfunctional"
       cnt="cnts.clones_nonfunctional"
       api-path="apiPath"
-      heatmap="vHeatmapClonesnonfunctional"
+      heatmap="vHeatmap_clones_nonfunctional"
       charts="charts.clones_nonfunctional"
       samples="sampleIds"></filtered-panel>
 
@@ -213,35 +220,35 @@
       cnt="cnts.unique_multiple"
       api-path="apiPath"
       filter="unique_multiple"
-      heatmap="vHeatmapUniquemultiple"
+      heatmap="vHeatmap_unique_multiple"
       charts="charts.unique_multiple"></filtered-panel>
 
     <filtered-panel
       filter="unique"
       cnt="cnts.unique"
       api-path="apiPath"
-      heatmap="vHeatmapUnique"
+      heatmap="vHeatmap_unique"
       charts="charts.unique"></filtered-panel>
 
     <filtered-panel
       filter="functional"
       cnt="cnts.functional"
       api-path="apiPath"
-      heatmap="vHeatmapFunctional"
+      heatmap="vHeatmap_functional"
       charts="charts.functional"></filtered-panel>
 
     <filtered-panel
       filter="nonfunctional"
       cnt="cnts.nonfunctional"
       api-path="apiPath"
-      heatmap="vHeatmapNonfunctional"
+      heatmap="vHeatmap_nonfunctional"
       charts="charts.nonfunctional"></filtered-panel>
 
     <filtered-panel
       filter="all"
       cnt="cnts.all"
       api-path="apiPath"
-      heatmap="vHeatmapAll"
+      heatmap="vHeatmap_all"
       charts="charts.all"></filtered-panel>
   </div>
 </div>
@@ -260,7 +267,7 @@
 
     <button type="button" class="btn btn-primary"
         ng-click="showPartials = false; updateAll(true)" ng-show="showPartials">
-      <i class="fa fa-minus-square-o fa-fw"></i> Exclude Partial Reads 
+      <i class="fa fa-minus-square-o fa-fw"></i> Exclude Partial Reads
     </button>
     <button type="button" class="btn btn-primary"
         ng-click="showPartials = true; updateAll(true);" ng-show="!showPartials">

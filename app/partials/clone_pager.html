@@ -3,7 +3,6 @@
     <table class="table table-bordered">
       <thead>
         <tr class="active">
-          <th></th>
           <th>Total Seqs.</th>
           <th>Unique Seqs.</th>
           <th>ID</th>
@@ -12,49 +11,83 @@
           <th>J Gene</th>
           <th>CDR3 Length</th>
           <th>CDR3 AA</th>
-          <th>Present in Sample #'s</th>
+          <th>Samples Present</th>
+          <th></th>
         </tr>
       </thead>
       <tbody>
         <tr>
           <td colspan="10" class="text-center" ng-show="!clones">Loading <i class="fa fa-spinner fa-spin"></i></td>
         </tr>
-        <tr ng-repeat="freq in clones">
-          <td><input type="checkbox" checklist-model="checked_clones" checklist-value="freq.compareStr"></input></td>
-          <td>{{ freq.total_sequences | number }}</td>
-          <td>{{ freq.unique_sequences | number }}</td>
-          <td>{{ freq.clone.id }}</td>
-          <td>{{ freq.clone.group.subject.identifier}} ({{ freq.clone.group.subject.study.name}} Study)</td>
-          <td>{{ freq.clone.group.v_gene }}</td>
-          <td>{{ freq.clone.group.j_gene }}</td>
-          <td>{{ freq.clone.group.cdr3_num_nts | number }}</td>
-          <td ng-bind-html="freq.clone.group.cdr3_aa | aminoAcid" class="text-mono"></td>
-          <td width="20%">
-            <span ng-repeat="sid in freq.samples | slice:0:5"
-                  >
-                  <a href="#/{{ apiPath }}/samples/{{ sid }}" target="_new" 
-                    ng-class="samples.indexOf(sid) >= 0 ? '' : 'faded'">{{ sid }}</a><span ng-hide="$last">,</span>
-            </span>
-            <span ng-show="freq.samples.length > 5">
-              <a ng-click="showMore=!showMore" ng-show="!showMore">({{ freq.samples.length - 5 }} more...)</a>
-            </span>
-            <span ng-repeat="sid in freq.samples | slice:5"
-                  ng-show="showMore">
-                  <a href="#/{{ apiPath }}/samples/{{ sid }}" target="_new"
-                    ng-class="samples.indexOf(sid) >= 0 ? '' : 'faded'">{{ sid }}</a><span ng-hide="$last">,</span>
-            </span>
-            <span ng-show="showMore">
-              <a ng-click="showMore=!showMore">(Hide)</a>
-            </span>
-          </td>
-        </tr>
-        <tr>
-          <td colspan="10">
-            <button ng-click="viewClones()" class="btn btn-primary btn-lg btn-pad" ng-disabled="checked_clones.length == 0">Show Selected</button>
-            <div style="float: right"><a href="{{ exportUrl }}" target="_blank" class="btn btn-info">Export All
-            (csv)</a></div>
-          </td>
-        </tr>
+        <tbody ng-repeat="freq in clones">
+          <tr>
+            <td>{{ freq.total_sequences | number }}</td>
+            <td>{{ freq.unique_sequences | number }}</td>
+            <td>{{ freq.clone.id }}</td>
+            <td>{{ freq.clone.group.subject.identifier}} ({{ freq.clone.group.subject.study.name}} Study)</td>
+              <td>
+                <span ng-show="!full">
+                  {{ freq.clone.group.v_gene | geneTies }}
+                </span>
+                <span ng-show="full">{{ freq.clone.group.v_gene }}</span>
+                <a ng-click="full=!full"><i class="fa fa-ellipsis-h"></i></a>
+              </td>
+            <td>{{ freq.clone.group.j_gene }}</td>
+            <td>{{ freq.clone.group.cdr3_num_nts | number }}</td>
+            <td ng-bind-html="freq.clone.group.cdr3_aa | aminoAcid" class="text-mono"></td>
+            <td>
+              <a ng-click="showSamples=!showSamples">
+              {{ freq.selected_samples.length }} selected
+              <span ng-show="freq.other_samples.length > 0">
+                (plus {{ freq.other_samples.length }} others)
+              </span> <i class="fa fa-angle-down fa-lg"></i></a>
+            </td>
+            <td>
+              <a href="#/{{ apiPath }}/clone_compare/{{ freq.clone.id }}"
+              target="_blank">View <i class="fa fa-angle-right fa-lg"></i></a>
+            </td>
+          </tr>
+          <tr ng-show="showSamples">
+            <td colspan="10">
+              <table class="table table-condensed table-bordered">
+                <tr>
+                  <th>Sample ID</th>
+                  <th>Sample Name</th>
+                  <th>Total Seqs.</th>
+                  <th>Unique Seqs.</th>
+                </tr>
+                <tr class="active">
+                  <th colspan="4" class="text-center">Selected Samples</th>
+                </tr>
+                <tr ng-repeat="sample in freq.selected_samples">
+                  <td>{{ sample.id }}</td>
+                  <td>
+                    <a href="#/{{ apiPath }}/samples/{{ sample.id }}" target="_new">
+                      {{ sample.name }}
+                    </a>
+                  </td>
+                  <td>{{ sample.total_sequences }}</td>
+                  <td>{{ sample.unique_sequences }}</td>
+                </tr>
+                <tbody ng-show="freq.other_samples.length > 0">
+                  <tr class="active">
+                    <th colspan="4" class="text-center">Other Samples</th>
+                  </tr>
+                  <tr ng-repeat="sample in freq.other_samples">
+                    <td>{{ sample.id }}</td>
+                    <td>
+                      <a href="#/{{ apiPath }}/samples/{{ sample.id }}" target="_new">
+                        {{ sample.name }}
+                      </a>
+                    </td>
+                    <td>{{ sample.total_sequences }}</td>
+                    <td>{{ sample.unique_sequences }}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </td>
+          </tr>
+        </tbody>
         <tr>
           <td colspan="10">
             <ul class="pager">

@@ -59,11 +59,22 @@
                     !$scope.cloneInfo[cloneId].showFanouts);
             }
 
+            $scope.setThreshold = function(threshold) {
+                $scope.threshold = threshold;
+            }
+
             var init = function() {
                 $scope.showLoader();
                 $scope.$parent.page_title = 'Clone Comparison';
                 $scope.api = APIService.getUrl();
                 $scope.pages = {};
+                $scope.cutoffs = [
+                    ['All', 0],
+                    ['&ge; 20%', 20],
+                    ['&ge; 80%', 80],
+                    ['&ge; 100%', 100]
+                ];
+                $scope.setThreshold(0);
 
                 $http({
                     method: 'GET',

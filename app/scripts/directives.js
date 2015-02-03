@@ -49,22 +49,9 @@
                     updateClone($scope.filter, ++$scope.page);
                 }
 
-                $scope.viewClones = function() {
-                    $location.path($scope.apiPath + '/clone_compare/' +
-                        $scope.checked_clones.join());
-                }
-
                 var init = function() {
                     updateClone($scope.filter, 1);
                     $scope.pageable = false;
-                    $scope.exportUrl = APIService.getUrl() + 'data/';
-                    if (typeof $scope.subject == 'undefined') {
-                        $scope.exportUrl += 'clone_overlap/' + $scope.filter +
-                            '/' + $scope.samples.join(',');
-                    } else {
-                        $scope.exportUrl += 'subject_clones/' + $scope.filter +
-                            '/' + $scope.subject;
-                    }
                 }
                 init();
             }

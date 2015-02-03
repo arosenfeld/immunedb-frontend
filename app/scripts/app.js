@@ -42,9 +42,13 @@
                     templateUrl: 'views/sequences.html',
                     controller: 'SequencesCtrl',
                 })
-                .when('/:apiPath/export/:type/:id', {
-                    templateUrl: 'views/export.html',
-                    controller: 'ExportCtrl',
+                .when('/:apiPath/export_clones/:type/:id', {
+                    templateUrl: 'views/export_clones.html',
+                    controller: 'ExportClonesCtrl',
+                })
+                .when('/:apiPath/export_sequences/:type/:id', {
+                    templateUrl: 'views/export_sequences.html',
+                    controller: 'ExportSequencesCtrl',
                 })
                 .when('/:apiPath', {
                    redirectTo: function(routeParams, path, search) {

@@ -1,7 +1,7 @@
 <div class="header">
   <ol class="breadcrumb">
-    <li><a href="#/{{ apiPath }}/sequences"><i class="fa fa-sitemap
-    fa-fw"></i>Sequences</a></li>
+    <li><i class="fa fa-sitemap fa-fw"></i> <a href="#/{{ apiPath
+    }}/sequences">Sequences</a></li>
   </ol>
 </div>
 <div>
@@ -16,12 +16,12 @@
           <input  class="form-control" ng-model="filter.seq_id" id="id_filter" placeholder="Sequence ID">
         </div>
         <div class="form-group">
-          <label class="sr-only" for="v_call_filter">V-Gene</label>
-          <input type="text" class="form-control" ng-model="filter.v_call" id="v_call_filter" placeholder="V-Gene">
+          <label class="sr-only" for="v_gene_filter">V-Gene</label>
+          <input type="text" class="form-control" ng-model="filter.v_gene" id="v_gene_filter" placeholder="V-Gene">
         </div>
         <div class="form-group">
-          <label class="sr-only" for="j_call_filter">J-Gene</label>
-          <input type="text" class="form-control" ng-model="filter.j_call" id="j_call_filter" placeholder="J-Gene">
+          <label class="sr-only" for="j_gene_filter">J-Gene</label>
+          <input type="text" class="form-control" ng-model="filter.j_gene" id="j_gene_filter" placeholder="J-Gene">
         </div>
         <div class="form-group">
           <label class="sr-only" for="sample_id_filter">Sample ID</label>
@@ -46,14 +46,14 @@
           <div class="checkbox">
             <label>
               <input type="checkbox" class="form-control"
-              ng-model="filter.show_r1" id="show_r1"> Show R1 Sequences
+              ng-model="filter.show_partials" id="show_partials"> Show Partial Sequences
             </label>
           </div>
           <div class="checkbox">
             <label>
               <input type="checkbox" class="form-control"
               ng-model="filter.show_indel" id="show_indel"> Show Probably Indels /
-              Misalignments 
+              Misalignments
             </label>
           </div>
         </div>
@@ -85,26 +85,26 @@
           </td>
         </tr>
         <tr ng-repeat="seq in sequences" ng-show="sequences.length > 0"
-          ng-class="seq.levenshtein_dist ? 'danger' : ''">
+          ng-class="seq.probable_indel_or_misalign ? 'danger' : ''">
           <td>{{ seq.seq_id }}</td>
           <td><a href="#/{{ apiPath }}/subject/{{ seq.sample.subject.id }}"
             target="_blank">{{ seq.sample.subject.identifier }}</a></td>
           <td>
             <span ng-show="!full">
-              {{ seq.v_call | geneTies }}
+              {{ seq.v_gene | geneTies }}
             </span>
-            <span ng-show="full">{{ seq.v_call }}</span>
+            <span ng-show="full">{{ seq.v_gene }}</span>
             <a ng-click="full=!full"><i class="fa fa-ellipsis-h"></i></a>
           </td>
-          <td>{{ seq.j_call }}</td>
-          <td>{{ seq.cdr3_length }}</td>
+          <td>{{ seq.j_gene }}</td>
+          <td>{{ seq.junction_num_nts }}</td>
           <td ng-bind-html="seq.junction_aa | aminoAcid" class="text-mono"></td>
           <td>{{ seq.alignment }}</td>
           <td>{{ seq.functional ? 'Yes' : 'No' }}</td>
           <td>{{ seq.copy_number }}</td>
           <td>
             <a href="#/{{ apiPath }}/sequence/{{ seq.sample.id }}/{{ seq.seq_id }}" target="_blank">View
-            Sequence <span class="glyphicon glyphicon-chevron-right"></span></a>
+            <i class="fa fa-angle-right fa-lg"></i></a>
           </td>
         </tr>
         <tr ng-show="sequences.length > 0">

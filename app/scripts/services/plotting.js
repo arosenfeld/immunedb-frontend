@@ -34,7 +34,11 @@
 
                         loading: false,
                         series: all_series,
-                        key: key
+                        key: key,
+
+                        exporting: {
+                            scale: 4,
+                        },
                     }
                 },
 
@@ -96,8 +100,8 @@
                             formatter: function() {
                                 return '<b>Sample:</b> ' + data['y_categories'][
                                         this.point.y] + '<br />' +
-                                    '<b>Gene:</b> ' + data['x_categories'][this
-                                        .point.x] + '<br />' +
+                                    '<b>Gene:</b> ' + $filter('geneTies')(data['x_categories'][this
+                                        .point.x]) + '<br />' +
                                     '<b>% of Sample:</b> ' +
                                     Math.pow(Math.E, this.point.value).toFixed(2) + '%';
                             }
@@ -105,10 +109,17 @@
 
                         series: [{
                             data: data['data'].map(function(point) {
-                                return [point[0], point[1], Math.log(point[2])];
+                                if (point[2] != 'none') {
+                                    return [point[0], point[1], Math.log(point[2])];
+                                }
+                                return [point[0], point[1], 0];
                             }),
                             turboThreshold: 0
-                        }]
+                        }],
+
+                        exporting: {
+                            sourceWidth: 2000
+                        },
                     };
                 },
 

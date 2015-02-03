@@ -58,13 +58,12 @@
                 return def.promise;
             }
 
-            var reflowCharts = function() {
-                angular.forEach(filters, function(filter, j) {
+            var reflowCharts = function(doV) {
+                angular.forEach(filters, function(filter) {
                     // v_call heatmap for the filter
-                    $('#vHeatmap' + (filter.charAt(0).toUpperCase() +
-                        filter.slice(1)).replace('_',
-                        ''))
-                        .highcharts().reflow();
+                    if (doV) {
+                        $('#vHeatmap_' + filter).highcharts().reflow();
+                    }
                     // All column plots for the filter
                     angular.forEach(columnPlots, function(plot, i) {
                         $('#' + plot.key + '_' +
@@ -93,7 +92,7 @@
                 });
             }
 
-            $scope.updateAll = function(reflow) {
+            $scope.updateAll = function() {
                 // Group the stats by sample ID, then filter
                 var outlierKey = $scope.showOutliers ? 'outliers' : 'no_outliers';
                 var readKey = $scope.showPartials ? 'all_reads' : 'full_reads';
@@ -115,20 +114,11 @@
                     // v_call heatmap for the filter
                     getHeatmap($scope.sampleIds, filter)
                         .then(function(result) {
-                            var field = (filter.charAt(0).toUpperCase() +
-                                filter.slice(1)).replace('_',
-                                '');
-                            $('#vHeatmap' + field).highcharts(
+                            $('#vHeatmap_' + filter).highcharts(
                                 plotting.createHeatmap(result, 'V Gene Utilization'));
                     });
                     createColumns(filter);
                 });
-
-                if (reflow) {
-                    $timeout(function() {
-                        reflowCharts()
-                    }, 0);
-                }
             }
 
             $scope.addPin = function() {
@@ -152,7 +142,7 @@
                         $(this).tab('show');
                     }
 
-                    reflowCharts();
+                    reflowCharts(true);
                 });
 
                 // Enable help tooltips
@@ -173,6 +163,7 @@
                     $scope.showPartials = false;
                     $scope.selectedSamples = [];
                     $scope.updateAll();
+                    $timeout(reflowCharts, 0);
                     $scope.hideLoader();
                 }).error(function(data, status, headers, config) {
                     $scope.showError();
