@@ -74,6 +74,18 @@
       <tr class="active">
         <th colspan="4" class="text-center">Export Fields</th>
       </tr>
+    <tr>
+      <td colspan="4">
+          <div class="checkbox">
+            <label>
+              <input type="checkbox" ng-model="include_total_row"> <strong>Include
+              Total Rows:</strong><p> After each set of sample rows for each
+              clone, add a row totalling the unique and total sequences
+            </label>
+          </div>
+      </td>
+    </tr>
+
       <tr>
         <th></th>
         <th>Header Text</th>
@@ -95,7 +107,8 @@
           <a class="btn btn-success"
             href="{{ apiUrl }}data/export_clones/{{ type | lowercase }}/{{
               id }}/?fields={{ checked_fields.join(',') }}&duplicates={{
-                duplicates }}&noresults={{ noresults }}"
+                duplicates }}&noresults={{ noresults }}&include_total_row={{
+                  include_total_row }}"
             target="_blank">Download</a>
         </td>
       </tr>
