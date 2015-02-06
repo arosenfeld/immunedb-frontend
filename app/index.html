@@ -67,7 +67,7 @@
             </div>
           </li>
           <li class="version">
-            <i class="fa fa-info-circle fa-fw"></i> v6.0.2, release
+            <i class="fa fa-info-circle fa-fw"></i> v6.0.3, release
           </li>
         </ul>
 
@@ -93,6 +93,11 @@
               <li>
                 <a href="#/{{ apiPath }}/pins/"
                   ng-class="menuClass('pins')"><i class="fa fa-thumb-tack fa-fw"></i>Pinned Pages</a>
+              </li>
+              <li>
+                <a href="#/{{ apiPath }}/modification_log/"
+                  ng-class="menuClass('modification_log')"><i class="fa
+                  fa-pencil-square-o fa-fw"></i>Modification Log</a>
               </li>
             </ul>
           </div>
@@ -158,6 +163,7 @@
     <script src="scripts/controllers/subjects.js"></script>
     <script src="scripts/controllers/subject.js"></script>
     <script src="scripts/controllers/pins.js"></script>
+    <script src="scripts/controllers/modification_log.js"></script>
     <script src="scripts/controllers/high_chart.js"></script>
 
     <script src="scripts/vendor/highcharts.js"></script>

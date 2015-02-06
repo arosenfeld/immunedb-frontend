@@ -1,0 +1,31 @@
+<div class="header">
+  <ol class="breadcrumb">
+    <li><i class="fa fa-pencil-square-o fa-fw"></i> <a href="#/{{ apiPath
+    }}/modifications">Modification Log</a></li>
+  </ol>
+</div>
+<h3>Modification Log <small>The list of manual modifications to sequences and
+clones.</small></h3>
+<table class="table table-bordered">
+  <thead>
+    <tr class="info">
+      <th>Timestamp (UTC)</th>
+      <th>Action</th>
+      <th>Information</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr ng-repeat="mod in modifications">
+      <td style="width:200px">{{ mod.datetime }}</td>
+      <td class="text-mono-thin">{{ mod.action_type }}</td>
+      <td class="text-mono-thin">
+        <ul>
+          <li ng-repeat="(key, value) in mod.info">
+            <strong>{{ key }}: </strong> {{ value }}
+          </li>
+        </ul>
+      </td>
+    </tr>
+    </tr>
+  </tbody>
+</table>

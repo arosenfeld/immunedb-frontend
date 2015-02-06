@@ -2,9 +2,9 @@
     'use strict';
 
     angular.module('ImmunologyApp').controller('MainCtrl', ['$scope', '$log',
-            '$rootScope', '$route', '$routeParams', '$location', 'apis', 
+            '$rootScope', '$route', '$routeParams', '$location', 'apis',
             'APIService', 'PinService',
-        function($scope, $log, $rootScope, $route, $routeParams, $location, 
+        function($scope, $log, $rootScope, $route, $routeParams, $location,
                 apis, APIService, PinService) {
             var activeMap = {
                 'studies': 'studies',
@@ -15,6 +15,8 @@
                 'sequences': 'sequences',
                 'subjects': 'subjects',
                 'subject': 'subjects',
+                'pins': 'pins',
+                'modification_log': 'modification_log'
             };
 
             var getPage = function() {

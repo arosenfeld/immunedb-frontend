@@ -50,6 +50,10 @@
                     templateUrl: 'views/export_sequences.html',
                     controller: 'ExportSequencesCtrl',
                 })
+                .when('/:apiPath/modification_log', {
+                    templateUrl: 'views/modification_log.html',
+                    controller: 'ModificationLogCtrl',
+                })
                 .when('/:apiPath', {
                    redirectTo: function(routeParams, path, search) {
                        return routeParams.apiPath + '/studies';
