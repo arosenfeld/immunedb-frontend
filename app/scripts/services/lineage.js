@@ -40,7 +40,7 @@
                             }
                             return 2 * (1 + Math.log(cn));
                         }
-                         
+
                         var tree = d3.layout.tree().nodeSize([50, 50]);
                         if (hideLargeLeaves) {
                             tree.children(function(d) {
@@ -56,20 +56,21 @@
                             .attr('class', 'd3-tip')
                             .offset([-10, 0])
                             .html(function(d) {
-                                var label = '<span style="color: #a0a0a0">Copy Number: </span>' + d.data.copy_number + '<br/>';
-                                label += '<span style="color: #a0a0a0">Tissue(s): </span>' + d.data.tissues + '<br/>';
-                                if (d.data.subsets.length > 0) {
-                                    label += '<span style="color: #a0a0a0">Subsets(s): </span>' + d.data.subsets + '<br/>';
-                                }
-                                label += '<span style="color: #a0a0a0">Seq ID(s): </span><br/>';
-                                if (d.data.seq_ids.length > 0) {
+                                var label = '';
+                                if (d.data.seq_ids.length == 0){
+                                    label += 'Inferred Sequence<br/>'
+                                } else {
+                                    label += '<span style="color: #a0a0a0">Copy Number: </span>' + d.data.copy_number + '<br/>';
+                                    label += '<span style="color: #a0a0a0">Tissue(s): </span>' + d.data.tissues + '<br/>';
+                                    if (d.data.subsets.length > 0) {
+                                        label += '<span style="color: #a0a0a0">Subsets(s): </span>' + d.data.subsets + '<br/>';
+                                    }
+                                    label += '<span style="color: #a0a0a0">Seq ID(s): </span><br/>';
                                     angular.forEach(d.data.seq_ids, function(val, key) {
                                         label += val + '<br/>';
                                     });
-                                } else {
-                                    label += 'Inferred Sequence<br/>';
                                 }
-                                label += '<span style="color:#a0a0a0">Mutations: </span>: <br/>'
+                                label += '<span style="color:#a0a0a0">Mutations: </span><br/>'
                                 angular.forEach(d.data.mutations, function(val, key) {
                                     label += val.from + ' ' + val.pos + ' ' + val.to +
                                         '<br/>';
