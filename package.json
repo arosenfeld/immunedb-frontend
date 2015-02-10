@@ -1,6 +1,6 @@
 {
   "name": "simlab_database",
-  "version": "6.0.4",
+  "version": "6.0.5",
   "dependencies": {},
   "devDependencies": {
     "grunt": "^0.4.1",
