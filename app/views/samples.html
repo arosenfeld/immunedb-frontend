@@ -167,7 +167,6 @@
     <li ng-class="cnts.all == 0 ? 'disabled' : ''">
       <a href="#all" role="tab" data-toggle="tab" ng-click="filter='All'"><span class="badge pull-right">{{ cnts.all | formatNumber }}</span> All</a>
     </li>
-
     <li class="pull-right">
         <button type="button" class="btn btn-primary pull-right"
             ng-click="showPartials = false; updateAll()" ng-show="showPartials">
@@ -187,6 +186,19 @@
             ng-click="showOutliers = true; updateAll()" ng-show="!showOutliers">
           <i class="fa fa-plus-square-o fa-fw"></i> Include Outliers
         </button>
+    </li>
+    <li class="pull-right">
+        <div class="btn-group">
+          <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+            Group By <span class="caret"></span>
+          </button>
+          <ul class="dropdown-menu" role="menu">
+            <li><a ng-click="setGrouping('name'); updateAll();">Sample Name</a></li>
+            <li><a ng-click="setGrouping('tissue'); updateAll();">Tissue</a></li>
+            <li><a ng-click="setGrouping('subset'); updateAll();">Subset</a></li>
+            <li><a ng-click="setGrouping('subject'); updateAll();">Subject</a></li>
+          </ul>
+        </div>
     </li>
   </ul>
 

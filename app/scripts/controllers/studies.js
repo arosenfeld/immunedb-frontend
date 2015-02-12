@@ -11,10 +11,18 @@
                 $location.path($scope.apiPath + '/samples/' + $scope.checked_samples.join());
             }
 
-            $scope.checkAll = function(study_id) {
-                angular.forEach($scope.rows[study_id].samples, function(value, key) {
-                    $scope.checked_samples.push(value.id);
-                });
+            $scope.checkAll = function(type, study_id, date) {
+                    angular.forEach($scope.rows[study_id].samples, function(value, key) {
+                        if ($scope.checked_samples.indexOf(value.id) <= 0) {
+                            if (type == 'study') {
+                                $scope.checked_samples.push(value.id);
+                            } else if (type == 'date') {
+                                if (value.date == date) {
+                                    $scope.checked_samples.push(value.id);
+                                }
+                            }
+                        }
+                    });
             }
 
             $scope.rowClass = function(sample_status) {

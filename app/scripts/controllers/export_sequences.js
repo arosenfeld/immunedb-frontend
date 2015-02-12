@@ -36,6 +36,7 @@
                 'j_gene',
                 'cdr3_nt',
                 'cdr3_aa',
+                'cdr3_num_nts',
                 'sequence_filled',
                 'germline',
                 'clone_id',
@@ -224,6 +225,11 @@
                     'header': 'cdr3_aa',
                     'name': 'CDR3 Amino Acids',
                     'desc': 'The amino acids comprising the CDR3.  Out of frame bases are ignored.',
+                },
+                {
+                    'header': 'cdr3_num_nts',
+                    'name': 'CDR3 Length (in NTs)',
+                    'desc': 'Number of bases in the CDR3',
                 },
                 {
                     'header': 'gap_method',

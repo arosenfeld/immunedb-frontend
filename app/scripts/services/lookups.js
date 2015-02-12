@@ -11,6 +11,11 @@
             '#000080', '*': '#a0a0a0',
         }
 
+        var grpColors = ["#7C278F", "#2E7D2B", "#A0251C", "#64BAE4", "#FAA497",
+            "#03B499", "#FB89CD", "#BAA855", "#671D39", "#A39CF6", "#F3842F", "#75460A",
+            "#926E7E", "#29367B", "#DB28B7", "#8A54E0", "#B92062", "#7FCC83", "#F05A5C",
+            "#40989E", "#562A1C", "#3D88CE", "#E16F84", "#878A12", "#5F4FBC"];
+
         var dnaToColor = {
             'A': '#ff0000',
             'T': '#0000ff',
@@ -63,9 +68,9 @@
             var g = (hash & 0x00FF00) >> 8;
             var b = hash & 0x0000FF;
             return "#" + ("0" + r.toString(16)).substr(-2) + ("0" + g.toString(16)).substr(-2) + ("0" + b.toString(16)).substr(-2);
-        }            
+        }
 
         return { dnaColor: dnaColor, aaColor: aaColor, aaLookup: aaLookup,
-                 attribToColor: attribToColor };
+                 attribToColor: attribToColor, grpColors: grpColors };
     }]);
 })();

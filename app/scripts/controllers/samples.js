@@ -92,13 +92,42 @@
                 });
             }
 
-            $scope.updateAll = function() {
+            $scope.setGrouping = function(groupKey) {
+                $scope.groupKey = groupKey;
+                $scope.sampleGroups = [];
+                angular.forEach($scope.groupedStats, function(stat) {
+                    var info = stat.sample;
+                    var added = false;
+                    angular.forEach($scope.sampleGroups, function(a) {
+                        if (groupKey == 'subject') {
+                            var correctGroup = !added && a[0].subject.identifier ==
+                            info.subject.identifier;
+                        } else {
+                            var correctGroup = !added && a[0][groupKey] ==
+                            info[groupKey];
+                        }
+                        if (correctGroup) {
+                            a.push(info);
+                            added = true;
+                        }
+                    });
+                    if (!added) {
+                        $scope.sampleGroups.push([info]);
+                    }
+                });
+            }
+
+            $scope.updateAll = function(reGroup) {
                 // Group the stats by sample ID, then filter
                 var outlierKey = $scope.showOutliers ? 'outliers' : 'no_outliers';
                 var readKey = $scope.showPartials ? 'all_reads' : 'full_reads';
                 $scope.sampleIds = $routeParams['sampleIds'].split(',');
                 $scope.groupedStats = $scope.allData[outlierKey][readKey]['stats'];
                 $scope.cnts = $scope.allData[outlierKey][readKey]['counts'];
+
+                if (reGroup) {
+                    $scope.setGrouping($scope.groupKey);
+                }
 
                 // Determine if any requested IDs are not available
                 $scope.missing =
@@ -110,12 +139,22 @@
                 // Create all the charts
                 $scope.plottable = angular.fromJson($scope.groupedStats);
                 $scope.charts = {};
+                var groupedSamples = $scope.sampleGroups.reduce(function(a, b) {
+                    return a.concat(b);
+                });
+
                 angular.forEach(filters, function(filter, j) {
                     // v_call heatmap for the filter
                     getHeatmap($scope.sampleIds, filter)
                         .then(function(result) {
+                            result['y_categories'] = groupedSamples.map(
+                                function(e) {
+                                    return e.name;
+                                }
+                            );
                             $('#vHeatmap_' + filter).highcharts(
-                                plotting.createHeatmap(result, 'V Gene Utilization'));
+                                plotting.createHeatmap(result, 'V Gene Utilization',
+                                $scope.groupKey == 'name' ? false : $scope.sampleGroups));
                     });
                     createColumns(filter);
                 });
@@ -162,7 +201,8 @@
                     $scope.showOutliers = false;
                     $scope.showPartials = false;
                     $scope.selectedSamples = [];
-                    $scope.updateAll();
+                    $scope.groupKey = 'name';
+                    $scope.updateAll(true);
                     $timeout(reflowCharts, 0);
                     $scope.hideLoader();
                 }).error(function(data, status, headers, config) {
