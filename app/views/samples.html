@@ -190,7 +190,7 @@
     <li class="pull-right">
         <div class="btn-group">
           <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-            Group By <span class="caret"></span>
+            Grouped by {{ grouping == 'name' ? 'sample' : grouping }} <span class="caret"></span>
           </button>
           <ul class="dropdown-menu" role="menu">
             <li><a ng-click="grouping = 'name'; doRequest();">Sample</a></li>

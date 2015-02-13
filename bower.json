@@ -1,6 +1,6 @@
 {
   "name": "simlab_database",
-  "version": "6.0.5",
+  "version": "6.1.0",
   "dependencies": {
     "angular": "~1.2.0",
     "json3": "~3.3.1",

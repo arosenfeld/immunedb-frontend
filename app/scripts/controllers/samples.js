@@ -46,9 +46,9 @@
                 var def = $q.defer();
                 $http({
                     method: 'GET',
-                    url: APIService.getUrl() + 'v_usage/' + filterType + '/' +
-                        $scope.showOutliers + '/' + !$scope.showPartials +
-                        '/' + samples.join(',')
+                    url: APIService.getUrl() + 'v_usage/' + samples.join(',') +
+                        '/' + filterType + '/' + $scope.showOutliers + '/' +
+                        $scope.showPartials + '/' + $scope.grouping
                 }).success(function(data, status) {
                     def.resolve(data);
                 }).error(function(data, status, headers, config) {
@@ -131,7 +131,8 @@
                     getHeatmap($scope.sampleIds, filter)
                         .then(function(result) {
                             $('#vHeatmap_' + filter).highcharts(
-                                plotting.createHeatmap(result, 'V Gene Utilization'));
+                                plotting.createHeatmap(result, 'V Gene Utilization',
+                                $scope.grouping != 'name'));
                     });
                     createColumns(filter);
                 });

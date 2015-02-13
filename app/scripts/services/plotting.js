@@ -43,11 +43,11 @@
                     }
                 },
 
-                createHeatmap: function(data, chartTitle) {
+                createHeatmap: function(data, chartTitle, color) {
                     return {
                         chart: {
                             type: 'heatmap',
-                            height: 250 + data['y_categories'].length * 50
+                            height: 250 + data['y_categories'].length * 25
                         },
 
                         credits: {
@@ -61,7 +61,7 @@
                         xAxis: {
                             categories: data['x_categories'],
                             labels: {
-                                rotation: -45,
+                                rotation: -90,
                                 formatter: function() {
                                     return $filter('geneTies')(this.value);
                                 },
@@ -73,6 +73,17 @@
                             categories: data['y_categories'],
                             reversed: true,
                             title: 'Sample ID',
+                            labels: {
+                                formatter: function() {
+                                    if (color) {
+                                        var c =
+                                            lookups.grpColors[data['lookup'][this.value] % lookups.grpColors.length];
+                                            return '<span style="color: ' + c + '">' +
+                                            this.value + '</span>';
+                                    }
+                                    return this.value;
+                                },
+                            },
                         },
 
                         colorAxis: {
@@ -85,7 +96,7 @@
                         },
 
                         legend: {
-                            enabled: true,
+                            enabled: false,
                             align: 'right',
                             layout: 'vertical',
                             margin: 0,
@@ -104,14 +115,15 @@
                                     '<b>Gene:</b> ' + $filter('geneTies')(data['x_categories'][this
                                         .point.x]) + '<br />' +
                                     '<b>% of Sample:</b> ' +
-                                    this.point.value.toFixed(2) + '%';
+                                    Math.exp(this.point.value).toFixed(2) + '%';
                             }
                         },
 
                         series: [{
                             data: data['data'].map(function(point) {
                                 if (point[2] != 'none') {
-                                    return point;
+                                    return [point[0], point[1],
+                                    Math.log(point[2])];
                                 }
                                 return [point[0], point[1], 0];
                             }),
