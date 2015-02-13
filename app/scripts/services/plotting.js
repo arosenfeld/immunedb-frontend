@@ -43,7 +43,7 @@
                     }
                 },
 
-                createHeatmap: function(data, chartTitle, sampleGroups) {
+                createHeatmap: function(data, chartTitle) {
                     return {
                         chart: {
                             type: 'heatmap',
@@ -73,28 +73,6 @@
                             categories: data['y_categories'],
                             reversed: true,
                             title: 'Sample ID',
-                            labels: {
-                                formatter: function() {
-                                    if (sampleGroups) {
-                                        var grp = false;
-                                        var val = this.value;
-                                        angular.forEach(sampleGroups, function(g, i) {
-                                            var test = g.map(function(e) {
-                                                return e['name'];
-                                            });
-                                            if (!grp && test.indexOf(val) >= 0) {
-                                                grp = i;
-                                            }
-                                        });
-                                        return '<span style="color: ' +
-                                        lookups.grpColors[grp %
-                                            lookups.grpColors.length] + '">' + this.value +
-                                            '</span>';
-                                    } else {
-                                        return this.value;
-                                    }
-                                },
-                            }
                         },
 
                         colorAxis: {
@@ -146,14 +124,12 @@
                     };
                 },
 
-                createSeries: function(plottable, seriesKey, type) {
+                createSeries: function(data, seriesKey, type) {
                     var series = [];
-                    angular.forEach(plottable, function(plot, i) {
-                        var data = angular.fromJson(
-                            plot['filters'][type][seriesKey]);
+                    angular.forEach(data, function(plot, name) {
                         series.push({
-                            name: plot['sample']['name'],
-                            data: data,
+                            name: name,
+                            data: plot[type][seriesKey],
                             turboThreshold: 0
                         });
                     });

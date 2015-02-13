@@ -57,21 +57,21 @@
         </div>
       </tr>
     </thead>
-    <tbody ng-repeat="stat in groupedStats">
+    <tbody ng-repeat="sample in samples">
       <tr>
-        <td>{{ stat.sample.id }}</td>
-        <td>{{ stat.sample.name }}</td>
-        <td>{{ stat.filters.all.sequence_cnt + stat.filters.all.no_result_cnt | number }}</td>
-        <td>{{ stat.filters.all.sequence_cnt | number }}</td>
-        <td>{{ stat.filters.all.no_result_cnt | number }}</td>
-        <td>{{ 100 * stat.filters.all.in_frame_cnt /
-          (stat.filters.all.sequence_cnt > 0 ?stat.filters.all.sequence_cnt : 1) | number : 2}}%</td>
-        <td>{{ 100 * stat.filters.all.functional_cnt /
-          (stat.filters.all.sequence_cnt > 0 ?stat.filters.all.sequence_cnt : 1)| number : 2}}%</td>
-        <td>{{ stat.filters.unique.sequence_cnt | number }}</td>
-        <td>{{ stat.filters.unique_multiple.sequence_cnt | number }}</td>
-        <td>{{ stat.filters.clones_all.sequence_cnt | number }}</td>
-        <td>{{ stat.filters.clones_functional.sequence_cnt | number }}</td>
+        <td>{{ sample.id }}</td>
+        <td>{{ sample.name }}</td>
+        <td>{{ sample.sequence_cnt + sample.no_result_cnt | number }}</td>
+        <td>{{ sample.sequence_cnt | number }}</td>
+        <td>{{ sample.no_result_cnt | number }}</td>
+        <td>{{ 100 * sample.in_frame_cnt /
+          (sample.sequence_cnt > 0 ? sample.sequence_cnt : 1) | number : 2}}%</td>
+        <td>{{ 100 * sample.functional_cnt /
+          (sample.sequence_cnt > 0 ? sample.sequence_cnt : 1)| number : 2}}%</td>
+        <td>{{ cnts.unique[sample.id] | number }}</td>
+        <td>{{ cnts.unique_multiple[sample.id] | number }}</td>
+        <td>{{ cnts.clones_all[sample.id] | number }}</td>
+        <td>{{ cnts.clones_functional[sample.id] | number }}</td>
         <td>
           <input type="checkbox" checklist-model="selectedSamples"
             checklist-value="stat.sample.id"></input>
@@ -109,25 +109,25 @@
   </table>
 </div>
 
-<div ng-show="cnts.all > 0">
+<div ng-show="cnts.all.total > 0">
   <h3 ng-init="filter='Unique with Copy Number > 1'">Feature Distributions: <i>{{ filter }}</i></h3>
   <ul class="nav nav-pills" role="tablist" id="funcTab">
     <li class="dropdown">
       <a role="button" data-toggle="dropdown">Clones <span class="caret"></span></a>
       <ul class="dropdown-menu" role="menu">
-        <li ng-class="cnts.clones_all == 0 ? 'disabled' : ''">
+        <li ng-class="cnts.clones_all.total == 0 ? 'disabled' : ''">
           <a href="#clones_all" role="tab" data-toggle="tab" ng-click="filter='All Clones'">
-            <span class="badge pull-right">{{ cnts.clones_all | formatNumber }}</span>All
+            <span class="badge pull-right">{{ cnts.clones_all.total | formatNumber }}</span>All
           </a>
         </li>
-        <li ng-class="cnts.clones_functional == 0 ? 'disabled' : ''">
+        <li ng-class="cnts.clones_functional.total == 0 ? 'disabled' : ''">
           <a href="#clones_functional" role="tab" data-toggle="tab" ng-click="filter='Functional Clones'">
-            <span class="badge pull-right">{{ cnts.clones_functional | formatNumber }}</span>Functional
+            <span class="badge pull-right">{{ cnts.clones_functional.total | formatNumber }}</span>Functional
           </a>
         </li>
-        <li ng-class="cnts.clones_nonfunctional == 0 ? 'disabled' : ''">
+        <li ng-class="cnts.clones_nonfunctional.total == 0 ? 'disabled' : ''">
           <a href="#clones_nonfunctional" role="tab" data-toggle="tab" ng-click="filter='Non-Functional Clones'">
-            <span class="badge pull-right">{{ cnts.clones_nonfunctional | formatNumber }}</span>Non-Functional
+            <span class="badge pull-right">{{ cnts.clones_nonfunctional.total | formatNumber }}</span>Non-Functional
           </a>
         </li>
       </ul>
@@ -135,14 +135,14 @@
     <li class="dropdown">
       <a role="button" data-toggle="dropdown">Unique <span class="caret"></span></a>
       <ul class="dropdown-menu" role="menu">
-        <li ng-class="cnts.unique == 0 ? 'disabled' : ''">
+        <li ng-class="cnts.unique.total == 0 ? 'disabled' : ''">
           <a href="#unique" role="tab" data-toggle="tab" ng-click="filter='All Unique'">
-            <span class="badge pull-right">{{ cnts.unique | formatNumber }}</span>All
+            <span class="badge pull-right">{{ cnts.unique.total | formatNumber }}</span>All
           </a>
         </li>
-        <li ng-class="cnts.unique_multiple == 0 ? 'disabled' : ''">
+        <li ng-class="cnts.unique_multiple.total == 0 ? 'disabled' : ''">
           <a href="#unique_multiple" role="tab" data-toggle="tab" ng-click="filter='Unique with Copy Number > 1'">
-            <span class="badge pull-right">{{ cnts.unique_multiple | formatNumber }}</span>Copy # > 1
+            <span class="badge pull-right">{{ cnts.unique_multiple.total | formatNumber }}</span>Copy # > 1
           </a>
         </li>
       </ul>
@@ -151,39 +151,39 @@
     <li class="dropdown">
       <a role="button" data-toggle="dropdown">Functionality <span class="caret"></span></a>
       <ul class="dropdown-menu" role="menu">
-        <li ng-class="cnts.functional == 0 ? 'disabled' : ''">
+        <li ng-class="cnts.functional.total == 0 ? 'disabled' : ''">
           <a href="#functional" role="tab" data-toggle="tab" ng-click="filter='Functional'">
-            <span class="badge pull-right">{{ cnts.functional | formatNumber }}</span>Functional
+            <span class="badge pull-right">{{ cnts.functional.total | formatNumber }}</span>Functional
           </a>
         </li>
-        <li ng-class="cnts.nonfunctional == 0 ? 'disabled' : ''">
+        <li ng-class="cnts.nonfunctional.total == 0 ? 'disabled' : ''">
           <a href="#nonfunctional" role="tab" data-toggle="tab" ng-click="filter='Non-Functional'">
-            <span class="badge pull-right">{{ cnts.nonfunctional | formatNumber }}</span>Non-Functional
+            <span class="badge pull-right">{{ cnts.nonfunctional.total | formatNumber }}</span>Non-Functional
           </a>
         </li>
       </ul>
     </li>
 
-    <li ng-class="cnts.all == 0 ? 'disabled' : ''">
-      <a href="#all" role="tab" data-toggle="tab" ng-click="filter='All'"><span class="badge pull-right">{{ cnts.all | formatNumber }}</span> All</a>
+    <li ng-class="cnts.all.total == 0 ? 'disabled' : ''">
+      <a href="#all" role="tab" data-toggle="tab" ng-click="filter='All'"><span class="badge pull-right">{{ cnts.all.total | formatNumber }}</span> All</a>
     </li>
     <li class="pull-right">
         <button type="button" class="btn btn-primary pull-right"
-            ng-click="showPartials = false; updateAll()" ng-show="showPartials">
+            ng-click="showPartials = false; doRequest()" ng-show="showPartials">
           <i class="fa fa-minus-square-o fa-fw"></i> Exclude Partial Reads
         </button>
         <button type="button" class="btn btn-primary pull-right"
-            ng-click="showPartials = true; updateAll()" ng-show="!showPartials">
+            ng-click="showPartials = true; doRequest()" ng-show="!showPartials">
           <i class="fa fa-plus-square-o fa-fw"></i> Include Partial Reads
         </button>
     </li>
     <li class="pull-right">
         <button type="button" class="btn btn-primary pull-right"
-            ng-click="showOutliers = false; updateAll()" ng-show="showOutliers">
+            ng-click="showOutliers = false; doRequest()" ng-show="showOutliers">
           <i class="fa fa-minus-square-o fa-fw"></i> Exclude Outliers
         </button>
         <button type="button" class="btn btn-primary pull-right"
-            ng-click="showOutliers = true; updateAll()" ng-show="!showOutliers">
+            ng-click="showOutliers = true; doRequest()" ng-show="!showOutliers">
           <i class="fa fa-plus-square-o fa-fw"></i> Include Outliers
         </button>
     </li>
@@ -193,10 +193,10 @@
             Group By <span class="caret"></span>
           </button>
           <ul class="dropdown-menu" role="menu">
-            <li><a ng-click="setGrouping('name'); updateAll();">Sample Name</a></li>
-            <li><a ng-click="setGrouping('tissue'); updateAll();">Tissue</a></li>
-            <li><a ng-click="setGrouping('subset'); updateAll();">Subset</a></li>
-            <li><a ng-click="setGrouping('subject'); updateAll();">Subject</a></li>
+            <li><a ng-click="grouping = 'name'; doRequest();">Sample</a></li>
+            <li><a ng-click="grouping = 'tissue'; doRequest();">Tissue</a></li>
+            <li><a ng-click="grouping = 'subset'; doRequest();">Subset</a></li>
+            <li><a ng-click="grouping = 'subject'; doRequest();">Subject</a></li>
           </ul>
         </div>
     </li>
@@ -205,7 +205,7 @@
   <div class="tab-content" id="filtered-panels">
     <filtered-panel
       filter="clones_all"
-      cnt="cnts.clones_all"
+      cnt="cnts.clones_all.total"
       api-path="apiPath"
       heatmap="vHeatmap_clones_all"
       charts="charts.clones_all"
@@ -213,7 +213,7 @@
 
     <filtered-panel
       filter="clones_functional"
-      cnt="cnts.functional"
+      cnt="cnts.functional.total"
       api-path="apiPath"
       heatmap="vHeatmap_clones_functional"
       charts="charts.clones_functional"
@@ -221,7 +221,7 @@
 
     <filtered-panel
       filter="clones_nonfunctional"
-      cnt="cnts.clones_nonfunctional"
+      cnt="cnts.clones_nonfunctional.total"
       api-path="apiPath"
       heatmap="vHeatmap_clones_nonfunctional"
       charts="charts.clones_nonfunctional"
@@ -229,7 +229,7 @@
 
     <filtered-panel
       tclass="tab-pane in active"
-      cnt="cnts.unique_multiple"
+      cnt="cnts.unique_multiple.total"
       api-path="apiPath"
       filter="unique_multiple"
       heatmap="vHeatmap_unique_multiple"
@@ -237,52 +237,52 @@
 
     <filtered-panel
       filter="unique"
-      cnt="cnts.unique"
+      cnt="cnts.unique.total"
       api-path="apiPath"
       heatmap="vHeatmap_unique"
       charts="charts.unique"></filtered-panel>
 
     <filtered-panel
       filter="functional"
-      cnt="cnts.functional"
+      cnt="cnts.functional.total"
       api-path="apiPath"
       heatmap="vHeatmap_functional"
       charts="charts.functional"></filtered-panel>
 
     <filtered-panel
       filter="nonfunctional"
-      cnt="cnts.nonfunctional"
+      cnt="cnts.nonfunctional.total"
       api-path="apiPath"
       heatmap="vHeatmap_nonfunctional"
       charts="charts.nonfunctional"></filtered-panel>
 
     <filtered-panel
       filter="all"
-      cnt="cnts.all"
+      cnt="cnts.all.total"
       api-path="apiPath"
       heatmap="vHeatmap_all"
       charts="charts.all"></filtered-panel>
   </div>
 </div>
-<div ng-show="cnts.all == 0">
+<div ng-show="cnts.all.total == 0">
   <div class="alert alert-warning text-center" role="alert">
     No results for any filter for this outlier/partial read combination.
 
     <button type="button" class="btn btn-primary"
-        ng-click="showOutliers = false; updateAll(true)" ng-show="showOutliers">
+        ng-click="showOutliers = false; doRequest()" ng-show="showOutliers">
       <i class="fa fa-minus-square-o fa-fw"></i> Exclude Outliers
     </button>
     <button type="button" class="btn btn-primary"
-        ng-click="showOutliers = true; updateAll(true)" ng-show="!showOutliers">
+        ng-click="showOutliers = true; doRequest()" ng-show="!showOutliers">
       <i class="fa fa-plus-square-o fa-fw"></i> Include Outliers
     </button>
 
     <button type="button" class="btn btn-primary"
-        ng-click="showPartials = false; updateAll(true)" ng-show="showPartials">
+        ng-click="showPartials = false; doRequest()" ng-show="showPartials">
       <i class="fa fa-minus-square-o fa-fw"></i> Exclude Partial Reads
     </button>
     <button type="button" class="btn btn-primary"
-        ng-click="showPartials = true; updateAll(true);" ng-show="!showPartials">
+        ng-click="showPartials = true; doRequest()" ng-show="!showPartials">
       <i class="fa fa-plus-square-o fa-fw"></i> Include Partial Reads
     </button>
   </div>

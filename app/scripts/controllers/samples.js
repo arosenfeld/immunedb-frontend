@@ -87,74 +87,51 @@
                             filter.indexOf('clone') < 0 ? 'Sequences' :
                             'Clones',
                             plotting.createSeries(
-                                $scope.plottable, p.key, filter));
+                                $scope.stats, p.key, filter));
                     $scope.charts[filter].push(c);
                 });
             }
 
-            $scope.setGrouping = function(groupKey) {
-                $scope.groupKey = groupKey;
-                $scope.sampleGroups = [];
-                angular.forEach($scope.groupedStats, function(stat) {
-                    var info = stat.sample;
-                    var added = false;
-                    angular.forEach($scope.sampleGroups, function(a) {
-                        if (groupKey == 'subject') {
-                            var correctGroup = !added && a[0].subject.identifier ==
-                            info.subject.identifier;
-                        } else {
-                            var correctGroup = !added && a[0][groupKey] ==
-                            info[groupKey];
-                        }
-                        if (correctGroup) {
-                            a.push(info);
-                            added = true;
-                        }
-                    });
-                    if (!added) {
-                        $scope.sampleGroups.push([info]);
-                    }
+            $scope.doRequest = function() {
+                // Do the GET request for results
+                $scope.showLoader()
+                $http({
+                    method: 'GET',
+                    url: APIService.getUrl() + 'stats/' +
+                        $routeParams['sampleIds'] + '/' +
+                        $scope.showOutliers + '/' +
+                        $scope.showPartials + '/' +
+                        $scope.grouping
+                }).success(function(data, status) {
+                    $scope.allData = data;
+                    $scope.updateAll(true);
+                    $timeout(reflowCharts, 0);
+                    $scope.hideLoader();
+                }).error(function(data, status, headers, config) {
+                    $scope.showError();
                 });
             }
 
-            $scope.updateAll = function(reGroup) {
-                // Group the stats by sample ID, then filter
-                var outlierKey = $scope.showOutliers ? 'outliers' : 'no_outliers';
-                var readKey = $scope.showPartials ? 'all_reads' : 'full_reads';
+            $scope.updateAll = function() {
                 $scope.sampleIds = $routeParams['sampleIds'].split(',');
-                $scope.groupedStats = $scope.allData[outlierKey][readKey]['stats'];
-                $scope.cnts = $scope.allData[outlierKey][readKey]['counts'];
-
-                if (reGroup) {
-                    $scope.setGrouping($scope.groupKey);
-                }
+                $scope.samples = $scope.allData['samples'];
+                $scope.stats = $scope.allData['stats'];
+                $scope.cnts = $scope.allData['counts'];
 
                 // Determine if any requested IDs are not available
-                $scope.missing =
-                    $routeParams['sampleIds'].split(',').filter(
-                        function(req) {
-                            return !(req in $scope.groupedStats);
-                        });
-
-                // Create all the charts
-                $scope.plottable = angular.fromJson($scope.groupedStats);
-                $scope.charts = {};
-                var groupedSamples = $scope.sampleGroups.reduce(function(a, b) {
-                    return a.concat(b);
+                $scope.missing = $routeParams['sampleIds'].split(
+                    ',').filter(function(req) {
+                        return !(req in $scope.samples);
                 });
 
+                // Create all the charts
+                $scope.charts = {};
                 angular.forEach(filters, function(filter, j) {
                     // v_call heatmap for the filter
                     getHeatmap($scope.sampleIds, filter)
                         .then(function(result) {
-                            result['y_categories'] = groupedSamples.map(
-                                function(e) {
-                                    return e.name;
-                                }
-                            );
                             $('#vHeatmap_' + filter).highcharts(
-                                plotting.createHeatmap(result, 'V Gene Utilization',
-                                $scope.groupKey == 'name' ? false : $scope.sampleGroups));
+                                plotting.createHeatmap(result, 'V Gene Utilization'));
                     });
                     createColumns(filter);
                 });
@@ -191,23 +168,12 @@
                     });
                 });
 
-                // Do the GET request for results
-                $http({
-                    method: 'GET',
-                    url: APIService.getUrl() + 'stats/' +
-                        $routeParams['sampleIds'],
-                }).success(function(data, status) {
-                    $scope.allData = data;
-                    $scope.showOutliers = false;
-                    $scope.showPartials = false;
-                    $scope.selectedSamples = [];
-                    $scope.groupKey = 'name';
-                    $scope.updateAll(true);
-                    $timeout(reflowCharts, 0);
-                    $scope.hideLoader();
-                }).error(function(data, status, headers, config) {
-                    $scope.showError();
-                });
+                $scope.grouping = 'name';
+                $scope.showOutliers = false;
+                $scope.showPartials = false;
+
+                $scope.selectedSamples = [];
+                $timeout($scope.doRequest, 0);
             }
             init();
         }
