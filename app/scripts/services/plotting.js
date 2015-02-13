@@ -115,7 +115,8 @@
                                     '<b>Gene:</b> ' + $filter('geneTies')(data['x_categories'][this
                                         .point.x]) + '<br />' +
                                     '<b>% of Sample:</b> ' +
-                                    Math.exp(this.point.value).toFixed(2) + '%';
+                                    (this.point.value == 0 ? 0 :
+                                    Math.exp(this.point.value)).toFixed(2) + '%';
                             }
                         },
 
@@ -123,7 +124,7 @@
                             data: data['data'].map(function(point) {
                                 if (point[2] != 'none') {
                                     return [point[0], point[1],
-                                    Math.log(point[2])];
+                                    point[2] == 0 ? 0 : Math.log(point[2])];
                                 }
                                 return [point[0], point[1], 0];
                             }),
