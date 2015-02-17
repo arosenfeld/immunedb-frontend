@@ -80,12 +80,24 @@
                         $scope.charts[filter] = [];
                     }
 
+                    var xl, yl;
+                    if (filter.indexOf('clone') < 0){
+                        xl = 'Sequences';
+                    } else {
+                        xl = 'Clones';
+                    }
+
+                    if (p.key.indexOf('copy_number') < 0) {
+                        yl = 'Nucleotides';
+                    } else {
+                        yl = 'Copies';
+                    }
+
                     var c = plotting.createColumnChart(
                             p.title,
                             p.key,
-                            'Nucleotides',
-                            filter.indexOf('clone') < 0 ? 'Sequences' :
-                            'Clones',
+                            yl,
+                            xl,
                             plotting.createSeries(
                                 $scope.stats, p.key, filter));
                     $scope.charts[filter].push(c);
