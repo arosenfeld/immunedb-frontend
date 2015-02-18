@@ -48,7 +48,8 @@
                     method: 'GET',
                     url: APIService.getUrl() + 'v_usage/' + samples.join(',') +
                         '/' + filterType + '/' + $scope.showOutliers + '/' +
-                        $scope.showPartials + '/' + $scope.grouping
+                        $scope.showPartials + '/' + $scope.grouping + '/' +
+                        $scope.byFamily
                 }).success(function(data, status) {
                     def.resolve(data);
                 }).error(function(data, status, headers, config) {
@@ -181,6 +182,7 @@
                 });
 
                 $scope.grouping = 'name';
+                $scope.byFamily = false;
                 $scope.showOutliers = false;
                 $scope.showPartials = false;
 
