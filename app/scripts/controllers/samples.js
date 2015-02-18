@@ -143,8 +143,7 @@
                     getHeatmap($scope.sampleIds, filter)
                         .then(function(result) {
                             $('#vHeatmap_' + filter).highcharts(
-                                plotting.createHeatmap(result, 'V Gene Utilization',
-                                $scope.grouping != 'name'));
+                                plotting.createHeatmap(result, 'V Gene Utilization'));
                     });
                     createColumns(filter);
                 });

@@ -59,7 +59,7 @@
               <button class="btn btn-default dropdown-toggle" type="button" id="database-menu">
                 Database Version: {{ apiName }}<span class="caret"></span>
               </button>
-              <ul class="dropdown-menu" role="menu" aria-labelledby="database-menu">
+              <ul class="dropdown-menu dropdown-wide" role="menu" aria-labelledby="database-menu">
                 <li role="presentation" ng-repeat="(key, api) in apis">
                   <a role="menuitem" tabindex="-1" ng-click="apiChange(key)">{{ api.name }}</a>
                 </li>
@@ -67,7 +67,7 @@
             </div>
           </li>
           <li class="version">
-            <i class="fa fa-info-circle fa-fw"></i> v6.1.0, release
+            <i class="fa fa-info-circle fa-fw"></i> v6.1.1, release
           </li>
         </ul>
 

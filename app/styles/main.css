@@ -62,3 +62,7 @@ a.faded {
     bottom: 0;
     right: 0;
 }
+
+.dropdown-wide {
+    width: 250px;
+}

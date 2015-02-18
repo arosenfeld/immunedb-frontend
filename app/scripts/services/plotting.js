@@ -43,7 +43,7 @@
                     }
                 },
 
-                createHeatmap: function(data, chartTitle, color) {
+                createHeatmap: function(data, chartTitle) {
                     return {
                         chart: {
                             type: 'heatmap',
@@ -73,17 +73,6 @@
                             categories: data['y_categories'],
                             reversed: true,
                             title: 'Sample ID',
-                            labels: {
-                                formatter: function() {
-                                    if (color) {
-                                        var c =
-                                            lookups.grpColors[data['lookup'][this.value] % lookups.grpColors.length];
-                                            return '<span style="color: ' + c + '">' +
-                                            this.value + '</span>';
-                                    }
-                                    return this.value;
-                                },
-                            },
                         },
 
                         colorAxis: {
