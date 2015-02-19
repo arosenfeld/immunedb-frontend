@@ -61,6 +61,12 @@
 
             $scope.setThreshold = function(threshold) {
                 $scope.threshold = threshold;
+                if ($scope.threshold.indexOf('percent') >= 0) {
+                    $scope.thresholdName = $scope.threshold.split('_')[1] + '%';
+                } else {
+                    $scope.thresholdName = $scope.threshold.split('_')[1] +
+                        'sequences';
+                }
             }
 
             var init = function() {
@@ -69,12 +75,16 @@
                 $scope.api = APIService.getUrl();
                 $scope.pages = {};
                 $scope.cutoffs = [
-                    ['All', 0],
-                    ['&ge; 20%', 20],
-                    ['&ge; 80%', 80],
-                    ['&ge; 100%', 100]
+                    ['All', 'percent_0'],
+                    ['&ge; 20%', 'percent_20'],
+                    ['&ge; 80%', 'percent_80'],
+                    ['= 100%', 'percent_100'],
+                    ['&ge; 2 Seqs', 'seqs_2'],
+                    ['&ge; 5 Seqs', 'seqs_5'],
+                    ['&ge; 10 Seqs', 'seqs_10'],
+                    ['&ge; 25 Seqs', 'seqs_25'],
                 ];
-                $scope.setThreshold(0);
+                $scope.setThreshold('percent_0');
 
                 $http({
                     method: 'GET',

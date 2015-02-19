@@ -106,8 +106,7 @@ clones across versions.</div>
               <div class="btn-group" role="group">
                 <div class="btn-group" role="group">
                   <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-                    Frequency Threshold: {{ threshold == 0 ? 'All' : threshold +
-                    '%' }}<span class="caret"></span>
+                    Threshold {{ thresholdName }}<span class="caret"></span>
                   </button>
                   <ul class="dropdown-menu" role="menu">
                     <li ng-repeat="cutoff in cutoffs">
