@@ -74,7 +74,7 @@
         <td>{{ cnts.clones_functional[sample.id] | number }}</td>
         <td>
           <input type="checkbox" checklist-model="selectedSamples"
-            checklist-value="stat.sample.id"></input>
+            checklist-value="sample.id"></input>
         </td>
       </tr>
       <tr ng-show="showDetails">
@@ -93,13 +93,13 @@
             </thead>
             <tbody>
               <tr>
-                <td>{{ stat.sample.date }}</td>
-                <td><a href="#/{{ apiPath }}/subject/{{ stat.sample.subject.id }}" target="_blank">{{ stat.sample.subject.identifier }}</a></td>
-                <td>{{ stat.sample.subset }}</td>
-                <td>{{ stat.sample.tissue }}</td>
-                <td>{{ stat.sample.disease }}</td>
-                <td>{{ stat.sample.lab }}</td>
-                <td>{{ stat.sample.experimenter }}</td>
+                <td>{{ sample.date }}</td>
+                <td><a href="#/{{ apiPath }}/subject/{{ sample.subject.id }}" target="_blank">{{ sample.subject.identifier }}</a></td>
+                <td>{{ sample.subset }}</td>
+                <td>{{ sample.tissue }}</td>
+                <td>{{ sample.disease }}</td>
+                <td>{{ sample.lab }}</td>
+                <td>{{ sample.experimenter }}</td>
               </tr>
             </tbody>
           </table>
