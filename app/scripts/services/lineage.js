@@ -71,7 +71,10 @@
                                     });
                                 }
                                 label += '<span style="color:#a0a0a0">Mutations: </span><br/>'
-                                angular.forEach(d.data.mutations, function(val, key) {
+                                var muts = d.data.mutations.sort(function(a, b) {
+                                    return parseInt(a.pos) - parseInt(b.pos);
+                                });
+                                angular.forEach(muts, function(val, key) {
                                     label += val.from + ' ' + val.pos + ' ' + val.to +
                                         '<br/>';
                                 });
