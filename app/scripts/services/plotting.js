@@ -73,6 +73,7 @@
                         },
 
                         yAxis: {
+                            min: 0,
                             title: {
                                 text: y_label
                             }
