@@ -59,6 +59,20 @@
                 return def.promise;
             }
 
+            var getRarefaction = function(samples) {
+                var def = $q.defer();
+                $http({
+                    method: 'GET',
+                    url: APIService.getUrl() + 'rarefaction/' + samples.join(',')
+                }).success(function(data, status) {
+                    def.resolve(data['rarefaction']);
+                }).error(function(data, status, headers, config) {
+                    def.reject();
+                });
+
+                return def.promise;
+            }
+
             var reflowCharts = function(doV) {
                 angular.forEach(filters, function(filter) {
                     // v_call heatmap for the filter
@@ -159,6 +173,21 @@
                 $scope.showNotify('This page has been pinned.');
             }
 
+            $scope.generateRarefaction = function() {
+                $scope.rarefactionStatus = 'loading';
+                getRarefaction($routeParams['sampleIds'].split(','))
+                        .then(function(result) {
+                            $('#rarefaction').highcharts(
+                                plotting.createLinePlot(
+                                    "Clone Rarefaction",
+                                    "Subsamples",
+                                    "E[clones]",
+                                    result));
+                            $('#rarefaction').highcharts().reflow();
+                            $scope.rarefactionStatus = 'loaded';
+                        });
+            }
+
             var init = function() {
                 $scope.showLoader()
                 $scope.$parent.page_title = 'Sample Comparison';
@@ -186,6 +215,7 @@
                 $scope.showOutliers = false;
                 $scope.showPartials = false;
 
+                $scope.rarefactionStatus = 'none';
                 $scope.selectedSamples = [];
                 $timeout($scope.doRequest, 0);
             }

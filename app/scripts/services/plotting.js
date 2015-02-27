@@ -14,9 +14,11 @@
                                 zoomType: 'x',
                             }
                         },
+
                         credits: {
                             enabled: false
                         },
+
                         title: {
                             text: chartTitle
                         },
@@ -34,11 +36,68 @@
                         },
 
                         loading: false,
+
                         series: all_series,
+
                         key: key,
 
                         exporting: {
                             scale: 4,
+                        },
+                    }
+                },
+
+                createLinePlot: function(chartTitle, x_label,
+                                         y_label, series) {
+                    $log.debug(series);
+                    return {
+                        options: {
+                            chart: {
+                                type: 'column',
+                                zoomType: 'x',
+                            }
+                        },
+
+                        credits: {
+                            enabled: false
+                        },
+
+                        title: {
+                            text: chartTitle
+                        },
+
+                        xAxis: {
+                            title: {
+                                text: x_label
+                            }
+                        },
+
+                        yAxis: {
+                            title: {
+                                text: y_label
+                            }
+                        },
+
+                        loading: false,
+
+                        series: [{
+                            name: 'Rarefaction',
+                            data: series
+                        }],
+
+                        exporting: {
+                            scale: 4,
+                        },
+
+                        legend: {
+                            enabled: false,
+                        },
+
+                        tooltip: {
+                            formatter: function() {
+                                return '<b>Subsamples:</b> ' + this.point.x + '<br/>' +
+                                '<b>E[clones]:</b> ' + this.point.y.toFixed(2);
+                            }
                         },
                     }
                 },
