@@ -63,7 +63,9 @@
                 var def = $q.defer();
                 $http({
                     method: 'GET',
-                    url: APIService.getUrl() + 'rarefaction/' + samples.join(',')
+                    url: APIService.getUrl() + 'rarefaction/' +
+                    samples.join(',') + '/' + $scope.rarefactionSample +
+                    '/false/1/' + $scope.rarefactionPoints
                 }).success(function(data, status) {
                     def.resolve(data['rarefaction']);
                 }).error(function(data, status, headers, config) {
@@ -215,6 +217,7 @@
                 $scope.showOutliers = false;
                 $scope.showPartials = false;
 
+                $scope.rarefactionSample = false;
                 $scope.rarefactionStatus = 'none';
                 $scope.selectedSamples = [];
                 $timeout($scope.doRequest, 0);

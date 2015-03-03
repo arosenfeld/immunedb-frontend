@@ -110,28 +110,6 @@
 </div>
 
 <div class="panel panel-default">
-  <div class="panel-heading">Rarefaction &amp; Diversity</div>
-  <div class="panel-body">
-    <div class="well text-center" ng-show="rarefactionStatus!='loaded'">
-      <div ng-show="rarefactionStatus=='none'">
-        <button type="button" class="btn btn-primary"
-            ng-click="generateRarefaction()">
-        Calculate Rarefaction
-        </button>
-        <p>
-          <strong>Warning:</strong> Calculating rarefaction for large samples may take a
-          long time.
-        </p>
-      </div>
-      <div ng-show="rarefactionStatus=='loading'">
-        <i class="fa fa-spinner fa-spin"></i> Calculating rarefaction...
-      </div>
-    </div>
-    <div id="rarefaction"></div>
-  </div>
-</div>
-
-<div class="panel panel-default">
   <div class="panel-heading">Sample Analysis</div>
   <div class="panel-body">
     <div ng-show="cnts.all.total > 0">
@@ -325,3 +303,39 @@
     </div>
   </div>
 </div>
+
+<div class="panel panel-default">
+  <div class="panel-heading">Rarefaction &amp; Diversity</div>
+  <div class="panel-body">
+    <div class="well text-center">
+      <div>
+        <form class="form-inline">
+          <div class="checkbox">
+            <label>
+              <input type="checkbox" ng-model="rarefactionSample"> Sample Based
+            </label>
+          </div>
+          <div class="form-group">
+            <input type="number" class="form-control" min="1"
+            ng-model="rarefactionPoints" placeholder="Approx. Data Points" style="width:
+            200px">
+          </div>
+          <button type="button" class="btn btn-primary"
+              ng-click="generateRarefaction()" ng-disabled="!rarefactionPoints">
+          Calculate Rarefaction
+          </button>
+        </form>
+        <p>
+          <strong>Warning:</strong> Calculating rarefaction for large samples may take a
+          long time.
+        </p>
+      </div>
+      <div ng-show="rarefactionStatus=='loading'">
+        <i class="fa fa-spinner fa-spin"></i> Calculating rarefaction...
+      </div>
+    </div>
+    <div id="rarefaction"></div>
+  </div>
+</div>
+
+
