@@ -104,7 +104,7 @@
                     } else {
                         ctx.fillStyle = '#000000';
                     }
-                    
+
                     if (j < seq.read_start) {
                         ctx.globalAlpha = 0.4;
                     }
@@ -113,7 +113,7 @@
 
                     if (typeof mutation_stats != 'undefined') {
                         var mutation = seq.mutations[j];
-                        if ('CUS'.indexOf(mutation) >= 0) {
+                        if ('CUS?'.indexOf(mutation) >= 0) {
                                 ctx.beginPath();
                                 ctx.rect(left - 2, top - CHAR_SPACE + 8, 15, 15);
                                 ctx.lineWidth = 2;
@@ -124,6 +124,8 @@
                                     ctx.strokeStyle = '#ff0000';
                                 } else if (mutation == 'S') {
                                     ctx.strokeStyle = '#00ff00';
+                                } else if (mutation == '?') {
+                                    ctx.strokeStyle = '#1c1c1c';
                                 }
 
                                 ctx.stroke();
@@ -220,7 +222,7 @@
             ];
 
             angular.forEach(regions, function(region, i) {
-                drawRegion(ctx, 
+                drawRegion(ctx,
                     region.color,
                     LEFT_PAD + middlePad,
                     25,
