@@ -6,22 +6,28 @@
     <table class="table">
       <thead>
         <tr class="active">
-          <th>Count</th>
-          <th>Position</th>
-          <th>NT Mutation</th>
-          <th>AA Mutation</th>
+          <th class="text-center">Unique</th>
+          <th class="text-center">Total</th>
+          <th class="text-center">Position</th>
+          <th class="text-center">NT Mutation</th>
+          <th class="text-center">Hypothetical AA Mutation</th>
+          <th class="text-center">Final AA Mutation(s)</th>
         </tr>
       </thead>
       <tbody ng-repeat="type in ['synonymous', 'conservative', 'nonconservative']" ng-show="data.mutations[type].length > 0">
         <tr class="info">
-          <td colspan="4"><strong>{{ type | capitalize }}</strong></td>
+          <td colspan="6"><strong>{{ type | capitalize }}</strong></td>
         </tr>
         <tr ng-repeat="mut in data.mutations[type] | orderBy:'position'">
-          <td>{{ mut.count }}</td>
-          <td>{{ mut.position }}</td>
-          <td><strong ng-bind-html="mut.from | dna"></strong> to <strong ng-bind-html="mut.to | dna"></strong></td>
-          <td ng-if="mut.aa_from != mut.aa_to"><strong ng-bind-html="mut.aa_from | aminoAcid"></strong> to <strong ng-bind-html="mut.aa_to | aminoAcid"></strong></td>
-          <td ng-if="mut.aa_from == mut.aa_to">N/A</td>
+          <td class="text-center">{{ mut.unique }}</td>
+          <td class="text-center">{{ mut.total }}</td>
+          <td class="text-center">{{ mut.pos }}</td>
+          <td class="text-center"><strong ng-bind-html="mut.from_nt | dna"></strong> to
+          <strong ng-bind-html="mut.to_nt | dna"></strong></td>
+          <td class="text-center"><strong ng-bind-html="mut.from_aa | aminoAcid"></strong> to
+          <strong ng-bind-html="mut.intermediate_aa | aminoAcid"></strong></td>
+          <td class="text-center"><strong ng-bind-html="mut.from_aa | aminoAcid"></strong> to
+          <strong ng-repeat="aa in mut.to_aas" ng-bind-html="aa | aminoAcid"></strong></td>
         </tr>
       </tbody>
     </table>
@@ -153,7 +159,7 @@ clones across versions.</div>
                   ng-click="openModal('Mutations', stat)">Show Mutations</button>
                 </td>
                 <td>
-                  {{ stat.counts[field].synonymous }}
+                  {{ stat.counts[field].synonymous | orZero }}
                   <span class="faded">({{
                     100 * stat.counts[field].synonymous /
                     (stat.counts[field].nonconservative +
@@ -161,7 +167,7 @@ clones across versions.</div>
                     stat.counts[field].synonymous) | orZero | number:2 }}%)</span>
                 </td>
                 <td>
-                  {{ stat.counts[field].nonconservative + stat.counts[field].conservative }}
+                  {{ stat.counts[field].nonconservative + stat.counts[field].conservative | orZero }}
                   <span class="faded">({{
                     100 * (stat.counts[field].nonconservative + stat.counts[field].conservative) /
                     (stat.counts[field].nonconservative +
@@ -169,11 +175,11 @@ clones across versions.</div>
                     stat.counts[field].synonymous) | orZero | number:2 }}%)</span>
                 </td>
                 <td class="active">
-                  {{ stat.counts[field].conservative }}
+                  {{ stat.counts[field].conservative | orZero }}
                   <span class="faded">({{ 100 * stat.counts[field].conservative / (stat.counts[field].nonconservative + stat.counts[field].conservative) | orZero | number:2 }}%)</span>
                 </td>
                 <td class="active">
-                  {{ stat.counts[field].nonconservative }}
+                  {{ stat.counts[field].nonconservative | orZero }}
                   <span class="faded">({{ 100 * stat.counts[field].nonconservative / (stat.counts[field].nonconservative + stat.counts[field].conservative) | orZero | number:2 }}%)</span>
                 </td>
               </tr>

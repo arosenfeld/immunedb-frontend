@@ -41,7 +41,7 @@
         }
 
         var makeComparison = function(canvas, germline, cdr3_num_nts, seqs,
-                total_seqs, mutation_stats) {
+                total_seqs, pos_stats) {
             var ctx = canvas.getContext('2d');
 
             var labelMaxLength = 0;
@@ -53,7 +53,7 @@
 
             canvas.width = (labelMaxLength + germline.length) * CHAR_SPACE;
             canvas.height = (seqs.length + 3) * V_PER_SEQ + 35;
-            if (typeof mutation_stats != 'undefined') {
+            if (typeof pos_stats != 'undefined') {
                 canvas.height += 2 * V_PER_SEQ;
             }
             ctx.font = 'bold 12px Courier New';
@@ -111,7 +111,7 @@
                     ctx.fillText(c, left, top);
                     ctx.globalAlpha = 1;
 
-                    if (typeof mutation_stats != 'undefined') {
+                    if (typeof pos_stats != 'undefined') {
                         var mutation = seq.mutations[j];
                         if ('CUS?'.indexOf(mutation) >= 0) {
                                 ctx.beginPath();
@@ -139,7 +139,7 @@
                 i++;
             });
 
-            if (typeof mutation_stats != 'undefined') {
+            if (typeof pos_stats != 'undefined') {
                 ctx.fillStyle = '#00ff00';
                 ctx.fillText('Synonymous Mutation %', LEFT_PAD, TOP_PAD + (1 + seqs.length) * V_PER_SEQ);
                 ctx.fillStyle = '#ff0000';
@@ -149,7 +149,7 @@
                 ctx.fillStyle = '#ff5500';
                 ctx.fillText('Non-conserved %', LEFT_PAD + 15, TOP_PAD + (4 + seqs.length) * V_PER_SEQ);
 
-                angular.forEach(mutation_stats.positions, function(vals, offset) {
+                angular.forEach(pos_stats, function(vals, offset) {
                     var nonsynonymous = vals['conservative'] +
                         vals['nonconservative'];
                     var silentPerc = Math.round(100 * vals['synonymous'] /
