@@ -85,6 +85,9 @@
                     ['&ge; 25 Seqs', 'seqs_25'],
                 ];
                 $scope.setThreshold('percent_0');
+                if ($routeParams['uids'].indexOf('_') >= 0) {
+                    $scope.sampleWarning = true;
+                }
 
                 $http({
                     method: 'GET',

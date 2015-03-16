@@ -147,9 +147,9 @@ clones across versions.</div>
                 <th>Region</th>
                 <th>Synonymous</th>
                 <th>Non-Synonymous</th>
+                <th>Unknown</th>
                 <th>Conservative</th>
                 <th>Non-Conservative</th>
-                <th>Unknown</th>
               </tr>
             </thead>
             <tbody ng-repeat="(region, stat) in info.mutation_stats.regions[threshold]">
@@ -177,6 +177,15 @@ clones across versions.</div>
                     stat.counts[field].synonymous +
                     stats.counts[field].unknown) | orZero | number:2 }}%)</span>
                 </td>
+                <td>
+                  {{ stat.counts[field].unknown | orZero }}
+                  <span class="faded">({{
+                    100 * stat.counts[field].unknown /
+                    (stat.counts[field].nonconservative +
+                    stat.counts[field].conservative +
+                    stat.counts[field].synonymous +
+                    stats.counts[field].unknown) | orZero | number:2 }}%)</span>
+                </td>
                 <td class="active">
                   {{ stat.counts[field].conservative | orZero }}
                   <span class="faded">({{
@@ -187,54 +196,9 @@ clones across versions.</div>
                   {{ stat.counts[field].nonconservative | orZero }}
                   <span class="faded">({{ 100 * stat.counts[field].nonconservative / (stat.counts[field].nonconservative + stat.counts[field].conservative) | orZero | number:2 }}%)</span>
                 </td>
-                <td>
-                  {{ stat.counts[field].unknown | orZero }}
-                  <span class="faded">({{
-                    100 * stat.counts[field].unknown /
-                    (stat.counts[field].nonconservative +
-                    stat.counts[field].conservative +
-                    stat.counts[field].synonymous +
-                    stats.counts[field].unknown) | orZero | number:2 }}%)</span>
-                </td>
               </tr>
             </tbody>
           </table>
-        </td>
-      </tr>
-      <tr>
-        <td colspan="6">
-          <h4>
-            Lineage Tree
-            <small>All sequences for this clone.  Labels indicate the number of mutation from most recent ancestor.</small>
-            <div style="float:right">
-
-              <div class="btn-group" role="group">
-                <button type="button" class="btn btn-default"
-                  ng-click="info.showFanouts=!info.showFanouts;updateTree(info.clone.id)">{{ info.showFanouts ? 'Hide' : 'Show' }} Large Leaf Fanouts</button>
-
-                <div class="btn-group" role="group">
-                  <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-                    Color By...<span class="caret"></span>
-                  </button>
-                  <ul class="dropdown-menu pull-right" role="menu">
-                    <li>
-                      <a ng-click="info.colorBy='tissues';updateTree(info.clone.id)">
-                        <i class="fa fa-check fa-fw"
-                        ng-show="info.colorBy=='tissues'"></i>Tissue
-                      </a>
-                    </li>
-                    <li>
-                      <a ng-click="info.colorBy='subsets';updateTree(info.clone.id)">
-                        <i class="fa fa-check fa-fw"
-                        ng-show="info.colorBy=='subsets'"></i>Subset
-                      </a>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-          </h4>
-          <div id="tree_{{ info.clone.id }}" class="text-center"></div>
         </td>
       </tr>
       <tr>
@@ -258,6 +222,45 @@ clones across versions.</div>
               SEQS_PER_CANVAS)"><a href="" ng-click="nextPage(info.clone.id)">Next</a></li>
             </ul>
           </div>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="6">
+          <h4>
+            Lineage Tree
+            <small>All sequences for this clone.  Labels indicate the number of mutation from most recent ancestor.</small>
+          </h4>
+          <div class="alert alert-danger" role="alert" ng-show="sampleWarning">
+            <strong>Warning: </strong> Lineage trees include <i>all</i>
+            sequences in a clone, not only those in the selected samples.
+          </div>
+          <div style="float:right">
+            <div class="btn-group" role="group">
+              <button type="button" class="btn btn-default"
+                ng-click="info.showFanouts=!info.showFanouts;updateTree(info.clone.id)">{{ info.showFanouts ? 'Hide' : 'Show' }} Large Leaf Fanouts</button>
+
+              <div class="btn-group" role="group">
+                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                  Color By...<span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu pull-right" role="menu">
+                  <li>
+                    <a ng-click="info.colorBy='tissues';updateTree(info.clone.id)">
+                      <i class="fa fa-check fa-fw"
+                      ng-show="info.colorBy=='tissues'"></i>Tissue
+                    </a>
+                  </li>
+                  <li>
+                    <a ng-click="info.colorBy='subsets';updateTree(info.clone.id)">
+                      <i class="fa fa-check fa-fw"
+                      ng-show="info.colorBy=='subsets'"></i>Subset
+                    </a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div id="tree_{{ info.clone.id }}" class="text-center"></div>
         </td>
       </tr>
     </tbody>

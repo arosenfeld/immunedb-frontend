@@ -41,7 +41,7 @@
         }
 
         var makeComparison = function(canvas, germline, cdr3_num_nts, seqs,
-                total_seqs, pos_stats) {
+                total_seqs, mutation_stats) {
             var ctx = canvas.getContext('2d');
 
             var labelMaxLength = 0;
@@ -53,7 +53,7 @@
 
             canvas.width = (labelMaxLength + germline.length) * CHAR_SPACE;
             canvas.height = (seqs.length + 3) * V_PER_SEQ + 35;
-            if (typeof pos_stats != 'undefined') {
+            if (typeof mutation_stats != 'undefined') {
                 canvas.height += 2 * V_PER_SEQ;
             }
             ctx.font = 'bold 12px Courier New';
@@ -140,7 +140,7 @@
                 i++;
             });
 
-            if (typeof pos_stats != 'undefined') {
+            if (typeof mutation_stats != 'undefined') {
                 ctx.fillStyle = '#00ff00';
                 ctx.fillText('Synonymous Mutation %', LEFT_PAD, TOP_PAD + (1 + seqs.length) * V_PER_SEQ);
                 ctx.fillStyle = '#ff0000';
@@ -150,15 +150,19 @@
                 ctx.fillStyle = '#ff5500';
                 ctx.fillText('Non-conserved %', LEFT_PAD + 15, TOP_PAD + (4 + seqs.length) * V_PER_SEQ);
 
-                angular.forEach(pos_stats, function(vals, offset) {
-                    var nonsynonymous = vals['conservative'] +
-                        vals['nonconservative'];
-                    var silentPerc = Math.round(100 * vals['synonymous'] /
+                angular.forEach(mutation_stats['positions'], function(vals, offset) {
+                    var synonymous = vals['synonymous'] || 0;
+                    var conservative = vals['conservative'] || 0;
+                    var nonConservative = vals['nonconservative'] || 0;
+                    var unknown = vals['unknown'] || 0;
+
+                    var silentPerc = Math.round(100 * synonymous /
                         total_seqs);
-                    var changePerc = Math.round(100 * nonsynonymous / total_seqs);
-                    var conservPerc = Math.round(100 * vals['conservative'] /
+                    var nonSynonymous = Math.round(100 * (conservative +
+                        nonConservative) / total_seqs);
+                    var conservPerc = Math.round(100 * conservative /
                         total_seqs);
-                    var nonConservPerc = Math.round(100 * vals['nonconservative'] /
+                    var nonConservPerc = Math.round(100 * nonConservative /
                         total_seqs);
                     ctx.font = '10px Courier New';
                     ctx.textAlign = 'center';
@@ -166,9 +170,9 @@
                     ctx.fillText(silentPerc, LEFT_PAD + middlePad + offset *
                         CHAR_SPACE + 5, TOP_PAD + (1 + seqs.length) * V_PER_SEQ);
                     ctx.fillStyle = '#ff0000';
-                    ctx.fillText(changePerc, LEFT_PAD + middlePad + offset *
+                    ctx.fillText(nonSynonymous, LEFT_PAD + middlePad + offset *
                         CHAR_SPACE + 5, TOP_PAD + (2 + seqs.length) * V_PER_SEQ);
-                    if (changePerc > 0) {
+                    if (nonSynonymous > 0) {
                         ctx.fillStyle = '#ff0055';
                         ctx.fillText(conservPerc, LEFT_PAD + middlePad + offset *
                             CHAR_SPACE + 5, TOP_PAD + (3 + seqs.length) * V_PER_SEQ);
