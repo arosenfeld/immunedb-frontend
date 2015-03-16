@@ -111,25 +111,26 @@
                     ctx.fillText(c, left, top);
                     ctx.globalAlpha = 1;
 
-                    if (typeof pos_stats != 'undefined') {
-                        var mutation = seq.mutations[j];
-                        if ('CUS?'.indexOf(mutation) >= 0) {
-                                ctx.beginPath();
-                                ctx.rect(left - 2, top - CHAR_SPACE + 8, 15, 15);
-                                ctx.lineWidth = 2;
+                    if (j in seq.mutations) {
+                        ctx.beginPath();
+                        ctx.rect(left - 2, top - CHAR_SPACE + 8, 15, 15);
+                        ctx.lineWidth = 2;
 
-                                if (mutation == 'C') {
-                                    ctx.strokeStyle = '#ff0000';
-                                } else if (mutation == 'U') {
-                                    ctx.strokeStyle = '#ff0000';
-                                } else if (mutation == 'S') {
-                                    ctx.strokeStyle = '#00ff00';
-                                } else if (mutation == '?') {
-                                    ctx.strokeStyle = '#1c1c1c';
-                                }
-
-                                ctx.stroke();
+                        switch (seq.mutations[j]) {
+                            case 'conservative':
+                            case 'nonconservative':
+                                ctx.strokeStyle = '#ff0000';
+                                break;
+                            case 'synonymous':
+                                ctx.strokeStyle = '#00ff00';
+                                break;
+                            case 'unknown':
+                                ctx.strokeStyle = '#1c1c1c';
+                                break;
                         }
+
+                        ctx.stroke();
+
                     }
                     if (j == 0 || (j + 1) % 10 == 0) {
                         ctx.fillStyle = '#000000';

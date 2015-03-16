@@ -6,15 +6,15 @@
     <table class="table">
       <thead>
         <tr class="active">
-          <th class="text-center">Unique</th>
-          <th class="text-center">Total</th>
+          <th class="text-center">Count</th>
+          <th class="text-center">Total Copies</th>
           <th class="text-center">Position</th>
           <th class="text-center">NT Mutation</th>
           <th class="text-center">Hypothetical AA Mutation</th>
           <th class="text-center">Final AA Mutation(s)</th>
         </tr>
       </thead>
-      <tbody ng-repeat="type in ['synonymous', 'conservative', 'nonconservative']" ng-show="data.mutations[type].length > 0">
+      <tbody ng-repeat="type in ['synonymous', 'conservative', 'nonconservative', 'unknown']" ng-show="data.mutations[type].length > 0">
         <tr class="info">
           <td colspan="6"><strong>{{ type | capitalize }}</strong></td>
         </tr>
@@ -149,6 +149,7 @@ clones across versions.</div>
                 <th>Non-Synonymous</th>
                 <th>Conservative</th>
                 <th>Non-Conservative</th>
+                <th>Unknown</th>
               </tr>
             </thead>
             <tbody ng-repeat="(region, stat) in info.mutation_stats.regions[threshold]">
@@ -164,7 +165,8 @@ clones across versions.</div>
                     100 * stat.counts[field].synonymous /
                     (stat.counts[field].nonconservative +
                     stat.counts[field].conservative +
-                    stat.counts[field].synonymous) | orZero | number:2 }}%)</span>
+                    stat.counts[field].synonymous +
+                    stats.counts[field].unknown) | orZero | number:2 }}%)</span>
                 </td>
                 <td>
                   {{ stat.counts[field].nonconservative + stat.counts[field].conservative | orZero }}
@@ -172,15 +174,27 @@ clones across versions.</div>
                     100 * (stat.counts[field].nonconservative + stat.counts[field].conservative) /
                     (stat.counts[field].nonconservative +
                     stat.counts[field].conservative +
-                    stat.counts[field].synonymous) | orZero | number:2 }}%)</span>
+                    stat.counts[field].synonymous +
+                    stats.counts[field].unknown) | orZero | number:2 }}%)</span>
                 </td>
                 <td class="active">
                   {{ stat.counts[field].conservative | orZero }}
-                  <span class="faded">({{ 100 * stat.counts[field].conservative / (stat.counts[field].nonconservative + stat.counts[field].conservative) | orZero | number:2 }}%)</span>
+                  <span class="faded">({{
+                    100 * stat.counts[field].conservative /
+                    (stat.counts[field].nonconservative + stat.counts[field].conservative) | orZero | number:2 }}%)</span>
                 </td>
                 <td class="active">
                   {{ stat.counts[field].nonconservative | orZero }}
                   <span class="faded">({{ 100 * stat.counts[field].nonconservative / (stat.counts[field].nonconservative + stat.counts[field].conservative) | orZero | number:2 }}%)</span>
+                </td>
+                <td>
+                  {{ stat.counts[field].unknown | orZero }}
+                  <span class="faded">({{
+                    100 * stat.counts[field].unknown /
+                    (stat.counts[field].nonconservative +
+                    stat.counts[field].conservative +
+                    stat.counts[field].synonymous +
+                    stats.counts[field].unknown) | orZero | number:2 }}%)</span>
                 </td>
               </tr>
             </tbody>
