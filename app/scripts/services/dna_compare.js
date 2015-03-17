@@ -41,7 +41,7 @@
         }
 
         var makeComparison = function(canvas, germline, cdr3_num_nts, seqs,
-                total_seqs, mutation_stats) {
+                total_seqs, mutation_stats3) {
             var ctx = canvas.getContext('2d');
 
             var labelMaxLength = 0;
@@ -112,25 +112,29 @@
                     ctx.globalAlpha = 1;
 
                     if (j in seq.mutations) {
-                        ctx.beginPath();
-                        ctx.rect(left - 2, top - CHAR_SPACE + 8, 15, 15);
-                        ctx.lineWidth = 2;
+                        if (
+                                typeof mutation_stats != 'undefined' ||
+                                (j < 309 || j >= 309 + cdr3_num_nts)
+                           ) {
+                            ctx.beginPath();
+                            ctx.rect(left - 2, top - CHAR_SPACE + 8, 15, 15);
+                            ctx.lineWidth = 2;
 
-                        switch (seq.mutations[j]) {
-                            case 'conservative':
-                            case 'nonconservative':
-                                ctx.strokeStyle = '#ff0000';
-                                break;
-                            case 'synonymous':
-                                ctx.strokeStyle = '#00ff00';
-                                break;
-                            case 'unknown':
-                                ctx.strokeStyle = '#1c1c1c';
-                                break;
+                            switch (seq.mutations[j]) {
+                                case 'conservative':
+                                case 'nonconservative':
+                                    ctx.strokeStyle = '#ff0000';
+                                    break;
+                                case 'synonymous':
+                                    ctx.strokeStyle = '#00ff00';
+                                    break;
+                                case 'unknown':
+                                    ctx.strokeStyle = '#1c1c1c';
+                                    break;
+                            }
+
+                            ctx.stroke();
                         }
-
-                        ctx.stroke();
-
                     }
                     if (j == 0 || (j + 1) % 10 == 0) {
                         ctx.fillStyle = '#000000';
