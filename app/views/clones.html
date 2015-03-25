@@ -109,7 +109,11 @@
                 </thead>
                 <tbody>
                   <tr ng-repeat="stat in clone.stats">
-                    <td><input type="checkbox" checklist-model="checked_samples" checklist-value="clone.id + '_' + stat.sample.id"></input></td>
+                    <td><input type="checkbox"
+                      ng-model="checked"
+                      ng-disabled="clone.id!=clone_id && clone_samples.length > 0"
+                      ng-change="toggleSample(clone.id, stat.sample.id)"
+                      ng-checked="isToggled(clone.id, stat.sample.id)"></input></td>
                     <td>{{ stat.sample.id }}</td>
                     <td><a href="#/{{ apiPath }}/samples/{{ stat.sample.id }}" target="_blank">{{ stat.sample.name }}</a></td>
                     <td>{{ stat.unique_sequences | number }}</td>

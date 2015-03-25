@@ -22,17 +22,14 @@
                 });
             }
 
-            $scope.checked_samples = [];
-
             $scope.viewSamples = function() {
-                $location.path($scope.apiPath + '/clone_compare/' + $scope.checked_samples.join());
+                $location.path($scope.apiPath + '/clone_compare/' + $scope.clone_id + '/' + $scope.clone_samples.join(','));
             }
 
             $scope.updateClones = function() {
                 $scope.clones = [];
                 $scope.showLoader();
                 $scope.$parent.page_title = 'Clones';
-
 
                 $scope.page = 1;
                 getClones().then(function(result) {
@@ -73,12 +70,29 @@
                 return def.promise;
             }
 
+            $scope.toggleSample = function(clone_id, sample_id) {
+                var existing = $scope.clone_samples.indexOf(sample_id);
+                $scope.clone_id = clone_id;
+                if (existing < 0) {
+                    $scope.clone_samples.push(sample_id);
+                } else {
+                    $scope.clone_samples.splice(existing, 1);
+                }
+            }
+
+            $scope.isToggled = function(clone_id, sample_id) {
+                return $scope.clone_id == clone_id
+                    && $scope.clone_samples.indexOf(sample_id) >= 0;
+            }
+
             $scope.updateOrder = function(field) {
                 $scope.orderField = field;
                 $scope.updateClones();
             }
 
             var init = function() {
+                $scope.clone_id = null;
+                $scope.clone_samples = [];
                 $scope.updateClones();
             }
 

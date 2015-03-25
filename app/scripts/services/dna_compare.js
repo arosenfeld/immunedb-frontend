@@ -41,7 +41,7 @@
         }
 
         var makeComparison = function(canvas, germline, cdr3_num_nts, seqs,
-                total_seqs, mutation_stats3) {
+                total_seqs, mutation_stats) {
             var ctx = canvas.getContext('2d');
 
             var labelMaxLength = 0;
@@ -164,19 +164,22 @@
                         total_seqs);
                     var nonSynonymous = Math.round(100 * (conservative +
                         nonConservative) / total_seqs);
+
                     var conservPerc = Math.round(100 * conservative /
                         total_seqs);
                     var nonConservPerc = Math.round(100 * nonConservative /
                         total_seqs);
                     ctx.font = '10px Courier New';
                     ctx.textAlign = 'center';
-                    ctx.fillStyle = '#00ff00';
-                    ctx.fillText(silentPerc, LEFT_PAD + middlePad + offset *
+                    if (synonymous > 0) {
+                        ctx.fillStyle = '#00ff00';
+                        ctx.fillText(silentPerc, LEFT_PAD + middlePad + offset *
                         CHAR_SPACE + 5, TOP_PAD + (1 + seqs.length) * V_PER_SEQ);
-                    ctx.fillStyle = '#ff0000';
-                    ctx.fillText(nonSynonymous, LEFT_PAD + middlePad + offset *
-                        CHAR_SPACE + 5, TOP_PAD + (2 + seqs.length) * V_PER_SEQ);
+                    }
                     if (nonSynonymous > 0) {
+                        ctx.fillStyle = '#ff0000';
+                        ctx.fillText(nonSynonymous, LEFT_PAD + middlePad + offset *
+                            CHAR_SPACE + 5, TOP_PAD + (2 + seqs.length) * V_PER_SEQ);
                         ctx.fillStyle = '#ff0055';
                         ctx.fillText(conservPerc, LEFT_PAD + middlePad + offset *
                             CHAR_SPACE + 5, TOP_PAD + (3 + seqs.length) * V_PER_SEQ);
