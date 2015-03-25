@@ -133,6 +133,12 @@
                             categories: data['y_categories'],
                             reversed: true,
                             title: 'Sample ID',
+                            labels: {
+                                formatter: function() {
+                                    return this.value + ' (' +
+                                    data.totals[this.value] + ')';
+                                },
+                            },
                         },
 
                         colorAxis: {

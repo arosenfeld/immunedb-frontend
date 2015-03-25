@@ -65,7 +65,7 @@
                     $scope.thresholdName = $scope.threshold.split('_')[1] + '%';
                 } else {
                     $scope.thresholdName = $scope.threshold.split('_')[1] +
-                        'sequences';
+                        ' Sequences';
                 }
             }
 

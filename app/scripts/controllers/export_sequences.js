@@ -318,6 +318,15 @@
                 }
             }
 
+            $scope.toggleAll = function() {
+                $scope.checked_fields = [];
+                if ($scope.allToggled) {
+                    angular.forEach($scope.fields, function(v) {
+                        $scope.checked_fields.push(v['header'])
+                    });
+                }
+            }
+
             var init = function() {
                 $scope.showLoader()
                 $scope.checked_fields = angular.copy(tab_fields);
@@ -330,6 +339,7 @@
                 $scope.id = $routeParams['id'];
                 $scope.duplicates = false;
                 $scope.noresults = false;
+                $scope.allToggled = true;
                 $scope.minCopyNumber = 1;
 
                 $scope.hideLoader()

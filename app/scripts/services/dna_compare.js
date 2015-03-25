@@ -104,7 +104,7 @@
                     } else {
                         ctx.fillStyle = '#000000';
                     }
-                    
+
                     if (j < seq.read_start) {
                         ctx.globalAlpha = 0.4;
                     }
@@ -220,7 +220,7 @@
             ];
 
             angular.forEach(regions, function(region, i) {
-                drawRegion(ctx, 
+                drawRegion(ctx,
                     region.color,
                     LEFT_PAD + middlePad,
                     25,
