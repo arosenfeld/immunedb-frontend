@@ -1,7 +1,7 @@
 (function() {
     'use strict';
 
-    angular.module('ImmunologyApp').controller('ClonesCompareCtrl', ['$scope',
+    angular.module('ImmunologyApp').controller('CloneCtrl', ['$scope',
             '$http', '$location', '$routeParams', '$timeout', '$log', '$modal',
             'dnaCompare', 'lineage', 'APIService',
         function($scope, $http, $location, $routeParams, $timeout, $log, $modal,
@@ -93,7 +93,7 @@
 
                 $http({
                     method: 'GET',
-                    url: APIService.getUrl() + 'clone_compare/' + $routeParams['cloneId']
+                    url: APIService.getUrl() + 'clone/' + $routeParams['cloneId']
                 }).success(function(data, status) {
                     $scope.cloneInfo = data;
                     $scope.apiUrl = APIService.getUrl();

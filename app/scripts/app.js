@@ -18,9 +18,9 @@
                     templateUrl: 'views/clones.html',
                     controller: 'ClonesCtrl',
                 })
-                .when('/:apiPath/clone_compare/:uids', {
-                    templateUrl: 'views/clone_compare.html',
-                    controller: 'ClonesCompareCtrl',
+                .when('/:apiPath/clone/:cloneId/:sampleIds?', {
+                    templateUrl: 'views/clone.html',
+                    controller: 'CloneCtrl',
                 })
                 .when('/:apiPath/sequence/:sampleId/:seqId', {
                     templateUrl: 'views/sequence.html',

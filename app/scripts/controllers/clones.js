@@ -23,7 +23,7 @@
             }
 
             $scope.viewSamples = function() {
-                $location.path($scope.apiPath + '/clone_compare/' + $scope.clone_id + '/' + $scope.clone_samples.join(','));
+                $location.path($scope.apiPath + '/clone/' + $scope.clone_id + '/' + $scope.clone_samples.join(','));
             }
 
             $scope.updateClones = function() {

@@ -10,7 +10,7 @@
                 'studies': 'studies',
                 'samples': 'studies',
                 'clones': 'clones',
-                'clone_compare': 'clones',
+                'clone': 'clones',
                 'sequence': 'sequences',
                 'sequences': 'sequences',
                 'subjects': 'subjects',
