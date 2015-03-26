@@ -232,37 +232,42 @@ clones across versions.</div>
             Lineage Tree
             <small>All sequences for this clone.  Labels indicate the number of mutation from most recent ancestor.</small>
           </h4>
-          <div class="alert alert-danger" role="alert" ng-show="sampleWarning">
-            <strong>Warning: </strong> Lineage trees include <i>all</i>
-            sequences in a clone, not only those in the selected samples.
+          <div class="alert alert-warning" role="alert" ng-show="treeError">
+            No lineage tree has been generated for this clone.
           </div>
-          <div style="float:right">
-            <div class="btn-group" role="group">
-              <button type="button" class="btn btn-default"
-                ng-click="showFanouts=!showFanouts;updateTree()">{{ showFanouts ? 'Hide' : 'Show' }} Large Leaf Fanouts</button>
-
+          <div ng-show="!treeError">
+            <div class="alert alert-danger" role="alert" ng-show="sampleWarning">
+              <strong>Warning: </strong> Lineage trees include <i>all</i>
+              sequences in a clone, not only those in the selected samples.
+            </div>
+            <div style="float:right">
               <div class="btn-group" role="group">
-                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-                  Color By...<span class="caret"></span>
-                </button>
-                <ul class="dropdown-menu pull-right" role="menu">
-                  <li>
-                    <a ng-click="colorBy='tissues';updateTree()">
-                      <i class="fa fa-check fa-fw"
-                      ng-show="colorBy=='tissues'"></i>Tissue
-                    </a>
-                  </li>
-                  <li>
-                    <a ng-click="colorBy='subsets';updateTree()">
-                      <i class="fa fa-check fa-fw"
-                      ng-show="colorBy=='subsets'"></i>Subset
-                    </a>
-                  </li>
-                </ul>
+                <button type="button" class="btn btn-default"
+                  ng-click="showFanouts=!showFanouts;updateTree()">{{ showFanouts ? 'Hide' : 'Show' }} Large Leaf Fanouts</button>
+
+                <div class="btn-group" role="group">
+                  <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                    Color By...<span class="caret"></span>
+                  </button>
+                  <ul class="dropdown-menu pull-right" role="menu">
+                    <li>
+                      <a ng-click="colorBy='tissues';updateTree()">
+                        <i class="fa fa-check fa-fw"
+                        ng-show="colorBy=='tissues'"></i>Tissue
+                      </a>
+                    </li>
+                    <li>
+                      <a ng-click="colorBy='subsets';updateTree()">
+                        <i class="fa fa-check fa-fw"
+                        ng-show="colorBy=='subsets'"></i>Subset
+                      </a>
+                    </li>
+                  </ul>
+                </div>
               </div>
             </div>
+            <div id="tree" class="text-center"></div>
           </div>
-          <div id="tree" class="text-center"></div>
         </td>
       </tr>
     </tbody>

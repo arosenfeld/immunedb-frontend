@@ -49,9 +49,16 @@
             }
 
             $scope.updateTree = function() {
-                lineage.makeTree(APIService.getUrl() +
-                    'clone_tree/' + $scope.cloneId, '#tree',
-                    $scope.colorBy, !$scope.showFanouts);
+                $scope.treeError = false;
+                lineage.makeTree(
+                    APIService.getUrl() + 'clone_tree/' + $scope.cloneId,
+                    '#tree', $scope.colorBy, !$scope.showFanouts,
+                    function(success) {
+                        $scope.$apply(function() {
+                            $scope.treeError = !success;
+                        });
+                    }
+                );
             }
 
             $scope.setThreshold = function(threshold) {

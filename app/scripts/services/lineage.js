@@ -4,7 +4,7 @@
     angular.module('ImmunologyApp').factory('lineage', ['lookups', '$log',
         function(lookups, $log) {
             return {
-                makeTree: function(jsonPath, elemName, colorBy, hideLargeLeaves) {
+                makeTree: function(jsonPath, elemName, colorBy, hideLargeLeaves, finishCb) {
                     d3.select(elemName + ' > *').remove();
                     var width = $(elemName).width();
                     var height = 800;
@@ -86,6 +86,10 @@
                         .projection(function(d) { return [d.x + width / 2,
                         d.y + 25]; });
                     d3.json(jsonPath, function(error, root) {
+                        if (error != null) {
+                            finishCb(false);
+                            return;
+                        }
                         var nodes = tree.nodes(root);
                         var links = tree.links(nodes);
 
@@ -135,6 +139,7 @@
                                 }
                                 return d.data.mutations.length;
                             });
+                        finishCb(true);
                     });
                 }
             };
