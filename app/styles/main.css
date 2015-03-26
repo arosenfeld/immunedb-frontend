@@ -66,3 +66,11 @@ a.faded {
 .dropdown-wide {
     width: 250px;
 }
+
+.heading-button {
+    margin-top: -7px;
+}
+
+.table-center th, td {
+    text-align: center;
+}

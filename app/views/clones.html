@@ -52,7 +52,8 @@
   </div>
 </div>
 <div class="table-responsive">
-  <button ng-click="viewSamples()" class="btn btn-primary btn-lg btn-pad" ng-disabled="checked_samples.length == 0">Show Selected</button>
+  <button ng-click="viewSamples()" class="btn btn-primary btn-lg btn-pad"
+    ng-disabled="clone_samples.length == 0">Show Selected</button>
   <form novalidate>
     <table class="table table-bordered">
       <thead>
@@ -135,6 +136,7 @@
         </tr>
       </tbody>
     </table>
-    <button ng-click="viewSamples()" class="btn btn-primary btn-lg btn-pad" ng-disabled="checked_samples.length == 0">Show Selected</button>
+    <button ng-click="viewSamples()" class="btn btn-primary btn-lg btn-pad"
+      ng-disabled="clone_samples.length == 0">Show Selected</button>
   </form>
 </div>

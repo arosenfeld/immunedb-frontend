@@ -39,7 +39,7 @@
 <div class="header">
   <ol class="breadcrumb">
     <li><i class="fa fa-sitemap fa-fw"></i> <a href="#/{{ apiPath }}/clones">Clones</a> </li>
-    <li>Clone Comparison</li>
+    <li>Clone</li>
   </ol>
 </div>
 <div class='notifications top-right'></div>
@@ -54,222 +54,303 @@ database versions.  Keep in mind that clone IDs are <i>not</i> guaranteed to be
 consistent across different versions.  Use clone group IDs to compare similar
 clones across versions.</div>
 
-<h3>Clone Details</h3>
-<div class="table-responsive">
+<h3>Clone #{{ cloneInfo.clone.id }}</h3>
+<div class="panel panel-default">
+  <div class="panel-heading">Basic Information</div>
+    <div class="table-responsive">
+      <table class="table table-bordered">
+        <thead>
+          <tr>
+            <th>Clone ID</th>
+            <th>Group ID</th>
+            <th>V Gene</th>
+            <th>J Gene</th>
+            <th>CDR3 Length</th>
+            <th>CDR3 AA</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>{{ cloneInfo.clone.id }}</td>
+            <td><a href="#/{{ apiPath }}/clones/?group={{ cloneInfo.clone.group.id }}"
+              target="_blank">{{ cloneInfo.clone.group.id }}</a></td>
+            <td>{{ cloneInfo.clone.group.v_gene }}</td>
+            <td>{{ cloneInfo.clone.group.j_gene }}</td>
+            <td>{{ cloneInfo.clone.cdr3_nt.length }}</td>
+            <td ng-bind-html="cloneInfo.clone.group.cdr3_aa | aminoAcid" class="text-mono"></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<div class="panel panel-default">
+  <div class="panel-heading">
+    Clone Sequences
+    <span ng-show="showSeqs">(<a ng-click="showSeqs = !showSeqs">Hide</a>)</span>
+    <div class="pull-right heading-button">
+      <a type="button" class="btn btn-primary" href="#/{{ apiPath
+      }}/export_sequences/clone/{{ cloneInfo.clone.id }}" target="_blank">Export
+      Sequences...</a>
+    </div>
+  </div>
+  <div class="table-responsive">
+    <h4 class="faded text-center" ng-hide="showSeqs">Click <a
+        ng-click="showSeqs = !showSeqs">here</a> to show all {{ cloneInfo.seqs.length }} sequences.</h4>
+    <table class="table table-bordered" ng-show="showSeqs">
+      <thead>
+        <tr class="info">
+          <th>Sample #</th>
+          <th>Sample Name</th>
+          <th>Representative Sequence ID</th>
+          <th>Copy Number</th>
+        </tr>
+      </thead>
+      <tbody ng-repeat="stat in cloneInfo.seqs">
+        <tr>
+          <td>{{ stat.sample.id }}</td>
+          <td><a href="#/{{ apiPath }}/samples/{{ stat.sample.id }}" target="_blank">{{ stat.sample.name }}</a></td>
+          <td><a href="#/{{ apiPath }}/sequence/{{ stat.sample.id }}/{{ stat.seq_id }}" target="_blank">{{ stat.seq_id }}</a></td>
+          <td>{{ stat.copy_number }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div class="panel panel-default">
+  <div class="panel-heading">Mutation Statistics</div>
+  <div class="panel-body">
+    <div class="btn-group" role="group">
+      <div class="btn-group" role="group">
+        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+          Threshold: {{ thresholdName == "0%" ? 'All' : thresholdName }}<span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu" role="menu">
+          <li ng-repeat="cutoff in cutoffs">
+            <a ng-click="setThreshold(cutoff[1])">
+              <i class="fa fa-check fa-fw"
+              ng-show="cutoff[1] == threshold"></i><span
+                ng-bind-html="cutoff[0]"></span>
+            <span class="badge pull-right">
+                {{
+                  cloneInfo.mutation_stats.regions[cutoff[1]].ALL.counts[field].synonymous
+                  +
+                  cloneInfo.mutation_stats.regions[cutoff[1]].ALL.counts[field].nonconservative
+                  +
+                  cloneInfo.mutation_stats.regions[cutoff[1]].ALL.counts[field].conservative
+                  +
+                  cloneInfo.mutation_stats.regions[cutoff[1]].ALL.counts[field].unknown
+                  | formatNumber
+                }}
+              </span>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <button type="button" class="btn btn-default"
+      ng-click="field = (field == 'unique' ? 'total' : 'unique')">Switch to {{ field == 'total' ? 'Unique' : 'Total' }} Mutations
+    </button>
+  </div>
   <table class="table table-bordered">
     <thead>
-      <tr class="active">
-        <th>Clone ID</th>
-        <th>Group ID</th>
-        <th>V Gene</th>
-        <th>J Gene</th>
-        <th>CDR3 Length</th>
-        <th>CDR3 AA</th>
+      <tr class="info">
+        <th>Region</th>
+        <th>Synonymous</th>
+        <th>Non-Synonymous</th>
+        <th>Unknown</th>
+        <th>Conservative</th>
+        <th>Non-Conservative</th>
       </tr>
     </thead>
-    <tbody>
+    <tbody ng-repeat="(region, stat) in cloneInfo.mutation_stats.regions[threshold]">
       <tr>
-        <td>{{ cloneInfo.clone.id }}</td>
-        <td><a href="#/{{ apiPath }}/clones/?group={{ cloneInfo.clone.group.id }}"
-          target="_blank">{{ cloneInfo.clone.group.id }}</a></td>
-        <td>{{ cloneInfo.clone.group.v_gene }}</td>
-        <td>{{ cloneInfo.clone.group.j_gene }}</td>
-        <td>{{ cloneInfo.clone.cdr3_nt.length }}</td>
-        <td ng-bind-html="cloneInfo.clone.group.cdr3_aa | aminoAcid" class="text-mono"></td>
-      </tr>
-      <tr>
-        <td colspan="6">
-          <div class="pull-right">
-            <a type="button" class="btn btn-primary" href="#/{{ apiPath
-            }}/export_sequences/clone/{{ cloneInfo.clone.id }}" target="_blank">Export
-            Sequences...</a>
-          </div>
-          <h4 class="faded text-center" ng-hide="showSeqs">Click <a
-              ng-click="showSeqs = !showSeqs">here</a> to show all {{ cloneInfo.seqs.length }} sequences.</h4>
-          <h4 ng-show="showSeqs">Sequences (<a ng-click="showSeqs = !showSeqs">Hide</a>)</h4>
-          <table class="table table-bordered" ng-show="showSeqs">
-            <thead>
-              <tr class="info">
-                <th>Sample #</th>
-                <th>Sample Name</th>
-                <th>Representative Sequence ID</th>
-                <th>Copy Number</th>
-              </tr>
-            </thead>
-            <tbody ng-repeat="stat in cloneInfo.seqs">
-              <tr>
-                <td>{{ stat.sample.id }}</td>
-                <td><a href="#/{{ apiPath }}/samples/{{ stat.sample.id }}" target="_blank">{{ stat.sample.name }}</a></td>
-                <td><a href="#/{{ apiPath }}/sequence/{{ stat.sample.id }}/{{ stat.seq_id }}" target="_blank">{{ stat.seq_id }}</a></td>
-                <td>{{ stat.copy_number }}</td>
-              </tr>
-            </tbody>
-          </table>
+        <td>
+          <strong>{{ region | uppercase }}</strong>
+          <button ng-disabled="stat.counts[field].synonymous + stat.counts[field].nonconservative + stat.counts[field].conservative == 0" class="btn btn-default btn-xs"
+          ng-click="openModal('Mutations', stat)">Show Mutations</button>
         </td>
-      </tr>
-      <tr>
-        <td colspan="6" ng-init="field='unique'">
-          <h4>
-            <div class="btn-group" role="group">
-              <div class="btn-group" role="group">
-                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-                  Threshold: {{ thresholdName == "0%" ? 'All' : thresholdName }}<span class="caret"></span>
-                </button>
-                <ul class="dropdown-menu" role="menu">
-                  <li ng-repeat="cutoff in cutoffs">
-                    <a ng-click="setThreshold(cutoff[1])">
-                      <i class="fa fa-check fa-fw"
-                      ng-show="cutoff[1] == threshold"></i><span
-                        ng-bind-html="cutoff[0]"></span>
-                      <span class="badge pull-right">
-                        {{
-                          cloneInfo.mutation_stats.regions[cutoff[1]].all.counts[field].synonymous
-                          +
-                          cloneInfo.mutation_stats.regions[cutoff[1]].all.counts[field].nonconservative
-                          +
-                          cloneInfo.mutation_stats.regions[cutoff[1]].all.counts[field].conservative
-                          | formatNumber
-                        }}
-                      </span>
-                    </a>
-                  </li>
-                </ul>
-              </div>
-            </div>
-            <button type="button" class="btn btn-default"
-              ng-click="field = (field == 'unique' ? 'total' : 'unique')">Switch to {{ field == 'total' ? 'Unique' : 'Total' }} Mutations
-            </button>
-          </div>
-          </h4>
-          <table class="table table-bordered">
-            <thead>
-              <tr class="info">
-                <th>Region</th>
-                <th>Synonymous</th>
-                <th>Non-Synonymous</th>
-                <th>Unknown</th>
-                <th>Conservative</th>
-                <th>Non-Conservative</th>
-              </tr>
-            </thead>
-            <tbody ng-repeat="(region, stat) in cloneInfo.mutation_stats.regions[threshold]">
-              <tr>
-                <td>
-                  <strong>{{ region | uppercase }}</strong>
-                  <button ng-disabled="stat.counts[field].synonymous + stat.counts[field].nonconservative + stat.counts[field].conservative == 0" class="btn btn-default btn-xs"
-                  ng-click="openModal('Mutations', stat)">Show Mutations</button>
-                </td>
-                <td>
-                  {{ stat.counts[field].synonymous | orZero }}
-                  <span class="faded">({{
-                    100 * stat.counts[field].synonymous /
-                    (stat.counts[field].nonconservative +
-                    stat.counts[field].conservative +
-                    stat.counts[field].synonymous +
-                    stats.counts[field].unknown) | orZero | number:2 }}%)</span>
-                </td>
-                <td>
-                  {{ stat.counts[field].nonconservative + stat.counts[field].conservative | orZero }}
-                  <span class="faded">({{
-                    100 * (stat.counts[field].nonconservative + stat.counts[field].conservative) /
-                    (stat.counts[field].nonconservative +
-                    stat.counts[field].conservative +
-                    stat.counts[field].synonymous +
-                    stats.counts[field].unknown) | orZero | number:2 }}%)</span>
-                </td>
-                <td>
-                  {{ stat.counts[field].unknown | orZero }}
-                  <span class="faded">({{
-                    100 * stat.counts[field].unknown /
-                    (stat.counts[field].nonconservative +
-                    stat.counts[field].conservative +
-                    stat.counts[field].synonymous +
-                    stats.counts[field].unknown) | orZero | number:2 }}%)</span>
-                </td>
-                <td class="active">
-                  {{ stat.counts[field].conservative | orZero }}
-                  <span class="faded">({{
-                    100 * stat.counts[field].conservative /
-                    (stat.counts[field].nonconservative + stat.counts[field].conservative) | orZero | number:2 }}%)</span>
-                </td>
-                <td class="active">
-                  {{ stat.counts[field].nonconservative | orZero }}
-                  <span class="faded">({{ 100 * stat.counts[field].nonconservative / (stat.counts[field].nonconservative + stat.counts[field].conservative) | orZero | number:2 }}%)</span>
-                </td>
-              </tr>
-            </tbody>
-          </table>
+        <td>
+          {{ stat.counts[field].synonymous | orZero }}
+          <span class="faded">({{
+            100 * stat.counts[field].synonymous /
+            (stat.counts[field].nonconservative +
+            stat.counts[field].conservative +
+            stat.counts[field].synonymous +
+            stats.counts[field].unknown) | orZero | number:2 }}%)</span>
         </td>
-      </tr>
-      <tr>
-        <td colspan="6">
-          <h4>Sequence Comparison</h4>
-          <div>
-            <div class="slideWrap">
-              <span class="scroller">
-                <canvas id="compare">
-                Your browser doesn't support HTML5! Please download a newer
-                browser.
-                </canvas>
-              </span>
-            </div>
-            <ul class="pager">
-              <li ng-show="page > 0"><a href=""
-                  ng-click="prevPage()")>Previous</a></li>
-              <li>
-                Page {{ page + 1 }} / {{
-                Math.ceil(cloneInfo.seqs.length / SEQS_PER_CANVAS) }}</li>
-              <li
-                ng-show="page + 1 < Math.ceil(cloneInfo.seqs.length /
-              SEQS_PER_CANVAS)"><a href="" ng-click="nextPage()">Next</a></li>
-            </ul>
-          </div>
+        <td>
+          {{ stat.counts[field].nonconservative + stat.counts[field].conservative | orZero }}
+          <span class="faded">({{
+            100 * (stat.counts[field].nonconservative + stat.counts[field].conservative) /
+            (stat.counts[field].nonconservative +
+            stat.counts[field].conservative +
+            stat.counts[field].synonymous +
+            stats.counts[field].unknown) | orZero | number:2 }}%)</span>
         </td>
-      </tr>
-      <tr>
-        <td colspan="6">
-          <h4>
-            Lineage Tree
-            <small>All sequences for this clone.  Labels indicate the number of mutation from most recent ancestor.</small>
-          </h4>
-          <div class="alert alert-warning" role="alert" ng-show="treeError">
-            No lineage tree has been generated for this clone.
-          </div>
-          <div ng-show="!treeError">
-            <div class="alert alert-danger" role="alert" ng-show="sampleWarning">
-              <strong>Warning: </strong> Lineage trees include <i>all</i>
-              sequences in a clone, not only those in the selected samples.
-            </div>
-            <div style="float:right">
-              <div class="btn-group" role="group">
-                <button type="button" class="btn btn-default"
-                  ng-click="showFanouts=!showFanouts;updateTree()">{{ showFanouts ? 'Hide' : 'Show' }} Large Leaf Fanouts</button>
-
-                <div class="btn-group" role="group">
-                  <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-                    Color By...<span class="caret"></span>
-                  </button>
-                  <ul class="dropdown-menu pull-right" role="menu">
-                    <li>
-                      <a ng-click="colorBy='tissues';updateTree()">
-                        <i class="fa fa-check fa-fw"
-                        ng-show="colorBy=='tissues'"></i>Tissue
-                      </a>
-                    </li>
-                    <li>
-                      <a ng-click="colorBy='subsets';updateTree()">
-                        <i class="fa fa-check fa-fw"
-                        ng-show="colorBy=='subsets'"></i>Subset
-                      </a>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-            <div id="tree" class="text-center"></div>
-          </div>
+        <td>
+          {{ stat.counts[field].unknown | orZero }}
+          <span class="faded">({{
+            100 * stat.counts[field].unknown /
+            (stat.counts[field].nonconservative +
+            stat.counts[field].conservative +
+            stat.counts[field].synonymous +
+            stats.counts[field].unknown) | orZero | number:2 }}%)</span>
+        </td>
+        <td class="active">
+          {{ stat.counts[field].conservative | orZero }}
+          <span class="faded">({{
+            100 * stat.counts[field].conservative /
+            (stat.counts[field].nonconservative + stat.counts[field].conservative) | orZero | number:2 }}%)</span>
+        </td>
+        <td class="active">
+          {{ stat.counts[field].nonconservative | orZero }}
+          <span class="faded">({{ 100 * stat.counts[field].nonconservative / (stat.counts[field].nonconservative + stat.counts[field].conservative) | orZero | number:2 }}%)</span>
         </td>
       </tr>
     </tbody>
   </table>
+</div>
+
+
+<div class="panel panel-default">
+  <div class="panel-heading">
+    Selection Pressure
+
+    <span ng-show="showAllPressure">
+      (<a ng-click="showAllPressure=false">Only show selection pressure for entire clone</a>)
+    </span>
+  </div>
+  <table class="table table-bordered table-center">
+    <thead>
+      <tr>
+        <th></th>
+        <th colspan="4">Observed Mutations</th>
+        <th colspan="4">Expected</th>
+        <th colspan="4">Focused Test</th>
+      </tr>
+      <tr>
+        <th></th>
+        <th colspan="2">CDR</th>
+        <th colspan="2">FR</th>
+        <th colspan="2">CDR</th>
+        <th colspan="2">FR</th>
+        <th colspan="4">Selection Value (&Sigma;)</th>
+      </tr>
+      <tr class="active">
+        <th>Sample Name</th>
+        <th>S</th>
+        <th>R</th>
+        <th>S</th>
+        <th>R</th>
+        <th>S</th>
+        <th>R</th>
+        <th>S</th>
+        <th>R</th>
+        <th colspan="2">CDR</th>
+        <th colspan="2">FR</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr ng-repeat="pressure in selectionPressure | orderBy:'sample.id'"
+          ng-show="pressure.sample.id == 0 || showAllPressure">
+        <td>
+          <a href="#/{{ apiPath }}/samples/{{ pressure.sample.id }}"
+               target="_blank" ng-show="pressure.sample.id != 0">
+            {{ pressure.sample.name }}
+          </a>
+          <strong ng-show="pressure.sample.id == 0"><i>Entire Clone</i></strong>
+        </td>
+        <td>{{ pressure.pressure.Observed_CDR_S }}</td>
+        <td>{{ pressure.pressure.Observed_CDR_R }}</td>
+        <td>{{ pressure.pressure.Observed_FWR_S }}</td>
+        <td>{{ pressure.pressure.Observed_FWR_R }}</td>
+        <td>{{ pressure.pressure.Expected_CDR_S }}</td>
+        <td>{{ pressure.pressure.Expected_CDR_R }}</td>
+        <td>{{ pressure.pressure.Expected_FWR_S }}</td>
+        <td>{{ pressure.pressure.Expected_FWR_R }}</td>
+
+        <td colspan="2" ng-style="getColor(pressure.pressure.Focused_P_CDR)">{{ pressure.pressure.Focused_Sigma_CDR }}</td>
+        <td colspan="2" ng-style="getColor(pressure.pressure.Focused_P_FWR)">{{ pressure.pressure.Focused_Sigma_FWR }}</td>
+      </tr>
+      <tr>
+        <td colspan="13">
+          <a ng-click="showAllPressure=true" ng-show="!showAllPressure">Click here
+          to show selection pressure for each sample</a>
+        </td>
+    </tbody>
+  </table>
+</div>
+
+<div class="panel panel-default">
+  <div class="panel-heading">Sequence Comparison</div>
+    <div class="panel-body">
+      <div>
+        <div class="slideWrap">
+          <span class="scroller">
+            <canvas id="compare">
+            Your browser doesn't support HTML5! Please download a newer
+            browser.
+            </canvas>
+          </span>
+        </div>
+        <ul class="pager">
+          <li ng-show="page > 0"><a href=""
+              ng-click="prevPage()")>Previous</a></li>
+          <li>
+            Page {{ page + 1 }} / {{
+            Math.ceil(cloneInfo.seqs.length / SEQS_PER_CANVAS) }}</li>
+          <li
+            ng-show="page + 1 < Math.ceil(cloneInfo.seqs.length /
+          SEQS_PER_CANVAS)"><a href="" ng-click="nextPage()">Next</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="panel panel-default">
+  <div class="panel-heading">Lineage Tree</div>
+    <div class="panel-body">
+      <div class="alert alert-warning" role="alert" ng-show="treeError">
+        No lineage tree has been generated for this clone.
+      </div>
+      <div ng-show="!treeError">
+        <div class="alert alert-danger" role="alert" ng-show="sampleWarning">
+          <strong>Warning: </strong> Lineage trees include <i>all</i>
+          sequences in a clone, not only those in the selected samples.
+        </div>
+        <div style="float:right">
+          <div class="btn-group" role="group">
+            <button type="button" class="btn btn-default"
+              ng-click="showFanouts=!showFanouts;updateTree()">{{ showFanouts ? 'Hide' : 'Show' }} Large Leaf Fanouts</button>
+
+            <div class="btn-group" role="group">
+              <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                Color By...<span class="caret"></span>
+              </button>
+              <ul class="dropdown-menu pull-right" role="menu">
+                <li>
+                  <a ng-click="colorBy='tissues';updateTree()">
+                    <i class="fa fa-check fa-fw"
+                    ng-show="colorBy=='tissues'"></i>Tissue
+                  </a>
+                </li>
+                <li>
+                  <a ng-click="colorBy='subsets';updateTree()">
+                    <i class="fa fa-check fa-fw"
+                    ng-show="colorBy=='subsets'"></i>Subset
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div id="tree" class="text-center"></div>
+      </div>
+    </div>
+  </div>
 </div>

@@ -71,6 +71,22 @@
                 }
             }
 
+            $scope.getColor = function(prob) {
+                var color = '';
+                prob = parseFloat(prob);
+                if (isNaN(prob)) {
+                    color = '#ffffff';
+                } else if (prob < 0) {
+                    var others = parseInt(0xff - 0xff * -prob).toString(16);
+                    color = '#' + others + 'ff' + others;
+                } else {
+                    var others = parseInt(0xff - 0xff * prob).toString(16);
+                    color = '#ff' + others + others;
+                }
+
+                return { 'background-color': color };
+            }
+
             var init = function() {
                 $scope.showLoader();
                 $scope.$parent.page_title = 'Clone Comparison';
@@ -95,13 +111,15 @@
                     method: 'GET',
                     url: APIService.getUrl() + 'clone/' + $routeParams['cloneId']
                 }).success(function(data, status) {
-                    $scope.cloneInfo = data;
+                    $scope.cloneInfo = data['clone'];
+                    $scope.selectionPressure = data['selection_pressure'];
                     $scope.apiUrl = APIService.getUrl();
                     $scope.Math = Math;
 
                     $scope.cloneId = $routeParams['cloneId'];
                     $scope.page = 0;
 
+                    $scope.field = 'unique';
                     $scope.showFanouts = true;
                     $scope.colorBy = 'tissues';
                     $scope.updateTree();
