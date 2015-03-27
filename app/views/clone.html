@@ -120,7 +120,15 @@ clones across versions.</div>
 </div>
 
 <div class="panel panel-default">
-  <div class="panel-heading">Mutation Statistics</div>
+  <div class="panel-heading">
+    Mutation Statistics
+
+    <div class="pull-right heading-button">
+      <a type="button" class="btn btn-primary" href="#/{{ apiPath
+      }}/export_mutations/clone/{{ cloneInfo.clone.id }}" target="_blank">Export
+      Mutations...</a>
+    </div>
+  </div>
   <div class="panel-body">
     <div class="btn-group" role="group">
       <div class="btn-group" role="group">
