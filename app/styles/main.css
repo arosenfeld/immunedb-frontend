@@ -71,6 +71,6 @@ a.faded {
     margin-top: -7px;
 }
 
-.table-center th, td {
+.table-center th, .table-center td {
     text-align: center;
 }

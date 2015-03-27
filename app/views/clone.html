@@ -237,7 +237,8 @@ clones across versions.</div>
         <th colspan="2">FR</th>
         <th colspan="2">CDR</th>
         <th colspan="2">FR</th>
-        <th colspan="4">Selection Value (&Sigma;)</th>
+        <th colspan="2">Selection Value (&Sigma;)</th>
+        <th colspan="2">95% CI</th>
       </tr>
       <tr class="active">
         <th>Sample Name</th>
@@ -249,8 +250,10 @@ clones across versions.</div>
         <th>R</th>
         <th>S</th>
         <th>R</th>
-        <th colspan="2">CDR</th>
-        <th colspan="2">FR</th>
+        <th>CDR</th>
+        <th>FR</th>
+        <th>CDR</th>
+        <th>FR</th>
       </tr>
     </thead>
     <tbody>
@@ -272,8 +275,18 @@ clones across versions.</div>
         <td>{{ pressure.pressure.Expected_FWR_S }}</td>
         <td>{{ pressure.pressure.Expected_FWR_R }}</td>
 
-        <td colspan="2" ng-style="getColor(pressure.pressure.Focused_P_CDR)">{{ pressure.pressure.Focused_Sigma_CDR }}</td>
-        <td colspan="2" ng-style="getColor(pressure.pressure.Focused_P_FWR)">{{ pressure.pressure.Focused_Sigma_FWR }}</td>
+        <td ng-style="getColor(pressure.pressure.Focused_P_CDR)">{{
+          pressure.pressure.Focused_Sigma_CDR }}
+        </td>
+        <td ng-style="getColor(pressure.pressure.Focused_P_FWR)">{{ pressure.pressure.Focused_Sigma_FWR }}</td>
+        <td>
+          {{ pressure.pressure.Focused_CIlower_CDR }},
+          {{pressure.pressure.Focused_CIupper_CDR }}
+        </td>
+        <td>
+          {{ pressure.pressure.Focused_CIlower_FWR }},
+          {{pressure.pressure.Focused_CIupper_FWR }}
+        </td>
       </tr>
       <tr>
         <td colspan="13">
