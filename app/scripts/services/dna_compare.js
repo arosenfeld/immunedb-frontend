@@ -111,24 +111,29 @@
                     ctx.fillText(c, left, top);
                     ctx.globalAlpha = 1;
 
-                    if (typeof mutation_stats != 'undefined') {
-                        var mutation = seq.mutations[j];
-                        if ('CUS?'.indexOf(mutation) >= 0) {
-                                ctx.beginPath();
-                                ctx.rect(left - 2, top - CHAR_SPACE + 8, 15, 15);
-                                ctx.lineWidth = 2;
+                    if (j in seq.mutations) {
+                        if (
+                                typeof mutation_stats != 'undefined' ||
+                                (j < 309 || j >= 309 + cdr3_num_nts)
+                           ) {
+                            ctx.beginPath();
+                            ctx.rect(left - 2, top - CHAR_SPACE + 8, 15, 15);
+                            ctx.lineWidth = 2;
 
-                                if (mutation == 'C') {
+                            switch (seq.mutations[j]) {
+                                case 'conservative':
+                                case 'nonconservative':
                                     ctx.strokeStyle = '#ff0000';
-                                } else if (mutation == 'U') {
-                                    ctx.strokeStyle = '#ff0000';
-                                } else if (mutation == 'S') {
+                                    break;
+                                case 'synonymous':
                                     ctx.strokeStyle = '#00ff00';
-                                } else if (mutation == '?') {
+                                    break;
+                                case 'unknown':
                                     ctx.strokeStyle = '#1c1c1c';
-                                }
+                                    break;
+                            }
 
-                                ctx.stroke();
+                            ctx.stroke();
                         }
                     }
                     if (j == 0 || (j + 1) % 10 == 0) {
@@ -149,25 +154,32 @@
                 ctx.fillStyle = '#ff5500';
                 ctx.fillText('Non-conserved %', LEFT_PAD + 15, TOP_PAD + (4 + seqs.length) * V_PER_SEQ);
 
-                angular.forEach(mutation_stats.positions, function(vals, offset) {
-                    var nonsynonymous = vals['conservative'] +
-                        vals['nonconservative'];
-                    var silentPerc = Math.round(100 * vals['synonymous'] /
+                angular.forEach(mutation_stats['positions'], function(vals, offset) {
+                    var synonymous = vals['synonymous'] || 0;
+                    var conservative = vals['conservative'] || 0;
+                    var nonConservative = vals['nonconservative'] || 0;
+                    var unknown = vals['unknown'] || 0;
+
+                    var silentPerc = Math.round(100 * synonymous /
                         total_seqs);
-                    var changePerc = Math.round(100 * nonsynonymous / total_seqs);
-                    var conservPerc = Math.round(100 * vals['conservative'] /
+                    var nonSynonymous = Math.round(100 * (conservative +
+                        nonConservative) / total_seqs);
+
+                    var conservPerc = Math.round(100 * conservative /
                         total_seqs);
-                    var nonConservPerc = Math.round(100 * vals['nonconservative'] /
+                    var nonConservPerc = Math.round(100 * nonConservative /
                         total_seqs);
                     ctx.font = '10px Courier New';
                     ctx.textAlign = 'center';
-                    ctx.fillStyle = '#00ff00';
-                    ctx.fillText(silentPerc, LEFT_PAD + middlePad + offset *
+                    if (synonymous > 0) {
+                        ctx.fillStyle = '#00ff00';
+                        ctx.fillText(silentPerc, LEFT_PAD + middlePad + offset *
                         CHAR_SPACE + 5, TOP_PAD + (1 + seqs.length) * V_PER_SEQ);
-                    ctx.fillStyle = '#ff0000';
-                    ctx.fillText(changePerc, LEFT_PAD + middlePad + offset *
-                        CHAR_SPACE + 5, TOP_PAD + (2 + seqs.length) * V_PER_SEQ);
-                    if (changePerc > 0) {
+                    }
+                    if (nonSynonymous > 0) {
+                        ctx.fillStyle = '#ff0000';
+                        ctx.fillText(nonSynonymous, LEFT_PAD + middlePad + offset *
+                            CHAR_SPACE + 5, TOP_PAD + (2 + seqs.length) * V_PER_SEQ);
                         ctx.fillStyle = '#ff0055';
                         ctx.fillText(conservPerc, LEFT_PAD + middlePad + offset *
                             CHAR_SPACE + 5, TOP_PAD + (3 + seqs.length) * V_PER_SEQ);

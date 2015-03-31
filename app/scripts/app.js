@@ -18,9 +18,9 @@
                     templateUrl: 'views/clones.html',
                     controller: 'ClonesCtrl',
                 })
-                .when('/:apiPath/clone_compare/:uids', {
-                    templateUrl: 'views/clone_compare.html',
-                    controller: 'ClonesCompareCtrl',
+                .when('/:apiPath/clone/:cloneId/:sampleIds?', {
+                    templateUrl: 'views/clone.html',
+                    controller: 'CloneCtrl',
                 })
                 .when('/:apiPath/sequence/:sampleId/:seqId', {
                     templateUrl: 'views/sequence.html',
@@ -49,6 +49,10 @@
                 .when('/:apiPath/export_sequences/:type/:id', {
                     templateUrl: 'views/export_sequences.html',
                     controller: 'ExportSequencesCtrl',
+                })
+                .when('/:apiPath/export_mutations/:type/:id', {
+                    templateUrl: 'views/export_mutations.html',
+                    controller: 'ExportMutationsCtrl',
                 })
                 .when('/:apiPath/modification_log', {
                     templateUrl: 'views/modification_log.html',

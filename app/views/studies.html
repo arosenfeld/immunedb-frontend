@@ -12,19 +12,28 @@
   processing and are show in yellow.</div>
   <div class="alert alert-danger" role="alert" ng-show="anyInvalid"><strong>Note:</strong> One or
   more samples have no identifiable reads and are shown in red.</div>
-  <div class="btn-group" >
-    <a type="button" ng-click="viewSamples()"
-      class="btn btn-primary btn-lg btn-pad"
-      ng-disabled="checked_samples.length == 0">Compare</a>
-    <a type="button" class="btn btn-lg btn-default"
-      href="#/{{ apiPath }}/export_sequences/sample/{{ checked_samples.join(',') }}"
-      ng-disabled="checked_samples.length == 0" target="_blank">Export Sequences</a>
-    <a type="button" class="btn btn-lg btn-default"
-      href="#/{{ apiPath }}/export_clones/sample/{{ checked_samples.join(',') }}"
-      ng-disabled="checked_samples.length == 0" target="_blank">Export Clones</a>
-  </div>
-  <div style="float: right">
-    <input type="text" class="form-control" placeholder="Search..." ng-model="sample_filter"></input>
+  <div class="btn-pad">
+    <div class="btn-group" >
+      <a type="button" ng-click="viewSamples()"
+        class="btn btn-primary btn-lg"
+        ng-disabled="checked_samples.length == 0">Compare</a>
+
+      <button type="button" class="btn btn-default btn-lg dropdown-toggle" data-toggle="dropdown"
+        ng-disabled="checked_samples.length == 0">
+        Export <span class="caret"></span>
+      </button>
+      <ul class="dropdown-menu" role="menu">
+        <li><a
+          href="#/{{ apiPath }}/export_sequences/sample/{{ checked_samples.join(',') }}"
+          ng-disabled="checked_samples.length == 0" target="_blank">Sequences</a></li>
+        <li><a
+          href="#/{{ apiPath }}/export_clones/sample/{{ checked_samples.join(',') }}"
+          ng-disabled="checked_samples.length == 0" target="_blank">Clones</a></li>
+        <li><a
+          href="#/{{ apiPath }}/export_mutations/sample/{{ checked_samples.join(',') }}"
+          ng-disabled="checked_samples.length == 0" target="_blank">Mutations</a></li>
+      </ul>
+    </div>
   </div>
   <form novalidate>
     <table class="table table-bordered">

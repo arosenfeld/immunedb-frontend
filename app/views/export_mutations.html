@@ -1,0 +1,87 @@
+<div class="header">
+  <ol class="breadcrumb">
+    <li><i class="fa fa-download"></i> Mutations</li>
+    <li>{{ type }}</li>
+    <li>{{ id.split(',').length > 25 ? (id.split(',') | slice:0:25) + '...' : id }}</li>
+  </ol>
+</div>
+
+<h3>Clone Mutation Export</h3>
+<div class="table-responsive">
+<div class="panel panel-default">
+  <table class="table table-bordered">
+    <tbody>
+      <tr class="active">
+        <th class="text-center">Export Options</th>
+      </tr>
+      <tr ng-show="type=='Sample'">
+        <td>
+          <div class="checkbox">
+            <label>
+              <input type="checkbox" ng-model="onlySampleRows"><strong>Limit output to
+                samples:</strong>
+              <p>
+                If selected, mutation stats for the clones will be limited to
+                the sample(s) {{ ids }}.  Otherwise, mutation stats for all
+                samples in which the clones appear will be output.
+              </p>
+            </label>
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <div class="checkbox">
+            <label>
+              <input type="checkbox" ng-model="limitMuts"><strong>Threshold
+                Mutations:</strong>
+              <p>
+              When selected, mutations can be limited by either the number or
+              percentage of sequences in which they appear.
+              </p>
+            </label>
+          </div>
+        </td>
+      </tr>
+      <tr ng-show="limitMuts">
+        <td>
+          <div class="row">
+            <div class="form-group col-sm-2">
+              <label>Threshold Type:</label>
+              <div class="dropdown">
+                <button class="btn btn-default dropdown-toggle" type="button">
+                  {{ threshType ? threshTypeText : 'Select...' }} <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu" role="menu">
+                  <li role="presentation" ng-repeat="t in types">
+                    <a role="menuitem" tabindex="-1" ng-click="changeType(t)">{{ t.text }}</a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </td>
+      </tr>
+      <tr ng-show="limitMuts && threshType">
+        <td>
+          <div class="row">
+            <div class="form-group col-sm-2">
+              <label>Minimum {{ threshTypeText }}:</label>
+              <input type="number" class="form-control" name="threshValue" ng-model="threshValue">
+            </div>
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td class="text-center">
+          <a class="btn btn-success"
+            href="{{ apiUrl }}data/export_mutations/{{ type | lowercase }}/{{
+            id }}/{{ threshType }}/{{ threshValue }}?only_sample_rows={{
+            onlySampleRows ? 'true' : 'false' }}"
+            target="_blank" ng-disabled="limitMuts && (!threshType ||
+            !threshValue)">Download</a>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

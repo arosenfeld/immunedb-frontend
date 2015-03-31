@@ -49,7 +49,6 @@
 
                 createLinePlot: function(chartTitle, x_label,
                                          y_label, series) {
-                    $log.debug(series);
                     return {
                         options: {
                             chart: {

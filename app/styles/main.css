@@ -32,10 +32,6 @@ span.scroller {
     margin: 0 0 20px 0;
 }
 
-.btn-align {
-    margin: 0 0 5px 0;
-}
-
 .header {
     margin: 20px 0 0 0;
 }
@@ -65,4 +61,12 @@ a.faded {
 
 .dropdown-wide {
     width: 250px;
+}
+
+.heading-button {
+    margin-top: -7px;
+}
+
+.table-center th, .table-center td {
+    text-align: center;
 }

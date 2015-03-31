@@ -26,7 +26,7 @@
                 var fstring = '';
                 angular.forEach(aa, function(c, i) {
                     var color = lookups.aaColor(c.toUpperCase()) || '#000000';
-                    fstring += '<span class="dna" style="color: ' + color 
+                    fstring += '<span class="dna" style="color: ' + color
                         + '">' + c + '</span>';
                 });
 
@@ -57,7 +57,7 @@
         })
         .filter('orZero', function() {
             return function(input) {
-                if (isNaN(input)) {
+                if (typeof(input) == 'undefined' || isNaN(input)) {
                     return 0;
                 }
                 return input;

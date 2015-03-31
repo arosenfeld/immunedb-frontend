@@ -3,8 +3,20 @@
     <table class="table table-bordered">
       <thead>
         <tr class="active">
-          <th>Total Seqs.</th>
-          <th>Unique Seqs.</th>
+          <th>{{ summationWarning ? 'Approx.' : '' }}
+            Total Seqs.
+            <a data-toggle="tooltip" ng-show="summationWarning" title="This is
+            the sum of total sequences across the selected samples, and does not
+            account for multiple occurences of the same sequence in different
+            samples."><i class="fa fa-question-circle"></i></a>
+          </th>
+          <th>{{ summationWarning ? 'Approx.' : '' }}
+            Unique Seqs.
+            <a data-toggle="tooltip" ng-show="summationWarning" title="This is
+            the sum of unique sequences across the selected samples, and does
+            not account for multiple occurences of the same sequence in
+            different samples."><i class="fa fa-question-circle"></i></a>
+          </th>
           <th>ID</th>
           <th>Subject</th>
           <th>V Gene</th>
@@ -37,13 +49,14 @@
             <td ng-bind-html="freq.clone.group.cdr3_aa | aminoAcid" class="text-mono"></td>
             <td>
               <a ng-click="showSamples=!showSamples">
-              {{ freq.selected_samples.length }} selected
+                {{ freq.selected_samples.length }} {{ subject ? 'samples' :
+                'selected' }}
               <span ng-show="freq.other_samples.length > 0">
                 (plus {{ freq.other_samples.length }} others)
               </span> <i class="fa fa-angle-down fa-lg"></i></a>
             </td>
             <td>
-              <a href="#/{{ apiPath }}/clone_compare/{{ freq.clone.id }}"
+              <a href="#/{{ apiPath }}/clone/{{ freq.clone.id }}"
               target="_blank">View <i class="fa fa-angle-right fa-lg"></i></a>
             </td>
           </tr>
@@ -56,7 +69,7 @@
                   <th>Total Seqs.</th>
                   <th>Unique Seqs.</th>
                 </tr>
-                <tr class="active">
+                <tr class="active" ng-show="!subject">
                   <th colspan="4" class="text-center">Selected Samples</th>
                 </tr>
                 <tr ng-repeat="sample in freq.selected_samples">

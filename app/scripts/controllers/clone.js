@@ -1,7 +1,7 @@
 (function() {
     'use strict';
 
-    angular.module('ImmunologyApp').controller('ClonesCompareCtrl', ['$scope',
+    angular.module('ImmunologyApp').controller('CloneCtrl', ['$scope',
             '$http', '$location', '$routeParams', '$timeout', '$log', '$modal',
             'dnaCompare', 'lineage', 'APIService',
         function($scope, $http, $location, $routeParams, $timeout, $log, $modal,
@@ -24,18 +24,18 @@
                 });
             }
 
-            $scope.prevPage = function(cloneId) {
-                updateScroller(cloneId, Math.max(0, --$scope.pages[cloneId]));
+            $scope.prevPage = function() {
+                updateScroller(Math.max(0, --$scope.page));
             }
 
-            $scope.nextPage = function(cloneId) {
-                updateScroller(cloneId, ++$scope.pages[cloneId]);
+            $scope.nextPage = function() {
+                updateScroller(++$scope.page);
             }
 
-            var updateScroller = function(cloneId, page) {
-                var info = $scope.cloneInfo[cloneId];
+            var updateScroller = function(page) {
+                var info = $scope.cloneInfo;
                 dnaCompare.makeComparison(
-                    $('#compare-' + cloneId).get(0),
+                    $('#compare').get(0),
                     info.clone.germline,
                     info.clone.group.cdr3_num_nts,
                     info.seqs.slice(page * $scope.SEQS_PER_CANVAS, (page + 1) * $scope.SEQS_PER_CANVAS),
@@ -44,19 +44,21 @@
             }
 
             $scope.addPin = function() {
-                var names = [];
-                angular.forEach($scope.cloneInfo, function(val, key) {
-                    names.push('Clones ' + val['clone']['id']);
-                });
-                $scope.pins.addPin(names.join(', '));
+                $scope.pins.addPin('Clone ' + $scope.cloneId);
                 $scope.showNotify('This page has been pinned.');
             }
 
-            $scope.updateTree = function(cloneId) {
-                lineage.makeTree(APIService.getUrl() +
-                    'clone_tree/' + cloneId, '#tree_' + cloneId,
-                    $scope.cloneInfo[cloneId].colorBy,
-                    !$scope.cloneInfo[cloneId].showFanouts);
+            $scope.updateTree = function() {
+                $scope.treeError = false;
+                lineage.makeTree(
+                    APIService.getUrl() + 'clone_tree/' + $scope.cloneId,
+                    '#tree', $scope.colorBy, !$scope.showFanouts,
+                    function(success) {
+                        $scope.$apply(function() {
+                            $scope.treeError = !success;
+                        });
+                    }
+                );
             }
 
             $scope.setThreshold = function(threshold) {
@@ -69,11 +71,27 @@
                 }
             }
 
+            $scope.getColor = function(prob) {
+                var color = '';
+                prob = parseFloat(prob);
+                if (isNaN(prob)) {
+                    color = '#ffffff';
+                } else if (prob < 0) {
+                    var others = parseInt(0xff - 0xff * -prob).toString(16);
+                    color = '#' + others + 'ff' + others;
+                } else {
+                    var others = parseInt(0xff - 0xff * prob).toString(16);
+                    color = '#ff' + others + others;
+                }
+
+                return { 'background-color': color };
+            }
+
             var init = function() {
                 $scope.showLoader();
                 $scope.$parent.page_title = 'Clone Comparison';
                 $scope.api = APIService.getUrl();
-                $scope.pages = {};
+                $scope.page = 0;
                 $scope.cutoffs = [
                     ['All', 'percent_0'],
                     ['&ge; 20%', 'percent_20'],
@@ -85,24 +103,29 @@
                     ['&ge; 25 Seqs', 'seqs_25'],
                 ];
                 $scope.setThreshold('percent_0');
+                if (typeof $routeParams['sampleIds'] != 'undefined') {
+                    $scope.sampleWarning = true;
+                }
 
                 $http({
                     method: 'GET',
-                    url: APIService.getUrl() + 'clone_compare/' + $routeParams['uids']
+                    url: APIService.getUrl() + 'clone/' + $routeParams['cloneId']
                 }).success(function(data, status) {
-                    $scope.cloneInfo = data['clones'];
-                    angular.forEach($scope.cloneInfo, function(value, key) {
-                        value['showFanouts'] = true;
-                        value['colorBy'] = 'tissues';
-                    });
+                    $scope.cloneInfo = data['clone'];
+                    $scope.selectionPressure = data['selection_pressure'];
+                    $scope.apiUrl = APIService.getUrl();
+                    $scope.Math = Math;
 
-                    $scope.ceil = Math.ceil;
+                    $scope.cloneId = $routeParams['cloneId'];
+                    $scope.page = 0;
+
+                    $scope.field = 'unique';
+                    $scope.showFanouts = true;
+                    $scope.colorBy = 'tissues';
+                    $scope.updateTree();
+
                     $timeout(function(){
-                        for (var cid in $scope.cloneInfo) {
-                            updateScroller(cid, 0);
-                            $scope.updateTree(cid);
-                            $scope.pages[cid] = 0;
-                        }
+                        updateScroller(0);
                     }, 0);
                     $scope.hideLoader();
                 }).error(function(data, status, headers, config) {

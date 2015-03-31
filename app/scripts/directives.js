@@ -28,7 +28,7 @@
                     call.then(
                         function(result) {
                             $scope.clones = result['clones']
-                            $scope.total_pages = result['num_pages'] 
+                            $scope.total_pages = result['num_pages']
                             $scope.pageable = true;
                         },
                         function(result) {
@@ -39,7 +39,7 @@
                 $scope.apiUrl = APIService.getUrl();
                 $scope.page = 1;
                 $scope.checked_clones = [];
-                
+
                 $scope.prevPage = function() {
                     $scope.page = Math.max(1, $scope.page - 1);
                     updateClone($scope.filter, $scope.page);
@@ -50,6 +50,12 @@
                 }
 
                 var init = function() {
+                    $scope.summationWarning = $scope.samples && $scope.samples.length > 1;
+                    $(function() {
+                        $('[data-toggle="tooltip"]').tooltip({
+                            'placement': 'top'
+                        });
+                    });
                     updateClone($scope.filter, 1);
                     $scope.pageable = false;
                 }

@@ -16,6 +16,10 @@
                 title: 'V Nucleotides Matching Germline',
                 key: 'v_match_dist',
             }, {
+                title: 'Percentage of V Nucleotides Matching Germline',
+                key: 'v_identity_dist',
+                xlabel: 'Percentage'
+            }, {
                 title: 'J Gene Length',
                 key: 'j_length_dist',
             }, {
@@ -24,6 +28,7 @@
             }, {
                 title: 'Copy Number',
                 key: 'copy_number_dist',
+                xlabel: 'Copies'
             }];
 
             var filters = ['all', 'functional', 'nonfunctional', 'unique',
@@ -99,22 +104,22 @@
 
                     var xl, yl;
                     if (filter.indexOf('clone') < 0){
-                        xl = 'Sequences';
+                        yl = 'Sequences';
                     } else {
-                        xl = 'Clones';
+                        yl = 'Clones';
                     }
 
-                    if (p.key.indexOf('copy_number') < 0) {
-                        yl = 'Nucleotides';
+                    if (typeof p.xlabel == 'undefined') {
+                        xl = 'Nucleotides';
                     } else {
-                        yl = 'Copies';
+                        xl = p.xlabel;
                     }
 
                     var c = plotting.createColumnChart(
                             p.title,
                             p.key,
-                            yl,
                             xl,
+                            yl,
                             plotting.createSeries(
                                 $scope.stats, p.key, filter));
                     $scope.charts[filter].push(c);

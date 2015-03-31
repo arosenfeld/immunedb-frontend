@@ -37,6 +37,14 @@
           <input type="number" class="form-control" ng-model="filter.max_cdr3_num_nts" id="max_cdr3_len_filter" min="0" placeholder="Max. CDR3 NTs">
         </div>
         <div class="form-group">
+          <label class="sr-only" for="min_unique_filter">Min. Unique Seqs.</label>
+          <input type="number" class="form-control" ng-model="filter.min_unique" id="min_unique_filter" min="0" placeholder="Min. Unique Seqs.">
+        </div>
+        <div class="form-group">
+          <label class="sr-only" for="max_unique_filter">Max. Unique Seqs.</label>
+          <input type="number" class="form-control" ng-model="filter.max_unique" id="max_unique_filter" min="0" placeholder="Max. Unique Seqs.">
+        </div>
+        <div class="form-group">
           <button type="submit" class="btn btn-info">Filter</button>
         </div>
       </form>
@@ -44,7 +52,8 @@
   </div>
 </div>
 <div class="table-responsive">
-  <button ng-click="viewSamples()" class="btn btn-primary btn-lg btn-pad" ng-disabled="checked_samples.length == 0">Show Selected</button>
+  <button ng-click="viewSamples()" class="btn btn-primary btn-lg btn-pad"
+    ng-disabled="clone_samples.length == 0">Show Selected</button>
   <form novalidate>
     <table class="table table-bordered">
       <thead>
@@ -84,7 +93,7 @@
             <td ng-bind-html="clone.group.cdr3_aa | aminoAcid" class="text-mono"></td>
             <td>{{ clone.unique_sequences | number }}</td>
             <td>{{ clone.total_sequences | number }}</td>
-            <td><a href="#/{{ apiPath }}/clone_compare/{{ clone.id }}"
+            <td><a href="#/{{ apiPath }}/clone/{{ clone.id }}"
               target="_blank">View <i class="fa fa-angle-right fa-lg"></i></a></td>
           </tr>
           <tr>
@@ -101,7 +110,11 @@
                 </thead>
                 <tbody>
                   <tr ng-repeat="stat in clone.stats">
-                    <td><input type="checkbox" checklist-model="checked_samples" checklist-value="clone.id + '_' + stat.sample.id"></input></td>
+                    <td><input type="checkbox"
+                      ng-model="checked"
+                      ng-disabled="clone.id!=clone_id && clone_samples.length > 0"
+                      ng-change="toggleSample(clone.id, stat.sample.id)"
+                      ng-checked="isToggled(clone.id, stat.sample.id)"></input></td>
                     <td>{{ stat.sample.id }}</td>
                     <td><a href="#/{{ apiPath }}/samples/{{ stat.sample.id }}" target="_blank">{{ stat.sample.name }}</a></td>
                     <td>{{ stat.unique_sequences | number }}</td>
@@ -123,6 +136,7 @@
         </tr>
       </tbody>
     </table>
-    <button ng-click="viewSamples()" class="btn btn-primary btn-lg btn-pad" ng-disabled="checked_samples.length == 0">Show Selected</button>
+    <button ng-click="viewSamples()" class="btn btn-primary btn-lg btn-pad"
+      ng-disabled="clone_samples.length == 0">Show Selected</button>
   </form>
 </div>
