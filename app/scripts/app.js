@@ -50,6 +50,10 @@
                     templateUrl: 'views/export_sequences.html',
                     controller: 'ExportSequencesCtrl',
                 })
+                .when('/:apiPath/export_mutations/:type/:id', {
+                    templateUrl: 'views/export_mutations.html',
+                    controller: 'ExportMutationsCtrl',
+                })
                 .when('/:apiPath/modification_log', {
                     templateUrl: 'views/modification_log.html',
                     controller: 'ModificationLogCtrl',

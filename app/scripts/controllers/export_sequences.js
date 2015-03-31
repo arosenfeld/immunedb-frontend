@@ -10,7 +10,7 @@
                 'clone_id',
             ];
 
-            var tab_fields = [
+            var csv_fields = [
                 'seq_id',
                 'subject_identifier',
                 'subset',
@@ -48,22 +48,22 @@
                 {
                     'type': 'orig',
                     'text': 'FASTA Original',
-                    'fields': tab_fields,
+                    'fields': csv_fields,
                 },
                 {
                     'type': 'fill',
                     'text': 'FASTA Germline Filled',
-                    'fields': tab_fields,
+                    'fields': csv_fields,
                 },
                 {
                     'type': 'clip',
                     'text': 'FASTA CLIP',
-                    'fields': tab_fields,
+                    'fields': csv_fields,
                 },
                 {
-                    'type': 'tab',
-                    'text': 'Tab Delimited',
-                    'fields': tab_fields,
+                    'type': 'csv',
+                    'text': 'Comma Separated',
+                    'fields': csv_fields,
                 },
             ];
 
@@ -320,7 +320,7 @@
 
             var init = function() {
                 $scope.showLoader()
-                $scope.checked_fields = angular.copy(tab_fields);
+                $scope.checked_fields = angular.copy(csv_fields);
                 $scope.format = null;
                 $scope.$parent.page_title = 'Sequence Export';
                 $scope.apiUrl = APIService.getUrl();
