@@ -15,16 +15,23 @@
             },
             templateUrl: 'partials/clone_pager.html',
             controller: function($scope) {
-                var updateClone = function(filter, page) {
-                    $scope.pageable = false;
-                    if (typeof $scope.subject == 'undefined') {
-                        var call = clonePagerService.getClonesBySample(
-                            $scope.samples, filter, page);
-                    } else {
-                        var call = clonePagerService.getClonesBySubject(
-                            $scope.subject, filter, page);
-                    }
 
+                $scope.apiUrl = APIService.getUrl();
+                $scope.page = 1;
+                $scope.checked_clones = [];
+
+                var getRequest = function() {
+                    if (typeof $scope.subject == 'undefined') {
+                        return clonePagerService.getClonesBySample(
+                            $scope.samples, $scope.filter, $scope.page);
+                    }
+                    return clonePagerService.getClonesBySubject(
+                            $scope.subject, $scope.filter, $scope.page);
+                }
+
+                var updateClone = function() {
+                    $scope.pageable = false;
+                    var call = getRequest($scope.filter, $scope.page);
                     call.then(
                         function(result) {
                             $scope.clones = result['clones']
@@ -35,10 +42,6 @@
                         }
                     );
                 }
-
-                $scope.apiUrl = APIService.getUrl();
-                $scope.page = 1;
-                $scope.checked_clones = [];
 
                 $scope.prevPage = function() {
                     $scope.page = Math.max(1, $scope.page - 1);

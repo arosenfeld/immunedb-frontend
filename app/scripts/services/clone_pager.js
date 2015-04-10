@@ -23,7 +23,7 @@
                 $http({
                     url: url,
                     params: {
-                        'page': page
+                        'page': page,
                     }
                 }).success(function(data, status) {
                     var clones = data['clones'];

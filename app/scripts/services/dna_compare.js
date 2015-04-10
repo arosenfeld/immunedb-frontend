@@ -9,12 +9,6 @@
         var CHAR_SPACE = 20;
         var V_PER_SEQ = 20;
 
-        var correctGermline = function(germ, seq) {
-            // CDR3 starts @ nucleotide 309
-            return germ.substring(0, 309) + seq + germ.substring(309 +
-                seq.length, germ.length);
-        }
-
         var drawSequence = function(seq, ctx, left, top) {
             angular.forEach(seq, function(c, i) {
                 if (i % 3 == 0) {

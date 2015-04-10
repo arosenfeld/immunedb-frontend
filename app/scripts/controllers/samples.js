@@ -48,15 +48,19 @@
             }
 
             var getHeatmap = function(samples, filterType) {
+                var url = 'v_usage/' + samples.join(',') +
+                        '/' + filterType + '/' + $scope.showOutliers + '/' +
+                        $scope.showPartials + '/' + $scope.grouping + '/' +
+                        $scope.byFamily;
                 var def = $q.defer();
                 $http({
                     method: 'GET',
-                    url: APIService.getUrl() + 'v_usage/' + samples.join(',') +
-                        '/' + filterType + '/' + $scope.showOutliers + '/' +
-                        $scope.showPartials + '/' + $scope.grouping + '/' +
-                        $scope.byFamily
+                    url: APIService.getUrl() + url
                 }).success(function(data, status) {
-                    def.resolve(data);
+                    def.resolve({
+                        data: data,
+                        url: APIService.getUrl() + 'data/' + url
+                    });
                 }).error(function(data, status, headers, config) {
                     def.reject();
                 });
@@ -164,8 +168,13 @@
                     // v_call heatmap for the filter
                     getHeatmap($scope.sampleIds, filter)
                         .then(function(result) {
-                            $('#vHeatmap_' + filter).highcharts(
-                                plotting.createHeatmap(result, 'V Gene Utilization'));
+                            var data = result['data'];
+                            var url = result['url'];
+                            if (data.x_categories.length > 0) {
+                                $('#vHeatmap_' + filter).highcharts(
+                                    plotting.createHeatmap(data, 'V Gene Utilization (Excludes Genes in < 1% of ' + (
+                                        filter.indexOf('clones') >= 0 ? 'Clones' : 'Sequences') + ')', url));
+                            }
                     });
                     createColumns(filter);
                 });

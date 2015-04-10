@@ -107,6 +107,9 @@
               <li><a href="" ng-click="prevPage()" ng-show="pageable">Previous</a></li>
               <li>Page {{ page }}</li>
               <li><a href="" ng-click="nextPage()" ng-show="pageable">Next</a></li>
+              <li class="pull-right">
+                <a href="{{ apiUrl }}clone_overlap/{{ filter }}/{{ samples.join(',') }}?export=true" target="_new">Export All</a>
+              </li>
             </ul>
           </td>
         </tr>

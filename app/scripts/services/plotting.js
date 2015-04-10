@@ -102,11 +102,10 @@
                     }
                 },
 
-                createHeatmap: function(data, chartTitle) {
+                createHeatmap: function(data, chartTitle, exportUrl) {
                     return {
                         chart: {
                             type: 'heatmap',
-                            height: 250 + data['y_categories'].length * 25
                         },
 
                         credits: {
@@ -176,17 +175,60 @@
 
                         series: [{
                             data: data['data'].map(function(point) {
-                                if (point[2] != 'none') {
-                                    return [point[0], point[1],
-                                    point[2] == 0 ? 0 : Math.log(point[2])];
-                                }
-                                return [point[0], point[1], 0];
+                                return [point[0], point[1], point[2] == 0 ?
+                                    0 : Math.log(point[2])];
                             }),
                             turboThreshold: 0
                         }],
 
                         exporting: {
-                            sourceWidth: 2000
+                            sourceWidth: 2000,
+                            buttons: {
+                                contextButton: {
+                                    menuClassName: 'highcharts-contextmenu',
+                                    symbol: 'menu',
+                                    _titleKey: 'contextButtonTitle',
+                                    menuItems: [{
+                                        textKey: 'printChart',
+                                        onclick: function () {
+                                            this.print();
+                                        }
+                                    }, {
+                                        separator: true
+                                    }, {
+                                        textKey: 'downloadPNG',
+                                        onclick: function () {
+                                            this.exportChart();
+                                        }
+                                    }, {
+                                        textKey: 'downloadJPEG',
+                                        onclick: function () {
+                                            this.exportChart({
+                                                type: 'image/jpeg'
+                                            });
+                                        }
+                                    }, {
+                                        textKey: 'downloadPDF',
+                                        onclick: function () {
+                                            this.exportChart({
+                                                type: 'application/pdf'
+                                            });
+                                        }
+                                    }, {
+                                        textKey: 'downloadSVG',
+                                        onclick: function () {
+                                            this.exportChart({
+                                                type: 'image/svg+xml'
+                                            });
+                                        }
+                                    }, {
+                                        text: 'Download CSV',
+                                        onclick: function () {
+                                            window.open(exportUrl);
+                                        }
+                                    }]
+                                }
+                            }
                         },
                     };
                 },
