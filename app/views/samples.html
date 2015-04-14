@@ -306,23 +306,30 @@
 </div>
 
 <div class="panel panel-default">
-  <div class="panel-heading">Rarefaction &amp; Diversity</div>
+  <div class="panel-heading">Clonal Rarefaction</div>
   <div class="panel-body">
     <div class="well text-center">
       <div>
         <form class="form-inline">
-          <div class="checkbox">
-            <label>
-              <input type="checkbox" ng-model="rarefactionSample"> Sample Based
-            </label>
+          <div class="dropdown form-group">
+            <button class="btn btn-default dropdown-toggle" type="button">
+              {{ rarefactionModes[rarefactionMode] }} <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu" role="menu">
+              <li role="presentation" ng-repeat="(mode, label) in rarefactionModes">
+                <a role="menuitem" tabindex="-1"
+                  ng-click="setRarefactionMode(mode)">{{ label }}</a>
+              </li>
+            </ul>
           </div>
           <div class="form-group">
             <input type="number" class="form-control" min="1"
             ng-model="rarefactionPoints" placeholder="Approx. Data Points" style="width:
-            200px">
+            200px" ng-hide="rarefactionMode == 'sample'">
           </div>
           <button type="button" class="btn btn-primary"
-              ng-click="generateRarefaction()" ng-disabled="!rarefactionPoints">
+              ng-click="generateRarefaction()" ng-disabled="rarefactionMode !=
+              'sample' && !rarefactionPoints">
           Calculate Rarefaction
           </button>
         </form>
@@ -336,6 +343,29 @@
       </div>
     </div>
     <div id="rarefaction"></div>
+  </div>
+</div>
+
+<div class="panel panel-default">
+  <div class="panel-heading">Sequence V Gene AA Diversity</div>
+  <div class="panel-body">
+    <div class="well text-center">
+      <div ng-hide="diversityStatus!='none'">
+          <button type="button" class="btn btn-primary"
+              ng-click="generateDiversity()">
+          Calculate Positional Diversity
+          </button>
+        </form>
+        <p>
+          <strong>Warning:</strong> Calculating diversity for large samples may take a
+          long time.
+        </p>
+      </div>
+      <div ng-show="diversityStatus=='loading'">
+        <i class="fa fa-spinner fa-spin"></i> Calculating diversity...
+      </div>
+    </div>
+    <div id="diversity"></div>
   </div>
 </div>
 

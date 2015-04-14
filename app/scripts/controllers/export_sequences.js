@@ -301,7 +301,6 @@
             ];
 
             $scope.clearFields = function() {
-                $log.debug('clear');
                 $scope.checked_fields = [];
             }
 
@@ -319,10 +318,12 @@
             }
 
             $scope.toggleAll = function() {
-                $scope.checked_fields = [];
+                $scope.checked_fields = ['seq_id'];
                 if ($scope.allToggled) {
                     angular.forEach($scope.fields, function(v) {
-                        $scope.checked_fields.push(v['header'])
+                        if ($scope.fields.indexOf(v['header']) < 0) {
+                            $scope.checked_fields.push(v['header'])
+                        }
                     });
                 }
             }

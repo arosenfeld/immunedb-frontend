@@ -73,10 +73,28 @@
                 $http({
                     method: 'GET',
                     url: APIService.getUrl() + 'rarefaction/' +
-                    samples.join(',') + '/' + $scope.rarefactionSample +
-                    '/false/1/' + $scope.rarefactionPoints
+                        samples.join(',') + '/' + $scope.rarefactionMode +
+                        '/false/1/' + ($scope.rarefactionPoints || 0),
+                    params: {
+                        'reps': 100
+                    },
                 }).success(function(data, status) {
                     def.resolve(data['rarefaction']);
+                }).error(function(data, status, headers, config) {
+                    def.reject();
+                });
+
+                return def.promise;
+            }
+
+            var getDiversity = function(samples) {
+                var def = $q.defer();
+                $http({
+                    method: 'GET',
+                    url: APIService.getUrl() + 'diversity/' +
+                        samples.join(',') + '/1/1'
+                }).success(function(data, status) {
+                    def.resolve(data['diversity']);
                 }).error(function(data, status, headers, config) {
                     def.reject();
                 });
@@ -129,6 +147,12 @@
                     $scope.charts[filter].push(c);
                 });
             }
+
+            $scope.rarefactionModes = {
+                'sample': 'Sample Based',
+                'individual': 'Individual Based',
+                'individual_emp': 'Individual Based (Emperical)'
+            };
 
             $scope.doRequest = function() {
                 // Do the GET request for results
@@ -204,6 +228,26 @@
                         });
             }
 
+            $scope.generateDiversity = function() {
+                $scope.diversityStatus = 'loading';
+                getDiversity($routeParams['sampleIds'].split(','))
+                        .then(function(result) {
+                            $('#diversity').highcharts(
+                                plotting.createLinePlot(
+                                    "Sequence Diversity",
+                                    "Position",
+                                    "Diversity",
+                                    result));
+                            $('#diversity').highcharts().reflow();
+                            $scope.diversityStatus = 'loaded';
+                        });
+            }
+
+            $scope.setRarefactionMode = function(mode) {
+                $log.debug(mode);
+                $scope.rarefactionMode = mode;
+            }
+
             var init = function() {
                 $scope.showLoader()
                 $scope.$parent.page_title = 'Sample Comparison';
@@ -231,8 +275,11 @@
                 $scope.showOutliers = false;
                 $scope.showPartials = false;
 
-                $scope.rarefactionSample = false;
                 $scope.rarefactionStatus = 'none';
+                $scope.rarefactionMode = 'sample';
+
+                $scope.diversityStatus = 'none';
+
                 $scope.selectedSamples = [];
                 $timeout($scope.doRequest, 0);
             }
