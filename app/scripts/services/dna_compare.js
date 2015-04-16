@@ -53,7 +53,7 @@
             ctx.font = 'bold 12px Courier New';
 
             ctx.fillText('Germline', LEFT_PAD, TOP_PAD);
-            var middlePad = (CHAR_SPACE - 12) * labelMaxLength;
+            var middlePad = (CHAR_SPACE - 10) * labelMaxLength;
 
             drawSequence(germline, ctx, middlePad, 0);
 
@@ -87,11 +87,17 @@
                 ctx.stroke()
                 ctx.globalAlpha = 1;
 
-                angular.forEach(seq.sequence, function(c, j) {
+                var filled_seq = germline.substr(0, seq.read_start) + seq.sequence.substr(seq.read_start);
+                angular.forEach(filled_seq, function(c, j) {
                     var left = LEFT_PAD + middlePad + (CHAR_SPACE * j);
                     var top = TOP_PAD + V_PER_SEQ * (i + 1);
                     var aaStart = j - (j % 3);
-                    var nt = seq.sequence.substring(aaStart, aaStart + 3);
+                    var nt;
+
+                    if (j < seq.read_start) {
+                        ctx.globalAlpha = 0.2;
+                    }
+                    nt = filled_seq.substring(aaStart, aaStart + 3);
 
                     if (lookups.aaLookup(nt) != null) {
                         ctx.fillStyle = lookups.aaColor(lookups.aaLookup(nt));
@@ -99,9 +105,6 @@
                         ctx.fillStyle = '#000000';
                     }
 
-                    if (j < seq.read_start) {
-                        ctx.globalAlpha = 0.4;
-                    }
                     ctx.fillText(c, left, top);
                     ctx.globalAlpha = 1;
 
