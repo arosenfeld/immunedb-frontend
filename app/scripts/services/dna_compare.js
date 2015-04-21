@@ -9,6 +9,10 @@
         var CHAR_SPACE = 20;
         var V_PER_SEQ = 20;
 
+        var getPhredColor = function(number) {
+            return 'hsl(' + (number / 41 * 120) + ', 100%, 45%)';
+        }
+
         var drawSequence = function(seq, ctx, left, top) {
             angular.forEach(seq, function(c, i) {
                 if (i % 3 == 0) {
@@ -185,6 +189,20 @@
                             CHAR_SPACE + 5, TOP_PAD + (4 + seqs.length) * V_PER_SEQ);
                     }
 
+                });
+            } else if (seqs[0].quality.length > 0) {
+                ctx.fillStyle = '#777777';
+                ctx.fillText('Phred Quality Score (Range: 0 - 41)', LEFT_PAD, TOP_PAD + (1 + seqs.length) * V_PER_SEQ);
+                ctx.font = '10px Courier New';
+                ctx.textAlign = 'center';
+                angular.forEach(seqs[0].quality, function(c, offset) {
+                    var left = LEFT_PAD + middlePad + (CHAR_SPACE * offset);
+                    // Get Phred score
+                    var quality = c.charCodeAt(0) - 33;
+                    ctx.fillStyle = getPhredColor(quality);
+
+                    ctx.fillText(quality, LEFT_PAD + middlePad + offset *
+                        CHAR_SPACE + 5, TOP_PAD + (1 + seqs.length) * V_PER_SEQ);
                 });
             }
 

@@ -26,6 +26,11 @@
                 title: 'J Nucleotides Matching Germline',
                 key: 'j_match_dist',
             }, {
+                title: 'Phred Quality Score',
+                xlabel: 'Position',
+                ylabel: 'Avg. Phred Quality Score',
+                key: 'quality_dist',
+            },{
                 title: 'Copy Number',
                 key: 'copy_number_dist',
                 xlabel: 'Copies'
@@ -34,18 +39,6 @@
             var filters = ['all', 'functional', 'nonfunctional', 'unique',
                            'unique_multiple', 'clones_all', 'clones_functional',
                            'clones_nonfunctional'];
-
-            var changeZoom = function(min, max) {
-                angular.forEach(columnPlots, function(
-                    plot, i) {
-                    angular.forEach(filters, function(filter, i) {
-                        $('#' + plot.key + '_' +
-                            filter).highcharts().xAxis[0].setExtremes(
-                            min, max,
-                            true);
-                    });
-                });
-            }
 
             var getHeatmap = function(samples, filterType) {
                 var url = 'v_usage/' + samples.join(',') +
@@ -113,41 +106,44 @@
                     }
                     // All column plots for the filter
                     angular.forEach(columnPlots, function(plot, i) {
-                        $('#' + plot.key + '_' +
-                            filter).highcharts().reflow();
+                        if (!(filter.indexOf('clone') >= 0 && plot.key == 'quality_dist')) {
+                            $('#' + plot.key + '_' + filter).highcharts().reflow();
+                        }
                     });
                 });
             }
 
             var createColumns = function(filter) {
                 $scope.charts[filter] = [];
-                angular.forEach(columnPlots, function(p,
-                    i) {
-                    if (!(filter in $scope.charts)) {
-                        $scope.charts[filter] = [];
-                    }
+                angular.forEach(columnPlots, function(p, i) {
 
-                    var xl, yl;
-                    if (filter.indexOf('clone') < 0){
-                        yl = 'Sequences';
-                    } else {
-                        yl = 'Clones';
-                    }
+                    if (!(filter.indexOf('clone') >= 0 && p.key == 'quality_dist')) {
+                        if (!(filter in $scope.charts)) {
+                            $scope.charts[filter] = [];
+                        }
 
-                    if (typeof p.xlabel == 'undefined') {
-                        xl = 'Nucleotides';
-                    } else {
-                        xl = p.xlabel;
-                    }
+                        var xl, yl;
+                        if (filter.indexOf('clone') < 0) {
+                            yl = 'Sequences';
+                        } else {
+                            yl = 'Clones';
+                        }
 
-                    var c = plotting.createColumnChart(
-                            p.title,
-                            p.key,
-                            xl,
-                            yl,
-                            plotting.createSeries(
-                                $scope.stats, p.key, filter));
-                    $scope.charts[filter].push(c);
+                        if (typeof p.xlabel == 'undefined') {
+                            xl = 'Nucleotides';
+                        } else {
+                            xl = p.xlabel;
+                        }
+
+                        var c = plotting.createColumnChart(
+                                p.title,
+                                p.key,
+                                xl,
+                                yl,
+                                plotting.createSeries(
+                                    $scope.stats, p.key, filter));
+                        $scope.charts[filter].push(c);
+                    }
                 });
             }
 
