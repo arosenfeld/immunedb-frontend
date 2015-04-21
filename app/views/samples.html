@@ -6,10 +6,35 @@
   </ol>
 </div>
 <div class='notifications top-right'></div>
-<button type="button" class="btn btn-success pull-right"
-    ng-click="addPin()">
-  <i class="fa fa-thumb-tack fa-fw"></i> Pin Page
-</button>
+
+<ul class="nav nav-pills pull-right" role="tablist">
+  <li>
+    <button type="button" class="btn btn-primary"
+        ng-click="showPartials = false; doRequest()" ng-show="showPartials">
+      <i class="fa fa-minus-square-o fa-fw"></i> Exclude Partial Reads
+    </button>
+    <button type="button" class="btn btn-primary"
+        ng-click="showPartials = true; doRequest()" ng-show="!showPartials">
+      <i class="fa fa-plus-square-o fa-fw"></i> Include Partial Reads
+    </button>
+  </li>
+  <li>
+    <button type="button" class="btn btn-primary"
+        ng-click="showOutliers = false; doRequest()" ng-show="showOutliers">
+      <i class="fa fa-minus-square-o fa-fw"></i> Exclude Outliers
+    </button>
+    <button type="button" class="btn btn-primary"
+        ng-click="showOutliers = true; doRequest()" ng-show="!showOutliers">
+      <i class="fa fa-plus-square-o fa-fw"></i> Include Outliers
+    </button>
+  </li>
+  <li>
+    <button type="button" class="btn btn-success pull-right"
+        ng-click="addPin()">
+      <i class="fa fa-thumb-tack fa-fw"></i> Pin Page
+    </button>
+  </li>
+</ul>
 
 <div class="alert alert-warning" role="alert" ng-show="missing.length >
 0"><strong>Warning: </strong> The following samples do not have statistical information, or do not exist:
@@ -36,9 +61,9 @@
         </th>
         <th>Functional <a data-toggle="tooltip" title="Sequences which are in-frame and contain no stop codons"><i class="fa fa-question-circle"></i></a>
         </th>
-        <th>Unique <a data-toggle="tooltip" title="Unique sequences"><i class="fa fa-question-circle"></i></a>
+        <th>Funct. &amp; Unique <a data-toggle="tooltip" title="Unique sequences"><i class="fa fa-question-circle"></i></a>
         </th>
-        <th>Unique CN &gt; 1 <a data-toggle="tooltip" title="Unique sequences with copy number greater than one"><i class="fa fa-question-circle"></i></a>
+        <th>Funct. &amp; Unique &amp; CN &gt; 1 <a data-toggle="tooltip" title="Unique sequences with copy number greater than one"><i class="fa fa-question-circle"></i></a>
         </th>
         <th>Clones <a data-toggle="tooltip" title="Number of clones"><i class="fa fa-question-circle"></i></a>
         </th>
@@ -114,7 +139,7 @@
   <div class="panel-heading">Sample Analysis</div>
   <div class="panel-body">
     <div ng-show="cnts.all.total > 0">
-      <h3 ng-init="filter='Unique with Copy Number > 1'">Feature Distributions: <i>{{ filter }}</i></h3>
+      <h3 ng-init="filter='Unique Functional Sequences with Copy Number > 1'">{{ filter }}</h3>
       <ul class="nav nav-pills" role="tablist" id="funcTab">
         <li class="dropdown">
           <a role="button" data-toggle="dropdown">Clones <span class="caret"></span></a>
@@ -137,15 +162,17 @@
           </ul>
         </li>
         <li class="dropdown">
-          <a role="button" data-toggle="dropdown">Unique <span class="caret"></span></a>
+          <a role="button" data-toggle="dropdown">Functional &amp; Unique <span class="caret"></span></a>
           <ul class="dropdown-menu" role="menu">
             <li ng-class="cnts.unique.total == 0 ? 'disabled' : ''">
-              <a href="#unique" role="tab" data-toggle="tab" ng-click="filter='All Unique'">
+              <a href="#unique" role="tab" data-toggle="tab"
+                ng-click="filter='Unique Functional Sequences'">
                 <span class="badge pull-right">{{ cnts.unique.total | formatNumber }}</span>All
               </a>
             </li>
             <li ng-class="cnts.unique_multiple.total == 0 ? 'disabled' : ''">
-              <a href="#unique_multiple" role="tab" data-toggle="tab" ng-click="filter='Unique with Copy Number > 1'">
+              <a href="#unique_multiple" role="tab" data-toggle="tab"
+                ng-click="filter='Unique Functional Sequences with Copy Number > 1'">
                 <span class="badge pull-right">{{ cnts.unique_multiple.total | formatNumber }}</span>Copy # > 1
               </a>
             </li>
@@ -156,12 +183,14 @@
           <a role="button" data-toggle="dropdown">Functionality <span class="caret"></span></a>
           <ul class="dropdown-menu" role="menu">
             <li ng-class="cnts.functional.total == 0 ? 'disabled' : ''">
-              <a href="#functional" role="tab" data-toggle="tab" ng-click="filter='Functional'">
+              <a href="#functional" role="tab" data-toggle="tab"
+                ng-click="filter='Functional Sequences'">
                 <span class="badge pull-right">{{ cnts.functional.total | formatNumber }}</span>Functional
               </a>
             </li>
             <li ng-class="cnts.nonfunctional.total == 0 ? 'disabled' : ''">
-              <a href="#nonfunctional" role="tab" data-toggle="tab" ng-click="filter='Non-Functional'">
+              <a href="#nonfunctional" role="tab" data-toggle="tab"
+                    ng-click="filter='Non-Functional Sequences'">
                 <span class="badge pull-right">{{ cnts.nonfunctional.total | formatNumber }}</span>Non-Functional
               </a>
             </li>
@@ -169,27 +198,8 @@
         </li>
 
         <li ng-class="cnts.all.total == 0 ? 'disabled' : ''">
-          <a href="#all" role="tab" data-toggle="tab" ng-click="filter='All'"><span class="badge pull-right">{{ cnts.all.total | formatNumber }}</span> All</a>
-        </li>
-        <li class="pull-right">
-            <button type="button" class="btn btn-primary pull-right"
-                ng-click="showPartials = false; doRequest()" ng-show="showPartials">
-              <i class="fa fa-minus-square-o fa-fw"></i> Exclude Partial Reads
-            </button>
-            <button type="button" class="btn btn-primary pull-right"
-                ng-click="showPartials = true; doRequest()" ng-show="!showPartials">
-              <i class="fa fa-plus-square-o fa-fw"></i> Include Partial Reads
-            </button>
-        </li>
-        <li class="pull-right">
-            <button type="button" class="btn btn-primary pull-right"
-                ng-click="showOutliers = false; doRequest()" ng-show="showOutliers">
-              <i class="fa fa-minus-square-o fa-fw"></i> Exclude Outliers
-            </button>
-            <button type="button" class="btn btn-primary pull-right"
-                ng-click="showOutliers = true; doRequest()" ng-show="!showOutliers">
-              <i class="fa fa-plus-square-o fa-fw"></i> Include Outliers
-            </button>
+          <a href="#all" role="tab" data-toggle="tab" ng-click="filter='All
+            Sequences'"><span class="badge pull-right">{{ cnts.all.total | formatNumber }}</span> All</a>
         </li>
         <li class="pull-right">
           <div class="btn-group">

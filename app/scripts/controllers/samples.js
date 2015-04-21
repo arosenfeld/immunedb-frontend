@@ -106,7 +106,10 @@
                 angular.forEach(filters, function(filter) {
                     // v_call heatmap for the filter
                     if (doV) {
-                        $('#vHeatmap_' + filter).highcharts().reflow();
+                        var chart = $('#vHeatmap_' + filter).highcharts();
+                        if (typeof chart != 'undefined') {
+                            chart.reflow();
+                        }
                     }
                     // All column plots for the filter
                     angular.forEach(columnPlots, function(plot, i) {

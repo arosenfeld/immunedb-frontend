@@ -87,7 +87,7 @@
                 ctx.stroke()
                 ctx.globalAlpha = 1;
 
-                var filled_seq = germline.substr(0, seq.read_start) + seq.sequence.substr(seq.read_start);
+                var filled_seq = germline.substr(0, seq.read_start) + seq.sequence.substr(seq.read_start, seq.length);
                 angular.forEach(filled_seq, function(c, j) {
                     var left = LEFT_PAD + middlePad + (CHAR_SPACE * j);
                     var top = TOP_PAD + V_PER_SEQ * (i + 1);
