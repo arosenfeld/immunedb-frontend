@@ -6,34 +6,42 @@
             'APIService',
         function($scope, $http, $routeParams, $log, $q, plotting, $timeout, APIService) {
 
-            var columnPlots = [{
+            var plots = [{
                 title: 'CDR3 Length',
                 key: 'cdr3_length_dist',
+                type: 'column',
             }, {
                 title: 'V Gene Length',
                 key: 'v_length_dist',
+                type: 'column',
             }, {
                 title: 'V Nucleotides Matching Germline',
                 key: 'v_match_dist',
+                type: 'column',
             }, {
                 title: 'Percentage of V Nucleotides Matching Germline',
                 key: 'v_identity_dist',
-                xlabel: 'Percentage'
+                xlabel: 'Percentage',
+                type: 'column',
             }, {
                 title: 'J Gene Length',
                 key: 'j_length_dist',
+                type: 'column',
             }, {
                 title: 'J Nucleotides Matching Germline',
                 key: 'j_match_dist',
+                type: 'column',
             }, {
                 title: 'Phred Quality Score',
                 xlabel: 'Position',
                 ylabel: 'Avg. Phred Quality Score',
                 key: 'quality_dist',
+                type: 'line',
             },{
                 title: 'Copy Number',
                 key: 'copy_number_dist',
-                xlabel: 'Copies'
+                xlabel: 'Copies',
+                type: 'column',
             }];
 
             var filters = ['all', 'functional', 'nonfunctional', 'unique',
@@ -105,7 +113,7 @@
                         }
                     }
                     // All column plots for the filter
-                    angular.forEach(columnPlots, function(plot, i) {
+                    angular.forEach(plots, function(plot, i) {
                         if (!(filter.indexOf('clone') >= 0 && plot.key == 'quality_dist')) {
                             $('#' + plot.key + '_' + filter).highcharts().reflow();
                         }
@@ -113,9 +121,9 @@
                 });
             }
 
-            var createColumns = function(filter) {
+            var createPlots = function(filter) {
                 $scope.charts[filter] = [];
-                angular.forEach(columnPlots, function(p, i) {
+                angular.forEach(plots, function(p, i) {
 
                     if (!(filter.indexOf('clone') >= 0 && p.key == 'quality_dist')) {
                         if (!(filter in $scope.charts)) {
@@ -123,23 +131,27 @@
                         }
 
                         var xl, yl;
-                        if (filter.indexOf('clone') < 0) {
-                            yl = 'Sequences';
-                        } else {
-                            yl = 'Clones';
-                        }
-
                         if (typeof p.xlabel == 'undefined') {
                             xl = 'Nucleotides';
                         } else {
                             xl = p.xlabel;
                         }
+                        if (typeof p.ylabel == 'undefined') {
+                            if (filter.indexOf('clone') < 0) {
+                                yl = 'Sequences';
+                            } else {
+                                yl = 'Clones';
+                            }
+                        } else {
+                            yl = p.ylabel;
+                        }
 
-                        var c = plotting.createColumnChart(
+                        var c = plotting.createPlot(
                                 p.title,
                                 p.key,
                                 xl,
                                 yl,
+                                p.type,
                                 plotting.createSeries(
                                     $scope.stats, p.key, filter));
                         $scope.charts[filter].push(c);
@@ -199,7 +211,7 @@
                                         filter.indexOf('clones') >= 0 ? 'Clones' : 'Sequences') + ')', url));
                             }
                     });
-                    createColumns(filter);
+                    createPlots(filter);
                 });
             }
 
@@ -217,10 +229,12 @@
                 getRarefaction($routeParams['sampleIds'].split(','))
                         .then(function(result) {
                             $('#rarefaction').highcharts(
-                                plotting.createLinePlot(
+                                plotting.createPlot(
                                     "Clone Rarefaction",
+                                    "clone_rarefaction",
                                     "Subsamples",
                                     "E[clones]",
+                                    'line',
                                     result));
                             $('#rarefaction').highcharts().reflow();
                             $scope.rarefactionStatus = 'loaded';
@@ -232,11 +246,16 @@
                 getDiversity($routeParams['sampleIds'].split(','))
                         .then(function(result) {
                             $('#diversity').highcharts(
-                                plotting.createLinePlot(
+                                plotting.createPlot(
                                     "Sequence Diversity",
+                                    "sequence_diversity",
                                     "Position",
                                     "Diversity",
-                                    result));
+                                    'line',
+                                    [{
+                                        name: 'Diversity',
+                                        data: result
+                                    }]));
                             $('#diversity').highcharts().reflow();
                             $scope.diversityStatus = 'loaded';
                         });

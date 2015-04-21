@@ -359,7 +359,7 @@
 <div class="panel panel-default">
   <div class="panel-heading">Sequence V Gene AA Diversity</div>
   <div class="panel-body">
-    <div class="well text-center">
+    <div class="well text-center" ng-hide="diversityStatus=='loaded'">
       <div ng-hide="diversityStatus!='none'">
           <button type="button" class="btn btn-primary"
               ng-click="generateDiversity()">

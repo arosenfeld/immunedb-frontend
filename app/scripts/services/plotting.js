@@ -5,12 +5,12 @@
             'lookups',
         function($log, $filter, lookups) {
             return {
-                createColumnChart: function(chartTitle, key, x_label,
-                                            y_label, all_series) {
+                createPlot: function(chartTitle, key, x_label,
+                                     y_label, type, all_series) {
                     return {
                         options: {
                             chart: {
-                                type: 'column',
+                                type: type,
                                 zoomType: 'x',
                             }
                         },
@@ -26,7 +26,7 @@
                         xAxis: {
                             title: {
                                 text: x_label
-                            }
+                            },
                         },
 
                         yAxis: {
@@ -43,61 +43,6 @@
 
                         exporting: {
                             scale: 4,
-                        },
-                    }
-                },
-
-                createLinePlot: function(chartTitle, x_label,
-                                         y_label, series) {
-                    return {
-                        options: {
-                            chart: {
-                                type: 'column',
-                                zoomType: 'x',
-                            }
-                        },
-
-                        credits: {
-                            enabled: false
-                        },
-
-                        title: {
-                            text: chartTitle
-                        },
-
-                        xAxis: {
-                            title: {
-                                text: x_label
-                            }
-                        },
-
-                        yAxis: {
-                            min: 0,
-                            title: {
-                                text: y_label
-                            }
-                        },
-
-                        loading: false,
-
-                        series: [{
-                            name: 'Rarefaction',
-                            data: series
-                        }],
-
-                        exporting: {
-                            scale: 4,
-                        },
-
-                        legend: {
-                            enabled: false,
-                        },
-
-                        tooltip: {
-                            formatter: function() {
-                                return '<b>Subsamples:</b> ' + this.point.x + '<br/>' +
-                                '<b>E[clones]:</b> ' + this.point.y.toFixed(2);
-                            }
                         },
                     }
                 },
@@ -233,12 +178,12 @@
                     };
                 },
 
-                createSeries: function(data, seriesKey, type) {
+                createSeries: function(data, seriesKey, filter) {
                     var series = [];
                     angular.forEach(data, function(plot, name) {
                         series.push({
                             name: name,
-                            data: plot[type][seriesKey],
+                            data: plot[filter][seriesKey],
                             turboThreshold: 0
                         });
                     });
