@@ -77,16 +77,15 @@ ng-show="seq.probable_indel_or_misalign">
 
     <tr>
       <th>
-        Copy Number in Sample
-        <a data-toggle="tooltip" title="Copies of this sequence (after filling
-        in germline) that occured in the sample"><i class="fa
-        fa-question-circle"></i></a>
+        Exact Copies in Sample
+        <a data-toggle="tooltip" title="Number of exact copies of this sequence
+        that occured in the sample"><i class="fa fa-question-circle"></i></a>
       </th>
       <td>{{ seq.copy_number }}</td>
       <th>
-        Total Copy Number
+        Germline Filled Copy Number In All Samples
         <a data-toggle="tooltip" title="Copies of this sequence (after filling
-        in germline) that occured anywhere"><i class="fa
+        in germline) that occured in all samples"><i class="fa
         fa-question-circle"></i></a>
       </th>
       <td>{{ seq.total_copy_number }}</td>

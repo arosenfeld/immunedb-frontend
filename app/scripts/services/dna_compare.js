@@ -197,12 +197,13 @@
                 ctx.textAlign = 'center';
                 angular.forEach(seqs[0].quality, function(c, offset) {
                     var left = LEFT_PAD + middlePad + (CHAR_SPACE * offset);
-                    // Get Phred score
-                    var quality = c.charCodeAt(0) - 33;
-                    ctx.fillStyle = getPhredColor(quality);
+                    if (c != ' ') {
+                        var quality = c.charCodeAt(0) - 33;
+                        ctx.fillStyle = getPhredColor(quality);
 
-                    ctx.fillText(quality, LEFT_PAD + middlePad + offset *
-                        CHAR_SPACE + 5, TOP_PAD + (1 + seqs.length) * V_PER_SEQ);
+                        ctx.fillText(quality, LEFT_PAD + middlePad + offset *
+                            CHAR_SPACE + 5, TOP_PAD + (1 + seqs.length) * V_PER_SEQ);
+                    }
                 });
             }
 

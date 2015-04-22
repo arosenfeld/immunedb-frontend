@@ -66,9 +66,12 @@
                                     label += '<span style="color: #a0a0a0">Subsets(s): </span>' + d.data.subsets + '<br/>';
                                 }
                                 label += '<span style="color: #a0a0a0">Seq ID(s): </span><br/>';
-                                angular.forEach(d.data.seq_ids, function(val, key) {
+                                angular.forEach(d.data.seq_ids.slice(0, 25), function(val, key) {
                                     label += val + '<br/>';
                                 });
+                                if (d.data.seq_ids.length > 25) {
+                                    label += '... ' + (d.data.seq_ids.length - 25) + ' more ...<br/>';
+                                }
                             }
                             label += '<span style="color:#a0a0a0">Mutations: </span><br/>'
                             var muts = d.data.mutations.sort(function(a, b) {
