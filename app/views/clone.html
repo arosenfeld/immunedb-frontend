@@ -331,6 +331,15 @@ clones across versions.</div>
   </div>
 </div>
 
+<div class="panel panel-default" ng-hide="hideQuality">
+  <div class="panel-heading">Sequencing Quality</div>
+    <div class="panel-body">
+      <div ng-controller="HighChartController">
+        <highchart config="qualityConfig" id="quality-plot"></highchart>
+      </div>
+    </div>
+  </div>
+</div>
 
 <div class="panel panel-default">
   <div class="panel-heading">Lineage Tree</div>

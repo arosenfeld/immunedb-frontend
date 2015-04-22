@@ -3,9 +3,9 @@
 
     angular.module('ImmunologyApp').controller('CloneCtrl', ['$scope',
             '$http', '$location', '$routeParams', '$timeout', '$log', '$modal',
-            'dnaCompare', 'lineage', 'APIService',
+            'dnaCompare', 'lineage', 'plotting', 'APIService',
         function($scope, $http, $location, $routeParams, $timeout, $log, $modal,
-                dnaCompare, lineage, APIService) {
+                dnaCompare, lineage, plotting, APIService) {
 
             $scope.SEQS_PER_CANVAS = 100;
 
@@ -123,6 +123,24 @@
                     $scope.showFanouts = true;
                     $scope.colorBy = 'tissues';
                     $scope.updateTree();
+
+                    if (data.clone.quality.length > 0) {
+                        $scope.hideQuality = false;
+                        $('#quality-plot').highcharts(
+                            plotting.createPlot(
+                                'Phred Quality Score',
+                                'quality',
+                                'Position',
+                                'Avg. Phred Quality Score',
+                                'line',
+                                [{
+                                    name: 'Quality',
+                                    data: data.clone.quality,
+                                }]));
+                        $('#quality-plot').highcharts().reflow();
+                    } else {
+                        $scope.hideQuality = true;
+                    }
 
                     $timeout(function(){
                         updateScroller(0);
