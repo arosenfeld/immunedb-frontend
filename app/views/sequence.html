@@ -74,23 +74,75 @@ ng-show="seq.probable_indel_or_misalign">
       </th>
       <td>{{ seq.alignment }}</td>
     </tr>
-
     <tr>
       <th>
         Exact Copies in Sample
-        <a data-toggle="tooltip" title="Number of exact copies of this sequence
-        that occured in the sample"><i class="fa fa-question-circle"></i></a>
       </th>
-      <td>{{ seq.copy_number }}</td>
-      <th>
-        Germline Filled Copy Number In All Samples
-        <a data-toggle="tooltip" title="Copies of this sequence (after filling
-        in germline) that occured in all samples"><i class="fa
-        fa-question-circle"></i></a>
-      </th>
-      <td>{{ seq.total_copy_number }}</td>
+      <td>
+        {{ seq.copy_number }}
+      </td>
     </tr>
 
+
+    <tr class="active">
+      <th colspan="4" class="text-center">Collapsing Information</th>
+    </tr>
+    <tr class="info">
+      <th class="text-center">
+        Collapsing Level
+      </th>
+      <th class="text-center">
+        Copy Number
+      </th>
+      <th colspan="2" class="text-center">
+        Representative Sequence
+      </th>
+    </tr>
+
+    <tr>
+      <th>
+        Sample
+      </th>
+      <td>
+        {{ seq.collapse_info.sample.copy_number | number }}
+      </td>
+      <td colspan="2">
+        <a href="#/{{ apiPath }}/sequence/{{
+          seq.collapse_info.sample.sample_id }}/{{
+          seq.collapse_info.sample.seq_id }}" target="_blank">{{
+          seq.collapse_info.sample.seq_id }}</a>
+      </td>
+    </tr>
+
+    <tr>
+      <th>
+        Subject
+      </th>
+      <td>
+        {{ seq.collapse_info.subject.copy_number | number }}
+      </td>
+      <td colspan="2">
+        <a href="#/{{ apiPath }}/sequence/{{
+          seq.collapse_info.subject.sample_id }}/{{
+          seq.collapse_info.subject.seq_id }}" target="_blank">{{
+          seq.collapse_info.subject.seq_id }}</a>
+      </td>
+    </tr>
+
+    <tr ng-if="seq.clone">
+      <th>
+        Clone
+      </th>
+      <td>
+        {{ seq.collapse_info.clone.copy_number | number }}
+      </td>
+      <td colspan="2">
+        <a href="#/{{ apiPath }}/sequence/{{
+          seq.collapse_info.clone.sample_id }}/{{
+          seq.collapse_info.clone.seq_id }}" target="_blank">{{
+          seq.collapse_info.clone.seq_id }}</a>
+      </td>
+    </tr>
 
     <tr class="active">
       <th colspan="4" class="text-center">Sample</th>
@@ -259,6 +311,7 @@ ng-show="seq.probable_indel_or_misalign">
 
   </table>
 </div>
+
 <h3>Sequence View</h3>
 <div class="slideWrap">
   <span class="scroller">
@@ -308,35 +361,5 @@ ng-show="seq.probable_indel_or_misalign">
       </th>
       <td ng-bind-html="seq.clone.group.cdr3_aa | aminoAcid" colspan="3"></td>
     </tr>
-  </table>
-</div>
-
-<h3>Possible Duplicate Sequences
-<small>All other reads sharing the same germline-filled sequence</small>
-</h3>
-<div class="table-responsive">
-  <table class="table table-bordered" ng-show="seq.possible_duplicates.length == 0">
-    <tr>
-      <td class="text-center"><strong>There are no sequences in the sample which
-      have a different read length, but are identical to this one</strong></td>
-    </tr>
-  </table>
-  <table class="table table-bordered" ng-show="seq.possible_duplicates.length > 0">
-    <thead>
-      <tr>
-        <th>Sample</th>
-        <th>Sequence ID</th>
-        <th>Alignment Method</th>
-        <th>Copy Number</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr ng-repeat="dup in seq.possible_duplicates">
-        <td><a href="#/{{ apiPath }}/samples/{{ dup.sample.id }}" target="_blank">{{ dup.sample.name }}</a> (#{{ dup.sample.id }})</td>
-        <td><a href="#/{{ apiPath }}/sequence/{{ dup.sample.id }}/{{ dup.seq_id }}" target="_blank">{{ dup.seq_id }}</a></td>
-        <td>{{ dup.alignment }}</td>
-        <td>{{ dup.copy_number }}</td>
-      </tr>
-    </tbody>
   </table>
 </div>
