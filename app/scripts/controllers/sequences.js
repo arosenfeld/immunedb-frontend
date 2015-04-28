@@ -37,6 +37,16 @@
                 });
             }
 
+            $scope.order = function(field) {
+                if ($scope.orderField == field) {
+                    $scope.orderDir = $scope.orderDir == 'asc' ? 'desc' : 'asc';
+                } else {
+                    $scope.orderField = field;
+                    $scope.orderDir = 'asc';
+                }
+                $scope.updateSequences();
+            }
+
             var getSequences = function() {
                 var def = $q.defer();
                 $http({
@@ -48,6 +58,7 @@
                         'filter': typeof($scope.filter) == 'undefined' ? ''
                             : angular.toJson($scope.filter),
                         'order_field': $scope.orderField,
+                        'order_dir': $scope.orderDir,
                     }
                 }).success(function(data, status) {
                     def.resolve(data['sequences']);
@@ -58,12 +69,12 @@
                 return def.promise;
             }
 
-            $scope.updateOrder = function(field) {
-                $scope.orderField = field;
-                $scope.updateSequences();
-            }
-
             var init = function() {
+                $scope.filter = {
+                    collapsed: 'all'
+                };
+                $scope.orderField = 'seq_id';
+                $scope.orderDir = 'asc';
                 $scope.updateSequences();
             }
 
