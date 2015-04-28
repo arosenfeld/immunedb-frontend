@@ -42,6 +42,16 @@
                 });
             }
 
+            $scope.order = function(field) {
+                if ($scope.orderField == field) {
+                    $scope.orderDir = $scope.orderDir == 'asc' ? 'desc' : 'asc';
+                } else {
+                    $scope.orderField = field;
+                    $scope.orderDir = 'asc';
+                }
+                $scope.updateClones();
+            }
+
             var getClones = function() {
                 var def = $q.defer();
                 if (!(typeof $routeParams['group'] == 'undefined')) {
@@ -60,6 +70,7 @@
                         'filter': typeof($scope.filter) == 'undefined' ? ''
                             : angular.toJson($scope.filter),
                         'order_field': $scope.orderField,
+                        'order_dir': $scope.orderDir,
                     }
                 }).success(function(data, status) {
                     def.resolve(data['clones']);
@@ -85,12 +96,11 @@
                     && $scope.clone_samples.indexOf(sample_id) >= 0;
             }
 
-            $scope.updateOrder = function(field) {
-                $scope.orderField = field;
-                $scope.updateClones();
-            }
-
             var init = function() {
+                $scope.filter = {};
+                $scope.orderField = 'id';
+                $scope.orderDir = 'asc';
+
                 $scope.clone_id = null;
                 $scope.clone_samples = [];
                 $scope.updateClones();

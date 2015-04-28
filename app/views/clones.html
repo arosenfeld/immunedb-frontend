@@ -58,15 +58,69 @@
     <table class="table table-bordered">
       <thead>
         <tr class="active">
-          <th>Clone ID</th>
-          <th>Group ID</th>
-          <th>Subject</th>
-          <th>V Gene</th>
-          <th>J Gene</th>
-          <th>CDR3 Length</th>
-          <th>CDR3 AA</th>
-          <th>Unique Seqs.</th>
-          <th>Total Seqs.</th>
+          <th>
+            <a ng-click="order('id')">
+              Clone ID
+              <i class="fa fa-chevron-{{ orderDir == 'asc' ? 'up' : 'down' }}"
+                ng-show="orderField=='id'"></i>
+            </a>
+          </th>
+          <th>
+            <a ng-click="order('group_id')">
+              Group ID
+              <i class="fa fa-chevron-{{ orderDir == 'asc' ? 'up' : 'down' }}"
+                ng-show="orderField=='group_id'"></i>
+            </a>
+          </th>
+          <th>
+            <a ng-click="order('subject_id')">
+              Subject ID
+              <i class="fa fa-chevron-{{ orderDir == 'asc' ? 'up' : 'down' }}"
+                ng-show="orderField=='subject_id'"></i>
+            </a>
+          </th>
+          <th>
+             <a ng-click="order('v_gene')">
+              V Gene
+              <i class="fa fa-chevron-{{ orderDir == 'asc' ? 'up' : 'down' }}"
+                ng-show="orderField=='v_gene'"></i>
+            </a>
+          </th>
+          <th>
+             <a ng-click="order('j_gene')">
+              J Gene
+              <i class="fa fa-chevron-{{ orderDir == 'asc' ? 'up' : 'down' }}"
+                ng-show="orderField=='j_gene'"></i>
+            </a>
+          </th>
+          <th>
+             <a ng-click="order('cdr3_num_nts')">
+               CDR3 Length
+              <i class="fa fa-chevron-{{ orderDir == 'asc' ? 'up' : 'down' }}"
+                ng-show="orderField=='cdr3_num_nts'"></i>
+            </a>
+          </th>
+          <th>
+             <a ng-click="order('cdr3_aa')">
+               CDR3 AA
+              <i class="fa fa-chevron-{{ orderDir == 'asc' ? 'up' : 'down' }}"
+                ng-show="orderField=='cdr3_aa'"></i>
+            </a>
+          </th>
+          <th>
+             <a ng-click="order('unique_cnt')">
+               Unique Seqs.
+              <i class="fa fa-chevron-{{ orderDir == 'asc' ? 'up' : 'down' }}"
+                ng-show="orderField=='unique_cnt'"></i>
+            </a>
+          </th>
+          <th>
+             <a ng-click="order('total_cnt')">
+               Total Seqs.
+              <i class="fa fa-chevron-{{ orderDir == 'asc' ? 'up' : 'down' }}"
+                ng-show="orderField=='total_cnt'"></i>
+            </a>
+          </th>
           <th></th>
         </tr>
       </thead>
