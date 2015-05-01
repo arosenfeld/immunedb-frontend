@@ -3,67 +3,22 @@
     angular.module('ImmunologyApp').controller('ExportSequencesCtrl', ['$scope',
             '$http', '$routeParams', '$log', 'APIService',
         function($scope, $http, $routeParams, $log, APIService) {
-            var fasta_fields = [
-                'seq_id',
-                'sample_name',
-                'copy_number',
-                'clone_id',
-            ];
-
-            var csv_fields = [
-                'seq_id',
-                'subject_identifier',
-                'subset',
-                'tissue',
-                'disease',
-                'lab',
-                'experimenter',
-                'date',
-                'sample_name',
-                'study_name',
-                'alignment',
-                'in_frame',
-                'functional',
-                'stop',
-                'copy_number',
-                'num_gaps',
-                'pad_length',
-                'v_match',
-                'v_length',
-                'j_match',
-                'j_length',
-                'v_gene',
-                'j_gene',
-                'cdr3_nt',
-                'cdr3_aa',
-                'cdr3_num_nts',
-                'sequence_filled',
-                'germline',
-                'clone_id',
-                'clone_cdr3_nt',
-                'clone_cdr3_aa',
-            ];
-
             $scope.formats = [
                 {
                     'type': 'orig',
                     'text': 'FASTA Original',
-                    'fields': csv_fields,
                 },
                 {
                     'type': 'fill',
                     'text': 'FASTA Germline Filled',
-                    'fields': csv_fields,
                 },
                 {
                     'type': 'clip',
                     'text': 'FASTA CLIP',
-                    'fields': csv_fields,
                 },
                 {
                     'type': 'csv',
                     'text': 'Comma Separated',
-                    'fields': csv_fields,
                 },
             ];
 
@@ -272,6 +227,11 @@
                     'desc': 'The germline sequence with gaps inserted for the CDR3.',
                 },
                 {
+                    'header': 'quality',
+                    'name': 'Phred Quality',
+                    'desc': 'The Phred quality score per-nucleotide in Sanger format',
+                },
+                {
                     'header': 'clone_id',
                     'name': 'Clone ID',
                     'desc': 'The unique clone identifier for this sequence, if any.',
@@ -298,39 +258,68 @@
                     'desc': 'The clone lineage tree represented in JSON.  Note that including this field can '
                         + 'drastically increase file size',
                 },
+                {
+                    'header': 'collapse_to_sample_seq_id',
+                    'name': 'Sequence ID Collapsed-to at Sample Level',
+                    'desc': 'The <span class="text-mono-thin">seq_id</span> to which the sequence was collapsed '
+                        + 'at the sample level.'
+                },
+                {
+                    'header': 'collapse_to_subject_seq_id',
+                    'name': 'Sequence ID Collapsed-to at Subject Level',
+                    'desc': 'The <span class="text-mono-thin">seq_id</span> to which the sequence was collapsed '
+                        + 'at the subject level.'
+                },
+                {
+                    'header': 'collapse_to_subject_sample_id',
+                    'name': 'Sequence Sample Collapsed-to at Subject Level',
+                    'desc': 'The <span class="text-mono-thin">sample_id</span> to which the sequence was collapsed '
+                        + 'at the subject level.'
+                },
+                {
+                    'header': 'collapse_to_clone_seq_id',
+                    'name': 'Sequence ID Collapsed-to at Clone Level',
+                    'desc': 'The <span class="text-mono-thin">seq_id</span> to which the sequence was collapsed '
+                        + 'at the clone level.'
+                },
+                {
+                    'header': 'collapse_to_clone_sample_id',
+                    'name': 'Sequence Sample Collapsed-to at Clone Level',
+                    'desc': 'The <span class="text-mono-thin">sample_id</span> to which the sequence was collapsed '
+                        + 'at the clone level.'
+                },
             ];
 
-            $scope.clearFields = function() {
-                $scope.checked_fields = [];
-            }
-
             $scope.changeType = function(format) {
-                // Bug with checkbox plugin
-                //$scope.checked_fields = angular.copy(format.fields);
                 $scope.format = format.type;
                 $scope.formatText = format.text;
 
-                if (['orig', 'fill', 'clip'].indexOf(format.type) > -1) {
-                    $scope.forceSeq = true;
-                } else {
-                    $scope.forceSeq = false;
+                $scope.forceSeq = ['orig', 'fill', 'clip'].indexOf(format.type) >= 0;
+            }
+
+            $scope.getFields = function() {
+                var ret = []
+                if ($scope.forceSeq) {
+                    ret.push('seq_id');
                 }
+                angular.forEach($scope.fields, function(v) {
+                    if (v.toggled) {
+                        ret.push(v.header);
+                    }
+                });
+                return ret;
             }
 
             $scope.toggleAll = function() {
-                $scope.checked_fields = ['seq_id'];
-                if ($scope.allToggled) {
-                    angular.forEach($scope.fields, function(v) {
-                        if ($scope.fields.indexOf(v['header']) < 0) {
-                            $scope.checked_fields.push(v['header'])
-                        }
-                    });
-                }
+                angular.forEach($scope.fields, function(field) {
+                    if (!($scope.forceSeq && field.header == 'seq_id')) {
+                        field.toggled = $scope.allToggled;
+                    }
+                });
             }
 
             var init = function() {
                 $scope.showLoader()
-                $scope.checked_fields = angular.copy(csv_fields);
                 $scope.format = null;
                 $scope.$parent.page_title = 'Sequence Export';
                 $scope.apiUrl = APIService.getUrl();
@@ -340,8 +329,9 @@
                 $scope.id = $routeParams['id'];
                 $scope.duplicates = false;
                 $scope.noresults = false;
-                $scope.allToggled = true;
+                $scope.allToggled = false;
                 $scope.minCopyNumber = 1;
+                $scope.level = 'all';
 
                 $scope.hideLoader()
             }

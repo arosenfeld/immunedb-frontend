@@ -63,6 +63,24 @@
         </div>
         <div ng-show="format">
           <div class="row">
+            <div class="form-group col-sm-2">
+              <label>Collapsed Level:</label>
+              <div class="dropdown">
+                <button class="btn btn-default dropdown-toggle" type="button">
+                  {{ level[0] | uppercase }}{{ level.substring(1) }} <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu" role="menu">
+                  <li role="presentation">
+                    <a role="menuitem" tabindex="-1" ng-click="level='all'">All</a>
+                    <a role="menuitem" tabindex="-1" ng-click="level='sample'">Sample</a>
+                    <a role="menuitem" tabindex="-1" ng-click="level='subject'">Subject</a>
+                    <a role="menuitem" tabindex="-1" ng-click="level='clone'">Clone</a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div class="row">
             <div ng-class="'form-group col-sm-2' + (!minCopyNumber ||
             minCopyNumber < 1 ? ' has-error' : '')">
               <label>Minimum Copy Number:</label>
@@ -104,8 +122,10 @@
       </tr>
       <tr ng-repeat="field in fields">
         <td>
-          <input type="checkbox" checklist-model="checked_fields"
-            checklist-value="field.header" ng-disabled="forceSeq && field.header == 'seq_id'">
+          <input type="checkbox"
+            ng-model="field.toggled"
+            ng-checked="forceSeq && field.header == 'seq_id' || field.toggled"
+            ng-disabled="forceSeq && field.header == 'seq_id'">
         </td>
         <td class="text-mono-thin">{{ field.header }}</td>
         <td>{{ field.name }}</td>
@@ -114,10 +134,11 @@
       <tr>
         <td colspan="4" class="text-center">
           <a class="btn btn-success"
-            ng-disabled="!minCopyNumber || minCopyNumber < 1"
-            href="{{ apiUrl }}data/export_sequences/{{ format }}/{{ type | lowercase }}/{{
-              id }}/?fields={{ checked_fields.join(',') }}&duplicates={{
-                duplicates }}&noresults={{ noresults }}&min_copy_number={{ minCopyNumber }}"
+            ng-disabled="!minCopyNumber || minCopyNumber < 1 || getFields().length == 0"
+            ng-href="{{ apiUrl }}data/export_sequences/{{ format }}/{{ type | lowercase }}/{{
+              id }}/{{ level }}/?fields={{ getFields().join(',') }}&duplicates={{
+                duplicates }}&noresults={{ noresults }}&min_copy_number={{
+                minCopyNumber }}"
             target="_blank">Download</a>
         </td>
       </tr>

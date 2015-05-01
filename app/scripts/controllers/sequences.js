@@ -73,7 +73,7 @@
                 $scope.filter = {
                     collapsed: 'all'
                 };
-                $scope.orderField = 'seq_id';
+                $scope.orderField = '';
                 $scope.orderDir = 'asc';
                 $scope.updateSequences();
             }
