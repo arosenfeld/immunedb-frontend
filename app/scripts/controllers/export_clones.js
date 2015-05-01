@@ -117,12 +117,6 @@
                 $scope.checked_fields = [];
             }
 
-            $scope.changeType = function(format) {
-                // Bug with checkbox plugin
-                $scope.format = format.type;
-                $scope.formatText = format.text;
-            }
-
             var init = function() {
                 $scope.showLoader();
                 $scope.checked_fields = angular.copy($scope.force);
