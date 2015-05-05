@@ -18,7 +18,8 @@
         </tr>
       </thead>
       <tbody>
-        <tr ng-repeat="subject in objects">
+        <tr ng-repeat="subject in objects" ng-class="subject.unique_seqs ? '' :
+            'warning'">
           <td>{{ subject.id }}</td>
           <td>{{ subject.study.name }}</td>
           <td>{{ subject.identifier }}</td>

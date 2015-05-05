@@ -13,13 +13,18 @@
                 $cookieStore.remove(PREFIX + loc);
             }
 
-            this.getPins = function() {
+            this.getPins = function(lengthOnly) {
                 var pins = {};
+                var num = 0;
                 angular.forEach($cookies, function (v, k) {
                     if (k.indexOf(PREFIX) == 0) {
                         pins[k.substring(PREFIX.length)] = angular.fromJson(v);
+                        num += 1;
                     }
                 });
+                if (lengthOnly) {
+                    return num;
+                }
                 return pins;
             }
 

@@ -6,17 +6,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <title>Systems Immunology Lab Database</title>
-    <!-- build:css(.) styles/vendor.css -->
-    <!-- bower:css -->
     <link rel="stylesheet" href="components/bootstrap/dist/css/bootstrap.css" />
     <link rel="stylesheet" href="components/font-awesome/css/font-awesome.css" />
-    <!-- endbower -->
-    <!-- endbuild -->
-    <!-- build:css(.tmp) styles/main.css -->
     <link rel="stylesheet" href="styles/sb-admin2.css">
     <link rel="stylesheet" href="styles/main.css">
     <link rel="stylesheet" href="styles/lineage.css">
-    <!-- endbuild -->
   </head>
 
   <body ng-controller="MainCtrl">
@@ -66,7 +60,7 @@
             </div>
           </li>
           <li class="version">
-            <i class="fa fa-info-circle fa-fw"></i> v0.6.2.1, release
+            <i class="fa fa-info-circle fa-fw"></i> v0.7.0-1
           </li>
         </ul>
 
@@ -91,7 +85,9 @@
               </li>
               <li>
                 <a href="#/{{ apiPath }}/pins/"
-                  ng-class="menuClass('pins')"><i class="fa fa-thumb-tack fa-fw"></i>Pinned Pages</a>
+                  ng-class="menuClass('pins')"><i class="fa fa-thumb-tack
+                  fa-fw"></i>Pinned Pages <span class="badge pull-right">{{
+                  pins.getPins(true) }}</span></a>
               </li>
               <li>
                 <a href="#/{{ apiPath }}/modification_log/"
@@ -109,15 +105,11 @@
         </div>
       </div>
     </div>
-    <!-- build:js(.) scripts/oldieshim.js -->
     <!--[if lt IE 9]>
       <script src="bower_components/es5-shim/es5-shim.js"></script>
       <script src="bower_components/json3/lib/json3.js"></script>
-      <![endif]-->
-    <!-- endbuild -->
+    <![endif]-->
 
-    <!-- build:js(.) scripts/vendor.js -->
-    <!-- bower:js -->
     <script src="components/jquery/dist/jquery.js"></script>
     <script src="components/es5-shim/es5-shim.js"></script>
     <script src="components/angular/angular.js"></script>
@@ -133,10 +125,7 @@
     <script src="components/bootstrap-notify/js/bootstrap-notify.js"></script>
     <script src="components/d3/d3.js"></script>
     <script src="components/d3-tip/index.js"></script>
-    <!-- endbower -->
-    <!-- endbuild -->
 
-    <!-- build:js({.tmp,app}) scripts/scripts.js -->
     <script src="scripts/app.js"></script>
     <script src="scripts/filters.js"></script>
     <script src="scripts/directives.js"></script>
@@ -172,7 +161,6 @@
     <script src="scripts/vendor/highcharts-ng.js"></script>
     <script src="scripts/vendor/exporting.js"></script>
     <script src="scripts/vendor/export-csv.js"></script>
-    <!-- endbuild -->
   </body>
 </html>
 
