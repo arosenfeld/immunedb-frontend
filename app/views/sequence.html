@@ -99,7 +99,7 @@ ng-show="seq.probable_indel_or_misalign">
       </th>
     </tr>
 
-    <tr>
+    <tr ng-show="seq.collapse_info.sample">
       <th>
         Sample
       </th>
@@ -113,8 +113,15 @@ ng-show="seq.probable_indel_or_misalign">
           seq.collapse_info.sample.seq_id }}</a>
       </td>
     </tr>
+    <tr ng-show="!seq.collapse_info.sample" class="warning">
+      <th>
+        Sample
+      </th>
+      <td colspan="3" class="text-center">Sequence has not yet been collapsed
+        to the sample level.</td>
+    </tr>
 
-    <tr>
+    <tr ng-show="seq.collapse_info.subject">
       <th>
         Subject
       </th>
@@ -128,8 +135,15 @@ ng-show="seq.probable_indel_or_misalign">
           seq.collapse_info.subject.seq_id }}</a>
       </td>
     </tr>
+    <tr ng-show="!seq.collapse_info.subject" class="warning">
+      <th>
+        Subject
+      </th>
+      <td colspan="3" class="text-center">Sequence has not yet been collapsed
+        to the subject level.</td>
+    </tr>
 
-    <tr ng-if="seq.clone">
+    <tr ng-if="seq.clone" ng-show="seq.collapse_info.clone">
       <th>
         Clone
       </th>
@@ -142,6 +156,13 @@ ng-show="seq.probable_indel_or_misalign">
           seq.collapse_info.clone.seq_id }}" target="_blank">{{
           seq.collapse_info.clone.seq_id }}</a>
       </td>
+    </tr>
+    <tr ng-show="!seq.collapse_info.clone && seq.clone" class="warning">
+      <th>
+        Clone
+      </th>
+      <td colspan="3" class="text-center">Sequence has not yet been collapsed
+        to the clone level.</td>
     </tr>
 
     <tr class="active">
