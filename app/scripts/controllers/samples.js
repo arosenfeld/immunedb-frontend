@@ -235,7 +235,10 @@
                                     "Subsamples",
                                     "E[clones]",
                                     'line',
-                                    result));
+                                    [{
+                                        name: 'Diversity',
+                                        data: result
+                                    }]));
                             $('#rarefaction').highcharts().reflow();
                             $scope.rarefactionStatus = 'loaded';
                         });
@@ -262,7 +265,6 @@
             }
 
             $scope.setRarefactionMode = function(mode) {
-                $log.debug(mode);
                 $scope.rarefactionMode = mode;
             }
 
