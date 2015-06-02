@@ -50,15 +50,18 @@
 
             $scope.updateTree = function() {
                 $scope.treeError = false;
-                lineage.makeTree(
-                    APIService.getUrl() + 'clone_tree/' + $scope.cloneId,
-                    '#tree', $scope.colorBy, !$scope.showFanouts,
-                    function(success) {
-                        $scope.$apply(function() {
-                            $scope.treeError = !success;
-                        });
+                $http({
+                    method: 'GET',
+                    url: APIService.getUrl() + 'clone_tree/' + $routeParams['cloneId']
+                }).success(function(data, status) {
+                    if (data.length == 0) {
+                        $scope.treeError = true;
+                    } else {
+                        $scope.treeInfo = data.info;
+                        lineage.makeTree(data.tree, '#tree', $scope.colorBy,
+                                         !$scope.showFanouts);
                     }
-                );
+                });
             }
 
             $scope.setThreshold = function(threshold) {
@@ -120,6 +123,7 @@
                     $scope.page = 0;
 
                     $scope.field = 'unique';
+                    $scope.pressureType = 'all';
                     $scope.showFanouts = true;
                     $scope.colorBy = 'tissues';
                     $scope.updateTree();

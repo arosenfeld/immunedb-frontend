@@ -4,7 +4,7 @@
     angular.module('ImmunologyApp').factory('lineage', ['lookups', '$log',
         function(lookups, $log) {
             return {
-                makeTree: function(jsonPath, elemName, colorBy, hideLargeLeaves, finishCb) {
+                makeTree: function(json, elemName, colorBy, hideLargeLeaves) {
                     d3.select(elemName + ' > *').remove();
                     var width = $(elemName).width();
                     var height = 800;
@@ -88,62 +88,55 @@
                     var diagonal = d3.svg.diagonal()
                         .projection(function(d) { return [d.x + width / 2,
                         d.y + 25]; });
-                    d3.json(jsonPath, function(error, root) {
-                        if (error != null) {
-                            finishCb(false);
-                            return;
-                        }
-                        var nodes = tree.nodes(root);
-                        var links = tree.links(nodes);
+                    var nodes = tree.nodes(json);
+                    var links = tree.links(nodes);
 
-                        var link = vis.selectAll('pathlink')
-                            .data(links)
-                            .enter().append('svg:path')
-                            .attr('class', 'link')
-                            .attr('d', diagonal);
+                    var link = vis.selectAll('pathlink')
+                        .data(links)
+                        .enter().append('svg:path')
+                        .attr('class', 'link')
+                        .attr('d', diagonal);
 
-                        var node = vis.selectAll('g.node')
-                            .data(nodes)
-                            .enter().append('svg:g')
-                            .attr('transform', function(d) {
-                                var x = d.x + width / 2;
-                                var y = d.y + 25;
-                                return 'translate(' + x + ',' + y + ')';
-                            });
+                    var node = vis.selectAll('g.node')
+                        .data(nodes)
+                        .enter().append('svg:g')
+                        .attr('transform', function(d) {
+                            var x = d.x + width / 2;
+                            var y = d.y + 25;
+                            return 'translate(' + x + ',' + y + ')';
+                        });
 
-                        node.append('svg:circle')
-                            .attr('r', function(d) {
-                                return scaleCircle(d.data.copy_number);
-                            })
-                            .attr('fill', function(d) {
-                                if(d.data.seq_ids.length == 0) {
-                                    return '#000000';
-                                } else if(typeof d.data[colorBy] != 'undefined' && d.data[colorBy].length > 0) {
-                                    return lookups.attribToColor(d.data[colorBy]);
-                                }
-                                return '#0000ff';
-                            });
+                    node.append('svg:circle')
+                        .attr('r', function(d) {
+                            return scaleCircle(d.data.copy_number);
+                        })
+                        .attr('fill', function(d) {
+                            if(d.data.seq_ids.length == 0) {
+                                return '#000000';
+                            } else if(typeof d.data[colorBy] != 'undefined' && d.data[colorBy].length > 0) {
+                                return lookups.attribToColor(d.data[colorBy]);
+                            }
+                            return '#0000ff';
+                        });
 
-                        vis.selectAll('circle')
-                            .data(nodes)
-                                .on('mouseover', tip.show)
-                                .on('mouseout', tip.hide);
+                    vis.selectAll('circle')
+                        .data(nodes)
+                            .on('mouseover', tip.show)
+                            .on('mouseout', tip.hide);
 
-                        node.append('svg:text')
-                            .attr('dx', function(d) {
-                                var off = scaleCircle(d.data.copy_number);
-                                return d.children ? -6 - off : 6 + off;
-                            })
-                            .attr('dy', 3)
-                            .attr('text-anchor', function(d) { return d.children ? 'end' : 'start'; })
-                            .text(function(d) {
-                                if (d.depth == 0) {
-                                    return 'Germline';
-                                }
-                                return d.data.mutations.length;
-                            });
-                        finishCb(true);
-                    });
+                    node.append('svg:text')
+                        .attr('dx', function(d) {
+                            var off = scaleCircle(d.data.copy_number);
+                            return d.children ? -6 - off : 6 + off;
+                        })
+                        .attr('dy', 3)
+                        .attr('text-anchor', function(d) { return d.children ? 'end' : 'start'; })
+                        .text(function(d) {
+                            if (d.depth == 0) {
+                                return 'Germline';
+                            }
+                            return d.data.mutations.length;
+                        });
                 }
             };
         }
