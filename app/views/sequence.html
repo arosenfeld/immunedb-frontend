@@ -143,28 +143,6 @@ ng-show="seq.probable_indel_or_misalign">
         to the subject level.</td>
     </tr>
 
-    <tr ng-if="seq.clone" ng-show="seq.collapse_info.clone">
-      <th>
-        Clone
-      </th>
-      <td>
-        {{ seq.collapse_info.clone.copy_number | number }}
-      </td>
-      <td colspan="2">
-        <a href="#/{{ apiPath }}/sequence/{{
-          seq.collapse_info.clone.sample_id }}/{{
-          seq.collapse_info.clone.seq_id }}" target="_blank">{{
-          seq.collapse_info.clone.seq_id }}</a>
-      </td>
-    </tr>
-    <tr ng-show="!seq.collapse_info.clone && seq.clone" class="warning">
-      <th>
-        Clone
-      </th>
-      <td colspan="3" class="text-center">Sequence has not yet been collapsed
-        to the clone level.</td>
-    </tr>
-
     <tr class="active">
       <th colspan="4" class="text-center">Sample</th>
     </tr>

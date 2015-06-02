@@ -112,7 +112,7 @@ clones across versions.</div>
           <td>{{ stat.sample.id }}</td>
           <td><a href="#/{{ apiPath }}/samples/{{ stat.sample.id }}" target="_blank">{{ stat.sample.name }}</a></td>
           <td><a href="#/{{ apiPath }}/sequence/{{ stat.sample.id }}/{{ stat.seq_id }}" target="_blank">{{ stat.seq_id }}</a></td>
-          <td>{{ stat.copy_number_in_clone }}</td>
+          <td>{{ stat.copy_number_in_subject }}</td>
         </tr>
       </tbody>
     </table>
@@ -274,26 +274,26 @@ clones across versions.</div>
           </a>
           <strong ng-show="pressure.sample.id == 0"><i>Entire Clone</i></strong>
         </td>
-        <td>{{ pressure.pressure.Observed_CDR_S }}</td>
-        <td>{{ pressure.pressure.Observed_CDR_R }}</td>
-        <td>{{ pressure.pressure.Observed_FWR_S }}</td>
-        <td>{{ pressure.pressure.Observed_FWR_R }}</td>
-        <td>{{ pressure.pressure.Expected_CDR_S }}</td>
-        <td>{{ pressure.pressure.Expected_CDR_R }}</td>
-        <td>{{ pressure.pressure.Expected_FWR_S }}</td>
-        <td>{{ pressure.pressure.Expected_FWR_R }}</td>
+        <td>{{ pressure.pressure.all.Observed_CDR_S }}</td>
+        <td>{{ pressure.pressure.all.Observed_CDR_R }}</td>
+        <td>{{ pressure.pressure.all.Observed_FWR_S }}</td>
+        <td>{{ pressure.pressure.all.Observed_FWR_R }}</td>
+        <td>{{ pressure.pressure.all.Expected_CDR_S }}</td>
+        <td>{{ pressure.pressure.all.Expected_CDR_R }}</td>
+        <td>{{ pressure.pressure.all.Expected_FWR_S }}</td>
+        <td>{{ pressure.pressure.all.Expected_FWR_R }}</td>
 
         <td ng-style="getColor(pressure.pressure.Focused_P_CDR)">{{
-          pressure.pressure.Focused_Sigma_CDR }}
+          pressure.pressure.all.Focused_Sigma_CDR }}
         </td>
-        <td ng-style="getColor(pressure.pressure.Focused_P_FWR)">{{ pressure.pressure.Focused_Sigma_FWR }}</td>
+        <td ng-style="getColor(pressure.pressure.Focused_P_FWR)">{{ pressure.pressure.all.Focused_Sigma_FWR }}</td>
         <td>
-          {{ pressure.pressure.Focused_CIlower_CDR }},
-          {{pressure.pressure.Focused_CIupper_CDR }}
+          {{ pressure.pressure.all.Focused_CIlower_CDR }},
+          {{ pressure.pressure.all.Focused_CIupper_CDR }}
         </td>
         <td>
-          {{ pressure.pressure.Focused_CIlower_FWR }},
-          {{pressure.pressure.Focused_CIupper_FWR }}
+          {{ pressure.pressure.all.Focused_CIlower_FWR }},
+          {{pressure.pressure.all.Focused_CIupper_FWR }}
         </td>
       </tr>
       <tr>

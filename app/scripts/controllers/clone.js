@@ -112,7 +112,7 @@
                     url: APIService.getUrl() + 'clone/' + $routeParams['cloneId']
                 }).success(function(data, status) {
                     $scope.cloneInfo = data['clone'];
-                    $scope.selectionPressure = data['selection_pressure'];
+                    $scope.selectionPressure = data.selection_pressure;
                     $scope.apiUrl = APIService.getUrl();
                     $scope.Math = Math;
 
