@@ -63,22 +63,6 @@
         </div>
         <div ng-show="format">
           <div class="row">
-            <div class="form-group col-sm-2">
-              <label>Collapsed Level:</label>
-              <div class="dropdown">
-                <button class="btn btn-default dropdown-toggle" type="button">
-                  {{ level[0] | uppercase }}{{ level.substring(1) }} <span class="caret"></span>
-                </button>
-                <ul class="dropdown-menu" role="menu">
-                  <li role="presentation">
-                    <a role="menuitem" tabindex="-1" ng-click="level='all'">All</a>
-                    <a role="menuitem" tabindex="-1" ng-click="level='sample'">Sample</a>
-                    <a role="menuitem" tabindex="-1" ng-click="level='subject'">Subject</a>
-                    <a role="menuitem" tabindex="-1" ng-click="level='clone'">Clone</a>
-                  </li>
-                </ul>
-              </div>
-            </div>
           </div>
           <div class="row">
             <div ng-class="'form-group col-sm-2' + (!minCopyNumber ||
@@ -87,6 +71,22 @@
               <input type="number" class="form-control" name="minCopyNumber"
                 min="1" ng-model="minCopyNumber">
             </div>
+            <div class="form-group col-sm-2">
+              <label>At Collapse Level:</label>
+              <div class="dropdown">
+                <button class="btn btn-default dropdown-toggle" type="button">
+                  {{ level[0] | uppercase }}{{ level.substring(1) }} <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu" role="menu">
+                  <li role="presentation">
+                    <a role="menuitem" tabindex="-1" ng-click="level='uncollapsed'">Uncollapsed</a>
+                    <a role="menuitem" tabindex="-1" ng-click="level='sample'">Sample</a>
+                    <a role="menuitem" tabindex="-1" ng-click="level='subject'">Subject</a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+
           </div>
           <div class="checkbox">
             <label>

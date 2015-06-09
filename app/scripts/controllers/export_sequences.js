@@ -331,7 +331,7 @@
                 $scope.noresults = false;
                 $scope.allToggled = false;
                 $scope.minCopyNumber = 1;
-                $scope.level = 'all';
+                $scope.level = 'uncollapsed';
 
                 $scope.hideLoader()
             }

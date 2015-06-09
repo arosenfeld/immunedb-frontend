@@ -148,13 +148,25 @@
           <td><a href="#/{{ apiPath }}/subject/{{ seq.sample.subject.id }}"
             target="_blank">{{ seq.sample.subject.identifier }}</a></td>
           <td>
-            <span ng-show="!full">
-              {{ seq.v_gene | geneTies }}
+            <span ng-show="!fullV">
+              {{ seq.v_gene | geneTies:'IGHV' }}
+              <a ng-click="fullV=!fullV"><i class="fa fa-plus"></i></a>
             </span>
-            <span ng-show="full">{{ seq.v_gene }}</span>
-            <a ng-click="full=!full"><i class="fa fa-ellipsis-h"></i></a>
+            <span ng-show="fullV">
+              {{ seq.v_gene }}
+              <a ng-click="fullV=!fullV"><i class="fa fa-minus"></i></a>
+            </span>
           </td>
-          <td>{{ seq.j_gene }}</td>
+          <td>
+            <span ng-show="!fullJ">
+              {{ seq.j_gene | geneTies:'IGHJ' }}
+              <a ng-click="fullJ=!fullJ"><i class="fa fa-plus"></i></a>
+            </span>
+            <span ng-show="fullJ">
+              {{ seq.j_gene }}
+              <a ng-click="fullJ=!fullJ"><i class="fa fa-minus"></i></a>
+            </span>
+          </td>
           <td>{{ seq.junction_num_nts }}</td>
           <td ng-bind-html="seq.junction_aa | aminoAcid" class="text-mono"></td>
           <td>{{ seq.alignment }}</td>

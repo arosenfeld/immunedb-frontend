@@ -64,8 +64,8 @@
             }
         })
         .filter('geneTies', function($sce) {
-            return function(input) {
-                return 'IGHV' + input.replace('IGHV', '')
+            return function(input, type) {
+                return type + input.replace(type, '')
                     .replace(/\*[^|]*/g, '')
                     .split('|')
                     .filter(

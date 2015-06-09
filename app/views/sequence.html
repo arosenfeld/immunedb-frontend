@@ -170,12 +170,12 @@ ng-show="seq.probable_indel_or_misalign">
       <th>Date</th>
       <td>{{ seq.sample.date }}</td>
       <th>Lab</th>
-      <td>{{ seq.sample.lab }}</td>
+      <td>{{ seq.sample.lab ? seq.sample.lab : 'N/A' }}</td>
     </tr>
 
     <tr>
       <th>Experimenter</th>
-      <td>{{ seq.sample.experimenter }}</td>
+      <td>{{ seq.sample.experimenter ? seq.sample.experimenter : 'N/A'  }}</td>
     </tr>
 
     <tr class="active">

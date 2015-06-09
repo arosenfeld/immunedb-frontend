@@ -190,7 +190,7 @@
                     }
 
                 });
-            } else if (seqs[0].quality.length > 0) {
+            } else if (seqs[0].quality != 'undefined') {
                 ctx.fillStyle = '#777777';
                 ctx.fillText('Phred Quality Score (Range: 0 - 41)', LEFT_PAD, TOP_PAD + (1 + seqs.length) * V_PER_SEQ);
                 ctx.font = '10px Courier New';
