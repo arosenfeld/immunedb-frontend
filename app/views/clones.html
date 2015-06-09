@@ -136,13 +136,25 @@
             <td>{{ clone.group.id }}</td>
             <td>{{ clone.group.subject.identifier}} ({{ clone.group.subject.study.name}})</td>
             <td>
-              <span ng-show="!full">
-                {{ clone.group.v_gene | geneTies }}
+              <span ng-show="!fullV">
+                {{ clone.group.v_gene | geneTies:'IGHV' }}
+                <a ng-click="fullV=!fullV"><i class="fa fa-plus"></i></a>
               </span>
-              <span ng-show="full">{{ clone.group.v_gene }}</span>
-              <a ng-click="full=!full"><i class="fa fa-ellipsis-h"></i></a>
+              <span ng-show="fullV">
+                {{ clone.group.v_gene }}
+                <a ng-click="fullV=!fullV"><i class="fa fa-minus"></i></a>
+              </span>
             </td>
-            <td>{{ clone.group.j_gene }}</td>
+            <td>
+              <span ng-show="!fullJ">
+                {{ clone.group.j_gene | geneTies:'IGHJ' }}
+                <a ng-click="fullJ=!fullJ"><i class="fa fa-plus"></i></a>
+              </span>
+              <span ng-show="fullJ">
+                {{ clone.group.j_gene }}
+                <a ng-click="fullJ=!fullJ"><i class="fa fa-minus"></i></a>
+              </span>
+            </td>
             <td>{{ clone.group.cdr3_num_nts }}</td>
             <td ng-bind-html="clone.group.cdr3_aa | aminoAcid" class="text-mono"></td>
             <td>{{ clone.unique_sequences | number }}</td>

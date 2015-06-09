@@ -37,14 +37,26 @@
             <td>{{ freq.unique_sequences | number }}</td>
             <td>{{ freq.clone.id }}</td>
             <td>{{ freq.clone.group.subject.identifier}} ({{ freq.clone.group.subject.study.name}} Study)</td>
-              <td>
-                <span ng-show="!full">
-                  {{ freq.clone.group.v_gene | geneTies }}
-                </span>
-                <span ng-show="full">{{ freq.clone.group.v_gene }}</span>
-                <a ng-click="full=!full"><i class="fa fa-ellipsis-h"></i></a>
-              </td>
-            <td>{{ freq.clone.group.j_gene }}</td>
+            <td>
+              <span ng-show="!fullV">
+                {{ freq.clone.group.v_gene | geneTies:'IGHV' }}
+                <a ng-click="fullV=!fullV"><i class="fa fa-plus"></i></a>
+              </span>
+              <span ng-show="fullV">
+                {{ freq.clone.group.v_gene }}
+                <a ng-click="fullV=!fullV"><i class="fa fa-minus"></i></a>
+              </span>
+            </td>
+            <td>
+              <span ng-show="!full">
+                {{ freq.clone.group.j_gene | geneTies:'IGHJ' }}
+                <a ng-click="full=!full"><i class="fa fa-plus"></i></a>
+              </span>
+              <span ng-show="full">
+                {{ freq.clone.group.j_gene }}
+                <a ng-click="full=!full"><i class="fa fa-minus"></i></a>
+              </span>
+            </td>
             <td>{{ freq.clone.group.cdr3_num_nts | number }}</td>
             <td ng-bind-html="freq.clone.group.cdr3_aa | aminoAcid" class="text-mono"></td>
             <td>

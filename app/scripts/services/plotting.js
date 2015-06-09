@@ -66,7 +66,7 @@
                             labels: {
                                 rotation: -90,
                                 formatter: function() {
-                                    return $filter('geneTies')(this.value);
+                                    return $filter('geneTies')(this.value, 'IGHV');
                                 },
                             },
                             title: 'IGHV Gene',
@@ -111,7 +111,7 @@
                                 return '<b>Sample:</b> ' + data['y_categories'][
                                         this.point.y] + '<br />' +
                                     '<b>Gene:</b> ' + $filter('geneTies')(data['x_categories'][this
-                                        .point.x]) + '<br />' +
+                                        .point.x], 'IGHV') + '<br />' +
                                     '<b>% of Sample:</b> ' +
                                     (this.point.value == 0 ? 0 :
                                     Math.exp(this.point.value)).toFixed(2) + '%';
