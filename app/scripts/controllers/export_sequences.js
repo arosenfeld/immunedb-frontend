@@ -276,18 +276,6 @@
                     'desc': 'The <span class="text-mono-thin">sample_id</span> to which the sequence was collapsed '
                         + 'at the subject level.'
                 },
-                {
-                    'header': 'collapse_to_clone_seq_id',
-                    'name': 'Sequence ID Collapsed-to at Clone Level',
-                    'desc': 'The <span class="text-mono-thin">seq_id</span> to which the sequence was collapsed '
-                        + 'at the clone level.'
-                },
-                {
-                    'header': 'collapse_to_clone_sample_id',
-                    'name': 'Sequence Sample Collapsed-to at Clone Level',
-                    'desc': 'The <span class="text-mono-thin">sample_id</span> to which the sequence was collapsed '
-                        + 'at the clone level.'
-                },
             ];
 
             $scope.changeType = function(format) {
