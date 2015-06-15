@@ -66,7 +66,11 @@
                             labels: {
                                 rotation: -90,
                                 formatter: function() {
-                                    return $filter('geneTies')(this.value, 'IGHV');
+                                    var v = $filter('geneTies')(this.value, 'IGHV');
+                                    if (v.length > 25) {
+                                        v = v.substring(0, 25) + ' ...';
+                                    }
+                                    return v;
                                 },
                             },
                             title: 'IGHV Gene',
