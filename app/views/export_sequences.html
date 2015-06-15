@@ -86,7 +86,13 @@
                 </ul>
               </div>
             </div>
-
+          </div>
+          <div class="checkbox">
+            <label>
+              <input type="checkbox" ng-model="onlyWithClones"> <strong>Include
+                only sequences assigned to clones:</strong><p>Clones which are not in
+              a clone will be excluded from the export.
+            </label>
           </div>
           <div class="checkbox">
             <label>
@@ -138,7 +144,7 @@
             ng-href="{{ apiUrl }}data/export_sequences/{{ format }}/{{ type | lowercase }}/{{
               id }}/{{ level }}/?fields={{ getFields().join(',') }}&duplicates={{
                 duplicates }}&noresults={{ noresults }}&min_copy_number={{
-                minCopyNumber }}"
+                minCopyNumber }}&only_with_clones={{ onlyWithClones }}"
             target="_blank">Download</a>
         </td>
       </tr>
