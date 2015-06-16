@@ -110,6 +110,12 @@
                     'name': 'Date',
                     'desc': 'The date the sample was acquired (YYYY-MM-DD).',
                 },
+                {
+                    'header': 'tree',
+                    'name': 'Lineage Tree',
+                    'desc': 'The clone lineage tree represented in JSON.  Note that including this field can '
+                        + 'drastically increase file size',
+                },
             ];
 
             $scope.clearFields = function() {
