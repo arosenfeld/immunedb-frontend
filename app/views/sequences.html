@@ -98,17 +98,17 @@
             </a>
           </th>
           <th>
-             <a ng-click="order('junction_num_nts')">
+             <a ng-click="order('cdr3_num_nts')">
                CDR3 Length
               <i class="fa fa-chevron-{{ orderDir == 'asc' ? 'up' : 'down' }}"
-                ng-show="orderField=='junction_num_nts'"></i>
+                ng-show="orderField=='cdr3_num_nts'"></i>
             </a>
           </th>
           <th>
-             <a ng-click="order('junction_aa')">
+             <a ng-click="order('cdr3_aa')">
                CDR3 AA
               <i class="fa fa-chevron-{{ orderDir == 'asc' ? 'up' : 'down' }}"
-                ng-show="orderField=='junction_aa'"></i>
+                ng-show="orderField=='cdr3_aa'"></i>
             </a>
           </th>
           <th>
@@ -166,8 +166,8 @@
               <a ng-click="fullJ=!fullJ"><i class="fa fa-minus"></i></a>
             </span>
           </td>
-          <td>{{ seq.junction_num_nts }}</td>
-          <td ng-bind-html="seq.junction_aa | aminoAcid" class="text-mono"></td>
+          <td>{{ seq.cdr3_num_nts }}</td>
+          <td ng-bind-html="seq.cdr3_aa | aminoAcid" class="text-mono"></td>
           <td>{{ seq.alignment }}</td>
           <td>{{ seq.functional ? 'Yes' : 'No' }}</td>
           <td>{{ filter.collapsed == 'all' ? seq.copy_number :

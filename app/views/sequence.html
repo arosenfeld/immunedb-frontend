@@ -187,19 +187,19 @@ ng-show="seq.probable_indel_or_misalign">
         NT Sequence
         <a data-toggle="tooltip" title="The CDR3 nucleotides"><i class="fa fa-question-circle"></i></a>
       </th>
-      <td colspan="3" ng-bind-html="seq.junction_nt | dna"></td>
+      <td colspan="3" ng-bind-html="seq.cdr3_nt | dna"></td>
     </tr>
     <tr>
       <th>
         AA Sequence
         <a data-toggle="tooltip" title="The CDR3 amino acids"><i class="fa fa-question-circle"></i></a>
       </th>
-      <td ng-bind-html="seq.junction_aa | aminoAcid"></td>
+      <td ng-bind-html="seq.cdr3_aa | aminoAcid"></td>
       <th>
       Length
         <a data-toggle="tooltip" title="Number of nucleotides in the CDR3"><i class="fa fa-question-circle"></i></a>
       </th>
-      <td>{{ seq.junction_nt.length }}</td>
+      <td>{{ seq.cdr3_nt.length }}</td>
     </tr>
 
     <tr class="active">

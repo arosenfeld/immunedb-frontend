@@ -31,7 +31,7 @@
                     dnaCompare.makeComparison(
                         $('#germline-compare').get(0),
                         $scope.seq.germline,
-                        $scope.seq.junction_nt.length,
+                        $scope.seq.cdr3_nt.length,
                         [ $scope.seq ]);
                     $scope.hideLoader()
                 }).error(function(data, status, headers, config) {
