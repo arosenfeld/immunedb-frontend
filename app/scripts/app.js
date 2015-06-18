@@ -14,7 +14,7 @@
                     templateUrl: 'views/samples.html',
                     controller: 'SampleCtrl'
                 })
-                .when('/:apiPath/clones/:group?', {
+                .when('/:apiPath/clones', {
                     templateUrl: 'views/clones.html',
                     controller: 'ClonesCtrl',
                 })
