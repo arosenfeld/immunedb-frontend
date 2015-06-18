@@ -142,7 +142,7 @@
           </td>
         </tr>
         <tr ng-repeat="seq in sequences" ng-show="sequences.length > 0"
-          ng-class="seq.probable_indel_or_misalign ? 'danger' : ''">
+          ng-class="seq.partial_read ? 'warning' : (seq.probable_indel_or_misalign ? 'danger' : '')">
           <td>{{ seq.seq_id }}</td>
           <td><a href="#/{{ apiPath }}/subject/{{ seq.sample.subject.id }}"
             target="_blank">{{ seq.sample.subject.identifier }}</a></td>
