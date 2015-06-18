@@ -237,12 +237,6 @@
                     'desc': 'The unique clone identifier for this sequence, if any.',
                 },
                 {
-                    'header': 'clone_group_id',
-                    'name': 'Clone Group ID',
-                    'desc': 'The unique clone group identifier for the associated clone for correlating across '
-                        + 'database versions.',
-                },
-                {
                     'header': 'clone_cdr3_nt',
                     'name': 'Clone Consensus CDR3 Nucleotides',
                     'desc': 'The nucleotides comprising the associated clone\'s consensus CDR3.',

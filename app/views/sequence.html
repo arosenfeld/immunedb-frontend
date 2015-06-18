@@ -339,14 +339,6 @@ ng-show="seq.probable_indel_or_misalign">
       </th>
       <td><a href="#/{{ apiPath }}/clone/{{ seq.clone.id }}" target="_blank">{{
         seq.clone.id }}</a></td>
-      <th>
-        Clone Group ID
-        <a data-toggle="tooltip" title="The group of the clone as defined by V, J,
-        CDR3 AAs, and subject. This can be useful for finding similar clones across
-        database versions"><i class="fa fa-question-circle"></i></a>
-      </th>
-      <td><a href="#/{{ apiPath }}/clones/?group={{ seq.clone.group.id }}"
-        target="_blank">{{ seq.clone.group.id }}</a></td>
     </tr>
     <tr>
       <th>
@@ -358,7 +350,7 @@ ng-show="seq.probable_indel_or_misalign">
       <th>
         Consensus CDR3 Amino Acids
       </th>
-      <td ng-bind-html="seq.clone.group.cdr3_aa | aminoAcid" colspan="3"></td>
+      <td ng-bind-html="seq.clone.cdr3_aa | aminoAcid" colspan="3"></td>
     </tr>
   </table>
 </div>

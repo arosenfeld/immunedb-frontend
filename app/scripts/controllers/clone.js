@@ -37,7 +37,7 @@
                 dnaCompare.makeComparison(
                     $('#compare').get(0),
                     info.clone.germline,
-                    info.clone.group.cdr3_num_nts,
+                    info.clone.cdr3_num_nts,
                     info.seqs.slice(page * $scope.SEQS_PER_CANVAS, (page + 1) * $scope.SEQS_PER_CANVAS),
                     info.seqs.length,
                     info.mutation_stats);

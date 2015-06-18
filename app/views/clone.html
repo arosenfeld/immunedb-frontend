@@ -51,8 +51,7 @@
 <div class="alert alert-danger" role="alert" ng-show="apiChanged">
 <strong>Warning: </strong>It appears that you reached this page after switching
 database versions.  Keep in mind that clone IDs are <i>not</i> guaranteed to be
-consistent across different versions.  Use clone group IDs to compare similar
-clones across versions.</div>
+consistent across different versions.</div>
 
 <h3>Clone #{{ cloneInfo.clone.id }}</h3>
 <div class="panel panel-default">
@@ -62,7 +61,6 @@ clones across versions.</div>
         <thead>
           <tr>
             <th>Clone ID</th>
-            <th>Group ID</th>
             <th>V Gene</th>
             <th>J Gene</th>
             <th>CDR3 Length</th>
@@ -72,12 +70,10 @@ clones across versions.</div>
         <tbody>
           <tr>
             <td>{{ cloneInfo.clone.id }}</td>
-            <td><a href="#/{{ apiPath }}/clones/?group={{ cloneInfo.clone.group.id }}"
-              target="_blank">{{ cloneInfo.clone.group.id }}</a></td>
-            <td>{{ cloneInfo.clone.group.v_gene }}</td>
-            <td>{{ cloneInfo.clone.group.j_gene }}</td>
+            <td>{{ cloneInfo.clone.v_gene }}</td>
+            <td>{{ cloneInfo.clone.j_gene }}</td>
             <td>{{ cloneInfo.clone.cdr3_nt.length }}</td>
-            <td ng-bind-html="cloneInfo.clone.group.cdr3_aa | aminoAcid" class="text-mono"></td>
+            <td ng-bind-html="cloneInfo.clone.cdr3_aa | aminoAcid" class="text-mono"></td>
           </tr>
         </tbody>
       </table>
@@ -355,8 +351,8 @@ clones across versions.</div>
 
 <div class="panel panel-default">
   <div class="panel-heading">
-    Selection Pressure
-    <div class="pull-right heading-button">
+    Lineage Tree
+    <div class="pull-right heading-button" ng-hide="treeError">
       <div class="btn-group" role="group">
         <div class="btn-group" role="group">
           <button type="button" class="btn btn-default"

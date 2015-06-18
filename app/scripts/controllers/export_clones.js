@@ -31,11 +31,6 @@
                         ' the given clone',
                 },
                 {
-                    'header': 'group_id',
-                    'name': 'Clone Group ID',
-                    'desc': 'The unique clone group identifier for the clone'
-                },
-                {
                     'header': 'v_gene',
                     'name': 'V Gene',
                     'desc': 'The V gene assigned to the clone.',

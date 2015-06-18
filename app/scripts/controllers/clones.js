@@ -54,13 +54,6 @@
 
             var getClones = function() {
                 var def = $q.defer();
-                if (!(typeof $routeParams['group'] == 'undefined')) {
-                    if (typeof($scope.filter) == 'undefined') {
-                        $scope.filter = {};
-                    }
-                    $scope.filter.group_id =
-                        parseInt($routeParams['group']);
-                }
                 $http({
                     method: 'GET',
                     url: APIService.getUrl() + 'clones/',
