@@ -67,12 +67,11 @@ ng-show="seq.probable_indel_or_misalign">
       </th>
       <td>{{ seq.functional ? 'Yes' : 'No' }}</td>
       <th>
-      Alignment Method
-      <a data-toggle="tooltip" title="'R1+R2' if the sequence is an aligned
-      bi-directional read, otherwise 'R1' or 'R2'"><i class="fa
-      fa-question-circle"></i></a>
+      Partial Read
+      <a data-toggle="tooltip" title="If the read contains the entire V, CDR3,
+        and J."></i></a>
       </th>
-      <td>{{ seq.alignment }}</td>
+      <td>{{ seq.partial ? 'Yes' : 'No' }}</td>
     </tr>
     <tr>
       <th>

@@ -112,10 +112,10 @@
             </a>
           </th>
           <th>
-             <a ng-click="order('alignment')">
-               Alignment
+             <a ng-click="order('paired')">
+              Paired Read
               <i class="fa fa-chevron-{{ orderDir == 'asc' ? 'up' : 'down' }}"
-                ng-show="orderField=='alignment'"></i>
+                ng-show="orderField=='paired'"></i>
             </a>
           </th>
           <th>
@@ -142,7 +142,7 @@
           </td>
         </tr>
         <tr ng-repeat="seq in sequences" ng-show="sequences.length > 0"
-          ng-class="seq.partial_read ? 'warning' : (seq.probable_indel_or_misalign ? 'danger' : '')">
+          ng-class="seq.partial ? 'warning' : (seq.probable_indel_or_misalign ? 'danger' : '')">
           <td>{{ seq.seq_id }}</td>
           <td><a href="#/{{ apiPath }}/subject/{{ seq.sample.subject.id }}"
             target="_blank">{{ seq.sample.subject.identifier }}</a></td>
@@ -168,7 +168,7 @@
           </td>
           <td>{{ seq.cdr3_num_nts }}</td>
           <td ng-bind-html="seq.cdr3_aa | aminoAcid" class="text-mono"></td>
-          <td>{{ seq.alignment }}</td>
+          <td>{{ seq.paired  ? 'Yes' : 'No' }}</td>
           <td>{{ seq.functional ? 'Yes' : 'No' }}</td>
           <td>{{ filter.collapsed == 'all' ? seq.copy_number :
               seq['copy_number_in_' + filter.collapsed] }}</td>

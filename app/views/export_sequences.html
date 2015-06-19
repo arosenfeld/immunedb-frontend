@@ -13,12 +13,12 @@
     This page allows sequences to be exported in multiple formats:
     <ul>
       <li>
-        <strong>Tab Delimited:</strong> Contain one header line followed by one
+        <strong>Comma Separated:</strong> Contain one header line followed by one
         line per sequence including the fields selected.  Best for importing
         into spreadsheet software.
       </li>
       <li>
-        <strong>FASTA Original:</strong> A <a
+        <strong>FASTA:</strong> A <a
         href="http://en.wikipedia.org/wiki/FASTA_format"
         target="_blank">FASTA</a> file with a header comprised of the selected
         fields.  Sequences include <i>N</i>'s to align the sequences to their
@@ -27,11 +27,14 @@
         target="_blank">IMGT</a> numbering.
       </li>
       <li>
-        <strong>FASTA Germline Filled:</strong> Same as above except <i>N</i>'s
-        are replaced with their germline bases.
+        <strong>FASTQ:</strong> A <a
+        href="http://en.wikipedia.org/wiki/FASTQ_format"
+        target="_blank">FASTQ</a> file including quality information when
+        available.  Sequences missing quality information will still be included
+        with their quality string left blank.
       </li>
       <li>
-        <strong>FASTA CLIP:</strong> Same as FASTA Original but germlines
+        <strong>CLIP:</strong> Same as FASTA but germlines
         will be included as a separate entry beginning with <i>&gt;&gt;</i>
         rather than one.  Multiple sequences may come after a single germline
         and indicates all have the same germline sequence.

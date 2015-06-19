@@ -5,20 +5,32 @@
         function($scope, $http, $routeParams, $log, APIService) {
             $scope.formats = [
                 {
-                    'type': 'orig',
-                    'text': 'FASTA Original',
+                    'type': 'csv',
+                    'text': 'Comma Separated',
                 },
                 {
-                    'type': 'fill',
+                    'type': 'fasta-orig',
+                    'text': 'FASTA',
+                },
+                {
+                    'type': 'fasta-fill',
                     'text': 'FASTA Germline Filled',
                 },
                 {
-                    'type': 'clip',
-                    'text': 'FASTA CLIP',
+                    'type': 'fastq-orig',
+                    'text': 'FASTQ',
                 },
                 {
-                    'type': 'csv',
-                    'text': 'Comma Separated',
+                    'type': 'fastq-fill',
+                    'text': 'FASTQ Germline Filled',
+                },
+                {
+                    'type': 'clip-orig',
+                    'text': 'CLIP',
+                },
+                {
+                    'type': 'clip-fill',
+                    'text': 'CLIP Germline Filled',
                 },
             ];
 
@@ -98,10 +110,9 @@
                     'desc': 'The name of the study.',
                 },
                 {
-                    'header': 'alignment',
-                    'name': 'Alignment Method',
-                    'desc': 'The read number or alignment method for the '
-                            + 'sequence (R1, R2, R1+R2).',
+                    'header': 'paired',
+                    'name': 'Paired Read',
+                    'desc': 'If the sequence is constructed from paired-end reads.',
                 },
                 {
                     'header': 'in_frame',
