@@ -275,14 +275,14 @@ consistent across different versions.</div>
       </tr>
     </thead>
     <tbody>
-      <tr ng-repeat="pressure in selectionPressure | orderBy:'sample.id'"
-          ng-show="pressure.sample.id == 0 || showAllPressure">
+      <tr ng-repeat="pressure in selectionPressure | orderBy:-'sample.id'"
+          ng-show="pressure.sample.id == null || showAllPressure">
         <td>
           <a href="#/{{ apiPath }}/samples/{{ pressure.sample.id }}"
-               target="_blank" ng-show="pressure.sample.id != 0">
+               target="_blank" ng-show="pressure.sample.id != null">
             {{ pressure.sample.name }}
           </a>
-          <strong ng-show="pressure.sample.id == 0"><i>Entire Clone</i></strong>
+          <strong ng-show="pressure.sample.id == null"><i>Entire Clone</i></strong>
         </td>
         <td>{{ pressure.pressure[pressureType].Observed_CDR_S }}</td>
         <td>{{ pressure.pressure[pressureType].Observed_CDR_R }}</td>
