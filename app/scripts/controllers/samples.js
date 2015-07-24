@@ -293,7 +293,7 @@
                 $scope.grouping = 'name';
                 $scope.byFamily = false;
                 $scope.showOutliers = false;
-                $scope.showPartials = false;
+                $scope.showPartials = true;
 
                 $scope.rarefactionStatus = 'none';
                 $scope.rarefactionMode = 'sample';
