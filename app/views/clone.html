@@ -83,6 +83,38 @@ consistent across different versions.</div>
 
 <div class="panel panel-default">
   <div class="panel-heading">
+    Clone Samples
+  </div>
+  <div class="table-responsive">
+    <table class="table table-bordered">
+      <thead>
+        <tr class="info">
+          <th>#</th>
+          <th>Date</th>
+          <th>Name</th>
+          <th>Tissue</th>
+          <th>Subset</th>
+          <th>Unique Seqs.</th>
+          <th>Total Seqs.</th>
+        </tr>
+      </thead>
+      <tbody ng-repeat="sample in cloneInfo.samples">
+        <tr>
+          <td>{{ sample.id }}</td>
+          <td>{{ sample.date }}</td>
+          <td><a href="#/{{ apiPath }}/samples/{{ sample.id }}" target="_blank">{{ sample.name }}</a></td>
+          <td>{{ sample.tissue || '' }}</td>
+          <td>{{ sample.subset || '' }}</td>
+          <td>{{ sample.unique | number }}</td>
+          <td>{{ sample.total | number }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div class="panel panel-default">
+  <div class="panel-heading">
     Clone Sequences
     <span ng-show="showSeqs">(<a ng-click="showSeqs = !showSeqs">Hide</a>)</span>
     <div class="pull-right heading-button">
@@ -108,7 +140,7 @@ consistent across different versions.</div>
           <td>{{ stat.sample.id }}</td>
           <td><a href="#/{{ apiPath }}/samples/{{ stat.sample.id }}" target="_blank">{{ stat.sample.name }}</a></td>
           <td><a href="#/{{ apiPath }}/sequence/{{ stat.sample.id }}/{{ stat.seq_id }}" target="_blank">{{ stat.seq_id }}</a></td>
-          <td>{{ stat.copy_number_in_subject }}</td>
+          <td>{{ stat.copy_number_in_subject | number }}</td>
         </tr>
       </tbody>
     </table>
