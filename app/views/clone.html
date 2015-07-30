@@ -267,7 +267,8 @@ consistent across different versions.</div>
         </button>
         <button type="button" class="btn btn-default"
           ng-click="pressureType = (pressureType == 'all' ? 'multiples' :
-          'all')">Include {{ pressureType == 'all' ? 'mutations occurring at least twice' : 'all mutations' }}
+          'all')">{{ pressureType == 'all' ? 'Exclude mutations occurring only once'
+          : 'Include all mutations' }}
         </button>
       </div>
     </div>
