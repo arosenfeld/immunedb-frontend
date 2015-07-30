@@ -38,7 +38,7 @@
             ctx.stroke();
         }
 
-        var makeComparison = function(canvas, germline, cdr3_num_nts, seqs,
+        var makeComparison = function(canvas, germline, regions, cdr3_num_nts, seqs,
                 total_seqs, mutation_stats) {
             var ctx = canvas.getContext('2d');
 
@@ -210,54 +210,43 @@
             ctx.textAlign = 'left';
             ctx.font = 'bold 12px Courier New';
 
-            var regions = [
+            var region_info = [
                 {
                     'name': 'FR1',
-                    'start': 0,
-                    'end': 77,
                     'color': '#0000ff'
                 },{
                     'name': 'CDR1',
-                    'start': 78,
-                    'end': 113,
                     'color': '#00ff00'
                 },{
                     'name': 'FR2',
-                    'start': 114,
-                    'end': 164,
                     'color': '#0000ff'
                 },{
                     'name': 'CDR2',
-                    'start': 165,
-                    'end': 194,
                     'color': '#00ff00'
                 },{
                     'name': 'FR3',
-                    'start': 195,
-                    'end': 308,
                     'color': '#0000ff'
-                },{
+                },
+                {
                     'name': 'CDR3',
-                    'start': 309,
-                    'end': 308 + cdr3_num_nts,
                     'color': '#00ff00'
                 },{
                     'name': 'FR4',
-                    'start': 308 + cdr3_num_nts + 1,
-                    'end': germline.length - 1,
                     'color': '#0000ff'
                 },
             ];
 
+            var offset = 0;
             angular.forEach(regions, function(region, i) {
                 drawRegion(ctx,
-                    region.color,
+                    region_info[i].color,
                     LEFT_PAD + middlePad,
                     25,
                     CHAR_SPACE,
-                    region.start,
-                    region.end,
-                    region.name);
+                    offset,
+                    regions[i],
+                    region_info[i].name);
+                offset = regions[i] + 1;
             });
         }
 
