@@ -238,14 +238,14 @@ ng-show="seq.probable_indel_or_misalign">
         <a data-toggle="tooltip" title="The number of V gene bases
         before the CDR3 excluding gaps"><i class="fa fa-question-circle"></i></a>
       </th>
-      <td>{{ seq.pre_cdr3_length }}</td>
+      <td>{{ seq.pre_cdr3_length - seq.num_gaps }}</td>
       <th>
         Pre-CDR3 Match
         <a data-toggle="tooltip" title="The number of V gene bases matching the
         germline before the CDR3"><i class="fa fa-question-circle"></i></a>
       </th>
-      <td>{{ seq.pre_cdr3_match }} <span class="faded">({{ 100 *
-      seq.pre_cdr3_match / seq.pre_cdr3_length | number:1 }}%)</span></td>
+      <td>{{ seq.pre_cdr3_match - seq.num_gaps }} <span class="faded">({{ 100 *
+      (seq.pre_cdr3_match - seq.num_gaps) / (seq.pre_cdr3_length - seq.num_gaps) | number:1 }}%)</span></td>
     </tr>
 
 
