@@ -135,7 +135,7 @@ consistent across different versions.</div>
           <th>Copy Number</th>
         </tr>
       </thead>
-      <tbody ng-repeat="stat in cloneInfo.seqs">
+      <tbody ng-repeat="stat in cloneInfo.seqs | orderBy:'-copy_number_in_subject'">
         <tr>
           <td>{{ stat.sample.id }}</td>
           <td><a href="#/{{ apiPath }}/samples/{{ stat.sample.id }}" target="_blank">{{ stat.sample.name }}</a></td>
