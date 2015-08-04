@@ -112,13 +112,6 @@
             </a>
           </th>
           <th>
-             <a ng-click="order('paired')">
-              Paired Read
-              <i class="fa fa-chevron-{{ orderDir == 'asc' ? 'up' : 'down' }}"
-                ng-show="orderField=='paired'"></i>
-            </a>
-          </th>
-          <th>
              <a ng-click="order('functional')">
                Functional
               <i class="fa fa-chevron-{{ orderDir == 'asc' ? 'up' : 'down' }}"
@@ -168,7 +161,6 @@
           </td>
           <td>{{ seq.cdr3_num_nts }}</td>
           <td ng-bind-html="seq.cdr3_aa | aminoAcid" class="text-mono"></td>
-          <td>{{ seq.paired  ? 'Yes' : 'No' }}</td>
           <td>{{ seq.functional ? 'Yes' : 'No' }}</td>
           <td>{{ filter.collapsed == 'all' ? seq.copy_number :
               seq['copy_number_in_' + filter.collapsed] }}</td>
