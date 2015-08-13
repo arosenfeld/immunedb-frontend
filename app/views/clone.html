@@ -94,6 +94,7 @@ consistent across different versions.</div>
           <th>Name</th>
           <th>Tissue</th>
           <th>Subset</th>
+          <th>Ig Class</th>
           <th>Unique Seqs.</th>
           <th>Total Seqs.</th>
         </tr>
@@ -105,6 +106,7 @@ consistent across different versions.</div>
           <td><a href="#/{{ apiPath }}/samples/{{ sample.id }}" target="_blank">{{ sample.name }}</a></td>
           <td>{{ sample.tissue || '' }}</td>
           <td>{{ sample.subset || '' }}</td>
+          <td>{{ sample.ig_class || '' }}</td>
           <td>{{ sample.unique | number }}</td>
           <td>{{ sample.total | number }}</td>
         </tr>
@@ -117,11 +119,17 @@ consistent across different versions.</div>
   <div class="panel-heading">
     Clone Sequences
     <span ng-show="showSeqs">(<a ng-click="showSeqs = !showSeqs">Hide</a>)</span>
+
     <div class="pull-right heading-button">
-      <a type="button" class="btn btn-primary" href="#/{{ apiPath
-      }}/export_sequences/clone/{{ cloneInfo.clone.id }}" target="_blank">Export
-      Sequences...</a>
+      <div class="btn-group" role="group">
+        <a type="button" class="btn btn-default"
+          ng-click="showCollapsed=!showCollapsed">Toggle collapsed sequences</a>
+        <a type="button" class="btn btn-primary" href="#/{{ apiPath
+        }}/export_sequences/clone/{{ cloneInfo.clone.id }}" target="_blank">Export
+        Sequences...</a>
+      </div>
     </div>
+
   </div>
   <div class="table-responsive">
     <h4 class="faded text-center" ng-hide="showSeqs">Click <a
@@ -129,7 +137,6 @@ consistent across different versions.</div>
     <table class="table table-bordered" ng-show="showSeqs">
       <thead>
         <tr class="info">
-          <th>Sample #</th>
           <th>Sample Name</th>
           <th>Representative Sequence ID</th>
           <th>Copy Number</th>
@@ -137,10 +144,27 @@ consistent across different versions.</div>
       </thead>
       <tbody ng-repeat="stat in cloneInfo.seqs | orderBy:'-copy_number_in_subject'">
         <tr>
-          <td>{{ stat.sample.id }}</td>
           <td><a href="#/{{ apiPath }}/samples/{{ stat.sample.id }}" target="_blank">{{ stat.sample.name }}</a></td>
           <td><a href="#/{{ apiPath }}/sequence/{{ stat.sample.id }}/{{ stat.seq_id }}" target="_blank">{{ stat.seq_id }}</a></td>
           <td>{{ stat.copy_number_in_subject | number }}</td>
+        </tr>
+        <tr ng-show="showCollapsed && stat.collapse_to.length > 0">
+          <td></td>
+          <td class="text-center" colspan="2">
+            <table class="table table-bordered text-left">
+              <tr class="active">
+                <th colspan="3" class="text-center">Collapsed sequences from other samples:</th>
+              </tr>
+              <tr ng-repeat="collapse in stat.collapse_to |
+                orderBy:'-copy_number_in_sample'">
+                <td><a href="#/{{ apiPath }}/samples/{{ collapse.sample_id }}"
+                    target="_blank">{{ collapse.sample_name }}</a></td>
+                <td><a href="#/{{ apiPath }}/sequence/{{ collapse.sample_id }}/{{
+                    collapse.seq_id }}" target="_blank">{{ collapse.seq_id }}</a></td>
+                <td>{{ collapse.copy_number_in_sample | number }}</td>
+              </tr>
+            </table>
+          </td>
         </tr>
       </tbody>
     </table>
