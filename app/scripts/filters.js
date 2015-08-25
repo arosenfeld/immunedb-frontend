@@ -80,5 +80,17 @@
           return function(arr, start, end) {
             return (arr || []).slice(start, end);
           };
+        })
+        .filter('formatIndels', function() {
+            return function(input) {
+                if (typeof(input) == 'undefined') {
+                    return '';
+                }
+                var formatted = '';
+                angular.forEach(input, function(val) {
+                    formatted += val[1] + 'NTs @ pos ' + (val[0] + 1);
+                });
+                return formatted;
+            };
         });
 })();

@@ -82,6 +82,24 @@ ng-show="seq.probable_indel_or_misalign">
       </td>
     </tr>
 
+    <tr class="active" ng-show="seq.insertions || seq.deletions">
+      <th colspan="4" class="text-center">Corrected Indels</th>
+    </tr>
+    <tr>
+      <th>
+        Insertions
+      </th>
+      <td>
+        {{ seq.insertions | formatIndels }}
+      </td>
+      <th>
+        Deletions
+      </th>
+      <td>
+        {{ seq.deletions | formatIndels }}
+      </td>
+
+    </tr>
 
     <tr class="active">
       <th colspan="4" class="text-center">Collapsing Information</th>
