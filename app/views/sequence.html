@@ -85,7 +85,7 @@ ng-show="seq.probable_indel_or_misalign">
     <tr class="active" ng-show="seq.insertions || seq.deletions">
       <th colspan="4" class="text-center">Corrected Indels</th>
     </tr>
-    <tr>
+    <tr ng-show="seq.insertions || seq.deletions">
       <th>
         Insertions
       </th>
@@ -282,7 +282,7 @@ ng-show="seq.probable_indel_or_misalign">
         <a data-toggle="tooltip" title="The number of V gene bases
         before the CDR3 including gaps"><i class="fa fa-question-circle"></i></a>
       </th>
-      <td>{{ seq.pre_cdr3_length + seq.num_gaps }}</td>
+      <td>{{ seq.pre_cdr3_length }}</td>
     </tr>
 
     <tr class="active">

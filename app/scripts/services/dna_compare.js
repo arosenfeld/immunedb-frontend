@@ -34,7 +34,7 @@
             ctx.beginPath();
             ctx.strokeStyle = color;
             ctx.moveTo(left + start * char_space, top + 5);
-            ctx.lineTo(left + end * char_space + 11, top + 5);
+            ctx.lineTo(left + end * char_space, top + 5);
             ctx.stroke();
         }
 
@@ -237,16 +237,17 @@
             ];
 
             var offset = 0;
-            angular.forEach(regions, function(region, i) {
+            angular.forEach(region_info, function(region, i) {
+                var size = regions[i];
                 drawRegion(ctx,
-                    region_info[i].color,
+                    region.color,
                     LEFT_PAD + middlePad,
                     25,
                     CHAR_SPACE,
                     offset,
-                    regions[i],
-                    region_info[i].name);
-                offset = regions[i] + 1;
+                    offset + size - .4,
+                    region.name);
+                offset += size;
             });
         }
 
