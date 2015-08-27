@@ -65,9 +65,6 @@
                                 if (d.data.subsets.length > 0) {
                                     label += '<span style="color: #a0a0a0">Subsets(s): </span>' + d.data.subsets + '<br/>';
                                 }
-                                if (d.data.ig_classes.length > 0) {
-                                    label += '<span style="color: #a0a0a0">Ig Class(es): </span>' + d.data.ig_classes + '<br/>';
-                                }
                                 label += '<span style="color: #a0a0a0">Seq ID(s): </span><br/>';
                                 angular.forEach(d.data.seq_ids.slice(0, 25), function(val, key) {
                                     label += val + '<br/>';

@@ -69,28 +69,6 @@
                 ctx.fillText(label, LEFT_PAD, TOP_PAD + V_PER_SEQ
                     * (1 + i));
 
-                ctx.beginPath();
-                ctx.strokeStyle = '#db0004';
-
-                ctx.globalAlpha = 0.3;
-                ctx.lineWidth = 2;
-                ctx.moveTo(LEFT_PAD + middlePad - 2,
-                           TOP_PAD + V_PER_SEQ * (i + 1) + 3);
-                ctx.lineTo(LEFT_PAD + middlePad + (seq.v_extent - 1) *
-                            CHAR_SPACE + 8,
-                           TOP_PAD + V_PER_SEQ * (i + 1) + 3);
-                ctx.stroke();
-                ctx.beginPath();
-                ctx.strokeStyle = '#1d912c';
-                var jStart = (seq.sequence.length - seq.j_length) * CHAR_SPACE;
-                ctx.moveTo(LEFT_PAD + middlePad + jStart - 3,
-                           TOP_PAD + V_PER_SEQ * (i + 1) + 3);
-                ctx.lineTo(LEFT_PAD + middlePad + jStart + seq.j_length *
-                           CHAR_SPACE - 3,
-                           TOP_PAD + V_PER_SEQ * (i + 1) + 3);
-                ctx.stroke()
-                ctx.globalAlpha = 1;
-
                 var filled_seq = germline.substr(0, seq.read_start) + seq.sequence.substr(seq.read_start, seq.length);
                 angular.forEach(filled_seq, function(c, j) {
                     var left = LEFT_PAD + middlePad + (CHAR_SPACE * j);
