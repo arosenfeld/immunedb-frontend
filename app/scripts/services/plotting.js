@@ -182,12 +182,12 @@
                     };
                 },
 
-                createSeries: function(data, seriesKey, filter) {
+                createSeries: function(data, seriesKey) {
                     var series = [];
                     angular.forEach(data, function(plot, name) {
                         series.push({
                             name: name,
-                            data: plot[filter][seriesKey],
+                            data: plot[seriesKey],
                             turboThreshold: 0
                         });
                     });

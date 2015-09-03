@@ -70,8 +70,26 @@ consistent across different versions.</div>
         <tbody>
           <tr>
             <td>{{ cloneInfo.clone.id }}</td>
-            <td>{{ cloneInfo.clone.v_gene }}</td>
-            <td>{{ cloneInfo.clone.j_gene }}</td>
+            <td>
+              <span ng-show="!fullV">
+                {{ cloneInfo.clone.v_gene | geneTies:'IGHV' }}
+                <a ng-click="fullV=!fullV"><i class="fa fa-plus"></i></a>
+              </span>
+              <span ng-show="fullV">
+                {{ cloneInfo.clone.v_gene }}
+                <a ng-click="fullV=!fullV"><i class="fa fa-minus"></i></a>
+              </span>
+            </td>
+            <td>
+              <span ng-show="!fullJ">
+                {{ cloneInfo.clone.j_gene | geneTies:'IGHJ' }}
+                <a ng-click="fullJ=!fullJ"><i class="fa fa-plus"></i></a>
+              </span>
+              <span ng-show="fullJ">
+                {{ cloneInfo.clone.j_gene }}
+                <a ng-click="fullJ=!fullJ"><i class="fa fa-minus"></i></a>
+              </span>
+            </td>
             <td>{{ cloneInfo.clone.cdr3_nt.length }}</td>
             <td ng-bind-html="cloneInfo.clone.cdr3_aa | aminoAcid" class="text-mono"></td>
           </tr>
@@ -105,7 +123,6 @@ consistent across different versions.</div>
           <td><a href="#/{{ apiPath }}/samples/{{ sample.id }}" target="_blank">{{ sample.name }}</a></td>
           <td>{{ sample.tissue || '' }}</td>
           <td>{{ sample.subset || '' }}</td>
-          <td>{{ sample.ig_class || '' }}</td>
           <td>{{ sample.unique | number }}</td>
           <td>{{ sample.total | number }}</td>
         </tr>

@@ -70,6 +70,11 @@
                     'desc': 'The tissue from which the sequence originates.',
                 },
                 {
+                    'header': 'ig_class',
+                    'name': 'Ig Class',
+                    'desc': 'The immunoglobulin class of the sequences.',
+                },
+                {
                     'header': 'disease',
                     'name': 'Disease',
                     'desc': 'The disease(s), if any, in the subject from which the sequence originates.',

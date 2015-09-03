@@ -52,7 +52,7 @@
                     updateClone($scope.filter, ++$scope.page);
                 }
 
-                var init = function() {
+                $scope.refresh = function() {
                     $scope.summationWarning = $scope.samples && $scope.samples.length > 1;
                     $(function() {
                         $('[data-toggle="tooltip"]').tooltip({
@@ -62,31 +62,15 @@
                     updateClone($scope.filter, 1);
                     $scope.pageable = false;
                 }
-                init();
-            }
-        }
-    }])
-    .directive('filteredPanel', ['$log', function($log) {
-        return {
-            restrict: 'E',
-            replace: true,
-            scope: {
-                apiPath: '=',
-                tclass: '@',
-                cnt: '=',
-                filter: '@',
-                heatmap: '@',
-                charts: '=',
-                clones: '=?',
-                samples: '=',
-            },
-            templateUrl: 'partials/filtered_panel.html',
-            controller: function($scope) {
-            },
-            compile: function(element, attrs) {
-                if (!attrs.tclass) {
-                    attrs.tclass = 'tab-pane';
+
+                var init = function() {
+                    $scope.$on('FILTER_CHANGE', function(event, filter) {
+                        $scope.filter = filter;
+                        $scope.refresh();
+                    });
+                    $scope.refresh();
                 }
+                init();
             }
         }
     }])

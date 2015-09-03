@@ -81,11 +81,10 @@ ng-show="seq.probable_indel_or_misalign">
         {{ seq.copy_number }}
       </td>
     </tr>
-
-    <tr class="active" ng-show="seq.insertions || seq.deletions">
+    <tr class="active" ng-show="seq.insertions.length > 0 || seq.deletions.length > 0">
       <th colspan="4" class="text-center">Corrected Indels</th>
     </tr>
-    <tr ng-show="seq.insertions || seq.deletions">
+    <tr ng-show="seq.insertions.length > 0 || seq.deletions.length > 0">
       <th>
         Insertions
       </th>
@@ -98,7 +97,6 @@ ng-show="seq.probable_indel_or_misalign">
       <td>
         {{ seq.deletions | formatIndels }}
       </td>
-
     </tr>
 
     <tr class="active">

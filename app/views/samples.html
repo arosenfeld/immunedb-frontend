@@ -112,6 +112,7 @@
                 <th>Subject</th>
                 <th>Subset</th>
                 <th>Tissue</th>
+                <th>Ig Class</th>
                 <th>Disease</th>
                 <th>Lab</th>
                 <th>Experimenter</th>
@@ -123,6 +124,7 @@
                 <td><a href="#/{{ apiPath }}/subject/{{ sample.subject.id }}" target="_blank">{{ sample.subject.identifier }}</a></td>
                 <td>{{ sample.subset }}</td>
                 <td>{{ sample.tissue }}</td>
+                <td>{{ sample.ig_class }}</td>
                 <td>{{ sample.disease }}</td>
                 <td>{{ sample.lab }}</td>
                 <td>{{ sample.experimenter }}</td>
@@ -136,161 +138,72 @@
 </div>
 
 <div class="panel panel-default">
-  <div class="panel-heading">Sample Analysis</div>
+  <div class="panel-heading">
+    Sample Analysis
+    <div class="btn-group pull-right heading-button">
+      <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+        Grouped by {{ grouping == 'name' ? 'sample' : grouping }} <span class="caret"></span>
+      </button>
+      <ul class="dropdown-menu" role="menu">
+        <li><a ng-click="grouping = 'name'; doRequest();">Sample</a></li>
+        <li><a ng-click="grouping = 'subject'; doRequest();">Subject</a></li>
+        <li><a ng-click="grouping = 'tissue'; doRequest();">Tissue</a></li>
+        <li><a ng-click="grouping = 'subset'; doRequest();">Subset</a></li>
+        <li><a ng-click="grouping = 'ig_class'; doRequest();">Ig Class</a></li>
+        <li><a ng-click="grouping = 'disease'; doRequest();">Disease</a></li>
+      </ul>
+    </div>
+  </div>
   <div class="panel-body">
-    <div ng-show="cnts.all.total > 0">
-      <h3 ng-init="filter='Unique Functional Sequences with Copy Number > 1'">{{ filter }}</h3>
+    <div ng-show="cnts[filter].total > 0">
+      <h3 ng-init="filterName='Unique Functional Sequences with Copy Number >
+        1'">{{ filterName }}</h3>
+
       <ul class="nav nav-pills" role="tablist" id="funcTab">
-        <li class="dropdown">
-          <a role="button" data-toggle="dropdown">Clones <span class="caret"></span></a>
+        <li class="dropdown" ng-repeat="group in buttonGroups">
+          <a role="button" data-toggle="dropdown">{{ group[0] }} <span class="caret"></span></a>
           <ul class="dropdown-menu" role="menu">
-            <li ng-class="cnts.clones_all.total == 0 ? 'disabled' : ''">
-              <a href="#clones_all" role="tab" data-toggle="tab" ng-click="filter='All Clones'">
-                <span class="badge pull-right">{{ cnts.clones_all.total | formatNumber }}</span>All
-              </a>
-            </li>
-            <li ng-class="cnts.clones_functional.total == 0 ? 'disabled' : ''">
-              <a href="#clones_functional" role="tab" data-toggle="tab" ng-click="filter='Functional Clones'">
-                <span class="badge pull-right">{{ cnts.clones_functional.total | formatNumber }}</span>Functional
-              </a>
-            </li>
-            <li ng-class="cnts.clones_nonfunctional.total == 0 ? 'disabled' : ''">
-              <a href="#clones_nonfunctional" role="tab" data-toggle="tab" ng-click="filter='Non-Functional Clones'">
-                <span class="badge pull-right">{{ cnts.clones_nonfunctional.total | formatNumber }}</span>Non-Functional
-              </a>
-            </li>
-          </ul>
-        </li>
-        <li class="dropdown">
-          <a role="button" data-toggle="dropdown">Functional &amp; Unique <span class="caret"></span></a>
-          <ul class="dropdown-menu" role="menu">
-            <li ng-class="cnts.unique.total == 0 ? 'disabled' : ''">
-              <a href="#unique" role="tab" data-toggle="tab"
-                ng-click="filter='Unique Functional Sequences'">
-                <span class="badge pull-right">{{ cnts.unique.total | formatNumber }}</span>All
-              </a>
-            </li>
-            <li ng-class="cnts.unique_multiple.total == 0 ? 'disabled' : ''">
-              <a href="#unique_multiple" role="tab" data-toggle="tab"
-                ng-click="filter='Unique Functional Sequences with Copy Number > 1'">
-                <span class="badge pull-right">{{ cnts.unique_multiple.total | formatNumber }}</span>Copy # > 1
+            <li ng-repeat="f in group[1]" ng-class="filterClass(f[0])">
+              <a ng-click="setFilter(f[0])">
+                <span class="badge pull-right">{{ cnts[f[0]].total |
+                  formatNumber }}</span>{{ f[1] }}
               </a>
             </li>
           </ul>
         </li>
 
-        <li class="dropdown">
-          <a role="button" data-toggle="dropdown">Functionality <span class="caret"></span></a>
-          <ul class="dropdown-menu" role="menu">
-            <li ng-class="cnts.functional.total == 0 ? 'disabled' : ''">
-              <a href="#functional" role="tab" data-toggle="tab"
-                ng-click="filter='Functional Sequences'">
-                <span class="badge pull-right">{{ cnts.functional.total | formatNumber }}</span>Functional
-              </a>
-            </li>
-            <li ng-class="cnts.nonfunctional.total == 0 ? 'disabled' : ''">
-              <a href="#nonfunctional" role="tab" data-toggle="tab"
-                    ng-click="filter='Non-Functional Sequences'">
-                <span class="badge pull-right">{{ cnts.nonfunctional.total | formatNumber }}</span>Non-Functional
-              </a>
-            </li>
-          </ul>
-        </li>
-
-        <li ng-class="cnts.all.total == 0 ? 'disabled' : ''">
-          <a href="#all" role="tab" data-toggle="tab" ng-click="filter='All
-            Sequences'"><span class="badge pull-right">{{ cnts.all.total | formatNumber }}</span> All</a>
+        <li ng-class="filterClass('all')">
+          <a role="tab" ng-click="setFilter('all')"><span class="badge pull-right">{{ cnts.all.total | formatNumber }}</span> All</a>
         </li>
         <li class="pull-right">
-          <div class="btn-group">
-            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-              Grouped by {{ grouping == 'name' ? 'sample' : grouping }} <span class="caret"></span>
-            </button>
-            <ul class="dropdown-menu" role="menu">
-              <li><a ng-click="grouping = 'name'; doRequest();">Sample</a></li>
-              <li><a ng-click="grouping = 'tissue'; doRequest();">Tissue</a></li>
-              <li><a ng-click="grouping = 'subset'; doRequest();">Subset</a></li>
-              <li><a ng-click="grouping = 'subject'; doRequest();">Subject</a></li>
-              <li><a ng-click="grouping = 'disease'; doRequest();">Disease</a></li>
-            </ul>
-          </div>
-        </li>
-        <li class="pull-right">
-            <button type="button" class="btn btn-primary pull-right"
-                ng-click="byFamily = false; doRequest()" ng-show="byFamily">
-              <i class="fa fa-minus-square-o fa-fw"></i> Switch Heatmap to V Gene
-            </button>
-            <button type="button" class="btn btn-primary pull-right"
-                ng-click="byFamily = true; doRequest()" ng-show="!byFamily">
-              <i class="fa fa-plus-square-o fa-fw"></i> Switch Heatmap to V Family
-            </button>
+          <button type="button" class="btn btn-primary pull-right"
+              ng-click="byFamily = false; doRequest()" ng-show="byFamily">
+            <i class="fa fa-minus-square-o fa-fw"></i> Switch Heatmap to V Gene
+          </button>
+          <button type="button" class="btn btn-primary pull-right"
+              ng-click="byFamily = true; doRequest()" ng-show="!byFamily">
+            <i class="fa fa-plus-square-o fa-fw"></i> Switch Heatmap to V Family
+          </button>
         </li>
       </ul>
 
-      <div class="tab-content" id="filtered-panels">
-        <filtered-panel
-          filter="clones_all"
-          cnt="cnts.clones_all.total"
-          api-path="apiPath"
-          heatmap="vHeatmap_clones_all"
-          charts="charts.clones_all"
-          samples="sampleIds"></filtered-panel>
-
-        <filtered-panel
-          filter="clones_functional"
-          cnt="cnts.functional.total"
-          api-path="apiPath"
-          heatmap="vHeatmap_clones_functional"
-          charts="charts.clones_functional"
-          samples="sampleIds"></filtered-panel>
-
-        <filtered-panel
-          filter="clones_nonfunctional"
-          cnt="cnts.clones_nonfunctional.total"
-          api-path="apiPath"
-          heatmap="vHeatmap_clones_nonfunctional"
-          charts="charts.clones_nonfunctional"
-          samples="sampleIds"></filtered-panel>
-
-        <filtered-panel
-          tclass="tab-pane in active"
-          cnt="cnts.unique_multiple.total"
-          api-path="apiPath"
-          filter="unique_multiple"
-          heatmap="vHeatmap_unique_multiple"
-          charts="charts.unique_multiple"></filtered-panel>
-
-        <filtered-panel
-          filter="unique"
-          cnt="cnts.unique.total"
-          api-path="apiPath"
-          heatmap="vHeatmap_unique"
-          charts="charts.unique"></filtered-panel>
-
-        <filtered-panel
-          filter="functional"
-          cnt="cnts.functional.total"
-          api-path="apiPath"
-          heatmap="vHeatmap_functional"
-          charts="charts.functional"></filtered-panel>
-
-        <filtered-panel
-          filter="nonfunctional"
-          cnt="cnts.nonfunctional.total"
-          api-path="apiPath"
-          heatmap="vHeatmap_nonfunctional"
-          charts="charts.nonfunctional"></filtered-panel>
-
-        <filtered-panel
-          filter="all"
-          cnt="cnts.all.total"
-          api-path="apiPath"
-          heatmap="vHeatmap_all"
-          charts="charts.all"></filtered-panel>
+      <div>
+        <div ng-show="cnts[filter].total > 0">
+          <clone-pager ng-if="filter.indexOf('clones') >= 0" filter="filter"
+                                                             samples="sampleIds"
+                                                             api-path="apiPath"></clone-pager>
+          <div id="vHeatmap"></div>
+          <div ng-repeat="config in charts" ng-controller="HighChartController">
+            <highchart config="config" id="{{ config.key }}"></highchart>
+          </div>
+        </div>
+        <div class="alert alert-warning text-center" role="alert"
+          ng-show="cnt.total == 0">No results for
+        this filter/outliers/partial read combination.</div>
       </div>
     </div>
 
-    <div ng-show="cnts.all.total == 0">
+    <div ng-show="cnts[filter].total == 0">
       <div class="alert alert-warning text-center" role="alert">
         No results for any filter for this outlier/partial read combination.
 
@@ -316,7 +229,7 @@
   </div>
 </div>
 
-<div class="panel panel-default">
+<div class="panel panel-default" ng-show="filter.indexOf('clones') >= 0">
   <div class="panel-heading">Clonal Rarefaction</div>
   <div class="panel-body">
     <div class="well text-center">
@@ -357,7 +270,7 @@
   </div>
 </div>
 
-<div class="panel panel-default">
+<div class="panel panel-default" ng-hide="filter.indexOf('clones') >= 0">
   <div class="panel-heading">Sequence V Gene AA Diversity</div>
   <div class="panel-body">
     <div class="well text-center" ng-hide="diversityStatus=='loaded'">

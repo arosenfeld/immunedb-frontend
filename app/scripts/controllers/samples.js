@@ -44,13 +44,25 @@
                 type: 'column',
             }];
 
-            var filters = ['all', 'functional', 'nonfunctional', 'unique',
-                           'unique_multiple', 'clones_all', 'clones_functional',
-                           'clones_nonfunctional'];
+            $scope.buttonGroups = [
+                ['Clones', [
+                    ['clones_all', 'All'],
+                    ['clones_functional', 'Functional'],
+                    ['clones_nonfunctional', 'Non-functional']
+                ]],
+                ['Functional & Unique', [
+                    ['unique', 'All'],
+                    ['unique_multiple', 'Copy # > 1']
+                ]],
+                ['Functionality', [
+                    ['functional', 'Functional'],
+                    ['nonfunctional', 'Non-functional']
+                ]]
+            ];
 
-            var getHeatmap = function(samples, filterType) {
+            var getHeatmap = function(samples) {
                 var url = 'v_usage/' + samples.join(',') +
-                        '/' + filterType + '/' + $scope.showOutliers + '/' +
+                        '/' + $scope.filter + '/' + $scope.showOutliers + '/' +
                         $scope.showPartials + '/' + $scope.grouping + '/' +
                         $scope.byFamily;
                 var def = $q.defer();
@@ -104,32 +116,25 @@
             }
 
             var reflowCharts = function(doV) {
-                angular.forEach(filters, function(filter) {
-                    // v_call heatmap for the filter
-                    if (doV) {
-                        var chart = $('#vHeatmap_' + filter).highcharts();
-                        if (typeof chart != 'undefined') {
-                            chart.reflow();
-                        }
+                // v_call heatmap for the filter
+                if (doV) {
+                    var chart = $('#vHeatmap').highcharts();
+                    if (typeof chart != 'undefined') {
+                        chart.reflow();
                     }
-                    // All column plots for the filter
-                    angular.forEach(plots, function(plot, i) {
-                        if (!(filter.indexOf('clone') >= 0 && plot.key == 'quality_dist')) {
-                            $('#' + plot.key + '_' + filter).highcharts().reflow();
-                        }
-                    });
+                }
+                // All column plots for the filter
+                angular.forEach(plots, function(plot, i) {
+                    if (!($scope.filter.indexOf('clone') >= 0 && plot.key == 'quality_dist')) {
+                        $('#' + plot.key).highcharts().reflow();
+                    }
                 });
             }
 
-            var createPlots = function(filter) {
-                $scope.charts[filter] = [];
+            var createPlots = function() {
+                $scope.charts = [];
                 angular.forEach(plots, function(p, i) {
-
-                    if (!(filter.indexOf('clone') >= 0 && p.key == 'quality_dist')) {
-                        if (!(filter in $scope.charts)) {
-                            $scope.charts[filter] = [];
-                        }
-
+                    if (!($scope.filter.indexOf('clone') >= 0 && p.key == 'quality_dist')) {
                         var xl, yl;
                         if (typeof p.xlabel == 'undefined') {
                             xl = 'Nucleotides';
@@ -137,7 +142,7 @@
                             xl = p.xlabel;
                         }
                         if (typeof p.ylabel == 'undefined') {
-                            if (filter.indexOf('clone') < 0) {
+                            if ($scope.filter.indexOf('clone') < 0) {
                                 yl = 'Sequences';
                             } else {
                                 yl = 'Clones';
@@ -152,9 +157,8 @@
                                 xl,
                                 yl,
                                 p.type,
-                                plotting.createSeries(
-                                    $scope.stats, p.key, filter));
-                        $scope.charts[filter].push(c);
+                                plotting.createSeries($scope.stats, p.key));
+                        $scope.charts.push(c);
                     }
                 });
             }
@@ -166,23 +170,31 @@
             };
 
             $scope.doRequest = function() {
-                // Do the GET request for results
-                $scope.showLoader()
-                $http({
-                    method: 'GET',
-                    url: APIService.getUrl() + 'stats/' +
-                        $routeParams['sampleIds'] + '/' +
-                        $scope.showOutliers + '/' +
-                        $scope.showPartials + '/' +
-                        $scope.grouping
-                }).success(function(data, status) {
-                    $scope.allData = data;
+                $scope.showLoader();
+                var req = $routeParams['sampleIds'] + '/' +
+                    $scope.filter + '/' +
+                    $scope.showOutliers + '/' +
+                    $scope.showPartials + '/' +
+                    $scope.grouping;
+                if (req in $scope.cache) {
+                    $scope.allData = $scope.cache[req];
                     $scope.updateAll(true);
                     $timeout(reflowCharts, 0);
                     $scope.hideLoader();
-                }).error(function(data, status, headers, config) {
-                    $scope.showError();
-                });
+                } else {
+                    $http({
+                        method: 'GET',
+                        url: APIService.getUrl() + 'stats/' + req
+                    }).success(function(data, status) {
+                        $scope.allData = data;
+                        $scope.cache[req] = data;
+                        $scope.updateAll(true);
+                        $timeout(reflowCharts, 0);
+                        $scope.hideLoader();
+                    }).error(function(data, status, headers, config) {
+                        $scope.showError();
+                    });
+                }
             }
 
             $scope.updateAll = function() {
@@ -199,20 +211,18 @@
 
                 // Create all the charts
                 $scope.charts = {};
-                angular.forEach(filters, function(filter, j) {
-                    // v_call heatmap for the filter
-                    getHeatmap($scope.sampleIds, filter)
-                        .then(function(result) {
-                            var data = result['data'];
-                            var url = result['url'];
-                            if (data.x_categories.length > 0) {
-                                $('#vHeatmap_' + filter).highcharts(
-                                    plotting.createHeatmap(data, 'V Gene Utilization (Excludes Genes in < 1% of ' + (
-                                        filter.indexOf('clones') >= 0 ? 'Clones' : 'Sequences') + ')', url));
-                            }
-                    });
-                    createPlots(filter);
+                // v_call heatmap for the filter
+                getHeatmap($scope.sampleIds)
+                    .then(function(result) {
+                        var data = result['data'];
+                        var url = result['url'];
+                        if (data.x_categories.length > 0) {
+                            $('#vHeatmap').highcharts(
+                                plotting.createHeatmap(data, 'V Gene Utilization (Excludes Genes in < 1% of ' + (
+                                    $scope.filter.indexOf('clones') >= 0 ? 'Clones' : 'Sequences') + ')', url));
+                        }
                 });
+                createPlots();
             }
 
             $scope.addPin = function() {
@@ -264,6 +274,41 @@
                         });
             }
 
+            $scope.setFilter = function(name) {
+                if ($scope.filter == name) {
+                    return;
+                }
+                var filterNames = {
+                    'all': 'All',
+                    'functional': 'Functional Sequences',
+                    'nonfunctional': 'Non-functional Sequences',
+                    'unique': 'Functional Unique Sequences',
+                    'unique_multiple': 'Functional Unique Sequences with Copy Number > 1',
+                    'clones_all': 'All Clones',
+                    'clones_functional': 'Functional Clones',
+                    'clones_nonfunctional': 'Non-functional Clones',
+                };
+                $scope.filter = name;
+                $scope.filterName = filterNames[name];
+                $scope.doRequest();
+                if ($scope.filter.indexOf('clone') >= 0) {
+                    $scope.$broadcast('FILTER_CHANGE', $scope.filter);
+                }
+            }
+
+            $scope.filterClass = function(filter) {
+                if (typeof $scope.cnts == 'undefined' || typeof $scope.cnts[filter] == 'undefined') {
+                    return '';
+                }
+                if ($scope.cnts[filter].total == 0) {
+                    return 'disabled'
+                }
+                if (filter == $scope.filter) {
+                    return 'active';
+                }
+                return '';
+            }
+
             $scope.setRarefactionMode = function(mode) {
                 $scope.rarefactionMode = mode;
             }
@@ -300,7 +345,9 @@
 
                 $scope.diversityStatus = 'none';
 
+                $scope.cache = {};
                 $scope.selectedSamples = [];
+                $scope.filter = 'unique_multiple';
                 $timeout($scope.doRequest, 0);
             }
             init();

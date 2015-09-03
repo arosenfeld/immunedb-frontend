@@ -83,14 +83,14 @@
         })
         .filter('formatIndels', function() {
             return function(input) {
-                if (typeof(input) == 'undefined') {
+                if (typeof(input) == 'undefined' || input.length == 0) {
                     return '';
                 }
                 var formatted = '';
                 angular.forEach(input, function(val) {
-                    formatted += val[1] + 'NTs @ pos ' + (val[0] + 1);
+                    formatted += val[1] + 'NTs @ pos ' + (val[0] + 1) + ', ';
                 });
-                return formatted;
+                return formatted.substring(0, formatted.length - 2);
             };
         });
 })();
