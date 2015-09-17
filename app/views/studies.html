@@ -100,7 +100,7 @@
                     </span>
                   </td>
                   <td><a href="#/{{ apiPath }}/samples/{{ sample.id }}"
-                    ng-show="sample.status == 'reads'">View <i class="fa fa-angle-right fa-lg"></i></a></td>
+                    ng-show="sample.status != 'processing'">View <i class="fa fa-angle-right fa-lg"></i></a></td>
                 </tr>
                 <tr ng-show="showDetails">
                   <td colspan="9">

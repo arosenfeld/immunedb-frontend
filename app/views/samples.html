@@ -141,17 +141,28 @@
   <div class="panel-heading">
     Sample Analysis
     <div class="btn-group pull-right heading-button">
-      <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-        Grouped by {{ grouping == 'name' ? 'sample' : grouping }} <span class="caret"></span>
+      <button type="button" class="btn btn-primary"
+          ng-click="percentages=!percentages; doRequest()">
+        {{
+          percentages ?
+            'Plot Total Sequences / Clones'
+            :
+            'Plot % Sequences / Clones'
+        }}
       </button>
-      <ul class="dropdown-menu" role="menu">
-        <li><a ng-click="grouping = 'name'; doRequest();">Sample</a></li>
-        <li><a ng-click="grouping = 'subject'; doRequest();">Subject</a></li>
-        <li><a ng-click="grouping = 'tissue'; doRequest();">Tissue</a></li>
-        <li><a ng-click="grouping = 'subset'; doRequest();">Subset</a></li>
-        <li><a ng-click="grouping = 'ig_class'; doRequest();">Ig Class</a></li>
-        <li><a ng-click="grouping = 'disease'; doRequest();">Disease</a></li>
-      </ul>
+      <div class="btn-group">
+        <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+          Grouped by {{ grouping == 'name' ? 'sample' : grouping }} <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu" role="menu">
+          <li><a ng-click="grouping = 'name'; doRequest();">Sample</a></li>
+          <li><a ng-click="grouping = 'subject'; doRequest();">Subject</a></li>
+          <li><a ng-click="grouping = 'tissue'; doRequest();">Tissue</a></li>
+          <li><a ng-click="grouping = 'subset'; doRequest();">Subset</a></li>
+          <li><a ng-click="grouping = 'ig_class'; doRequest();">Ig Class</a></li>
+          <li><a ng-click="grouping = 'disease'; doRequest();">Disease</a></li>
+        </ul>
+      </div>
     </div>
   </div>
   <div class="panel-body">
@@ -177,12 +188,9 @@
         </li>
         <li class="pull-right">
           <button type="button" class="btn btn-primary pull-right"
-              ng-click="byFamily = false; doRequest()" ng-show="byFamily">
-            <i class="fa fa-minus-square-o fa-fw"></i> Switch Heatmap to V Gene
-          </button>
-          <button type="button" class="btn btn-primary pull-right"
-              ng-click="byFamily = true; doRequest()" ng-show="!byFamily">
-            <i class="fa fa-plus-square-o fa-fw"></i> Switch Heatmap to V Family
+              ng-click="byFamily=!byFamily; doRequest()">
+            <i class="fa fa-{{ byFamily ? 'minus' : 'plus' }}-square-o
+            fa-fw"></i> Switch Heatmap to V {{ byFamily ? 'Gene' : 'Family' }}
           </button>
         </li>
       </ul>

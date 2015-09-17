@@ -151,6 +151,10 @@
                             yl = p.ylabel;
                         }
 
+                        if ($scope.percentages) {
+                            yl = '% ' + yl;
+                        }
+
                         var c = plotting.createPlot(
                                 p.title,
                                 p.key,
@@ -175,6 +179,7 @@
                     $scope.filter + '/' +
                     $scope.showOutliers + '/' +
                     $scope.showPartials + '/' +
+                    $scope.percentages + '/' +
                     $scope.grouping;
                 if (req in $scope.cache) {
                     $scope.allData = $scope.cache[req];
@@ -339,6 +344,7 @@
                 $scope.byFamily = false;
                 $scope.showOutliers = false;
                 $scope.showPartials = true;
+                $scope.percentages = false;
 
                 $scope.rarefactionStatus = 'none';
                 $scope.rarefactionMode = 'sample';
