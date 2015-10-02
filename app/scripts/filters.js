@@ -65,6 +65,9 @@
         })
         .filter('geneTies', function($sce) {
             return function(input, type) {
+                if (typeof(input) == 'undefined' || input.length == 0) {
+                    return '';
+                }
                 return type + input.replace(type, '')
                     .replace(/\*[^|]*/g, '')
                     .split('|')

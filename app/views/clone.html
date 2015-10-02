@@ -149,7 +149,7 @@ consistent across different versions.</div>
   </div>
   <div class="table-responsive">
     <h4 class="faded text-center" ng-hide="showSeqs">Click <a
-        ng-click="showSeqs = !showSeqs">here</a> to show all {{ cloneInfo.seqs.length }} sequences.</h4>
+        ng-click="showSeqs = !showSeqs">here</a> to show sequences.</h4>
     <table class="table table-bordered" ng-show="showSeqs">
       <thead>
         <tr class="info">
@@ -158,7 +158,7 @@ consistent across different versions.</div>
           <th>Copy Number</th>
         </tr>
       </thead>
-      <tbody ng-repeat="stat in cloneInfo.seqs | orderBy:'-copy_number_in_subject'">
+      <tbody ng-repeat="stat in seqs">
         <tr>
           <td><a href="#/{{ apiPath }}/samples/{{ stat.sample.id }}" target="_blank">{{ stat.sample.name }}</a></td>
           <td><a href="#/{{ apiPath }}/sequence/{{ stat.sample.id }}/{{ stat.seq_id }}" target="_blank">{{ stat.seq_id }}</a></td>
@@ -185,6 +185,13 @@ consistent across different versions.</div>
       </tbody>
     </table>
   </div>
+  <ul class="pager" ng-show="showSeqs">
+    <li ng-show="comparePage > 1"><a href=""
+        ng-click="prevSeqsPage()")>Previous</a></li>
+    <li>
+      Page {{ seqsPage }}
+    <li><a href="" ng-click="nextSeqsPage()">Next</a></li>
+  </ul>
 </div>
 
 <div class="panel panel-default">
@@ -291,7 +298,19 @@ consistent across different versions.</div>
 </div>
 
 
-<div class="panel panel-default">
+<div class="panel panel-default" ng-hide="selectionPressure">
+  <div class="panel-heading">
+    Selection Pressure
+  </div>
+  <div class="panel-body">
+    <div class="alert alert-warning" role="alert">
+      Selection pressure has not been calculated for this clone
+    </div>
+  </div>
+</div>
+
+
+<div class="panel panel-default" ng-show="selectionPressure">
   <div class="panel-heading">
     Selection Pressure
     <div class="pull-right heading-button">
@@ -398,14 +417,11 @@ consistent across different versions.</div>
           </span>
         </div>
         <ul class="pager">
-          <li ng-show="page > 0"><a href=""
-              ng-click="prevPage()")>Previous</a></li>
+          <li ng-show="comparePage > 1"><a href=""
+              ng-click="prevComparePage()")>Previous</a></li>
           <li>
-            Page {{ page + 1 }} / {{
-            Math.ceil(cloneInfo.seqs.length / SEQS_PER_CANVAS) }}</li>
-          <li
-            ng-show="page + 1 < Math.ceil(cloneInfo.seqs.length /
-          SEQS_PER_CANVAS)"><a href="" ng-click="nextPage()">Next</a></li>
+            Page {{ comparePage }}
+          <li><a href="" ng-click="nextComparePage()">Next</a></li>
         </ul>
       </div>
     </div>
@@ -459,10 +475,6 @@ consistent across different versions.</div>
       No lineage tree has been generated for this clone.
     </div>
     <div ng-show="!treeError">
-      <div class="alert alert-danger" role="alert" ng-show="sampleWarning">
-        <strong>Warning: </strong> Lineage trees include <i>all</i>
-        sequences in a clone, not only those in the selected samples.
-      </div>
       <div class="alert alert-info" role="alert">
         This tree includes mutations that occur in at least <strong>{{
           treeInfo.min_count }} sequence(s)</strong> across at least <strong>{{

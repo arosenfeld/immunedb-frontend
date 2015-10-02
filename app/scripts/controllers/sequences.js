@@ -71,7 +71,7 @@
 
             var init = function() {
                 $scope.filter = {
-                    collapsed: 'all'
+                    collapsed: 'sample'
                 };
                 $scope.orderField = '';
                 $scope.orderDir = 'asc';

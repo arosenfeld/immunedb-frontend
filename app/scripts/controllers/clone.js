@@ -7,7 +7,7 @@
         function($scope, $http, $location, $routeParams, $timeout, $log, $modal,
                 dnaCompare, lineage, plotting, APIService) {
 
-            $scope.SEQS_PER_CANVAS = 100;
+            $scope.SEQS_PER_PAGE = 100;
 
             $scope.openModal = function(title, mutations) {
                 $modal.open({
@@ -24,24 +24,49 @@
                 });
             }
 
-            $scope.prevPage = function() {
-                updateScroller(Math.max(0, --$scope.page));
+            $scope.prevSeqsPage = function(v, fn) {
+                $scope.seqsPage = Math.max(0, --$scope.seqsPage);
+                $scope.updateSeqs();
             }
 
-            $scope.nextPage = function() {
-                updateScroller(++$scope.page);
+            $scope.nextSeqsPage = function(fn) {
+                $scope.seqsPage++;
+                $scope.updateSeqs();
             }
 
-            var updateScroller = function(page) {
+            $scope.prevComparePage = function(v, fn) {
+                $scope.comparePage = Math.max(0, --$scope.comparePage);
+                $scope.updateSeqCompare();
+            }
+
+            $scope.nextComparePage = function(fn) {
+                $scope.comparePage++;
+                $scope.updateSeqCompare();
+            }
+
+            $scope.updateSeqs = function() {
+                getSequences($scope.seqsPage, true, function(data) {
+                    if (data.length > 0) {
+                        $scope.seqs = data;
+                    }
+                });
+            }
+
+            $scope.updateSeqCompare = function() {
                 var info = $scope.cloneInfo;
-                dnaCompare.makeComparison(
-                    $('#compare').get(0),
-                    info.clone.germline,
-                    info.clone.regions,
-                    info.clone.cdr3_num_nts,
-                    info.seqs.slice(page * $scope.SEQS_PER_CANVAS, (page + 1) * $scope.SEQS_PER_CANVAS),
-                    info.seqs.length,
-                    info.mutation_stats);
+
+                getSequences($scope.comparePage, false, function(data) {
+                    if (data.length > 0) {
+                        dnaCompare.makeComparison(
+                            $('#compare').get(0),
+                            info.clone.germline,
+                            info.clone.regions,
+                            info.clone.cdr3_num_nts,
+                            data,
+                            data.length,
+                            info.mutation_stats);
+                    }
+                });
             }
 
             $scope.addPin = function() {
@@ -91,11 +116,24 @@
                 return { 'background-color': color };
             }
 
+            var getSequences = function(page, collapse_info, cb) {
+                $http({
+                    method: 'GET',
+                    url: APIService.getUrl() + 'clone_seqs/' + $routeParams['cloneId'],
+                    params: {
+                        'page': page,
+                        'collapse': collapse_info,
+                        'per_page': $scope.SEQS_PER_PAGE
+                    }
+                }).success(function(data, status) {
+                    cb(data);
+                });
+            }
+
             var init = function() {
                 $scope.showLoader();
                 $scope.$parent.page_title = 'Clone Comparison';
                 $scope.api = APIService.getUrl();
-                $scope.page = 0;
                 $scope.cutoffs = [
                     ['All', 'percent_0'],
                     ['&ge; 20%', 'percent_20'],
@@ -107,9 +145,6 @@
                     ['&ge; 25 Seqs', 'seqs_25'],
                 ];
                 $scope.setThreshold('percent_0');
-                if (typeof $routeParams['sampleIds'] != 'undefined') {
-                    $scope.sampleWarning = true;
-                }
 
                 $http({
                     method: 'GET',
@@ -121,7 +156,8 @@
                     $scope.Math = Math;
 
                     $scope.cloneId = $routeParams['cloneId'];
-                    $scope.page = 0;
+                    $scope.seqsPage = 1;
+                    $scope.comparePage = 1;
 
                     $scope.field = 'unique';
                     $scope.pressureType = 'all';
@@ -148,7 +184,8 @@
                     }
 
                     $timeout(function(){
-                        updateScroller(0);
+                        $scope.updateSeqCompare();
+                        $scope.updateSeqs();
                     }, 0);
                     $scope.hideLoader();
                 }).error(function(data, status, headers, config) {

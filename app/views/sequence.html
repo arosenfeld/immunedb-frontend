@@ -73,14 +73,6 @@ ng-show="seq.probable_indel_or_misalign">
       </th>
       <td>{{ seq.partial ? 'Yes' : 'No' }}</td>
     </tr>
-    <tr>
-      <th>
-        Exact Copies in Sample
-      </th>
-      <td>
-        {{ seq.copy_number }}
-      </td>
-    </tr>
     <tr class="active" ng-show="seq.insertions.length > 0 || seq.deletions.length > 0">
       <th colspan="4" class="text-center">Corrected Indels</th>
     </tr>
@@ -106,56 +98,39 @@ ng-show="seq.probable_indel_or_misalign">
       <th class="text-center">
         Collapsing Level
       </th>
-      <th class="text-center">
-        Copy Number
-      </th>
       <th colspan="2" class="text-center">
         Representative Sequence
       </th>
+      <th class="text-center">
+        Copy Number
+      </th>
     </tr>
 
-    <tr ng-show="seq.collapse_info.sample">
+    <tr>
       <th>
         Sample
       </th>
-      <td>
-        {{ seq.collapse_info.sample.copy_number | number }}
-      </td>
       <td colspan="2">
-        <a href="#/{{ apiPath }}/sequence/{{
-          seq.collapse_info.sample.sample_id }}/{{
-          seq.collapse_info.sample.seq_id }}" target="_blank">{{
-          seq.collapse_info.sample.seq_id }}</a>
+        <i>Self</i>
       </td>
-    </tr>
-    <tr ng-show="!seq.collapse_info.sample" class="warning">
-      <th>
-        Sample
-      </th>
-      <td colspan="3" class="text-center">Sequence has not yet been collapsed
-        to the sample level.</td>
+      <td>
+        {{ seq.copy_number | number }}
+      </td>
     </tr>
 
-    <tr ng-show="seq.collapse_info.subject">
+    <tr>
       <th>
         Subject
       </th>
-      <td>
-        {{ seq.collapse_info.subject.copy_number | number }}
-      </td>
       <td colspan="2">
-        <a href="#/{{ apiPath }}/sequence/{{
-          seq.collapse_info.subject.sample_id }}/{{
-          seq.collapse_info.subject.seq_id }}" target="_blank">{{
-          seq.collapse_info.subject.seq_id }}</a>
+        <i ng-show="seq.collapse_info.seq_id == seq.seq_id">Self</i>
+        <a ng-show="seq.collapse_info.seq_id != seq.seq_id"
+           href="#/{{ apiPath }}/sequence/{{ seq.collapse_info.sample_id }}/{{
+           seq.collapse_info.seq_id }}">{{ seq.collapse_info.seq_id }}</a>
       </td>
-    </tr>
-    <tr ng-show="!seq.collapse_info.subject" class="warning">
-      <th>
-        Subject
-      </th>
-      <td colspan="3" class="text-center">Sequence has not yet been collapsed
-        to the subject level.</td>
+      <td>
+        {{ seq.collapse_info.copy_number | number }}
+      </td>
     </tr>
 
     <tr class="active">

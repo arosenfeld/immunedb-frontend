@@ -45,9 +45,8 @@
         <div>
           <div class="form-group">
             <select class="form-control" ng-model="filter.collapsed" ng-change="updateSequences()">
-              <option value="all">Uncollapsed Sequences</option>
-              <option value="sample">Collapsed in Samples</option>
-              <option value="subject">Collapsed in Subjects</option>
+              <option value="sample">Unique in Samples</option>
+              <option value="subject">Unique in Subjects</option>
             </select>
           </div>
 
@@ -126,6 +125,9 @@
                 ng-show="orderField=='copy_number'"></i>
             </a>
           </th>
+          <th>
+            Instances
+          </th>
           <th></th>
         </tr>
       </thead>
@@ -163,8 +165,9 @@
           <td>{{ seq.cdr3_num_nts }}</td>
           <td ng-bind-html="seq.cdr3_aa | aminoAcid" class="text-mono"></td>
           <td>{{ seq.functional ? 'Yes' : 'No' }}</td>
-          <td>{{ filter.collapsed == 'all' ? seq.copy_number :
-              seq['copy_number_in_' + filter.collapsed] }}</td>
+          <td>{{ filter.collapsed == 'sample' ? seq.copy_number :
+              seq['copy_number_in_subject'] }}</td>
+          <td>{{ seq.instances_in_subject }}</td>
           <td>
             <a href="#/{{ apiPath }}/sequence/{{ seq.sample.id }}/{{ seq.seq_id }}" target="_blank">View
             <i class="fa fa-angle-right fa-lg"></i></a>
