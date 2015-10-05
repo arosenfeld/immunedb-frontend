@@ -91,8 +91,8 @@
                       {{ sample.name }}
                     </a>
                   </td>
-                  <td>{{ sample.total_sequences }}</td>
-                  <td>{{ sample.unique_sequences }}</td>
+                  <td>{{ sample.total_sequences | number }}</td>
+                  <td>{{ sample.unique_sequences | number }}</td>
                 </tr>
                 <tbody ng-show="freq.other_samples.length > 0">
                   <tr class="active">
@@ -105,8 +105,8 @@
                         {{ sample.name }}
                       </a>
                     </td>
-                    <td>{{ sample.total_sequences }}</td>
-                    <td>{{ sample.unique_sequences }}</td>
+                    <td>{{ sample.total_sequences | number }}</td>
+                    <td>{{ sample.unique_sequences | number }}</td>
                   </tr>
                 </tbody>
               </table>

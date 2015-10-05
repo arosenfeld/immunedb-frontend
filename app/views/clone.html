@@ -18,7 +18,7 @@
         <tr class="info">
           <td colspan="6"><strong>{{ type | capitalize }}</strong></td>
         </tr>
-        <tr ng-repeat="mut in data.mutations[type] | orderBy:'position'">
+        <tr ng-repeat="mut in data.mutations[type] | orderBy:'pos'">
           <td class="text-center">{{ mut.unique }}</td>
           <td class="text-center">{{ mut.total }}</td>
           <td class="text-center">{{ mut.pos + 1 }}</td>

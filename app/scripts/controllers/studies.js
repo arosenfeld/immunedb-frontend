@@ -26,7 +26,7 @@
             }
 
             $scope.rowClass = function(sample_status) {
-                if (sample_status != 'sample_stats') {
+                if (sample_status != 'complete') {
                     $scope.anyProcessing = true;
                     return 'warning';
                 }
