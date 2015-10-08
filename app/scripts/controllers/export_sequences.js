@@ -329,7 +329,7 @@
                 $scope.noresults = false;
                 $scope.allToggled = false;
                 $scope.minCopyNumber = 1;
-                $scope.level = 'uncollapsed';
+                $scope.level = 'sample';
 
                 $scope.hideLoader()
             }
