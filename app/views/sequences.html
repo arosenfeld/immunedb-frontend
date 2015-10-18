@@ -166,8 +166,8 @@
           <td ng-bind-html="seq.cdr3_aa | aminoAcid" class="text-mono"></td>
           <td>{{ seq.functional ? 'Yes' : 'No' }}</td>
           <td>{{ filter.collapsed == 'sample' ? seq.copy_number :
-              seq['copy_number_in_subject'] }}</td>
-          <td>{{ seq.instances_in_subject }}</td>
+              seq['copy_number_in_subject'] | number }}</td>
+          <td>{{ seq.instances_in_subject | number }}</td>
           <td>
             <a href="#/{{ apiPath }}/sequence/{{ seq.sample.id }}/{{ seq.seq_id }}" target="_blank">View
             <i class="fa fa-angle-right fa-lg"></i></a>
