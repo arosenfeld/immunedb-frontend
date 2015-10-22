@@ -8,17 +8,40 @@
 <div class='notifications top-right'></div>
 
 <ul class="nav nav-pills pull-right" role="tablist">
-  <li>
-    <button type="button" class="btn btn-primary"
-        ng-click="showPartials = false; doRequest()" ng-show="showPartials">
-      <i class="fa fa-minus-square-o fa-fw"></i> Exclude Partial Reads
-    </button>
-    <button type="button" class="btn btn-primary"
-        ng-click="showPartials = true; doRequest()" ng-show="!showPartials">
-      <i class="fa fa-plus-square-o fa-fw"></i> Include Partial Reads
+
+</ul>
+
+<div class="alert alert-warning" role="alert" ng-show="missing.length >
+0"><strong>Warning: </strong> The following samples do not have statistical information, or do not exist:
+  <ul>
+    <li ng-repeat="m in missing">Sample #{{ m }}</li>
+  </ul>
+</div>
+
+<ul class="nav nav-pills" role="tablist" id="funcTab">
+  <li class="dropdown" ng-repeat="group in buttonGroups">
+    <a role="button" data-toggle="dropdown">{{ group[0] }} <span class="caret"></span></a>
+    <ul class="dropdown-menu" role="menu">
+      <li ng-repeat="f in group[1]" ng-class="filterClass(f[0])">
+        <a ng-click="setFilter(f[0])">
+          <span class="badge pull-right">{{ cnts[f[0]].total |
+            formatNumber }}</span>{{ f[1] }}
+        </a>
+      </li>
+    </ul>
+  </li>
+
+  <li ng-class="filterClass('all')">
+    <a role="tab" ng-click="setFilter('all')"><span class="badge pull-right">{{ cnts.all.total | formatNumber }}</span> All</a>
+  </li>
+
+  <li class="pull-right">
+    <button type="button" class="btn btn-success pull-right"
+        ng-click="addPin()">
+      <i class="fa fa-thumb-tack fa-fw"></i> Pin Page
     </button>
   </li>
-  <li>
+  <li class="pull-right">
     <button type="button" class="btn btn-primary"
         ng-click="showOutliers = false; doRequest()" ng-show="showOutliers">
       <i class="fa fa-minus-square-o fa-fw"></i> Exclude Outliers
@@ -28,22 +51,25 @@
       <i class="fa fa-plus-square-o fa-fw"></i> Include Outliers
     </button>
   </li>
-  <li>
-    <button type="button" class="btn btn-success pull-right"
-        ng-click="addPin()">
-      <i class="fa fa-thumb-tack fa-fw"></i> Pin Page
+  <li class="pull-right">
+    <button type="button" class="btn btn-primary"
+        ng-click="showPartials = false; doRequest()" ng-show="showPartials">
+      <i class="fa fa-minus-square-o fa-fw"></i> Exclude Partial Reads
+    </button>
+    <button type="button" class="btn btn-primary"
+        ng-click="showPartials = true; doRequest()" ng-show="!showPartials">
+      <i class="fa fa-plus-square-o fa-fw"></i> Include Partial Reads
     </button>
   </li>
-</ul>
 
-<div class="alert alert-warning" role="alert" ng-show="missing.length >
-0"><strong>Warning: </strong> The following samples do not have statistical information, or do not exist:
-  <ul>
-    <li ng-repeat="m in missing">Sample #{{ m }}</li>
-  </ul>
-</div>
-<h3>Basic Statistics <a ng-click="showDetails=!showDetails">(Show Details)</a></h3>
-<div class="table-responsive">
+</ul>
+<h4 ng-init="filterName='Unique Functional Sequences with Copy Number >
+1'">Currently Viewing: <strong>{{ filterName }}</strong></h4>
+
+<div class="panel panel-default">
+  <div class="panel-heading">
+    Sequence Metadata
+  </div>
   <table class="table table-bordered">
     <thead>
       <tr class="active">
@@ -167,25 +193,7 @@
   </div>
   <div class="panel-body">
     <div ng-show="cnts[filter].total > 0">
-      <h3 ng-init="filterName='Unique Functional Sequences with Copy Number >
-        1'">{{ filterName }}</h3>
-
       <ul class="nav nav-pills" role="tablist" id="funcTab">
-        <li class="dropdown" ng-repeat="group in buttonGroups">
-          <a role="button" data-toggle="dropdown">{{ group[0] }} <span class="caret"></span></a>
-          <ul class="dropdown-menu" role="menu">
-            <li ng-repeat="f in group[1]" ng-class="filterClass(f[0])">
-              <a ng-click="setFilter(f[0])">
-                <span class="badge pull-right">{{ cnts[f[0]].total |
-                  formatNumber }}</span>{{ f[1] }}
-              </a>
-            </li>
-          </ul>
-        </li>
-
-        <li ng-class="filterClass('all')">
-          <a role="tab" ng-click="setFilter('all')"><span class="badge pull-right">{{ cnts.all.total | formatNumber }}</span> All</a>
-        </li>
         <li class="pull-right">
           <button type="button" class="btn btn-primary pull-right"
               ng-click="byFamily=!byFamily; doRequest()">

@@ -53,7 +53,6 @@
                 }
 
                 $scope.refresh = function() {
-                    $scope.summationWarning = $scope.samples && $scope.samples.length > 1;
                     $(function() {
                         $('[data-toggle="tooltip"]').tooltip({
                             'placement': 'top'
