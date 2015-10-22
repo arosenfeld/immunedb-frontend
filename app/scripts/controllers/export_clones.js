@@ -86,6 +86,21 @@
                     'desc': 'The cell subset of the sample.',
                 },
                 {
+                    'header': 'ig_class',
+                    'name': 'Ig Class',
+                    'desc': 'The class of the sequence (e.g. IgA, IgG).',
+                },
+                {
+                    'header': 'j_primer',
+                    'name': 'J Gene Primer',
+                    'desc': 'The J-gene primer used.',
+                },
+                {
+                    'header': 'v_primer',
+                    'name': 'V Gene Primer',
+                    'desc': 'The V-gene primer used.',
+                },
+                {
                     'header': 'disease',
                     'name': 'Disease',
                     'desc': 'The disease(s), if any, in the subject from which the sample originates.',
