@@ -64,56 +64,22 @@
             </div>
           </div>
         </div>
-        <div ng-show="format">
-          <div class="row">
-          </div>
-          <div class="row">
-            <div ng-class="'form-group col-sm-2' + (!minCopyNumber ||
-            minCopyNumber < 1 ? ' has-error' : '')">
-              <label>Minimum Copy Number:</label>
-              <input type="number" class="form-control" name="minCopyNumber"
-                min="1" ng-model="minCopyNumber">
+        <div class="row" ng-show="format">
+          <div class="form-group col-md-12">
+            <div class="checkbox">
+              <label>
+                <input type="checkbox" ng-model="subjectUniques"> <strong>Only Export
+                  sequences unique to subjects:</strong><p> Sequences which are
+                collapsed to another sequence in the subject will be excluded.</p>
+              </label>
             </div>
-            <div class="form-group col-sm-2">
-              <label>At Collapse Level:</label>
-              <div class="dropdown">
-                <button class="btn btn-default dropdown-toggle" type="button">
-                  {{ level[0] | uppercase }}{{ level.substring(1) }} <span class="caret"></span>
-                </button>
-                <ul class="dropdown-menu" role="menu">
-                  <li role="presentation">
-                    <a role="menuitem" tabindex="-1" ng-click="level='sample'">Sample</a>
-                    <a role="menuitem" tabindex="-1" ng-click="level='subject'">Subject</a>
-                  </li>
-                </ul>
-              </div>
+            <div class="checkbox">
+              <label>
+                <input type="checkbox" ng-model="onlyWithClones"> <strong>Include
+                  only sequences assigned to clones:</strong><p>Sequences which are not in
+                a clone will be excluded from the export.</p>
+              </label>
             </div>
-          </div>
-          <div class="checkbox">
-            <label>
-              <input type="checkbox" ng-model="onlyWithClones"> <strong>Include
-                only sequences assigned to clones:</strong><p>Clones which are not in
-              a clone will be excluded from the export.
-            </label>
-          </div>
-          <div class="checkbox">
-            <label>
-              <input type="checkbox" ng-model="duplicates"> <strong>Include
-              duplicate sequences:</strong><p>
-                Duplicate sequences will be included in the output and will be
-                indicated by a copy number of zero.  To determine the sequence to
-                which it was collapsed, include the <span
-                class="text-mono-thin">duplicate_of_seq_id</span> field.</p>
-            </label>
-          </div>
-          <div class="checkbox">
-            <label>
-              <input type="checkbox" ng-model="noresults"> <strong>Include
-              unidentified sequences:</strong><p>Sequences that could not be
-              assigned a V- or J-gene will be included in the output.  All fields
-              except <span class="text-mono-thin">seq_id</span> and those related
-              to the sample will be "None".</p>
-            </label>
           </div>
         </div>
       </td>
@@ -142,11 +108,11 @@
       <tr>
         <td colspan="4" class="text-center">
           <a class="btn btn-success"
-            ng-disabled="!minCopyNumber || minCopyNumber < 1 || getFields().length == 0"
+            ng-disabled="getFields().length == 0"
             ng-href="{{ apiUrl }}data/export_sequences/{{ format }}/{{ type | lowercase }}/{{
-              id }}/{{ level }}/?fields={{ getFields().join(',') }}&duplicates={{
-                duplicates }}&noresults={{ noresults }}&min_copy_number={{
-                minCopyNumber }}&only_with_clones={{ onlyWithClones }}"
+              id }}/{{ level }}/?fields={{ getFields().join(',')
+            }}&only_with_clones={{ onlyWithClones }}&subject_uniques={{
+            subjectUniques }}"
             target="_blank">Download</a>
         </td>
       </tr>

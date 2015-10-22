@@ -41,15 +41,6 @@
                     'desc': 'Unique identifier for the sequence within the sample.',
                 },
                 {
-                    'header': 'duplicate_of_seq_id',
-                    'name': 'Duplicate Sequence ID',
-                    'desc': '<span class="text-mono-thin">seq_id</span> of the ' +
-                    'sequence in the same sample to which the sequence was collapsed if any.  For ' +
-                    'this to be useful, include duplicate sequences in the ' +
-                    'export.  Duplicate sequences will have a ' +
-                    '<span class="mono-text-thin">copy_number</span> of zero.',
-                },
-                {
                     'header': 'subject_id',
                     'name': 'Subject ID',
                     'desc': 'The subject ID as it appears in the database.',
@@ -136,8 +127,8 @@
                 },
                 {
                     'header': 'copy_number',
-                    'name': 'Exact Match Copy Number',
-                    'desc': 'The number of reads in the same sample with the exact same sequence.',
+                    'name': 'Copy Number',
+                    'desc': 'The number of reads in the same sample with the same sequence.',
                 },
                 {
                     'header': 'probable_indel_or_misalign',
@@ -269,12 +260,6 @@
                         + 'drastically increase file size',
                 },
                 {
-                    'header': 'collapse_to_sample_seq_id',
-                    'name': 'Sequence ID Collapsed-to at Sample Level',
-                    'desc': 'The <span class="text-mono-thin">seq_id</span> to which the sequence was collapsed '
-                        + 'at the sample level.'
-                },
-                {
                     'header': 'collapse_to_subject_seq_id',
                     'name': 'Sequence ID Collapsed-to at Subject Level',
                     'desc': 'The <span class="text-mono-thin">seq_id</span> to which the sequence was collapsed '
@@ -325,11 +310,9 @@
                 $scope.type = $routeParams['type'].charAt(0).toUpperCase() +
                     $routeParams['type'].slice(1);
                 $scope.id = $routeParams['id'];
-                $scope.duplicates = false;
-                $scope.noresults = false;
                 $scope.allToggled = false;
-                $scope.minCopyNumber = 1;
                 $scope.level = 'sample';
+                $scope.subject_uniques = false;
 
                 $scope.hideLoader()
             }
