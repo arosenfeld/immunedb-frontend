@@ -66,8 +66,8 @@
                                     label += '<span style="color: #a0a0a0">Subsets(s): </span>' + d.data.subsets + '<br/>';
                                 }
                                 label += '<span style="color: #a0a0a0">Seq ID(s): </span><br/>';
-                                angular.forEach(d.data.seq_ids.slice(0, 25), function(val, key) {
-                                    label += val + '<br/>';
+                                angular.forEach(Object.keys(d.data.seq_ids).slice(0, 25), function(val, key) {
+                                    label += val + ' in <span style="color: #a0a0a0">' + d.data.seq_ids[val].sample_name + '</span><br/>';
                                 });
                                 if (d.data.seq_ids.length > 25) {
                                     label += '... ' + (d.data.seq_ids.length - 25) + ' more ...<br/>';
@@ -114,7 +114,7 @@
                             if(d.data.seq_ids.length == 0) {
                                 return '#000000';
                             } else if(typeof d.data[colorBy] != 'undefined' && d.data[colorBy].length > 0) {
-                                return lookups.attribToColor(d.data[colorBy]);
+                                return lookups.attribToColor(d.data[colorBy].join());
                             }
                             return '#0000ff';
                         });
