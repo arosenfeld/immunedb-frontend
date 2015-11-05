@@ -71,6 +71,17 @@
                     'desc': 'The disease(s), if any, in the subject from which the sequence originates.',
                 },
                 {
+                    'header': 'v_primer',
+                    'name': 'V Gene Primer',
+                    'desc': 'V gene primer information',
+                },
+                {
+                    'header': 'j_primer',
+                    'name': 'J Gene Primer',
+                    'desc': 'J gene primer information',
+                },
+
+                {
                     'header': 'lab',
                     'name': 'Lab',
                     'desc': 'The lab which acquired the sequence.',
