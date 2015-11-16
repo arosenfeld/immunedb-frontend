@@ -110,10 +110,10 @@
                     </span></td>
                   <td>{{ sample.no_result_cnt | number }}</td>
                   <td>
-                    <span ng-show="sample.status =='complete'">
+                    <span ng-show="sample.functional_cnt">
                       {{ 100 * sample.functional_cnt / sample.sequence_cnt | number : 2}}
                     </span>
-                    <span ng-show="sample.status != 'complete'">
+                    <span ng-show="!sample.functional_cnt">
                       N/A
                     </span>
                   </td>
