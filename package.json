@@ -1,12 +1,56 @@
 {
-  "name": "simlab_database",
-  "version": "0.12.2",
-  "dependencies": {},
-  "engines": {
-    "node": ">=0.10.0"
+  "name": "simlab-web-database",
+  "version": "0.0.1",
+  "description": "",
+  "main": "src/index.js",
+  "scripts": {
+    "build": "webpack --progress --colors --config ./webpack.config.js",
+    "build-semantic": "cd static/semantic && gulp build",
+    "serve": "./node_modules/webpack-dev-server/bin/webpack-dev-server.js --content-base dist --history-api-fallback --host 0.0.0.0 --hot"
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/arosenfeld/simlab-web-database.git"
+    "url": "git+https://github.com/arosenfeld/simlab-web-database"
+  },
+  "author": "",
+  "license": "UNLICENSED",
+  "bugs": {
+    "url": "git+https://github.com/arosenfeld/simlab-web-database/issues"
+  },
+  "homepage": "git+https://github.com/arosenfeld/simlab-web-database#readme",
+  "dependencies": {
+    "alt": "^0.17.7",
+    "async": "^1.5.0",
+    "babel-core": "^5.8.33",
+    "babel-eslint": "^4.1.3",
+    "babel-loader": "^5.3.2",
+    "eslint": "^1.7.3",
+    "eslint-loader": "^1.1.0",
+    "eslint-plugin-react": "^3.6.3",
+    "history": "^1.13.0",
+    "html-loader": "^0.3.0",
+    "http-server": "^0.8.5",
+    "jquery": "^2.1.4",
+    "lodash": "^3.10.1",
+    "numeral": "^1.5.3",
+    "path": "^0.12.7",
+    "react": "^0.14.1",
+    "react-dom": "^0.14.1",
+    "react-router": "^1.0.0",
+    "semantic-ui": "^2.1.4",
+    "superagent": "^1.4.0",
+    "webpack": "^1.12.2"
+  },
+  "devDependencies": {
+    "babel": "^5.8.29",
+    "browserify": "^12.0.1",
+    "css-loader": "^0.21.0",
+    "express": "^4.13.3",
+    "html-webpack-plugin": "^1.6.2",
+    "json-loader": "^0.5.3",
+    "reactify": "^1.1.1",
+    "style-loader": "^0.13.0",
+    "url-loader": "^0.5.6",
+    "webpack-dev-server": "^1.12.1"
   }
 }
