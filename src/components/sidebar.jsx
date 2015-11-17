@@ -9,8 +9,8 @@ export default class Sidebar extends React.Component {
           <div className="item inverted">
             <h4>SimLab Database</h4>
           </div>
-          <Link className="item" to="/studies">
-            Studies
+          <Link className="item" to="/samples">
+            Samples
           </Link>
         </div>
       </div>
