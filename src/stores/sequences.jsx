@@ -1,12 +1,12 @@
 import alt from '../altApp';
 
-import SampleActions from '../actions/samples';
+import SequenceActions from '../actions/sequences';
 
-class SampleStore {
+class SequenceStore {
   constructor() {
-    this.bindActions(alt.getActions('SampleActions'));
+    this.bindActions(alt.getActions('SequenceActions'));
     this.state = {
-      samples: [],
+      sequences: [],
       asyncState: '',
       asyncError: '',
     };
@@ -24,11 +24,11 @@ class SampleStore {
     });
   }
 
-  setSamples(samples) {
+  setSequences(sequences) {
     this.setState({
-      samples
+      sequences
     });
   }
 }
 
-export default alt.createStore(SampleStore, 'SampleStore');
+export default alt.createStore(SequenceStore, 'SequenceStore');

@@ -6,14 +6,9 @@ import React from 'react';
 import connectToStores from 'alt/utils/connectToStores';
 
 import API from '../api';
+import Message from './message';
 import SampleActions from '../actions/samples';
 import SampleStore from '../stores/samples';
-
-class DateList extends React.Component {
-  render() {
-
-  }
-}
 
 export default class SampleList extends React.Component {
   static getStores() {
@@ -88,6 +83,14 @@ export default class SampleList extends React.Component {
   }
 
   render() {
+    if (this.props.asyncState == 'loading') {
+      return <Message type='' icon='notched circle loading' header='Loading'
+              message='Gathering sample information' />;
+    } else if (this.props.asyncState == 'error') {
+      return <Message type='error' icon='warning sign' header='Error'
+              message='Unable to fetch sample information' />;
+    }
+
     let sampleHierarchy = _.groupBy(this.props.samples, s => s.subject.study.name);
     sampleHierarchy = _.mapValues(sampleHierarchy,
       (studySamples) => _.groupBy(studySamples, s => _.get(s, this.state.groupBy))
@@ -160,7 +163,10 @@ export default class SampleList extends React.Component {
 
     return (
       <div>
-        <div className="ui selection dropdown">
+        <button className="ui primary button">
+          Analyze Selected
+        </button>
+        <div className="ui selection dropdown right floated">
           <input type="hidden" name="groupBy" onChange={this.setGrouping} />
           <i className="dropdown icon"></i>
           <div className="default text">Group by...</div>

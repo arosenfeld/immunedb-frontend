@@ -6,7 +6,7 @@
   "scripts": {
     "build": "webpack --progress --colors --config ./webpack.config.js",
     "build-semantic": "cd static/semantic && gulp build",
-    "serve": "./node_modules/webpack-dev-server/bin/webpack-dev-server.js --content-base dist --history-api-fallback --host 0.0.0.0 --hot"
+    "serve": "webpack-dev-server --content-base dist --history-api-fallback --host 0.0.0.0 --hot"
   },
   "repository": {
     "type": "git",
