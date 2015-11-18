@@ -22,6 +22,22 @@ class SequenceActions {
       });
     }
   }
+
+  getSequence(sampleId, seqId) {
+    return (dispatch) => {
+      setTimeout(() => {
+        this.actions.setAsyncState('loading');
+        API.post('sequence/' + sampleId + '/' + seqId).end((err, response) => {
+          if (err) {
+            this.actions.setAsyncState('error');
+          } else {
+            this.actions.setSequences([response.body]);
+            this.actions.setAsyncState('loaded');
+          }
+        });
+      });
+    }
+  }
 }
 
 export default alt.createActions(SequenceActions);

@@ -1,11 +1,8 @@
-import numeral from 'numeral';
-import lodash from 'lodash';
-
 import React from 'react';
 import connectToStores from 'alt/utils/connectToStores';
 
-import API from '../api';
-import {colorAAs, removeAlleles} from '../utils';
+import { colorAAs, removeAlleles } from '../utils';
+import { Link } from 'react-router';
 import Message from './message';
 
 import SampleActions from '../actions/samples';
@@ -54,7 +51,7 @@ class SequenceRow extends React.Component {
         <td>{this.props.seq.copy_number} / {this.props.seq.copy_number_in_subject}</td>
         <td>{this.props.seq.instances_in_subject}</td>
         <td>
-          <a href={'/sequence/' + this.props.seq.sample.id + '/' + this.props.seq.seq_id} target="blank">
+          <a href={'/sequence/' + this.props.seq.sample.id + '/' + this.props.seq.seq_id} target="_blank">
             View <i className="angle right icon"></i>
           </a>
         </td>
