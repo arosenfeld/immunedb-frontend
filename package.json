@@ -6,7 +6,7 @@
   "scripts": {
     "build": "webpack --progress --colors --config ./webpack.config.js",
     "build-semantic": "cd static/semantic && gulp build",
-    "serve": "webpack-dev-server --content-base dist --history-api-fallback --host 0.0.0.0 --hot"
+    "serve": "./node_modules/webpack-dev-server/bin/webpack-dev-server.js --content-base dist --history-api-fallback --host 0.0.0.0 --hot --inline"
   },
   "repository": {
     "type": "git",
@@ -27,6 +27,7 @@
     "eslint": "^1.7.3",
     "eslint-loader": "^1.1.0",
     "eslint-plugin-react": "^3.6.3",
+    "file-loader": "^0.8.4",
     "history": "^1.13.0",
     "html-loader": "^0.3.0",
     "http-server": "^0.8.5",

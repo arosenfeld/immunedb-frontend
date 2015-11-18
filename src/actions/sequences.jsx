@@ -7,11 +7,11 @@ class SequenceActions {
     this.generateActions('setAsyncState', 'setSequences');
   }
 
-  getAll() {
+  getSequences(page, filters, perPage) {
     return (dispatch) => {
       setTimeout(() => {
         this.actions.setAsyncState('loading');
-        API.post('sequences/list').end((err, response) => {
+        API.post('sequences/list', {filters, page, per_page: perPage}).end((err, response) => {
           if (err) {
             this.actions.setAsyncState('error');
           } else {

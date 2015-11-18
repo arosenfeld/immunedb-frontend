@@ -6,7 +6,7 @@ var HtmlWebpackPlugin = require('html-webpack-plugin')
 module.exports = {
   name: 'browser',
   entry: {
-    app: ['./src/index']
+    app: './src/index'
   },
   output: {
     // The output directory as absolute path
