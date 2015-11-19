@@ -1,12 +1,33 @@
 .main {
-    margin-top: 5em;
+  margin-top: 5em;
 }
 
 .faded {
-    color: #999;
+  color: #999;
 }
 
 tr.info-row {
-    background-color: #CCE2FF;
-    color: rgba(0,0,0,.87);
+  background-color: #CCE2FF;
+  color: rgba(0,0,0,.87);
+}
+
+.text-mono {
+  font-family: "Courier New", Courier, monospace;
+}
+
+.sequence {
+  font-weight: bold;
+  letter-spacing: 2px;
+}
+
+div.slideWrap {
+  overflow-x: scroll;
+  white-space: nowrap;
+}
+
+span.scroller {
+  font-size: 10pt;
+  display: inline-block;
+  width: 200px;
+  white-space: nowrap;
 }

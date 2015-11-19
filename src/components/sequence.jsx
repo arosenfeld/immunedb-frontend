@@ -9,6 +9,7 @@ import Message from './message';
 
 import SequenceActions from '../actions/sequences';
 import SequenceStore from '../stores/sequences';
+import SeqViewer from './seqViewer';
 
 import GeneCollapser from './geneCollapser';
 import { colorAAs, colorNTs, optional } from '../utils';
@@ -235,6 +236,12 @@ export default class Sequence extends React.Component {
             </tr>
           </tbody>
         </table>
+
+        <div className="ui teal segment">
+          <h4>Sequence View</h4>
+          <SeqViewer seqs={[sequence]} germline={sequence.germline} regions={sequence.regions}
+                     mutation_stats={sequence.mutations} />
+        </div>
 
         {sequence.clone ?
           <table className="ui teal table">
