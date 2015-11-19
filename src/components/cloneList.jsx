@@ -245,17 +245,17 @@ export default class CloneList extends React.Component {
         </table>
 
         <div className="ui one column stackable center aligned page grid">
-           <div className="column twelve wide">
-             <button className="ui labeled icon button" onClick={this.prevPage} disabled={this.state.page == 1}>
-               <i className="left chevron icon"></i>
-               Previous
-             </button>
-             <button className="ui right labeled icon button" onClick={this.nextPage}>
-               Forward
-               <i className="right chevron icon"></i>
-             </button>
-           </div>
-         </div>
+          <div className="column twelve wide">
+            <button className="ui labeled icon button" onClick={this.prevPage} disabled={this.state.page == 1}>
+              <i className="left chevron icon"></i>
+              Previous
+            </button>
+            <button className="ui right labeled icon button" onClick={this.nextPage}>
+              Next
+              <i className="right chevron icon"></i>
+            </button>
+          </div>
+        </div>
       </div>
     );
   }

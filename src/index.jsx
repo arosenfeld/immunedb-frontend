@@ -6,6 +6,7 @@ import { Router, Route } from 'react-router';
 import { createHistory } from 'history';
 
 import App from './app';
+import Clone from './components/clone';
 import CloneList from './components/cloneList';
 import SampleList from './components/sampleList';
 import SequenceList from './components/sequenceList';
@@ -17,6 +18,7 @@ ReactDOM.render(
   <Router history={history}>
     <Route path='/' component={App}>
       <Route path='/clones' component={CloneList} />
+      <Route path='/clone/:id' component={Clone} />
       <Route path='/samples' component={SampleList} />
       <Route path='/sequences' component={SequenceList} />
       <Route path='/sequence/:sampleId/:seqId' component={Sequence} />

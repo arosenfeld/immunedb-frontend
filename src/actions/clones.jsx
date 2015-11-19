@@ -27,7 +27,7 @@ class CloneActions {
     return (dispatch) => {
       setTimeout(() => {
         this.actions.setAsyncState('loading');
-        API.post('clone/' + sampleId + '/' + cloneId).end((err, response) => {
+        API.post('clone/' + cloneId).end((err, response) => {
           if (err) {
             this.actions.setAsyncState('error');
           } else {
