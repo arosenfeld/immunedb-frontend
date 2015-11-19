@@ -186,21 +186,21 @@ export default class Sequence extends React.Component {
         <table className="ui teal table">
           <thead>
             <tr>
-              <th colSpan="2">Variable Gene</th>
+              <th>Gene</th>
+              <th>Variable</th>
+              <th>Joining</th>
             </tr>
           </thead>
           <tbody>
             <tr>
               <td><strong>Name</strong></td>
               <td><GeneCollapser gene={sequence.v_gene} /></td>
-            </tr>
-            <tr>
-              <td><strong>Padding</strong></td>
-              <td>{sequence.pad_length}</td>
+              <td><GeneCollapser gene={sequence.j_gene} /></td>
             </tr>
             <tr>
               <td className="collapsing"><strong>Length (w/o IMGT gaps)</strong></td>
               <td>{sequence.v_length}</td>
+              <td>{sequence.j_length}</td>
             </tr>
             <tr>
               <td><strong>Match</strong></td>
@@ -208,31 +208,15 @@ export default class Sequence extends React.Component {
                 {sequence.v_match}
                 <span className="faded">{' (' + numeral(sequence.v_match / sequence.v_length).format('0,0%') + ')'}</span>
               </td>
-            </tr>
-          </tbody>
-        </table>
-
-        <table className="ui teal table">
-          <thead>
-            <tr>
-              <th colSpan="2">Joining Gene</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td><strong>Name</strong></td>
-              <td><GeneCollapser gene={sequence.j_gene} /></td>
-            </tr>
-            <tr>
-              <td className="collapsing"><strong>Length (w/o IMGT gaps)</strong></td>
-              <td>{sequence.j_length}</td>
-            </tr>
-            <tr>
-              <td><strong>Match</strong></td>
               <td>
                 {sequence.j_match}
                 <span className="faded">{' (' + numeral(sequence.j_match / sequence.j_length).format('0,0%') + ')'}</span>
               </td>
+            </tr>
+            <tr>
+              <td><strong>Padding</strong></td>
+              <td>{sequence.pad_length}</td>
+              <td><span className="faded">N/A</span></td>
             </tr>
           </tbody>
         </table>

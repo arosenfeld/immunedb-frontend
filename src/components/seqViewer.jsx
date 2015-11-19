@@ -40,7 +40,6 @@ class SeqViewer extends React.Component {
 
 
   drawSeqs = () => {
-    console.log(this.props.seqs[0]);
     let labelMaxLength = _.max(_.map(this.props.seqs, (seq) => {
       return (seq.sample.id + ': ' + seq.seq_id).length;
     }));

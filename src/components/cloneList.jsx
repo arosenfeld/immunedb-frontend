@@ -1,3 +1,5 @@
+import numeral from 'numeral';
+
 import React from 'react';
 import connectToStores from 'alt/utils/connectToStores';
 
@@ -6,19 +8,16 @@ import { Link } from 'react-router';
 import GeneCollapser from './geneCollapser';
 import Message from './message';
 
-import SampleActions from '../actions/samples';
-import SampleStore from '../stores/samples';
+import CloneActions from '../actions/clones';
+import CloneStore from '../stores/clones';
 
-import SequenceActions from '../actions/sequences';
-import SequenceStore from '../stores/sequences';
-
-export default class SequenceList extends React.Component {
+export default class CloneList extends React.Component {
   static getStores() {
-    return [SampleStore, SequenceStore];
+    return [CloneStore];
   }
 
   static getPropsFromStores() {
-    return _.extend({}, SampleStore.getState(), SequenceStore.getState());
+    return CloneStore.getState();
   }
 
   constructor() {
@@ -30,7 +29,6 @@ export default class SequenceList extends React.Component {
       showFilters: false
     };
     this.onChange = _.debounce(this.onChange, 10);
-    SampleActions.getAll();
     this.update();
   }
 
@@ -72,7 +70,7 @@ export default class SequenceList extends React.Component {
   }
 
   update = () => {
-    SequenceActions.getSequences(this.state.page, this.state.filter, this.state.perPage);
+    CloneActions.getClones(this.state.page, this.state.filter, this.state.perPage);
   }
 
   toggleFilters = (e) => {
@@ -84,11 +82,12 @@ export default class SequenceList extends React.Component {
 
   filter = (e) => {
     e.preventDefault();
-    SequenceActions.getSequences(this.state.page, this.state.filter, this.state.perPage);
+    CloneActions.getClones(this.state.page, this.state.filter, this.state.perPage);
   }
 
   onChange = (e) => {
-    let isInt = _.contains(['cdr3_num_nts', 'min_copy_number', 'max_copy_number'], e.target.name);
+    let isInt = _.contains(['id', 'min_cdr3_num_nts', 'max_cdr3_num_nts',
+                            'min_unique', 'max_unique'], e.target.name);
     let change = _.extend({}, this.state.filter, {
       [e.target.name]: isInt ? parseInt(e.target.value) : e.target.value
     });
@@ -107,22 +106,9 @@ export default class SequenceList extends React.Component {
         <form className="ui form">
           <div className="fields">
             <div className="field">
-              <label>Seq ID</label>
-              <input type="text" name="seq_id" placeholder="Use % as a wildcard" defaultValue={this.state.filter.seq_id} onChange={this.onChange} />
+              <label>ID</label>
+              <input type="number" name="id" defaultValue={this.state.filter.id} onChange={this.onChange} />
             </div>
-            <div className="field">
-              <label>Sample</label>
-              <select className="ui search sample_id dropdown" defaultValue={this.state.filter.sample_id}>
-                <option value="">Sample</option>
-                <option value=" ">All</option>
-                {_.map(this.props.samples, (sample) => {
-                  return <option
-                          value={sample.id} key={sample.id}>{sample.name} (# {sample.id})</option>
-                })}
-              </select>
-            </div>
-          </div>
-          <div className="fields">
             <div className="three wide field">
               <label>V Gene</label>
               <input type="text" name="v_gene" placeholder="Use % as a wildcard" defaultValue={this.state.filter.v_gene} onChange={this.onChange} />
@@ -131,27 +117,15 @@ export default class SequenceList extends React.Component {
               <label>J Gene</label>
               <input type="text" name="j_gene" placeholder="Use % as a wildcard" defaultValue={this.state.filter.j_gene} onChange={this.onChange} />
             </div>
-            <div className="three wide field">
-              <label>CDR3 Length (in nucleotides)</label>
-              <input type="number" name="cdr3_num_nts" min="1" defaultValue={this.state.filter.cdr3_num_nts} onChange={this.onChange} />
-            </div>
           </div>
           <div className="fields">
-            <div className="two wide field">
-              <label>Min. Copy Number</label>
-              <input type="number" name="min_copy_number" min="1" defaultValue={this.state.filter.min_copy_number} onChange={this.onChange} />
+            <div className="three wide field">
+              <label>Min. CDR3 Length (in nucleotides)</label>
+              <input type="number" name="min_cdr3_num_nts" min="1" defaultValue={this.state.filter.min_cdr3_num_nts} onChange={this.onChange} />
             </div>
-            <div className="two wide field">
-              <label>Max. Copy Number</label>
-              <input type="number" name="max_copy_number" min="1" defaultValue={this.state.filter.max_copy_number} onChange={this.onChange} />
-            </div>
-            <div className="field">
-              <label>Copy Number Field</label>
-              <select className="ui copy_type dropdown" defaultValue={this.state.filter.copy_type || 'sample'}>
-                <option value="">Min/max copies in...</option>
-                <option value="sample">Sample</option>
-                <option value="subject">Subject</option>
-              </select>
+            <div className="three wide field">
+              <label>Max. CDR3 Length (in nucleotides)</label>
+              <input type="number" name="max_cdr3_num_nts" min="1" defaultValue={this.state.filter.max_cdr3_num_nts} onChange={this.onChange} />
             </div>
           </div>
           <button className="ui button" onClick={this.filter}>Filter</button>
@@ -164,18 +138,73 @@ export default class SequenceList extends React.Component {
     );
   }
 
+  getCloneRows = (clone) => {
+    let rows = [
+      <tr key={clone.id + '_info'}>
+        <td>{clone.id}</td>
+        <td>{clone.subject.identifier}</td>
+        <td>
+          <GeneCollapser gene={clone.v_gene} />
+        </td>
+        <td>
+          <GeneCollapser gene={clone.j_gene} />
+        </td>
+        <td>{clone.cdr3_num_nts}</td>
+        <td className="text-mono sequence">{colorAAs(clone.cdr3_aa)}</td>
+        <td>{numeral(clone.unique_sequences).format('0,0')}</td>
+        <td>{numeral(clone.total_sequences).format('0,0')}</td>
+        <td>
+          <a href={'/clone/' + clone.id} target="_blank">
+            View <i className="angle right icon"></i>
+          </a>
+        </td>
+      </tr>,
+      <tr key={clone.id + '_stats'}>
+        <td></td>
+        <td colSpan="8">
+          <div className="ui red segment">
+            <h4>Sample Breakdown</h4>
+            <table className="ui compact table">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Name</th>
+                  <th>Unique Seqs.</th>
+                  <th>Total Seqs.</th>
+                </tr>
+              </thead>
+              <tbody>
+                {_.map(clone.stats, (stat) => {
+                  return (
+                    <tr key={stat.sample.id}>
+                      <td>{stat.sample.id}</td>
+                      <td><Link to={'/sample/' + stat.sample.id}>{stat.sample.name}</Link></td>
+                      <td>{numeral(stat.unique_sequences).format('0,0')}</td>
+                      <td>{numeral(stat.total_sequences).format('0,0')}</td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
+        </td>
+      </tr>
+    ];
+    return rows;
+  }
+
   render() {
     if (this.props.asyncState == 'loading') {
       return <Message type='' icon='notched circle loading' header='Loading'
-              message='Gathering sequence information' />;
+              message='Gathering clone information' />;
     } else if (this.props.asyncState == 'error') {
       return <Message type='error' icon='warning sign' header='Error'
-              message='Unable to fetch sequence information' />;
+              message='Unable to fetch clone information' />;
     }
 
     return (
       <div>
-        <h1>Sequences</h1>
+        <h1>Clones</h1>
         {
           !this.state.showFilters ?
             <button className="ui right labeled icon primary button" onClick={this.toggleFilters}>
@@ -189,51 +218,28 @@ export default class SequenceList extends React.Component {
         <table className="ui single line teal table">
           <thead>
             <tr>
-              <th>Sequence ID<i className="help icon popup" data-title="Sequence ID"
-                data-content="The sample-unique identifier for the sequence"></i></th>
+              <th>Clone ID<i className="help icon popup" data-title="Clone ID"
+                data-content="The unique identifier for the clone"></i></th>
               <th>Subject<i className="help icon popup" data-title="Subject"
-                data-content="The subject from which the sequence originated"></i></th>
+                data-content="The subject from which the clone originated"></i></th>
               <th>V Gene <i className="help icon popup" data-title="V Gene"
-                data-content="The variable gene associated with the sequence"></i></th>
+                data-content="The variable gene associated with the clone"></i></th>
               <th>J Gene <i className="help icon popup" data-title="J Gene"
-                data-content="The joining gene associated with the sequence"></i></th>
+                data-content="The joining gene associated with the clone"></i></th>
               <th>CDR3 Length <i className="help icon popup" data-title="CDR3 Length"
                 data-content="The length of the CDR3 in nucleotides"></i></th>
               <th>CDR3 AA <i className="help icon popup" data-title="CDR3 AA"
                 data-content="The amino acids in the CDR3"></i></th>
-              <th>Functional <i className="help icon popup" data-title="Functional"
-                data-content="If the sequence produces a productive protein"></i></th>
-              <th>Copy Number <i className="help icon popup" data-title="Copy Number"
-                data-content="The copy number of the sequence in its sample / subject"></i></th>
-              <th>Instances <i className="help icon popup" data-title="Instances"
-                data-content="The number of independent times this sequence was found"></i></th>
+              <th>Unique Seqs. <i className="help icon popup" data-title="Unique Sequences"
+                data-content="The total number of unique sequences from the subject in this clone"></i></th>
+              <th>Total Seqs. <i className="help icon popup" data-title="Total Sequences"
+                data-content="The total number of sequences in this clone"></i></th>
               <th></th>
             </tr>
           </thead>
           <tbody>
-            {_.map(this.props.sequences, (sequence) => {
-              return (
-                <tr key={sequence.seq_id}>
-                  <td>{sequence.seq_id}</td>
-                  <td>{sequence.sample.subject.identifier}</td>
-                  <td>
-                    <GeneCollapser gene={sequence.v_gene} />
-                  </td>
-                  <td>
-                    <GeneCollapser gene={sequence.j_gene} />
-                  </td>
-                  <td>{sequence.cdr3_num_nts}</td>
-                  <td className="text-mono sequence">{colorAAs(sequence.cdr3_aa)}</td>
-                  <td>{sequence.functional ? 'Yes' : 'No'}</td>
-                  <td>{sequence.copy_number} / {sequence.copy_number_in_subject}</td>
-                  <td>{sequence.instances_in_subject}</td>
-                  <td>
-                    <a href={'/sequence/' + sequence.sample.id + '/' + sequence.seq_id} target="_blank">
-                      View <i className="angle right icon"></i>
-                    </a>
-                  </td>
-                </tr>
-              );
+            {_.map(this.props.clones, (clone) => {
+              return this.getCloneRows(clone);
             })}
           </tbody>
         </table>
@@ -255,4 +261,4 @@ export default class SequenceList extends React.Component {
   }
 }
 
-export default connectToStores(SequenceList);
+export default connectToStores(CloneList);
