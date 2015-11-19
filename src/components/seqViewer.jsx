@@ -106,7 +106,7 @@ class SeqViewer extends React.Component {
         if (_.get(seq.mutations, j)) {
           if (
               this.props.mutations ||
-              (j < 309 || j >= 309 + seq.cdr3_nts.length)
+              (j < 309 || j >= 309 + seq.cdr3_nt.length)
            ) {
             this.ctx.beginPath();
             this.ctx.rect(left - 2, top - this.CHAR_SPACE + 8, 15, 15);
@@ -146,7 +146,7 @@ class SeqViewer extends React.Component {
       this.ctx.fillStyle = '#ff5500';
       this.ctx.fillText('Non-conserved %', this.LEFT_PAD + 15, this.TOP_PAD + (4 + this.props.seqs.length) * this.V_PER_SEQ);
 
-      _.each(mutations['positions'], (vals, offset) => {
+      _.each(this.props.mutations['positions'], (vals, offset) => {
         let synonymous = vals['synonymous'] || 0;
         let conservative = vals['conservative'] || 0;
         let nonConservative = vals['nonconservative'] || 0;
@@ -178,7 +178,7 @@ class SeqViewer extends React.Component {
         }
 
       });
-    } else if (this.props.seqs[0].quality != 'undefined') {
+    } else if (this.props.seqs[0].quality) {
       this.ctx.fillStyle = '#777777';
       this.ctx.fillText('Phred Quality Score (Range: 0 - 41)', this.LEFT_PAD, this.TOP_PAD + (1 + this.props.seqs.length) * this.V_PER_SEQ);
       this.ctx.font = '10px Courier New';

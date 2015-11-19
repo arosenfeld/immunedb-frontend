@@ -62,6 +62,7 @@ class OverlapList extends React.Component {
         </tbody>
       );
     }
+
     return (
       <tbody>
         <tr>
@@ -146,7 +147,7 @@ class SequenceList extends React.Component {
         return (
           <tbody>
             <tr>
-              <th colSpan="3">
+              <th colSpan="4">
                 <Message type='' icon='notched circle loading' header='Loading'
                   message='Gathering sequence information' />
               </th>
@@ -157,7 +158,7 @@ class SequenceList extends React.Component {
         return (
           <tbody>
             <tr>
-              <th colSpan="3">
+              <th colSpan="4">
                 <Message type='error' icon='warning sign' header='Error'
                   message='Unable to fetch sequence information' />;
               </th>
@@ -169,21 +170,51 @@ class SequenceList extends React.Component {
       return (
         <tbody>
           <tr>
-            <td className="active">Sample Name</td>
             <td className="active">Representative Sequence ID</td>
+            <td className="active">Sample Name</td>
             <td className="active">Copy Number in Subject</td>
+            <td className="active">Instances in Subject</td>
           </tr>
         {_.map(this.state.sequences, (sequence) => {
           return (
-            <tr key={sequence.seq_id}>
-              <td><Link to={'/sample/' + sequence.sample.id}>{sequence.sample.name}</Link></td>
+            [<tr key={sequence.seq_id}>
               <td><Link to={'/sequence/' + sequence.sample.id + '/' + sequence.seq_id}>{sequence.seq_id}</Link></td>
+              <td><Link to={'/sample/' + sequence.sample.id}>{sequence.sample.name}</Link></td>
               <td>{numeral(sequence.copy_number_in_subject).format('0,0')}</td>
+              <td>{numeral(sequence.instances_in_subject).format('0,0')}</td>
+            </tr>,
+            <tr>
+              <td colSpan="4">
+                <div className="ui red segment">
+                  <h4>Sequence Collapsing to {sequence.seq_id}</h4>
+                  <table className="ui table compact">
+                    <thead>
+                      <tr>
+                        <th>Sequence ID</th>
+                        <th>Sample Name</th>
+                        <th>Copy Number in Sample</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                    {_.map(sequence.collapse_to, (col) => {
+                      return (
+                        <tr key={col.seq_id}>
+                          <td><Link to={'/sequence/' + col.sample_id + '/' + col.seq_id}>{col.seq_id}</Link></td>
+                          <td><Link to={'/sample/' + sequence.sample_id}>{col.sample_name}</Link></td>
+                          <td>{numeral(col.copy_number_in_sample).format('0,0')}</td>
+                        </tr>
+                      );
+                    })}
+                    </tbody>
+                  </table>
+                </div>
+              </td>
             </tr>
+            ]
           );
         })}
         <tr>
-          <td colSpan="3" className="center aligned">
+          <td colSpan="4" className="center aligned">
             <button className="ui labeled icon button" onClick={this.prevPage}
                 disabled={this.state.page == 1 || this.state.asyncState == 'loading'}>
               <i className="left chevron icon"></i>
@@ -216,14 +247,77 @@ class SequenceList extends React.Component {
 
   render() {
     return (
-      <table className="ui table">
+      <table className="ui table teal">
         <thead>
           <tr>
-            <th colSpan="3">Unique Subject Sequence in Clone</th>
+            <th colSpan="4">Unique Subject Sequences in Clone</th>
           </tr>
         </thead>
         {this.getBody()}
       </table>
+    );
+  }
+}
+
+class SequenceCompare extends React.Component {
+  constructor() {
+    super();
+    this.state = {
+      asyncState: 'loading',
+      page: 1,
+      sequences: []
+    };
+  }
+
+  componentDidMount() {
+    this.update();
+  }
+
+  nextPage = () => {
+    this.setState({
+      page: this.state.page + 1
+    }, this.update);
+  }
+
+  prevPage = () => {
+    this.setState({
+      page: Math.max(0, this.state.page - 1)
+    }, this.update);
+  }
+
+  update() {
+    this.setState({
+      asyncState: 'loading'
+    });
+    API.post('clone/sequences/' + this.props.clone.id, {get_collapse: false, page: this.state.page}).end((err, response) => {
+      if (err) {
+        this.setState({
+          asyncState: 'error'
+        });
+      } else {
+        this.setState({
+          sequences: response.body,
+          asyncState: 'loaded'
+        });
+      }
+    });
+  }
+
+  render() {
+    if (this.state.asyncState == 'loading') {
+      return <Message type='' icon='notched circle loading' header='Loading'
+              message='Gathering sequence information' />;
+    } else if (this.state.asyncState == 'error' || !this.state.sequences || this.state.sequences.length == 0) {
+      return <Message type='error' icon='warning sign' header='Error'
+              message='Unable to fetch sequence information' />;
+    }
+
+    return (
+      <div className="ui teal segment">
+        <h4>Sequence View</h4>
+        <SeqViewer seqs={this.state.sequences} germline={this.props.clone.germline} regions={this.props.clone.regions}
+                   mutations={this.props.mutationStats} />
+      </div>
     );
   }
 }
@@ -251,7 +345,6 @@ export default class Clone extends React.Component {
     }
 
     let info = this.props.clones[0];
-    console.log(info);
     return (
       <div>
         <h1>Clone #{info.clone.id}</h1>
@@ -285,6 +378,7 @@ export default class Clone extends React.Component {
 
         <OverlapList samples={info.samples.single} />
         <SequenceList cloneId={info.clone.id} />
+        <SequenceCompare clone={info.clone} mutationStats={info.mutation_stats} />
       </div>
     );
   }
