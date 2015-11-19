@@ -1,8 +1,9 @@
 import React from 'react';
 import connectToStores from 'alt/utils/connectToStores';
 
-import { colorAAs, removeAlleles } from '../utils';
+import { colorAAs } from '../utils';
 import { Link } from 'react-router';
+import GeneCollapser from './geneCollapser';
 import Message from './message';
 
 import SampleActions from '../actions/samples';
@@ -34,16 +35,10 @@ class SequenceRow extends React.Component {
         <td>{this.props.seq.seq_id}</td>
         <td>{this.props.seq.sample.subject.identifier}</td>
         <td>
-          {this.state.showVAlleles ? this.props.seq.v_gene : removeAlleles(this.props.seq.v_gene)}
-          <i className={(this.state.showVAlleles ? 'minus' : 'plus') + ' square outline icon'}
-            onClick={this.toggleV}>
-          </i>
+          <GeneCollapser gene={this.props.seq.v_gene} />
         </td>
         <td>
-          {this.state.showJAlleles ? this.props.seq.j_gene : removeAlleles(this.props.seq.j_gene)}
-          <i className={(this.state.showJAlleles ? 'minus' : 'plus') + ' square outline icon'}
-            onClick={this.toggleJ}>
-          </i>
+          <GeneCollapser gene={this.props.seq.j_gene} />
         </td>
         <td>{this.props.seq.cdr3_num_nts}</td>
         <td className="text-mono sequence">{colorAAs(this.props.seq.cdr3_aa)}</td>

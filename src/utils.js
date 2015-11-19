@@ -24,6 +24,19 @@ var aaColors = {
   '*': '#a0a0a0'
 };
 
+var ntColors = {
+  'A': '#ff0000',
+  'T': '#0000ff',
+  'C': '#00ff00',
+  'G': '#ff8c00'
+}
+
+function colorSeq(seq, lookup) {
+  return _.map(seq, (s, i) => {
+    return <span key={i} style={{color: lookup[s]}}>{s}</span>;
+  });
+}
+
 export function removeAlleles(fullGene) {
   let index = fullGene.search(/\d+/);
   if (index < 0) {
@@ -40,7 +53,16 @@ export function removeAlleles(fullGene) {
 }
 
 export function colorAAs(seq) {
-  return _.map(seq, (aa,i ) => {
-    return <span key={i} style={{color: aaColors[aa]}}>{aa}</span>;
-  });
+  return colorSeq(seq, aaColors);
+}
+
+export function colorNTs(seq) {
+  return colorSeq(seq, ntColors);
+}
+
+export function optional(value, filler='N/A') {
+  if (value) {
+    return value;
+  }
+  return <span className="faded">{filler}</span>
 }
