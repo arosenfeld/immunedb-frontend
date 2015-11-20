@@ -3,29 +3,33 @@ import numeral from 'numeral';
 import lodash from 'lodash';
 
 import React from 'react';
-import connectToStores from 'alt/utils/connectToStores';
 
 import API from '../api';
 import Message from './message';
-import SampleActions from '../actions/samples';
-import SampleStore from '../stores/samples';
 
 export default class SampleList extends React.Component {
-  static getStores() {
-    return [SampleStore];
-  }
-
-  static getPropsFromStores() {
-    return SampleStore.getState();
-  }
-
   constructor() {
     super();
     this.state = {
       selected: [],
+      samples: [],
+      asyncState: 'loading',
       groupBy: 'date'
     };
-    SampleActions.getAll();
+  }
+
+  componentDidMount() {
+    this.setState({asyncState: 'loading'});
+    API.post('samples/list').end((err, response) => {
+      if (err) {
+        this.setState({asyncState: 'error'});
+      } else {
+        this.setState({
+          asyncState: 'loaded',
+          samples: response.body
+        });
+      }
+    });
   }
 
   componentDidUpdate() {
@@ -42,7 +46,7 @@ export default class SampleList extends React.Component {
   toggleAll = (e) => {
     if (e.target.checked) {
       this.setState({
-        selected: _.map(this.props.samples, s => s.id)
+        selected: _.map(this.state.samples, s => s.id)
       });
     } else {
       this.setState({
@@ -53,7 +57,7 @@ export default class SampleList extends React.Component {
 
   toggleGroup = (e) => {
     let samples = _.pluck(
-      _.filter(this.props.samples, s => _.get(s, this.state.groupBy) == e.target.value),
+      _.filter(this.state.samples, s => _.get(s, this.state.groupBy) == e.target.value),
       'id'
     );
     let selected = this.state.selected.slice();
@@ -83,15 +87,15 @@ export default class SampleList extends React.Component {
   }
 
   render() {
-    if (this.props.asyncState == 'loading') {
+    if (this.state.asyncState == 'loading') {
       return <Message type='' icon='notched circle loading' header='Loading'
               message='Gathering sample information' />;
-    } else if (this.props.asyncState == 'error') {
+    } else if (this.state.asyncState == 'error') {
       return <Message type='error' icon='warning sign' header='Error'
               message='Unable to fetch sample information' />;
     }
 
-    let sampleHierarchy = _.groupBy(this.props.samples, s => s.subject.study.name);
+    let sampleHierarchy = _.groupBy(this.state.samples, s => s.subject.study.name);
     sampleHierarchy = _.mapValues(sampleHierarchy,
       (studySamples) => _.groupBy(studySamples, s => _.get(s, this.state.groupBy))
     );
@@ -186,4 +190,4 @@ export default class SampleList extends React.Component {
   }
 }
 
-export default connectToStores(SampleList);
+export default SampleList;

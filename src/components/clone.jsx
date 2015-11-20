@@ -1,17 +1,10 @@
 import numeral from 'numeral';
 
 import React from 'react';
-import connectToStores from 'alt/utils/connectToStores';
 
 import { Link } from 'react-router';
 import API from '../api';
 import Message from './message';
-
-import CloneActions from '../actions/clones';
-import CloneStore from '../stores/clones';
-
-import SequenceActions from '../actions/sequences';
-import SequenceStore from '../stores/sequences';
 
 import SeqViewer from './seqViewer';
 import GeneCollapser from './geneCollapser';
@@ -323,31 +316,37 @@ class SequenceCompare extends React.Component {
 }
 
 export default class Clone extends React.Component {
-  static getStores() {
-    return [CloneStore];
-  }
-
-  static getPropsFromStores() {
-    return CloneStore.getState()
+  constructor() {
+    super();
+    this.state = {};
   }
 
   componentDidMount() {
-    CloneActions.getClone(this.props.params.id);
+    this.setState({ asyncState: 'loading' });
+    API.post('clone/' + this.props.params.id).end((err, response) => {
+      if (err) {
+        this.setState({ asyncState: 'error' });
+      } else {
+        this.setState({
+          asyncState: 'loaded',
+          cloneInfo: response.body
+        });
+      }
+    });
   }
 
   render() {
-    if (this.props.asyncState == 'loading') {
+    if (this.state.asyncState == 'loading') {
       return <Message type='' icon='notched circle loading' header='Loading'
               message='Gathering clone information' />;
-    } else if (this.props.asyncState == 'error' || !this.props.clones || this.props.clones.length != 1) {
+    } else if (this.state.asyncState == 'error' || !this.state.cloneInfo) {
       return <Message type='error' icon='warning sign' header='Error'
               message='Unable to fetch clone information' />;
     }
 
-    let info = this.props.clones[0];
     return (
       <div>
-        <h1>Clone #{info.clone.id}</h1>
+        <h1>Clone #{this.state.cloneInfo.clone.id}</h1>
         <table className="ui structured teal table">
           <thead>
             <tr>
@@ -365,23 +364,23 @@ export default class Clone extends React.Component {
               <td>Total Seqs.</td>
             </tr>
             <tr>
-              <td>{info.clone.id}</td>
-              <td><GeneCollapser gene={info.clone.v_gene} /></td>
-              <td><GeneCollapser gene={info.clone.j_gene} /></td>
-              <td>{info.clone.cdr3_nt.length}</td>
-              <td className="text-mono sequence">{colorAAs(info.clone.cdr3_aa)}</td>
-              <td>{numeral(info.samples.all.unique).format('0,0')}</td>
-              <td>{numeral(info.samples.all.total).format('0,0')}</td>
+              <td>{this.state.cloneInfo.clone.id}</td>
+              <td><GeneCollapser gene={this.state.cloneInfo.clone.v_gene} /></td>
+              <td><GeneCollapser gene={this.state.cloneInfo.clone.j_gene} /></td>
+              <td>{this.state.cloneInfo.clone.cdr3_nt.length}</td>
+              <td className="text-mono sequence">{colorAAs(this.state.cloneInfo.clone.cdr3_aa)}</td>
+              <td>{numeral(this.state.cloneInfo.samples.all.unique).format('0,0')}</td>
+              <td>{numeral(this.state.cloneInfo.samples.all.total).format('0,0')}</td>
             </tr>
           </tbody>
         </table>
 
-        <OverlapList samples={info.samples.single} />
-        <SequenceList cloneId={info.clone.id} />
-        <SequenceCompare clone={info.clone} mutationStats={info.mutation_stats} />
+        <OverlapList samples={this.state.cloneInfo.samples.single} />
+        <SequenceList cloneId={this.state.cloneInfo.clone.id} />
+        <SequenceCompare clone={this.state.cloneInfo.clone} mutationStats={this.state.cloneInfo.mutation_stats} />
       </div>
     );
   }
 }
 
-export default connectToStores(Clone);
+export default Clone;

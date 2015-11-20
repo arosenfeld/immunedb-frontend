@@ -47,9 +47,6 @@ class SeqViewer extends React.Component {
     this.canvas.width = (labelMaxLength + this.props.germline.length) * this.CHAR_SPACE;
     this.canvas.height = (this.props.seqs.length + 3) * this.V_PER_SEQ + 35;
 
-    if (this.props.mutations) {
-      this.canvas.height += 2 * this.V_PER_SEQ;
-    }
     this.ctx.font = 'bold 12px Courier New';
 
     this.ctx.fillText('Germline', this.LEFT_PAD, this.TOP_PAD);
@@ -136,49 +133,7 @@ class SeqViewer extends React.Component {
       i++;
     });
 
-    if (this.props.mutations) {
-      this.ctx.fillStyle = '#00ff00';
-      this.ctx.fillText('Synonymous Mutation %', this.LEFT_PAD, this.TOP_PAD + (1 + this.props.seqs.length) * this.V_PER_SEQ);
-      this.ctx.fillStyle = '#ff0000';
-      this.ctx.fillText('Non-synonymous Mutation %', this.LEFT_PAD, this.TOP_PAD + (2 + this.props.seqs.length) * this.V_PER_SEQ);
-      this.ctx.fillStyle = '#ff0055';
-      this.ctx.fillText('Conserved %', this.LEFT_PAD + 15, this.TOP_PAD + (3 + this.props.seqs.length) * this.V_PER_SEQ);
-      this.ctx.fillStyle = '#ff5500';
-      this.ctx.fillText('Non-conserved %', this.LEFT_PAD + 15, this.TOP_PAD + (4 + this.props.seqs.length) * this.V_PER_SEQ);
-
-      _.each(this.props.mutations['positions'], (vals, offset) => {
-        let synonymous = vals['synonymous'] || 0;
-        let conservative = vals['conservative'] || 0;
-        let nonConservative = vals['nonconservative'] || 0;
-        let unknown = vals['unknown'] || 0;
-
-        let silentPerc = _.round(100 * synonymous / total_seqs);
-        let nonSynonymous = _.round(100 * (conservative + nonConservative) /
-            total_seqs);
-
-        let conservPerc = _.round(100 * conservative / total_seqs);
-        let nonConservPerc = _.round(100 * nonConservative / total_seqs);
-        this.ctx.font = '10px Courier New';
-        this.ctx.textAlign = 'center';
-        if (synonymous > 0) {
-          this.ctx.fillStyle = '#00ff00';
-          this.ctx.fillText(silentPerc, this.LEFT_PAD + middlePad + offset *
-          this.CHAR_SPACE + 5, this.TOP_PAD + (1 + this.props.seqs.length) * this.V_PER_SEQ);
-        }
-        if (nonSynonymous > 0) {
-          this.ctx.fillStyle = '#ff0000';
-          this.ctx.fillText(nonSynonymous, this.LEFT_PAD + middlePad + offset *
-            this.CHAR_SPACE + 5, this.TOP_PAD + (2 + this.props.seqs.length) * this.V_PER_SEQ);
-          this.ctx.fillStyle = '#ff0055';
-          this.ctx.fillText(conservPerc, this.LEFT_PAD + middlePad + offset *
-            this.CHAR_SPACE + 5, this.TOP_PAD + (3 + this.props.seqs.length) * this.V_PER_SEQ);
-          this.ctx.fillStyle = '#ff5500';
-          this.ctx.fillText(nonConservPerc, this.LEFT_PAD + middlePad + offset *
-            this.CHAR_SPACE + 5, this.TOP_PAD + (4 + this.props.seqs.length) * this.V_PER_SEQ);
-        }
-
-      });
-    } else if (this.props.seqs[0].quality) {
+    if (this.props.seqs.length == 1 && this.props.seqs[0].quality) {
       this.ctx.fillStyle = '#777777';
       this.ctx.fillText('Phred Quality Score (Range: 0 - 41)', this.LEFT_PAD, this.TOP_PAD + (1 + this.props.seqs.length) * this.V_PER_SEQ);
       this.ctx.font = '10px Courier New';

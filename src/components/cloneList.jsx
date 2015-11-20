@@ -1,34 +1,31 @@
 import numeral from 'numeral';
 
 import React from 'react';
-import connectToStores from 'alt/utils/connectToStores';
-
-import { colorAAs } from '../utils';
 import { Link } from 'react-router';
+
+import API from '../api';
 import GeneCollapser from './geneCollapser';
 import Message from './message';
-
-import CloneActions from '../actions/clones';
-import CloneStore from '../stores/clones';
+import { colorAAs } from '../utils';
 
 export default class CloneList extends React.Component {
-  static getStores() {
-    return [CloneStore];
-  }
-
-  static getPropsFromStores() {
-    return CloneStore.getState();
-  }
-
   constructor() {
     super();
     this.state = {
+      asyncState: 'loading',
+
       page: 1,
       perPage: 15,
+
       filter: {},
-      showFilters: false
+      showFilters: false,
+
+      clones: []
     };
     this.onChange = _.debounce(this.onChange, 10);
+  }
+
+  componentDidMount() {
     this.update();
   }
 
@@ -70,7 +67,21 @@ export default class CloneList extends React.Component {
   }
 
   update = () => {
-    CloneActions.getClones(this.state.page, this.state.filter, this.state.perPage);
+    API.post('clones/list', {
+      page: this.state.page,
+      filters: this.state.filter,
+      perPage: this.state.perPage
+    }).end((err, response) => {
+      if (err) {
+        this.setState({asyncState: 'error'});
+      } else {
+        this.setState({
+          asyncState: 'loaded',
+          clones: response.body
+        });
+      }
+
+    });
   }
 
   toggleFilters = (e) => {
@@ -82,7 +93,7 @@ export default class CloneList extends React.Component {
 
   filter = (e) => {
     e.preventDefault();
-    CloneActions.getClones(this.state.page, this.state.filter, this.state.perPage);
+    this.update();
   }
 
   onChange = (e) => {
@@ -194,10 +205,10 @@ export default class CloneList extends React.Component {
   }
 
   render() {
-    if (this.props.asyncState == 'loading') {
+    if (this.state.asyncState == 'loading') {
       return <Message type='' icon='notched circle loading' header='Loading'
               message='Gathering clone information' />;
-    } else if (this.props.asyncState == 'error') {
+    } else if (this.state.asyncState == 'error') {
       return <Message type='error' icon='warning sign' header='Error'
               message='Unable to fetch clone information' />;
     }
@@ -238,7 +249,7 @@ export default class CloneList extends React.Component {
             </tr>
           </thead>
           <tbody>
-            {_.map(this.props.clones, (clone) => {
+            {_.map(this.state.clones, (clone) => {
               return this.getCloneRows(clone);
             })}
           </tbody>
@@ -261,4 +272,4 @@ export default class CloneList extends React.Component {
   }
 }
 
-export default connectToStores(CloneList);
+export default CloneList;

@@ -1,36 +1,42 @@
 import React from 'react';
-import connectToStores from 'alt/utils/connectToStores';
 
 import { colorAAs } from '../utils';
 import { Link } from 'react-router';
+
+import API from '../api';
 import GeneCollapser from './geneCollapser';
 import Message from './message';
 
-import SampleActions from '../actions/samples';
-import SampleStore from '../stores/samples';
-
-import SequenceActions from '../actions/sequences';
-import SequenceStore from '../stores/sequences';
-
 export default class SequenceList extends React.Component {
-  static getStores() {
-    return [SampleStore, SequenceStore];
-  }
-
-  static getPropsFromStores() {
-    return _.extend({}, SampleStore.getState(), SequenceStore.getState());
-  }
-
   constructor() {
     super();
     this.state = {
+      asyncState: 'loading',
+
       page: 1,
       perPage: 15,
+
       filter: {},
-      showFilters: false
+      showFilters: false,
+
+      samples: [],
+      sequences: []
     };
     this.onChange = _.debounce(this.onChange, 10);
-    SampleActions.getAll();
+  }
+
+  componentDidMount() {
+    this.setState({asyncState: 'loading'});
+    API.post('samples/list').end((err, response) => {
+      if (err) {
+        this.setState({asyncState: 'error'});
+      } else {
+        this.setState({
+          asyncState: 'loaded',
+          samples: response.body
+        });
+      }
+    });
     this.update();
   }
 
@@ -72,7 +78,20 @@ export default class SequenceList extends React.Component {
   }
 
   update = () => {
-    SequenceActions.getSequences(this.state.page, this.state.filter, this.state.perPage);
+    API.post('sequences/list', {
+      page: this.state.page,
+      filters: this.state.filter,
+      perPage: this.state.perPage
+    }).end((err, response) => {
+      if (err) {
+        this.setState({asyncState: 'error'});
+      } else {
+        this.setState({
+          asyncState: 'loaded',
+          sequences: response.body
+        });
+      }
+    });
   }
 
   toggleFilters = (e) => {
@@ -84,7 +103,9 @@ export default class SequenceList extends React.Component {
 
   filter = (e) => {
     e.preventDefault();
-    SequenceActions.getSequences(this.state.page, this.state.filter, this.state.perPage);
+    this.setState({
+      page: 1
+    }, this.update);
   }
 
   onChange = (e) => {
@@ -115,7 +136,7 @@ export default class SequenceList extends React.Component {
               <select className="ui search sample_id dropdown" defaultValue={this.state.filter.sample_id}>
                 <option value="">Sample</option>
                 <option value=" ">All</option>
-                {_.map(this.props.samples, (sample) => {
+                {_.map(this.state.samples, (sample) => {
                   return <option
                           value={sample.id} key={sample.id}>{sample.name} (# {sample.id})</option>
                 })}
@@ -165,10 +186,10 @@ export default class SequenceList extends React.Component {
   }
 
   render() {
-    if (this.props.asyncState == 'loading') {
+    if (this.state.asyncState == 'loading') {
       return <Message type='' icon='notched circle loading' header='Loading'
               message='Gathering sequence information' />;
-    } else if (this.props.asyncState == 'error') {
+    } else if (this.state.asyncState == 'error') {
       return <Message type='error' icon='warning sign' header='Error'
               message='Unable to fetch sequence information' />;
     }
@@ -211,7 +232,7 @@ export default class SequenceList extends React.Component {
             </tr>
           </thead>
           <tbody>
-            {_.map(this.props.sequences, (sequence) => {
+            {_.map(this.state.sequences, (sequence) => {
               return (
                 <tr key={sequence.seq_id}>
                   <td>{sequence.seq_id}</td>
@@ -255,4 +276,4 @@ export default class SequenceList extends React.Component {
   }
 }
 
-export default connectToStores(SequenceList);
+export default SequenceList;
