@@ -4,7 +4,71 @@ import React from 'react';
 
 import API from '../api';
 import Message from './message';
-import { optional } from '../utils';
+import { optional, colorAAs, colorNTs } from '../utils';
+
+class MutationDetails extends React.Component {
+  constructor() {
+    super();
+    this.state = {
+      sort: 'unique'
+    };
+  }
+
+  componentDidMount() {
+    $('.ui.modal').modal({
+      detachable: false,
+    });
+  }
+
+  hide = () => {
+    $('.ui.modal').modal('hide');
+  }
+
+  render() {
+    return (
+			<div className="ui fullscreen modal">
+				<div className="header">Mutations in {this.props.region}</div>
+				<div className="content">
+          <table className="ui table">
+            <thead>
+              <tr>
+                <th>Count</th>
+                <th>Copies </th>
+                <th>Position</th>
+                <th>NT Mutation</th>
+                <th>Hypothetical AA Mutation</th>
+                <th>Final AA Mutations</th>
+              </tr>
+            </thead>
+            <tbody>
+              {_.map(_.keys(this.props.mutations), (region) => {
+                let rows = [
+                  <tr key={region}>
+                    <td className="active" colSpan="6">{_.capitalize(region)}</td>
+                  </tr>
+                ];
+                let i = 0;
+                _.each(_.sortBy(this.props.mutations[region], this.state.sort).reverse(), (mutation) => {
+                  rows.push(
+                    <tr key={i++}>
+                      <td>{numeral(mutation.unique).format('0,0')}</td>
+                      <td>{numeral(mutation.total).format('0,0')}</td>
+                      <td>{mutation.pos}</td>
+                      <td>{colorNTs(mutation.from_nt)} to {colorNTs(mutation.to_nt)}</td>
+                      <td>{colorAAs(mutation.from_aa)} to {colorAAs(mutation.intermediate_aa)}</td>
+                      <td>{colorAAs(mutation.from_aa)} to {_.map(mutation.to_aas, (aa) => colorAAs(aa))}</td>
+                    </tr>
+                  );
+                });
+                return rows;
+              })}
+            </tbody>
+          </table>
+				</div>
+			</div>
+    );
+  }
+}
 
 export default class MutationsView extends React.Component {
   constructor() {
@@ -16,7 +80,8 @@ export default class MutationsView extends React.Component {
         type: 'percent',
         value: 0,
       },
-      mutations: {}
+      mutations: {},
+      details: null
     };
   }
 
@@ -77,6 +142,26 @@ export default class MutationsView extends React.Component {
     });
   }
 
+  showModal = () => {
+    $('.ui.modal').modal('show');
+  }
+
+  showMutations = (region, mutations) => {
+    this.setState({
+      details: {
+        region,
+        mutations
+      }
+    }, this.showModal);
+  }
+
+  getModal = () => {
+    if (this.state.details) {
+      return <MutationDetails region={this.state.details.region} mutations={this.state.details.mutations} />
+    }
+    return <div></div>;
+  }
+
   render() {
     if (this.state.asyncState == 'loading') {
       return <Message type='' icon='notched circle loading' header='Loading'
@@ -88,6 +173,7 @@ export default class MutationsView extends React.Component {
 
     return (
       <div className="ui segment teal">
+        {this.getModal()}
         <div className="ui form">
           <div className="fields">
             <div className="inline field">
@@ -122,16 +208,22 @@ export default class MutationsView extends React.Component {
               <td className="active">Non-conservative</td>
             </tr>
             {_.map(_.keys(this.state.mutations.regions).sort(), (region) => {
-              let muts = this.state.mutations.regions[region].counts[this.state.unique ? 'unique' : 'total'];
-              let total = _.sum(muts);
+              let cnts = this.state.mutations.regions[region].counts[this.state.unique ? 'unique' : 'total'];
+              let muts = this.state.mutations.regions[region].mutations;
+              let total = _.sum(cnts);
               return (
                 <tr key={region}>
-                  <td><strong>{region}</strong></td>
-                  {this.getCell(muts.synonymous, total)}
-                  {this.getCell(muts.conservative + muts.nonconservative, total)}
-                  {this.getCell(muts.unknown, total)}
-                  {this.getCell(muts.conservative, total, 'warning')}
-                  {this.getCell(muts.nonconservative, total, 'warning')}
+                  <td>
+                    <strong>{region}</strong>{' '}
+                    <button className="ui label" onClick={this.showMutations.bind(this, region, muts)}>
+                      <i className="unhide icon"></i> View Mutations
+                    </button>
+                  </td>
+                  {this.getCell(cnts.synonymous, total)}
+                  {this.getCell(cnts.conservative + cnts.nonconservative, total)}
+                  {this.getCell(cnts.unknown, total)}
+                  {this.getCell(cnts.conservative, total, 'warning')}
+                  {this.getCell(cnts.nonconservative, total, 'warning')}
                 </tr>
               );
             })}

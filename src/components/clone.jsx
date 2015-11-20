@@ -8,6 +8,7 @@ import Message from './message';
 import CloneSequenceList from './cloneSequences';
 import GeneCollapser from './geneCollapser';
 import MutationsView from './cloneMutations';
+import CloneLineage from './cloneLineage';
 import OverlapList from './cloneOverlap';
 import SequenceCompare from './cloneSequenceCompare';
 
@@ -80,6 +81,7 @@ export default class Clone extends React.Component {
         <CloneSequenceList cloneId={this.state.cloneInfo.clone.id} />
         <MutationsView cloneId={this.state.cloneInfo.clone.id} />
         <SequenceCompare clone={this.state.cloneInfo.clone} mutationStats={this.state.cloneInfo.mutation_stats} />
+        <CloneLineage cloneId={this.state.cloneInfo} />
       </div>
     );
   }

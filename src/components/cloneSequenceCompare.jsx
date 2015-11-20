@@ -63,6 +63,16 @@ export default class SequenceCompare extends React.Component {
         <h4>Sequence View</h4>
         <SeqViewer seqs={this.state.sequences} germline={this.props.clone.germline} regions={this.props.clone.regions}
                    mutations={this.props.mutationStats} />
+        <div className="ui basic segment center aligned">
+          <button className="ui labeled icon button" onClick={this.prevPage} disabled={this.state.page == 1}>
+            <i className="left chevron icon"></i>
+            Previous
+          </button>
+          <button className="ui right labeled icon button" onClick={this.nextPage}>
+            Next
+            <i className="right chevron icon"></i>
+          </button>
+        </div>
       </div>
     );
   }
