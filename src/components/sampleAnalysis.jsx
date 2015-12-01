@@ -4,13 +4,14 @@ import React from 'react';
 
 import API from '../api';
 import Message from './message';
+import SampleDetails from './sampleDetails';
 
 export default class SampleAnalysis extends React.Component {
   constructor() {
     super();
     this.state = {
       asyncState: 'loading',
-      filterType: 'unique_multiple',
+      filterType: 'all',
       includeOutliers: true,
       includePartials: true,
       percentages: false,
@@ -31,9 +32,27 @@ export default class SampleAnalysis extends React.Component {
         {name: 'nonfunctional', label: 'Non-Functional'},
       ]
     };
+
+    this.groupings = [
+      {name: 'name', label: 'Sample'},
+      {name: 'subject', label: 'Subject'},
+      {name: 'tissue', label: 'Tissue'},
+      {name: 'subset', label: 'Subset'},
+      {name: 'ig_class', label: 'Ig Class'},
+      {name: 'disease', label: 'Disease'},
+    ];
   }
 
   componentDidMount() {
+    this.update();
+  }
+
+  update = () => {
+    this.setState({
+      asyncState: 'loading',
+      title: _.indexBy(_.flatten(_.values(this.filters)), 'name')[this.state.filterType].label +
+          (_.includes(this.state.filterType, 'clones') ? ' Clones' : ' Sequences')
+    });
     API.post(
       'samples/analyze/' + this.props.params.sampleEncoding,
       {
@@ -56,8 +75,7 @@ export default class SampleAnalysis extends React.Component {
   }
 
 	componentDidUpdate() {
-		$('.menu .show-filters').popup({
-      popup: $('#filter-list'),
+    let popupOptions = {
       inline: true,
       hoverable: true,
       position: 'bottom left',
@@ -65,9 +83,30 @@ export default class SampleAnalysis extends React.Component {
         show: 100,
         hide: 100
       }
-    });
-    $('.dropdown').dropdown();
+    }
+		$('.menu .show-filters').popup(_.extend({}, popupOptions, {popup: $('#filter-list')}));
+		$('.menu .show-groups').popup(_.extend({}, popupOptions, {popup: $('#group-list')}));
 	}
+
+  setFilter = (filterType) => {
+    $('.menu .show-filters').popup('toggle');
+    this.setState({
+      filterType
+    }, this.update);
+  }
+
+  setGrouping = (grouping) => {
+    $('.menu .show-groups').popup('toggle');
+    this.setState({
+      grouping
+    }, this.update);
+  }
+
+  toggle = (field) => {
+    this.setState({
+      [field]: !this.state[field]
+    }, this.update);
+  }
 
   render() {
     if (this.state.asyncState == 'loading') {
@@ -79,65 +118,85 @@ export default class SampleAnalysis extends React.Component {
     }
     return (
       <div>
-				<div className="ui menu">
-					<a className="show-filters item">
-            Set View
-						<i className="dropdown icon"></i>
-					</a>
-					<div className="ui fluid popup bottom left transition hidden" id="filter-list">
-						<div className="ui two column relaxed divided grid">
-              <div className="column">
-                <h4 className="ui header">Clones</h4>
-                <div className="ui link list">
-                  {_.map(this.filters.clones, (filter) => {
-                    return (
-                      <a className="item" key={filter.name}>
-                        <div className="ui horizontal label small">
-                          {numeral(this.state.sampleInfo.counts[filter.name].total).format('0a')}
-                        </div>
-                        {filter.label}
-                      </a>
-                    );
-                  })}
+        <div className="ui teal segment">
+          <h4>Filter Analysis</h4>
+          <button className="ui primary button" onClick={this.toggle.bind(this, 'includePartials')}>
+            {this.state.includePartials ? 'Exclude ' : 'Include '}Partial Reads
+          </button>
+          <button className="ui primary button" onClick={this.toggle.bind(this, 'includeOutliers')}>
+            {this.state.includeOutliers ? 'Exclude ' : 'Include '}Outlier Reads
+          </button>
+        </div>
 
+        <SampleDetails samples={this.state.sampleInfo.samples} />
+        <div className="ui teal segment">
+          <h4>Currently Showing: {this.state.title}</h4>
+          <div className="ui teal menu">
+            <div className="header item">
+              Plot Options
+            </div>
+            <a className="show-filters item">
+              Show Only...
+              <i className="dropdown icon"></i>
+            </a>
+            <a className="show-groups item">
+              Set Grouping
+              <i className="dropdown icon"></i>
+            </a>
+            <a className="item" onClick={this.toggle.bind(this, 'percentages')}>
+              {this.state.percentages ? 'Switch to Raw Values on Y-Axes' : 'Switch to Percentages on Y-Axes'}
+            </a>
+            <div className="ui fluid popup bottom left transition hidden" id="filter-list">
+              <div className="ui two column relaxed divided grid">
+                <div className="column">
+                  <h4 className="ui header">Clones</h4>
+                  <div className="ui link list">
+                    {_.map(this.filters.clones, (filter) => {
+                      return (
+                        <a onClick={this.setFilter.bind(this, filter.name)} className="item" key={filter.name}>
+                          <div className="ui horizontal label small">
+                            {numeral(this.state.sampleInfo.counts[filter.name]).format('0a')}
+                          </div>
+                          {filter.label}
+                        </a>
+                      );
+                    })}
+                  </div>
+                </div>
+                <div className="column">
+                  <h4 className="ui header">Sequences</h4>
+                  <div className="ui link list">
+                    {_.map(this.filters.sequences, (filter) => {
+                      return (
+                        <a onClick={this.setFilter.bind(this, filter.name)}
+                          className={'item' + (filter.name == this.state.filterType ? ' active' : '')} key={filter.name}>
+                          <div className="ui horizontal label small">
+                            {numeral(this.state.sampleInfo.counts[filter.name]).format('0a')}
+                          </div>
+                          {filter.label}
+                        </a>
+                      );
+                    })}
+                  </div>
                 </div>
               </div>
-              <div className="column">
-                <h4 className="ui header">Sequences</h4>
-                <div className="ui link list">
-                  {_.map(this.filters.sequences, (filter) => {
-                    return (
-                      <a className="item" key={filter.name}>
-                        <div className="ui horizontal label small">
-                          {numeral(this.state.sampleInfo.counts[filter.name].total).format('0a')}
-                        </div>
-                        {filter.label}
-                      </a>
-                    );
-                  })}
+            </div>
+            <div className="ui popup bottom left transition hidden" id="group-list">
+              <div className="ui one column relaxed divided grid">
+                <div className="column">
+                  <div className="ui link list">
+                    {_.map(this.groupings, (group) => {
+                      return (
+                        <a onClick={this.setGrouping.bind(this, group.name)}
+                          className={'item' + (group.name == this.state.grouping ? ' active' : '')} key={group.name}>
+                          {group.label}
+                        </a>
+                      );
+                    })}
+                  </div>
                 </div>
               </div>
-						</div>
-					</div>
-          <div className="item">
-            <div className="ui button right floated">Hide Partial Reads</div>
-          </div>
-          <div className="item">
-            <div className="ui button right floated">Hide Outliers</div>
-          </div>
-				</div>
-
-        <div className="ui form">
-          <div className="field">
-            <label>Plot By...</label>
-            <select className="ui dropdown">
-              <option>Sample</option>
-              <option>Subject</option>
-              <option>Tissue</option>
-              <option>Subset</option>
-              <option>Ig Class</option>
-              <option>Disease</option>
-            </select>
+            </div>
           </div>
         </div>
       </div>
