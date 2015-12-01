@@ -86,6 +86,30 @@ export default class SampleList extends React.Component {
     });
   }
 
+  showAnalysis = () => {
+    let bitmap = _.map(
+      _.range(1, _.max(this.state.selected) + 1),
+      (value) => _.includes(this.state.selected, value) ? 'T' : 'F'
+    );
+
+    // Run-length encode the selection
+    let last = bitmap[0];
+    let count = 0;
+    let encoding = [bitmap[0]];
+    _.each(bitmap, (value) => {
+      if (value == last) {
+        count += 1;
+      } else {
+        encoding.push(count);
+        encoding.push(value);
+        count = 1;
+      }
+      last = value;
+    });
+    encoding.push(count);
+    window.open('/sample-analysis/' + encoding.join(''));
+  }
+
   render() {
     if (this.state.asyncState == 'loading') {
       return <Message type='' icon='notched circle loading' header='Loading'
@@ -167,7 +191,7 @@ export default class SampleList extends React.Component {
 
     return (
       <div>
-        <button className="ui primary button">
+        <button className="ui primary button" onClick={this.showAnalysis}>
           Analyze Selected
         </button>
         <div className="ui selection dropdown right floated">

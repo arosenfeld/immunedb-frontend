@@ -8,6 +8,7 @@ import { createHistory } from 'history';
 import App from './app';
 import Clone from './components/clone';
 import CloneList from './components/cloneList';
+import SampleAnalysis from './components/sampleAnalysis';
 import SampleList from './components/sampleList';
 import SequenceList from './components/sequenceList';
 import Sequence from './components/sequence';
@@ -20,6 +21,7 @@ ReactDOM.render(
       <Route path='/clones' component={CloneList} />
       <Route path='/clone/:id' component={Clone} />
       <Route path='/samples' component={SampleList} />
+      <Route path='/sample-analysis/:sampleEncoding' component={SampleAnalysis} />
       <Route path='/sequences' component={SequenceList} />
       <Route path='/sequence/:sampleId/:seqId' component={Sequence} />
     </Route>
