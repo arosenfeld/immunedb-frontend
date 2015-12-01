@@ -5,6 +5,7 @@ import React from 'react';
 import API from '../api';
 import Message from './message';
 import SampleDetails from './sampleDetails';
+import {XYPlot} from './plot';
 
 export default class SampleAnalysis extends React.Component {
   constructor() {
@@ -40,6 +41,46 @@ export default class SampleAnalysis extends React.Component {
       {name: 'subset', label: 'Subset'},
       {name: 'ig_class', label: 'Ig Class'},
       {name: 'disease', label: 'Disease'},
+    ];
+
+		this.plots = [
+      {
+        title: 'CDR3 Length',
+        key: 'cdr3_length_dist',
+        type: 'column',
+      }, {
+        title: 'V Gene Length',
+        key: 'v_length_dist',
+        type: 'column',
+      }, {
+        title: 'V Nucleotides Matching Germline',
+        key: 'v_match_dist',
+        type: 'column',
+      }, {
+        title: 'Percentage of V Nucleotides Matching Germline',
+        key: 'v_identity_dist',
+        xLabel: 'Percentage',
+        type: 'column',
+      }, {
+        title: 'J Gene Length',
+        key: 'j_length_dist',
+        type: 'column',
+      }, {
+        title: 'J Nucleotides Matching Germline',
+        key: 'j_match_dist',
+        type: 'column',
+      }, {
+        title: 'Phred Quality Score',
+        xLabel: 'Position',
+        yLabel: 'Avg. Phred Quality Score',
+        key: 'quality_dist',
+        type: 'line',
+      },{
+        title: 'Copy Number',
+        key: 'copy_number_dist',
+        xLabel: 'Copies',
+        type: 'column',
+      }
     ];
   }
 
@@ -198,6 +239,19 @@ export default class SampleAnalysis extends React.Component {
               </div>
             </div>
           </div>
+
+          {_.map(this.plots, (plot) => {
+            return <XYPlot
+              title={plot.title}
+              series={this.state.sampleInfo.stats}
+              plotKey={plot.key}
+              key={plot.key}
+              type={plot.type}
+              xLabel={plot.xLabel || 'Sequences'}
+              yLabel={plot.yLabel || 'Nucleotides'}
+            />
+         })}
+
         </div>
       </div>
     );
