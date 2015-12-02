@@ -4,19 +4,50 @@ import Highcharts from 'react-highcharts/dist/bundle/highcharts';
 import ReactHighcharts from 'react-highcharts';
 
 export class XYPlot extends React.Component {
-  getConfig = () => {
-    let series = _.map(_.keys(this.props.series), (name) => {
+  constructor() {
+    super();
+    this.state = {
+      show: false
+    };
+  }
+
+  show = () => {
+    this.setState({show: true});
+  }
+
+  componentWillMount() {
+    this.series = _.map(_.keys(this.props.series), (name) => {
       return {
         name,
         data: this.props.series[name][this.props.plotKey],
-        turboThreshold: 0
       };
     });
 
+    this.setState({
+      show: this.props.show
+    });
+  }
+
+  getConfig = () => {
 		return {
       chart: {
         type: this.props.type,
+        animation: false,
         zoomType: 'x',
+        style: {
+          fontFamily: '\'Lato\', \'Helvetica Neue\', Arial, Helvetica, sans-serif',
+          fontSize: '1em'
+        }
+      },
+
+      plotOptions: {
+        series: {
+          animation: false
+        },
+        column: {
+          grouping: !this.props.stack,
+          shadow: false
+        }
       },
 
 			credits: {
@@ -40,7 +71,7 @@ export class XYPlot extends React.Component {
 			},
 
 			loading: false,
-			series: series,
+			series: this.series,
 			key: this.props.plotKey,
 
 			exporting: {
@@ -50,6 +81,25 @@ export class XYPlot extends React.Component {
 	}
 
   render() {
+    if (!this.state.show) {
+      return (
+        <div className="ui red center aligned segment">
+          <h4>{this.props.title}</h4>
+          <button className="ui labeled icon button" onClick={this.show}>
+            <i className="level down icon"></i>
+            Show Plot
+          </button>
+        </div>
+      );
+    }
+    if (_.all(_.pluck(this.series, 'data'), (e) => e.length == 0)) {
+      return (
+        <div className="ui red center aligned segment">
+          <h4>{this.props.title}</h4>
+          No data points for this plot
+        </div>
+      );
+    }
     return (
       <div className="ui red segment">
         <ReactHighcharts config={this.getConfig()} />

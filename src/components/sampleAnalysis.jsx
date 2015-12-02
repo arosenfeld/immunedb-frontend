@@ -8,15 +8,17 @@ import SampleDetails from './sampleDetails';
 import {XYPlot} from './plot';
 
 export default class SampleAnalysis extends React.Component {
+  static SHOW_THRESHOLD = 25;
   constructor() {
     super();
     this.state = {
       asyncState: 'loading',
-      filterType: 'all',
+      filterType: 'unique_multiple',
       includeOutliers: true,
       includePartials: true,
       percentages: false,
-      grouping: 'name'
+      grouping: 'name',
+      stack: true
     };
 
     this.filters = {
@@ -122,7 +124,7 @@ export default class SampleAnalysis extends React.Component {
       position: 'bottom left',
       delay: {
         show: 100,
-        hide: 100
+        hide: 300
       }
     }
 		$('.menu .show-filters').popup(_.extend({}, popupOptions, {popup: $('#filter-list')}));
@@ -132,6 +134,7 @@ export default class SampleAnalysis extends React.Component {
   setFilter = (filterType) => {
     $('.menu .show-filters').popup('toggle');
     this.setState({
+      asyncState: 'loading',
       filterType
     }, this.update);
   }
@@ -139,14 +142,16 @@ export default class SampleAnalysis extends React.Component {
   setGrouping = (grouping) => {
     $('.menu .show-groups').popup('toggle');
     this.setState({
+      asyncState: 'loading',
       grouping
     }, this.update);
   }
 
-  toggle = (field) => {
+  toggle = (field, update=true) => {
     this.setState({
+      asyncState: 'loading',
       [field]: !this.state[field]
-    }, this.update);
+    }, update ? this.update : () => this.setState({ asyncState: 'loaded'}));
   }
 
   render() {
@@ -159,6 +164,18 @@ export default class SampleAnalysis extends React.Component {
     }
     return (
       <div>
+        {_.keys(this.state.sampleInfo.stats).length > SampleAnalysis.SHOW_THRESHOLD ?
+          <div className="ui info message">
+            <div className="header">
+            Hiding Plots
+            </div>
+            Plots have been hidden because there are more than <strong>{SampleAnalysis.SHOW_THRESHOLD + ' '}</strong>
+            data series.  You may show individual plots by clicking the associated button or group by another parameter
+            to show all plots at once.
+          </div>
+          :
+          ''
+        }
         <div className="ui teal segment">
           <h4>Filter Analysis</h4>
           <button className="ui primary button" onClick={this.toggle.bind(this, 'includePartials')}>
@@ -186,6 +203,9 @@ export default class SampleAnalysis extends React.Component {
             </a>
             <a className="item" onClick={this.toggle.bind(this, 'percentages')}>
               {this.state.percentages ? 'Switch to Raw Values on Y-Axes' : 'Switch to Percentages on Y-Axes'}
+            </a>
+            <a className="item" onClick={this.toggle.bind(this, 'stack', false)}>
+              {this.state.stack ? 'Un-stack Plots' : 'Stack Plots'}
             </a>
             <div className="ui fluid popup bottom left transition hidden" id="filter-list">
               <div className="ui two column relaxed divided grid">
@@ -247,8 +267,10 @@ export default class SampleAnalysis extends React.Component {
               plotKey={plot.key}
               key={plot.key}
               type={plot.type}
-              xLabel={plot.xLabel || 'Sequences'}
-              yLabel={plot.yLabel || 'Nucleotides'}
+              xLabel={plot.xLabel || 'Nucleotides'}
+              yLabel={plot.yLabel || (this.state.percentages ? '% of ' : '') + 'Sequences'}
+              show={_.keys(this.state.sampleInfo.stats).length < SampleAnalysis.SHOW_THRESHOLD}
+              stack={this.state.stack}
             />
          })}
 

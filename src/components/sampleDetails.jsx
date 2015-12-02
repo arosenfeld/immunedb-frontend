@@ -3,7 +3,39 @@ import numeral from 'numeral';
 import React from 'react';
 
 export default class SampleDetails extends React.Component {
+  constructor() {
+    super();
+    this.state = {
+      show: false
+    };
+  }
+
+  show = () => {
+    this.setState({show: true});
+  }
+
   render() {
+    if (!this.state.show) {
+      return (
+        <table className="ui teal table">
+          <thead>
+            <tr>
+              <th>Sample Overview (reflects outlier / partial filters)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td className="center aligned" onClick={this.show}>
+                <button className="ui labeled icon button">
+                  <i className="level down icon"></i>
+                  Show Sample Metadata
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      );
+    }
     return (
       <table className="ui structured teal table">
         <thead>

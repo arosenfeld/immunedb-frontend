@@ -49,7 +49,6 @@ export default class CloneLineage extends React.Component {
     $('.ui.dropdown').dropdown({
       action: 'hide',
       onChange: (value, text) => {
-        console.log(value);
         this.setState({
           colorBy: value
         }, this.draw);
@@ -60,7 +59,6 @@ export default class CloneLineage extends React.Component {
   draw = () => {
     d3.select('#tree > *').remove();
     let width = $('#tree').width();
-    console.log($('#tree').length);
     let height = 800;
     let offset = [0, 0];
     let zoom = () => {
