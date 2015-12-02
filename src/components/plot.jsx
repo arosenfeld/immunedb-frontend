@@ -1,6 +1,8 @@
 import React from 'react';
 
 import Highcharts from 'react-highcharts/dist/bundle/highcharts';
+import 'highcharts-exporting/exporting';
+import 'highcharts-offline-exporting/offline-exporting';
 import ReactHighcharts from 'react-highcharts';
 
 export class XYPlot extends React.Component {
@@ -76,6 +78,8 @@ export class XYPlot extends React.Component {
 
 			exporting: {
 				scale: 4,
+        filename: this.props.plotKey,
+				fallbackToExportServer: false
 			},
 		}
 	}
