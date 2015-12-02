@@ -129,6 +129,9 @@ export default class SampleAnalysis extends React.Component {
     }
 		$('.menu .show-filters').popup(_.extend({}, popupOptions, {popup: $('#filter-list')}));
 		$('.menu .show-groups').popup(_.extend({}, popupOptions, {popup: $('#group-list')}));
+    $('.ui.sticky').sticky({
+      offset: 50
+    });
 	}
 
   setFilter = (filterType) => {
@@ -189,8 +192,8 @@ export default class SampleAnalysis extends React.Component {
         <SampleDetails samples={this.state.sampleInfo.samples} />
         <div className="ui teal segment">
           <h4>Currently Showing: {this.state.title}</h4>
-          <div className="ui teal menu">
-            <div className="header item">
+          <div className="ui teal menu sticky">
+            <div className="header active item">
               Plot Options
             </div>
             <a className="show-filters item">
@@ -268,7 +271,9 @@ export default class SampleAnalysis extends React.Component {
               key={plot.key}
               type={plot.type}
               xLabel={plot.xLabel || 'Nucleotides'}
-              yLabel={plot.yLabel || (this.state.percentages ? '% of ' : '') + 'Sequences'}
+              yLabel={plot.yLabel ||
+                (this.state.percentages ? '% of ' : '') +
+                  (_.includes(this.state.filterType, 'clones') ? 'Clones' : 'Sequences')}
               show={_.keys(this.state.sampleInfo.stats).length < SampleAnalysis.SHOW_THRESHOLD}
               stack={this.state.stack}
             />
