@@ -37,6 +37,12 @@ export default class Clone extends React.Component {
     });
   }
 
+  componentDidUpdate() {
+    $('.popup').popup({
+      position: 'bottom left'
+    });
+  }
+
   render() {
     if (this.state.asyncState == 'loading') {
       return <Message type='' icon='notched circle loading' header='Loading'

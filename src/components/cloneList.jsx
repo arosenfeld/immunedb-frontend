@@ -80,7 +80,6 @@ export default class CloneList extends React.Component {
           clones: response.body
         });
       }
-
     });
   }
 
@@ -271,5 +270,3 @@ export default class CloneList extends React.Component {
     );
   }
 }
-
-export default CloneList;

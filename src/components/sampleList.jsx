@@ -191,7 +191,7 @@ export default class SampleList extends React.Component {
 
     return (
       <div>
-        <button className="ui primary button" onClick={this.showAnalysis}>
+        <button className="ui primary button" onClick={this.showAnalysis} disabled={this.state.selected.length == 0}>
           Analyze Selected
         </button>
         <div className="ui selection dropdown right floated">

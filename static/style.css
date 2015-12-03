@@ -31,3 +31,7 @@ span.scroller {
   width: 200px;
   white-space: nowrap;
 }
+
+.underlined {
+  border-bottom: 1px dashed #2185D0;
+}

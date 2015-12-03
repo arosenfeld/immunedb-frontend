@@ -5,6 +5,7 @@ import React from 'react';
 import API from '../api';
 import Message from './message';
 import SampleDetails from './sampleDetails';
+import SampleCloneOverlaps from './sampleCloneOverlaps';
 import {XYPlot} from './plot';
 
 export default class SampleAnalysis extends React.Component {
@@ -129,6 +130,7 @@ export default class SampleAnalysis extends React.Component {
     }
 		$('.menu .show-filters').popup(_.extend({}, popupOptions, {popup: $('#filter-list')}));
 		$('.menu .show-groups').popup(_.extend({}, popupOptions, {popup: $('#group-list')}));
+
     $('.ui.sticky').sticky({
       offset: 50
     });
@@ -168,11 +170,13 @@ export default class SampleAnalysis extends React.Component {
     return (
       <div>
         {_.keys(this.state.sampleInfo.stats).length > SampleAnalysis.SHOW_THRESHOLD ?
-          <div className="ui info message">
+          <div className="ui warning message">
             <div className="header">
             Hiding Plots
             </div>
-            Plots have been hidden because there are more than <strong>{SampleAnalysis.SHOW_THRESHOLD + ' '}</strong>
+            Plots have been hidden because there are more than
+            <strong>{' ' + SampleAnalysis.SHOW_THRESHOLD + ' '}</strong> (currently
+                {' ' + _.keys(this.state.sampleInfo.stats).length})
             data series.  You may show individual plots by clicking the associated button or group by another parameter
             to show all plots at once.
           </div>
@@ -193,9 +197,6 @@ export default class SampleAnalysis extends React.Component {
         <div className="ui teal segment">
           <h4>Currently Showing: {this.state.title}</h4>
           <div className="ui teal menu sticky">
-            <div className="header active item">
-              Plot Options
-            </div>
             <a className="show-filters item">
               Show Only...
               <i className="dropdown icon"></i>
@@ -262,6 +263,12 @@ export default class SampleAnalysis extends React.Component {
               </div>
             </div>
           </div>
+
+          {_.includes(this.state.filterType, 'clones') ?
+            <SampleCloneOverlaps sampleEncoding={this.props.params.sampleEncoding} />
+            :
+            ''
+          }
 
           {_.map(this.plots, (plot) => {
             return <XYPlot
