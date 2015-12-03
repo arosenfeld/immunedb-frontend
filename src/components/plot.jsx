@@ -1,3 +1,4 @@
+import numeral from 'numeral';
 import React from 'react';
 
 import Highcharts from 'react-highcharts/dist/bundle/highcharts';
@@ -9,12 +10,32 @@ import ReactHighcharts from 'react-highcharts';
 import {removeAlleles} from '../utils';
 
 export class Heatmap extends React.Component {
+  constructor() {
+    super();
+    this.state = {
+      show: false
+    };
+  }
+
+  show = () => {
+    this.setState({show: true});
+  }
+
   getConfig = () => {
     let propsP = this.props;
-    return {
+    let config = {
       chart: {
         type: 'heatmap',
-        height: 25 * this.props.y_categories.length
+        animation: false,
+        style: {
+          fontFamily: '\'Lato\', \'Helvetica Neue\', Arial, Helvetica, sans-serif',
+          fontSize: '1em'
+        },
+        height: 100 + 25 * this.props.y_categories.length,
+      },
+
+      title: {
+        text: this.props.title
       },
 
       credits: {
@@ -24,16 +45,20 @@ export class Heatmap extends React.Component {
       xAxis: {
         categories: this.props.x_categories,
         title: 'IGHV Gene',
+        labels: {
+          rotation: 90
+        }
       },
 
       yAxis: {
-        categories: this.props.y_categories,
+        categories: _.map(this.props.y_categories, (y) =>
+          y + ' (' + numeral(this.props.totals[y]).format('0,0') + ')'
+        ),
         reversed: true,
         title: 'Sample',
       },
 
       colorAxis: {
-        min: 0,
         stops: [
           [0, '#0000ff'],
           [.5, '#ffffff'],
@@ -42,9 +67,7 @@ export class Heatmap extends React.Component {
       },
 
       series: [{
-        data: _.map(this.props.data, (point) =>
-          [point[0], point[1], point[2] == 0 ? 0 : Math.log(point[2])]
-        ),
+        data: this.props.data,
         turboThreshold: 0
       }],
 
@@ -59,16 +82,20 @@ export class Heatmap extends React.Component {
             '<b>Gene:</b> ' +
               removeAlleles(propsP.x_categories[this.point.x]) + '<br />' +
             '<b>% of Sample:</b> ' +
-            (this.point.value == 0 ?
-             0 : Math.exp(this.point.value)).toFixed(2) + '%'
+            this.point.value.toFixed(2) + '%'
           );
         }
       },
 
       legend: {
-        enabled: false
+        enabled: true
       }
     }
+
+    if (this.props.y_categories.length <= 5) {
+      config.chart.height += _.max(_.map(this.props.x_categories, (e) => e.length)) * 12;
+    }
+    return config;
   }
 
   render() {

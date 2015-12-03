@@ -48,7 +48,9 @@ class VGeneHeatmap extends React.Component {
     }
 
     return (
-      <Heatmap {...this.state.vUsage} />
+      <Heatmap {...this.state.vUsage}
+        title={'V Gene Usage (excludes genes < 1% of ' +
+            (_.includes(this.props.filterType, 'clones') ? 'clones' : 'sequences') + ')'} />
     );
   }
 }
@@ -90,7 +92,13 @@ export default class SampleAnalysis extends React.Component {
       {name: 'ig_class', label: 'Ig Class'},
       {name: 'disease', label: 'Disease'},
     ];
+  }
 
+  componentDidMount() {
+    this.update();
+  }
+
+  update = () => {
 		this.plots = [
       {
         title: 'CDR3 Length',
@@ -124,19 +132,13 @@ export default class SampleAnalysis extends React.Component {
         key: 'quality_dist',
         type: 'line',
       },{
-        title: 'Copy Number',
+        title: _.includes(this.state.filterType, 'clones') ? 'Clone Size' :'Copy Number',
         key: 'copy_number_dist',
-        xLabel: 'Copies',
+        xLabel: _.includes(this.state.filterType, 'clones') ? 'Clone Size' : 'Copies',
         type: 'column',
       }
     ];
-  }
 
-  componentDidMount() {
-    this.update();
-  }
-
-  update = () => {
     this.setState({
       asyncState: 'loading',
       title: _.indexBy(_.flatten(_.values(this.filters)), 'name')[this.state.filterType].label +

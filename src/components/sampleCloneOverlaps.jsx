@@ -97,7 +97,7 @@ export default class SampleCloneOverlaps extends React.Component {
         <td>{numeral(cloneInfo.total_sequences).format('0,0')}</td>
         <td>
           <a onClick={this.expand.bind(this, cloneInfo.clone.id)}>
-            {cloneInfo.selected_samples.length} + {cloneInfo.other_samples.length}
+            {cloneInfo.selected_samples.length}{cloneInfo.other_samples.length > 0 ? ' +' + cloneInfo.other_samples.length : ''}
           </a>
         </td>
       </tr>
