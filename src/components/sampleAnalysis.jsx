@@ -6,7 +6,52 @@ import API from '../api';
 import Message from './message';
 import SampleDetails from './sampleDetails';
 import SampleCloneOverlaps from './sampleCloneOverlaps';
-import {XYPlot} from './plot';
+import {Heatmap, XYPlot} from './plot';
+
+class VGeneHeatmap extends React.Component {
+  constructor() {
+    super();
+    this.state = {
+      asyncState: 'loading'
+    };
+  }
+
+  componentDidMount() {
+    API.post(
+      'samples/v_usage/' + this.props.sampleEncoding,
+      {
+        filter_type: this.props.filterType,
+        include_outliers: this.props.includeOutliers,
+        include_partials: this.props.includePartials,
+        grouping: this.props.grouping,
+        by_family: this.props.byFamily,
+      }
+    ).end((err, response) => {
+      if (err) {
+        this.setState({ asyncState: 'error' });
+      } else {
+        this.setState({
+          asyncState: 'loaded',
+          vUsage: response.body
+        });
+      }
+    });
+  }
+
+  render() {
+    if (this.state.asyncState == 'loading') {
+      return <Message type='' icon='notched circle loading' header='Loading'
+              message='Gathering V usage information' />;
+    } else if (this.state.asyncState == 'error' || !this.state.vUsage) {
+      return <Message type='error' icon='warning sign' header='Error'
+              message='Unable to fetch V usage information' />;
+    }
+
+    return (
+      <Heatmap {...this.state.vUsage} />
+    );
+  }
+}
 
 export default class SampleAnalysis extends React.Component {
   static SHOW_THRESHOLD = 25;
@@ -167,6 +212,7 @@ export default class SampleAnalysis extends React.Component {
       return <Message type='error' icon='warning sign' header='Error'
               message='Unable to fetch sample information' />;
     }
+
     return (
       <div>
         {_.keys(this.state.sampleInfo.stats).length > SampleAnalysis.SHOW_THRESHOLD ?
@@ -270,6 +316,10 @@ export default class SampleAnalysis extends React.Component {
             ''
           }
 
+          <VGeneHeatmap
+            {...this.state}
+            sampleEncoding={this.props.params.sampleEncoding}
+            byFamily={false} />
           {_.map(this.plots, (plot) => {
             return <XYPlot
               title={plot.title}
