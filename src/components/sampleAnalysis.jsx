@@ -48,7 +48,7 @@ class VGeneHeatmap extends React.Component {
     }
 
     return (
-      <Heatmap {...this.state.vUsage}
+      <Heatmap {...this.state.vUsage} show={this.props.show}
         title={'V Gene Usage (excludes genes < 1% of ' +
             (_.includes(this.props.filterType, 'clones') ? 'clones' : 'sequences') + ')'} />
     );
@@ -66,6 +66,7 @@ export default class SampleAnalysis extends React.Component {
       includePartials: true,
       percentages: false,
       grouping: 'name',
+      byFamily: false,
       stack: true
     };
 
@@ -259,6 +260,9 @@ export default class SampleAnalysis extends React.Component {
             <a className="item" onClick={this.toggle.bind(this, 'stack', false)}>
               {this.state.stack ? 'Un-stack Plots' : 'Stack Plots'}
             </a>
+            <a className="item" onClick={this.toggle.bind(this, 'byFamily', false)}>
+              {this.state.byFamily ? 'Set Heatmap to full V Gene' : 'Set Heatmap to V Gene Family'}
+            </a>
             <div className="ui fluid popup bottom left transition hidden" id="filter-list">
               <div className="ui two column relaxed divided grid">
                 <div className="column">
@@ -313,7 +317,7 @@ export default class SampleAnalysis extends React.Component {
           </div>
 
           {_.includes(this.state.filterType, 'clones') ?
-            <SampleCloneOverlaps sampleEncoding={this.props.params.sampleEncoding} />
+            <SampleCloneOverlaps sampleEncoding={this.props.params.sampleEncoding} filterType={this.state.filterType} />
             :
             ''
           }
@@ -321,7 +325,8 @@ export default class SampleAnalysis extends React.Component {
           <VGeneHeatmap
             {...this.state}
             sampleEncoding={this.props.params.sampleEncoding}
-            byFamily={false} />
+            show={_.keys(this.state.sampleInfo.stats).length < SampleAnalysis.SHOW_THRESHOLD}
+          />
           {_.map(this.plots, (plot) => {
             return <XYPlot
               title={plot.title}

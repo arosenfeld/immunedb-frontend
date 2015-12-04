@@ -16,7 +16,6 @@ export default class SampleCloneOverlaps extends React.Component {
       asyncState: 'loading',
 
       page: 1,
-      perPage: 15,
 
       clones: [],
       expanded: []
@@ -29,6 +28,10 @@ export default class SampleCloneOverlaps extends React.Component {
 
   componentDidUpdate() {
     $('.ties').popup({
+      position: 'bottom left'
+    });
+
+    $('.help').popup({
       position: 'bottom left'
     });
   }
@@ -50,7 +53,7 @@ export default class SampleCloneOverlaps extends React.Component {
   update = () => {
     API.post('samples/overlap/' + this.props.sampleEncoding, {
       page: this.state.page,
-      perPage: this.state.perPage
+      filter_type: this.props.filterType
     }).end((err, response) => {
       if (err) {
         this.setState({asyncState: 'error'});
@@ -97,7 +100,7 @@ export default class SampleCloneOverlaps extends React.Component {
         <td>{numeral(cloneInfo.total_sequences).format('0,0')}</td>
         <td>
           <a onClick={this.expand.bind(this, cloneInfo.clone.id)}>
-            {cloneInfo.selected_samples.length}{cloneInfo.other_samples.length > 0 ? ' +' + cloneInfo.other_samples.length : ''}
+            {cloneInfo.selected_samples.length}{cloneInfo.other_samples.length > 0 ? ' + ' + cloneInfo.other_samples.length : ''}
           </a>
         </td>
       </tr>
@@ -119,7 +122,23 @@ export default class SampleCloneOverlaps extends React.Component {
                   </tr>
                 </thead>
                 <tbody>
+                  <tr className="active">
+                    <td colSpan="4" className="center aligned">Selected Samples</td>
+                  </tr>
                   {_.map(cloneInfo.selected_samples, (stat) => {
+                    return (
+                      <tr key={stat.id}>
+                        <td>{stat.id}</td>
+                        <td><Link to={'/sample/' + stat.id}>{stat.name}</Link></td>
+                        <td>{numeral(stat.unique_sequences).format('0,0')}</td>
+                        <td>{numeral(stat.total_sequences).format('0,0')}</td>
+                      </tr>
+                    );
+                  })}
+                  <tr className="active">
+                    <td colSpan="4" className="center aligned">Other Samples</td>
+                  </tr>
+                  {_.map(cloneInfo.other_samples, (stat) => {
                     return (
                       <tr key={stat.id}>
                         <td>{stat.id}</td>
@@ -170,7 +189,7 @@ export default class SampleCloneOverlaps extends React.Component {
                 data-content="The total number of unique sequences from the subject in this clone"></i></th>
               <th>Total Seqs. <i className="help icon popup" data-title="Total Sequences"
                 data-content="The total number of sequences in this clone"></i></th>
-              <th>Samples Present<i className="help icon popup" data-title="Samples Present"
+              <th>Samples <i className="help icon popup" data-title="Samples Present"
                 data-content="The number of selected + other samples in which this clone appears"></i></th>
             </tr>
           </thead>

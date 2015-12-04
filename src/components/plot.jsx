@@ -21,6 +21,12 @@ export class Heatmap extends React.Component {
     this.setState({show: true});
   }
 
+  componentWillMount() {
+    this.setState({
+      show: this.props.show
+    });
+  }
+
   getConfig = () => {
     let propsP = this.props;
     let config = {
@@ -61,9 +67,11 @@ export class Heatmap extends React.Component {
       colorAxis: {
         stops: [
           [0, '#0000ff'],
-          [.5, '#ffffff'],
-          [1, '#ff0000'],
+          [0.25, '#ffffff'],
+          [.5, '#ff0000']
         ],
+        min: this.props.min,
+        max: this.props.max,
       },
 
       series: [{
@@ -88,7 +96,7 @@ export class Heatmap extends React.Component {
       },
 
       legend: {
-        enabled: true
+        enabled: false,
       }
     }
 
@@ -99,6 +107,18 @@ export class Heatmap extends React.Component {
   }
 
   render() {
+    if (!this.state.show) {
+      return (
+        <div className="ui red center aligned segment">
+          <h4>{this.props.title}</h4>
+          <button className="ui labeled icon button" onClick={this.show}>
+            <i className="level down icon"></i>
+            Show Plot
+          </button>
+        </div>
+      );
+    }
+
     return (
       <div className="ui red segment">
         <ReactHighcharts config={this.getConfig()} />

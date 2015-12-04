@@ -14,7 +14,6 @@ export default class SequenceList extends React.Component {
       asyncState: 'loading',
 
       page: 1,
-      perPage: 15,
 
       filter: {},
       showFilters: false,
@@ -81,7 +80,6 @@ export default class SequenceList extends React.Component {
     API.post('sequences/list', {
       page: this.state.page,
       filters: this.state.filter,
-      perPage: this.state.perPage
     }).end((err, response) => {
       if (err) {
         this.setState({asyncState: 'error'});
