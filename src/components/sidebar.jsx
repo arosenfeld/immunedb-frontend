@@ -18,6 +18,9 @@ export default class Sidebar extends React.Component {
           <Link className="item" to="/clones">
             Clones
           </Link>
+          <Link className="item" to="/subjects">
+            Subjects
+          </Link>
         </div>
       </div>
     );

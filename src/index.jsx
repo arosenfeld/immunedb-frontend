@@ -12,6 +12,8 @@ import SampleAnalysis from './components/sampleAnalysis';
 import SampleList from './components/sampleList';
 import SequenceList from './components/sequenceList';
 import Sequence from './components/sequence';
+import SubjectList from './components/subjectList';
+import Subject from './components/subject';
 
 const history = createHistory();
 
@@ -24,6 +26,8 @@ ReactDOM.render(
       <Route path='/sample-analysis/:sampleEncoding' component={SampleAnalysis} />
       <Route path='/sequences' component={SequenceList} />
       <Route path='/sequence/:sampleId/:seqId' component={Sequence} />
+      <Route path='/subjects' component={SubjectList} />
+      <Route path='/subject/:id' component={Subject} />
     </Route>
   </Router>,
   document.getElementById('root')
