@@ -35,3 +35,7 @@ span.scroller {
 .underlined {
   border-bottom: 1px dashed #2185D0;
 }
+
+tr.bold > td {
+  font-weight: bold;
+}

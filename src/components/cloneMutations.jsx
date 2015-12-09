@@ -181,6 +181,7 @@ export default class MutationsView extends React.Component {
 
     return (
       <div className="ui segment teal">
+        <h4>Mutations</h4>
         {this.getModal()}
         <div className="ui form">
           <div className="fields">

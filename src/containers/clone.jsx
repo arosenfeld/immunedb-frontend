@@ -10,6 +10,7 @@ import GeneCollapser from '../components/geneCollapser';
 import MutationsView from '../components/cloneMutations';
 import CloneLineage from '../components/cloneLineage';
 import OverlapList from '../components/cloneOverlap';
+import SelectionPressure from '../components/clonePressure';
 import SequenceCompare from '../components/cloneSequenceCompare';
 
 import { colorAAs, colorNTs, optional } from '../utils';
@@ -85,6 +86,7 @@ export default class Clone extends React.Component {
 
         <OverlapList samples={this.state.cloneInfo.samples.single} />
         <CloneSequenceList cloneId={this.state.cloneInfo.clone.id} />
+        <SelectionPressure cloneId={this.state.cloneInfo.clone.id} />
         <MutationsView cloneId={this.state.cloneInfo.clone.id} />
         <SequenceCompare clone={this.state.cloneInfo.clone} mutationStats={this.state.cloneInfo.mutation_stats} />
         <CloneLineage cloneId={this.state.cloneInfo.clone.id} />

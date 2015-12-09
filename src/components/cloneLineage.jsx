@@ -183,7 +183,6 @@ export default class CloneLineage extends React.Component {
   }
 
   render() {
-    var loader = '';
     if (this.state.asyncState == 'loading') {
       return <Message type='' icon='notched circle loading' header='Loading'
               message='Gathering lineage information' />;
