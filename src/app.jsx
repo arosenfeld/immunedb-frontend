@@ -4,7 +4,7 @@ import React from 'react';
 import { Router, Route, Link } from 'react-router'
 
 import Sidebar from './components/sidebar';
-import SampleList from './components/sampleList';
+import AllSamples from './containers/allSamples';
 
 export default class App extends React.Component {
   render() {
@@ -12,7 +12,7 @@ export default class App extends React.Component {
       <div>
         <Sidebar history={this.props.history} />
         <div className="ui container main">
-          {this.props.children || <SampleList />}
+          {this.props.children || <AllSamples />}
         </div>
       </div>
     );

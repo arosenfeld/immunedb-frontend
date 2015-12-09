@@ -26,10 +26,20 @@ export default class SequenceList extends React.Component {
 
   componentDidMount() {
     this.setState({asyncState: 'loading'});
-    API.post('samples/list').end((err, response) => {
+    let data = {};
+    if (this.props.subjectId) {
+      data.subject_id = this.props.subjectId;
+    }
+    API.post('samples/list', data).end((err, response) => {
       if (err) {
         this.setState({asyncState: 'error'});
       } else {
+        if (this.props.subjectId) {
+          response.body = _.filter(
+            response.body,
+            (e) => e.subject.id == this.props.subjectId
+          );
+        }
         this.setState({
           asyncState: 'loaded',
           samples: response.body
@@ -77,9 +87,11 @@ export default class SequenceList extends React.Component {
   }
 
   update = () => {
+    this.setState({asyncState: 'loading'});
     API.post('sequences/list', {
       page: this.state.page,
       filters: this.state.filter,
+      subject_id: this.props.subjectId || null
     }).end((err, response) => {
       if (err) {
         this.setState({asyncState: 'error'});
@@ -194,7 +206,6 @@ export default class SequenceList extends React.Component {
 
     return (
       <div>
-        <h1>Sequences</h1>
         {
           !this.state.showFilters ?
             <button className="ui right labeled icon primary button" onClick={this.toggleFilters}>
@@ -220,20 +231,23 @@ export default class SequenceList extends React.Component {
                 data-content="The length of the CDR3 in nucleotides"></i></th>
               <th>CDR3 AA <i className="help icon popup" data-title="CDR3 AA"
                 data-content="The amino acids in the CDR3"></i></th>
-              <th>Functional <i className="help icon popup" data-title="Functional"
+              <th>Funct. <i className="help icon popup" data-title="Functional"
                 data-content="If the sequence produces a productive protein"></i></th>
-              <th>Copy Number <i className="help icon popup" data-title="Copy Number"
-                data-content="The copy number of the sequence in its sample / subject"></i></th>
-              <th>Instances <i className="help icon popup" data-title="Instances"
-                data-content="The number of independent times this sequence was found"></i></th>
-              <th></th>
+              <th>Occurrences <i className="help icon popup" data-title="Copy Number"
+                data-content="The copy number of the sequence in its sample / copy number in its subject / number of instances"></i></th>
             </tr>
           </thead>
           <tbody>
             {_.map(this.state.sequences, (sequence) => {
               return (
                 <tr key={sequence.seq_id}>
-                  <td>{sequence.seq_id}</td>
+                  <td>
+                    <a href={'/sequence/' + sequence.sample.id + '/' + sequence.seq_id} target="_blank">
+                      {
+                        sequence.seq_id.length < 15 ? sequence.seq_id : ('...' + sequence.seq_id.slice(-15))
+                      }
+                    </a>
+                  </td>
                   <td>{sequence.sample.subject.identifier}</td>
                   <td>
                     <GeneCollapser gene={sequence.v_gene} />
@@ -243,14 +257,8 @@ export default class SequenceList extends React.Component {
                   </td>
                   <td>{sequence.cdr3_num_nts}</td>
                   <td className="text-mono sequence">{colorAAs(sequence.cdr3_aa)}</td>
-                  <td>{sequence.functional ? 'Yes' : 'No'}</td>
-                  <td>{sequence.copy_number} / {sequence.copy_number_in_subject}</td>
-                  <td>{sequence.instances_in_subject}</td>
-                  <td>
-                    <a href={'/sequence/' + sequence.sample.id + '/' + sequence.seq_id} target="_blank">
-                      View <i className="angle right icon"></i>
-                    </a>
-                  </td>
+                  <td>{sequence.functional ? <i className="checkmark green icon"></i>  : <i className="remove red icon"></i> }</td>
+                  <td>{sequence.copy_number} / {sequence.copy_number_in_subject} / {sequence.instances_in_subject}</td>
                 </tr>
               );
             })}

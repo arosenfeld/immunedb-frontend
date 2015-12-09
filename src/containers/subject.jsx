@@ -5,7 +5,9 @@ import React from 'react';
 import { Link } from 'react-router';
 
 import API from '../api';
-import Message from './message';
+import Message from '../components/message';
+import SampleList from '../components/sampleList';
+import SequenceList from '../components/sequenceList';
 
 export default class Subject extends React.Component {
   constructor() {
@@ -43,11 +45,14 @@ export default class Subject extends React.Component {
         this.setState({asyncState: 'error'});
       } else {
         this.setState({
-          asyncState: 'loaded',
-          subject: response.body
-        });
+          subject: response.body,
+          asyncState: 'loaded'
+        }, this.updateClones);
       }
     });
+  }
+
+  updateClones = () => {
   }
 
   render() {
@@ -61,7 +66,15 @@ export default class Subject extends React.Component {
 
     return (
       <div>
-        <h1>Subject</h1>
+        <h1>Subject {this.state.subject.identifier}</h1>
+        <div className="ui teal segment">
+          <h2>Samples</h2>
+          <SampleList samples={this.state.subject.samples} />
+        </div>
+        <div className="ui teal segment">
+          <h2>Sequences</h2>
+          <SequenceList subjectId={this.state.subject.id} />
+        </div>
       </div>
     );
   }

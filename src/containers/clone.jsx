@@ -3,14 +3,14 @@ import numeral from 'numeral';
 import React from 'react';
 
 import API from '../api';
-import Message from './message';
+import Message from '../components/message';
 
-import CloneSequenceList from './cloneSequences';
-import GeneCollapser from './geneCollapser';
-import MutationsView from './cloneMutations';
-import CloneLineage from './cloneLineage';
-import OverlapList from './cloneOverlap';
-import SequenceCompare from './cloneSequenceCompare';
+import CloneSequenceList from '../components/cloneSequences';
+import GeneCollapser from '../components/geneCollapser';
+import MutationsView from '../components/cloneMutations';
+import CloneLineage from '../components/cloneLineage';
+import OverlapList from '../components/cloneOverlap';
+import SequenceCompare from '../components/cloneSequenceCompare';
 
 import { colorAAs, colorNTs, optional } from '../utils';
 

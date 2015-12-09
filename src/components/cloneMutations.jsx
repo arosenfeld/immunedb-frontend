@@ -55,8 +55,16 @@ class MutationDetails extends React.Component {
                       <td>{numeral(mutation.total).format('0,0')}</td>
                       <td>{mutation.pos}</td>
                       <td>{colorNTs(mutation.from_nt)} to {colorNTs(mutation.to_nt)}</td>
-                      <td>{colorAAs(mutation.from_aa)} to {colorAAs(mutation.intermediate_aa)}</td>
-                      <td>{colorAAs(mutation.from_aa)} to {_.map(mutation.to_aas, (aa) => colorAAs(aa))}</td>
+                      {region == 'unknown' ?
+                        [
+                          <td className="faded" key="int_aa">N/A</td>,
+                          <td className="faded" key="fnl_aa">N/A</td>
+                        ]
+                      :
+                      [
+                        <td key="int_aa">{colorAAs(mutation.from_aa)} to {colorAAs(mutation.intermediate_aa)}</td>,
+                        <td key="fnl_aa">{colorAAs(mutation.from_aa)} to {_.map(mutation.to_aas, (aa) => colorAAs(aa))}</td>]
+                      }
                     </tr>
                   );
                 });
@@ -178,7 +186,7 @@ export default class MutationsView extends React.Component {
           <div className="fields">
             <div className="inline field">
               <label>Show mutations appearing in at least</label>
-              <input type="number" name="value" defaultValue={this.state.threshold.value} onChange={this.updateThreshold}/>
+              <input type="number" min="0" name="value" defaultValue={this.state.threshold.value} onChange={this.updateThreshold}/>
             </div>
             <div className="inline field">
               <select name="type" defaultValue={this.state.threshold.type}>

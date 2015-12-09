@@ -6,25 +6,25 @@ import { Router, Route } from 'react-router';
 import { createHistory } from 'history';
 
 import App from './app';
-import Clone from './components/clone';
-import CloneList from './components/cloneList';
+import Clone from './containers/clone';
+import AllClones from './containers/allClones';
 import SampleAnalysis from './components/sampleAnalysis';
-import SampleList from './components/sampleList';
-import SequenceList from './components/sequenceList';
+import AllSamples from './containers/allSamples';
+import AllSequences from './containers/allSequences';
 import Sequence from './components/sequence';
 import SubjectList from './components/subjectList';
-import Subject from './components/subject';
+import Subject from './containers/subject';
 
 const history = createHistory();
 
 ReactDOM.render(
   <Router history={history}>
     <Route path='/' component={App}>
-      <Route path='/clones' component={CloneList} />
+      <Route path='/clones' component={AllClones} />
       <Route path='/clone/:id' component={Clone} />
-      <Route path='/samples' component={SampleList} />
+      <Route path='/samples' component={AllSamples} />
       <Route path='/sample-analysis/:sampleEncoding' component={SampleAnalysis} />
-      <Route path='/sequences' component={SequenceList} />
+      <Route path='/sequences' component={AllSequences} />
       <Route path='/sequence/:sampleId/:seqId' component={Sequence} />
       <Route path='/subjects' component={SubjectList} />
       <Route path='/subject/:id' component={Subject} />

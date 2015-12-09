@@ -12,41 +12,14 @@ export default class SampleList extends React.Component {
     super();
     this.state = {
       selected: [],
-      samples: [],
-      asyncState: 'loading',
       groupBy: 'date'
     };
-  }
-
-  componentDidMount() {
-    this.setState({asyncState: 'loading'});
-    API.post('samples/list').end((err, response) => {
-      if (err) {
-        this.setState({asyncState: 'error'});
-      } else {
-        this.setState({
-          asyncState: 'loaded',
-          samples: response.body
-        });
-      }
-    });
-  }
-
-  componentDidUpdate() {
-    $('.ui.dropdown').dropdown({
-      action: 'hide',
-      onChange: (value, text) => {
-        this.setState({
-          groupBy: value
-        });
-      }
-    });
   }
 
   toggleAll = (e) => {
     if (e.target.checked) {
       this.setState({
-        selected: _.map(this.state.samples, s => s.id)
+        selected: _.map(this.props.samples, s => s.id)
       });
     } else {
       this.setState({
@@ -57,7 +30,7 @@ export default class SampleList extends React.Component {
 
   toggleGroup = (e) => {
     let samples = _.pluck(
-      _.filter(this.state.samples, s => _.get(s, this.state.groupBy) == e.target.value),
+      _.filter(this.props.samples, s => _.get(s, this.state.groupBy) == e.target.value),
       'id'
     );
     let selected = this.state.selected.slice();
@@ -111,22 +84,14 @@ export default class SampleList extends React.Component {
   }
 
   render() {
-    if (this.state.asyncState == 'loading') {
-      return <Message type='' icon='notched circle loading' header='Loading'
-              message='Gathering sample information' />;
-    } else if (this.state.asyncState == 'error') {
-      return <Message type='error' icon='warning sign' header='Error'
-              message='Unable to fetch sample information' />;
-    }
-
-    let sampleHierarchy = _.groupBy(this.state.samples, s => s.subject.study.name);
+    let sampleHierarchy = _.groupBy(this.props.samples, s => s.subject.study.name);
     sampleHierarchy = _.mapValues(sampleHierarchy,
       (studySamples) => _.groupBy(studySamples, s => _.get(s, this.state.groupBy))
     );
 
     let finalElements = [];
     _.forIn(sampleHierarchy, (samplesByCategory, study) => {
-      finalElements.push(<h1 key={study + '_header'}>{study}</h1>);
+      finalElements.push(<h3 key={study + '_header'}>{study}</h3>);
 
       let dateRows = [];
       finalElements.push(
