@@ -45,6 +45,7 @@
     "react-highcharts": "^5.0.6",
     "react-router": "^1.0.0",
     "semantic-ui": "^2.1.4",
+    "string-replace-webpack-plugin": "0.0.2",
     "superagent": "^1.4.0",
     "webpack": "^1.12.2"
   },

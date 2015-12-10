@@ -2,6 +2,12 @@ var path = require('path');
 var webpack = require('webpack');
 
 var HtmlWebpackPlugin = require('html-webpack-plugin')
+var StringReplacePlugin = require("string-replace-webpack-plugin");
+
+if (!process.env.BASE_URL || !process.env.API_ENDPOINT) {
+  throw new Error('BASE_URL and API_ENDPOINT must be set');
+}
+var SITE_TITLE = process.env.SITE_TITLE || 'SimLab Database';
 
 module.exports = {
   name: 'browser',
@@ -19,7 +25,25 @@ module.exports = {
     preLoaders: [{
       test: /\.js$|\.jsx$/,
       exclude: /node_modules/,
-      loaders: ['babel']
+      loaders: [
+        'babel',
+				StringReplacePlugin.replace({
+					replacements: [
+            {
+              pattern: /API_ENDPOINT/g,
+              replacement: function(match, p1, offset, string) {
+                return process.env.API_ENDPOINT;
+              }
+            },
+            {
+              pattern: /SITE_TITLE/g,
+              replacement: function(match, p1, offset, string) {
+                return SITE_TITLE;
+              }
+            }
+          ]
+        })
+      ]
     }],
     loaders: [
       {
@@ -44,11 +68,14 @@ module.exports = {
   },
   plugins: [
     new HtmlWebpackPlugin({
+      title: SITE_TITLE,
+      baseUrl: process.env.BASE_URL + '/',
       template: path.join(__dirname, 'static', 'index.html'),
     }),
     new webpack.ProvidePlugin({
       $: 'jquery',
       jQuery: 'jquery'
-    })
+    }),
+    new StringReplacePlugin()
   ],
 }

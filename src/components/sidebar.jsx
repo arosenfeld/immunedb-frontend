@@ -7,7 +7,7 @@ export default class Sidebar extends React.Component {
       <div className="ui fixed inverted menu">
         <div className="ui container">
           <div className="item inverted">
-            <h4>SimLab Database</h4>
+            <h4>SITE_TITLE</h4>
           </div>
           <Link className="item" to="/samples">
             Samples
