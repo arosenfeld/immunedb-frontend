@@ -27,8 +27,8 @@ module.exports = {
       exclude: /node_modules/,
       loaders: [
         'babel',
-				StringReplacePlugin.replace({
-					replacements: [
+        StringReplacePlugin.replace({
+          replacements: [
             {
               pattern: /API_ENDPOINT/g,
               replacement: function(match, p1, offset, string) {
