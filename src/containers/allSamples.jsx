@@ -12,10 +12,8 @@ export default class AllSamples extends React.Component {
   constructor() {
     super();
     this.state = {
-      selected: [],
       samples: [],
       asyncState: 'loading',
-      groupBy: 'date'
     };
   }
 
@@ -31,84 +29,6 @@ export default class AllSamples extends React.Component {
         });
       }
     });
-  }
-
-  componentDidUpdate() {
-    $('.ui.dropdown').dropdown({
-      action: 'hide',
-      onChange: (value, text) => {
-        this.setState({
-          groupBy: value
-        });
-      }
-    });
-  }
-
-  toggleAll = (e) => {
-    if (e.target.checked) {
-      this.setState({
-        selected: _.map(this.state.samples, s => s.id)
-      });
-    } else {
-      this.setState({
-        selected: []
-      });
-    }
-  }
-
-  toggleGroup = (e) => {
-    let samples = _.pluck(
-      _.filter(this.state.samples, s => _.get(s, this.state.groupBy) == e.target.value),
-      'id'
-    );
-    let selected = this.state.selected.slice();
-    _.each(samples, (s) => {
-      if (e.target.checked) {
-        selected = _.union(selected, [s]);
-      } else {
-        _.remove(selected, (other) => other === s);
-      }
-    });
-    this.setState({
-      selected
-    });
-  }
-
-  toggle = (e) => {
-    let selected = this.state.selected.slice();
-    if (e.target.checked) {
-      selected = _.union(selected, [parseInt(e.target.value)]);
-    } else {
-      _.remove(selected, (s) => s === parseInt(e.target.value));
-    }
-
-    this.setState({
-      selected
-    });
-  }
-
-  showAnalysis = () => {
-    let bitmap = _.map(
-      _.range(1, _.max(this.state.selected) + 1),
-      (value) => _.includes(this.state.selected, value) ? 'T' : 'F'
-    );
-
-    // Run-length encode the selection
-    let last = bitmap[0];
-    let count = 0;
-    let encoding = [bitmap[0]];
-    _.each(bitmap, (value) => {
-      if (value == last) {
-        count += 1;
-      } else {
-        encoding.push(count);
-        encoding.push(value);
-        count = 1;
-      }
-      last = value;
-    });
-    encoding.push(count);
-    window.open('/sample-analysis/' + encoding.join(''));
   }
 
   render() {

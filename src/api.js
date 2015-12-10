@@ -11,4 +11,5 @@ class API {
   }
 }
 
-export default new API('http://clash.biomed.drexel.edu:5001');
+export const ENDPOINT = 'http://clash.biomed.drexel.edu:5001';
+export default new API(ENDPOINT);

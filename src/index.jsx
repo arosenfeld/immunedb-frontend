@@ -14,6 +14,7 @@ import AllSequences from './containers/allSequences';
 import Sequence from './components/sequence';
 import SubjectList from './components/subjectList';
 import Subject from './containers/subject';
+import SequenceExport from './containers/sequenceExport';
 
 const history = createHistory();
 
@@ -28,6 +29,7 @@ ReactDOM.render(
       <Route path='/sequence/:sampleId/:seqId' component={Sequence} />
       <Route path='/subjects' component={SubjectList} />
       <Route path='/subject/:id' component={Subject} />
+      <Route path='/export/sequences/:type/:encoding' component={SequenceExport} />
     </Route>
   </Router>,
   document.getElementById('root')

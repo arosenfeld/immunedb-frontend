@@ -16,6 +16,23 @@ export default class SampleList extends React.Component {
     };
   }
 
+  componentDidMount() {
+    $('#export-dropdown').dropdown({
+      action: 'hide',
+      onChange: (value, text) => {
+        this.redirect('/export/' + value + '/sample/');
+      }
+    });
+
+    $('#grouping-dropdown').dropdown({
+      onChange: (value, text) => {
+        this.setState({
+          groupBy: value
+        });
+      }
+    });
+  }
+
   toggleAll = (e) => {
     if (e.target.checked) {
       this.setState({
@@ -59,7 +76,7 @@ export default class SampleList extends React.Component {
     });
   }
 
-  showAnalysis = () => {
+  redirect = (path) => {
     let bitmap = _.map(
       _.range(1, _.max(this.state.selected) + 1),
       (value) => _.includes(this.state.selected, value) ? 'T' : 'F'
@@ -80,7 +97,7 @@ export default class SampleList extends React.Component {
       last = value;
     });
     encoding.push(count);
-    window.open('/sample-analysis/' + encoding.join(''));
+    window.open(path + encoding.join(''));
   }
 
   render() {
@@ -156,13 +173,26 @@ export default class SampleList extends React.Component {
 
     return (
       <div>
-        <button className="ui primary button" onClick={this.showAnalysis} disabled={this.state.selected.length == 0}>
+        <button className="ui primary button"
+                onClick={this.redirect.bind(this, '/sample-analysis/')}
+                disabled={this.state.selected.length == 0}>
           Analyze Selected
         </button>
-        <div className="ui selection dropdown right floated">
-          <input type="hidden" name="groupBy" onChange={this.setGrouping} />
-          <i className="dropdown icon"></i>
-          <div className="default text">Group by...</div>
+
+				<div className="ui pointing dropdown labeled icon button exporting" id="export-dropdown">
+					<i className="dropdown icon"></i>
+					<span className="text">Export Selected</span>
+					<div className="menu">
+						<div className="item" data-value="sequences">Sequences</div>
+						<div className="item" data-value="clones">Clones</div>
+						<div className="item" data-value="mutations">Mutations</div>
+          </div>
+        </div>
+
+				<div className="ui pointing dropdown labeled icon button" id="grouping-dropdown" style={{float: 'right'}}>
+          <input type="hidden" name="groupBy" />
+          <i className="sidebar icon"></i>
+          <div className="text">Group Samples By</div>
           <div className="menu">
             <div className="item" data-value="date">Date</div>
             <div className="item" data-value="subject.identifier">Subject</div>
