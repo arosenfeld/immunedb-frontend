@@ -6,15 +6,18 @@ import { Router, Route } from 'react-router';
 import { createHistory } from 'history';
 
 import App from './app';
-import Clone from './containers/clone';
-import AllClones from './containers/allClones';
-import SampleAnalysis from './components/sampleAnalysis';
+
 import AllSamples from './containers/allSamples';
 import AllSequences from './containers/allSequences';
+import AllClones from './containers/allClones';
+import Clone from './containers/clone';
+import CloneExport from './containers/cloneExport';
+import MutationExport from './containers/mutationExport';
+import SampleAnalysis from './components/sampleAnalysis';
 import Sequence from './components/sequence';
+import SequenceExport from './containers/sequenceExport';
 import SubjectList from './components/subjectList';
 import Subject from './containers/subject';
-import SequenceExport from './containers/sequenceExport';
 
 const history = createHistory();
 
@@ -30,6 +33,8 @@ ReactDOM.render(
       <Route path='/subjects' component={SubjectList} />
       <Route path='/subject/:id' component={Subject} />
       <Route path='/export/sequences/:type/:encoding' component={SequenceExport} />
+      <Route path='/export/clones/:type/:encoding' component={CloneExport} />
+      <Route path='/export/mutations/:type/:encoding' component={MutationExport} />
     </Route>
   </Router>,
   document.getElementById('root')

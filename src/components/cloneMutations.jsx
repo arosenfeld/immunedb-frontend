@@ -94,8 +94,11 @@ export default class MutationsView extends React.Component {
   }
 
   componentDidMount() {
-    $('.ui.dropdown').dropdown({
-      action: 'hide',
+    this.update();
+  }
+
+  componentDidUpdate() {
+    $('select.dropdown').dropdown({
       onChange: (value, text) => {
         let threshold = _.extend({}, this.state.threshold);
         threshold.type = value;
@@ -104,8 +107,6 @@ export default class MutationsView extends React.Component {
         });
       }
     });
-
-    this.update();
   }
 
   update = () => {
@@ -190,7 +191,7 @@ export default class MutationsView extends React.Component {
               <input type="number" min="0" name="value" defaultValue={this.state.threshold.value} onChange={this.updateThreshold}/>
             </div>
             <div className="inline field">
-              <select name="type" defaultValue={this.state.threshold.type}>
+              <select className="dropdown" name="type" defaultValue={this.state.threshold.type}>
                 <option value="percent">percent of sequences</option>
                 <option value="sequences">sequences</option>
               </select>

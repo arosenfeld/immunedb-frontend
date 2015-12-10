@@ -23,9 +23,10 @@ export default class ExportFields extends React.Component {
   }
 
   toggleAll = (on) => {
-    let selected = [];
     if (on) {
-      selected = _.pluck(this.props.fields, 'header');
+      var selected = _.pluck(this.props.fields, 'header');
+    } else {
+      var selected = _.pluck(_.filter(this.props.fields, 'force'), 'header');
     }
     this.setState({
       selected
@@ -53,7 +54,8 @@ export default class ExportFields extends React.Component {
                   <input type="checkbox"
                          value={field.header}
                          onChange={this.toggle}
-                         checked={_.contains(this.state.selected, field.header)}
+                         checked={_.contains(this.state.selected, field.header) || field.force}
+                         disabled={field.force}
                   />
                   <label></label>
                 </div>
