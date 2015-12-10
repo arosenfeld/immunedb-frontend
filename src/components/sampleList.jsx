@@ -179,7 +179,8 @@ export default class SampleList extends React.Component {
           Analyze Selected
         </button>
 
-				<div className="ui pointing dropdown labeled icon button exporting" id="export-dropdown">
+				<div className={'ui pointing dropdown labeled icon button exporting' + (this.state.selected.length == 0 ? ' disabled' : '')}
+             id="export-dropdown">
 					<i className="dropdown icon"></i>
 					<span className="text">Export Selected</span>
 					<div className="menu">
