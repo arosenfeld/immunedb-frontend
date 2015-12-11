@@ -280,5 +280,3 @@ export default class SequenceList extends React.Component {
     );
   }
 }
-
-export default SequenceList;
