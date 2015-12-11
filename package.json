@@ -1,5 +1,5 @@
 {
-  "name": "simlab-web-database",
+  "name": "sldb-frontend",
   "version": "0.0.1",
   "description": "Web interface for the SimLab database",
   "main": "src/index.js",
@@ -10,14 +10,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/arosenfeld/simlab-web-database"
+    "url": "git+https://github.com/arosenfeld/sldb-frontend"
   },
   "author": "",
   "license": "UNLICENSED",
   "bugs": {
-    "url": "git+https://github.com/arosenfeld/simlab-web-database/issues"
+    "url": "git+https://github.com/arosenfeld/sldb-frontend/issues"
   },
-  "homepage": "git+https://github.com/arosenfeld/simlab-web-database#readme",
+  "homepage": "git+https://github.com/arosenfeld/sldb-frontend#readme",
   "dependencies": {
     "async": "^1.5.0",
     "babel-core": "^5.8.33",
