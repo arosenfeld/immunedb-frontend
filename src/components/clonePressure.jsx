@@ -146,6 +146,17 @@ export default class ClonePressure extends React.Component {
               message='Unable to fetch selection information' />;
     }
 
+    if (this.state.pressure.length == 0) {
+      return (
+        <div className="ui teal segment">
+          <h4>Selection Pressure</h4>
+          <div className="ui message warning">
+            Selection pressure has not been calculated for this clone
+          </div>
+        </div>
+      );
+    }
+
     return (
       <div className="ui teal segment">
         <h4>Selection Pressure</h4>

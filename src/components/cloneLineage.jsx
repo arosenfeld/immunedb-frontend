@@ -57,6 +57,9 @@ export default class CloneLineage extends React.Component {
   }
 
   draw = () => {
+    if (!this.state.treeInfo) {
+      return;
+    }
     d3.select('#tree > *').remove();
     let width = $('#tree').width();
     let height = 800;
@@ -186,9 +189,20 @@ export default class CloneLineage extends React.Component {
     if (this.state.asyncState == 'loading') {
       return <Message type='' icon='notched circle loading' header='Loading'
               message='Gathering lineage information' />;
-    } else if (this.state.asyncState == 'error' || !this.state.treeInfo) {
+    } else if (this.state.asyncState == 'error') {
       return <Message type='error' icon='warning sign' header='Error'
               message='Unable to fetch lineage information' />;
+    }
+
+    if (!this.state.treeInfo) {
+      return (
+        <div className="ui teal segment">
+          <h4>Lineage</h4>
+          <div className="ui message warning">
+            A linage has not been created for this clone.
+          </div>
+        </div>
+      );
     }
 
     return (
