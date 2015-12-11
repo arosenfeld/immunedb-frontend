@@ -2,7 +2,6 @@
 import numeral from 'numeral';
 
 import React from 'react';
-import { Link } from 'react-router';
 
 import API from '../api';
 import GeneCollapser from './geneCollapser';
@@ -83,7 +82,7 @@ export default class SampleCloneOverlaps extends React.Component {
     let rows = [
       <tr key={cloneInfo.clone.id + '_info'}>
         <td>
-          <a href={'/clone/' + cloneInfo.clone.id} target="_blank">
+          <a href={'clone/' + cloneInfo.clone.id} target="_blank">
             {cloneInfo.clone.id}
           </a>
         </td>
@@ -129,7 +128,7 @@ export default class SampleCloneOverlaps extends React.Component {
                     return (
                       <tr key={stat.id}>
                         <td>{stat.id}</td>
-                        <td><Link to={'/sample/' + stat.id}>{stat.name}</Link></td>
+                        <td><a href={'sample/' + stat.id}>{stat.name}</a></td>
                         <td>{numeral(stat.unique_sequences).format('0,0')}</td>
                         <td>{numeral(stat.total_sequences).format('0,0')}</td>
                       </tr>
@@ -142,7 +141,7 @@ export default class SampleCloneOverlaps extends React.Component {
                     return (
                       <tr key={stat.id}>
                         <td>{stat.id}</td>
-                        <td><Link to={'/sample/' + stat.id}>{stat.name}</Link></td>
+                        <td><a href={'sample/' + stat.id}>{stat.name}</a></td>
                         <td>{numeral(stat.unique_sequences).format('0,0')}</td>
                         <td>{numeral(stat.total_sequences).format('0,0')}</td>
                       </tr>

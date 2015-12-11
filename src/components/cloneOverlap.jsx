@@ -1,7 +1,6 @@
 import numeral from 'numeral';
 
 import React from 'react';
-import { Link } from 'react-router';
 
 import { optional } from '../utils';
 
@@ -36,7 +35,7 @@ export default class OverlapList extends React.Component {
             return (
               <tr key={sample.id}>
                 <td>{sample.id}</td>
-                <td><Link to={'/sample/' + sample.id}>{sample.name}</Link></td>
+                <td><a href={'sample/' + sample.id}>{sample.name}</a></td>
                 <td>{optional(sample.tissue)}</td>
                 <td>{optional(sample.subset)}</td>
                 <td>{optional(sample.ig_class)}</td>

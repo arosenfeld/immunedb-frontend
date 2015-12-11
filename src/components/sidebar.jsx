@@ -1,5 +1,4 @@
 import React from 'react';
-import { Link } from 'react-router';
 
 export default class Sidebar extends React.Component {
   render() {
@@ -9,18 +8,18 @@ export default class Sidebar extends React.Component {
           <div className="item inverted">
             <h4>SITE_TITLE</h4>
           </div>
-          <Link className="item" to="/samples">
+          <a className="item" href="samples">
             Samples
-          </Link>
-          <Link className="item" to="/sequences">
+          </a>
+          <a className="item" href="sequences">
             Sequences
-          </Link>
-          <Link className="item" to="/clones">
+          </a>
+          <a className="item" href="clones">
             Clones
-          </Link>
-          <Link className="item" to="/subjects">
+          </a>
+          <a className="item" href="subjects">
             Subjects
-          </Link>
+          </a>
         </div>
       </div>
     );

@@ -20,7 +20,7 @@ export default class SampleList extends React.Component {
     $('#export-dropdown').dropdown({
       action: 'hide',
       onChange: (value, text) => {
-        this.redirect('/export/' + value + '/sample/');
+        this.redirect('export/' + value + '/sample/');
       }
     });
 
@@ -174,7 +174,7 @@ export default class SampleList extends React.Component {
     return (
       <div>
         <button className="ui primary button"
-                onClick={this.redirect.bind(this, '/sample-analysis/')}
+                onClick={this.redirect.bind(this, 'sample-analysis/')}
                 disabled={this.state.selected.length == 0}>
           Analyze Selected
         </button>

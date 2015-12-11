@@ -2,7 +2,6 @@ import numeral from 'numeral';
 
 import React from 'react';
 
-import { Link } from 'react-router';
 import API from '../api';
 import Message from './message';
 
@@ -89,8 +88,8 @@ export default class CloneSequenceList extends React.Component {
         {_.map(this.state.sequences, (sequence) => {
           return (
             [<tr key={sequence.seq_id}>
-              <td><Link to={'/sequence/' + sequence.sample.id + '/' + sequence.seq_id}>{sequence.seq_id}</Link></td>
-              <td><Link to={'/sample/' + sequence.sample.id}>{sequence.sample.name}</Link></td>
+              <td><a href={'sequence/' + sequence.sample.id + '/' + sequence.seq_id}>{sequence.seq_id}</a></td>
+              <td><a href={'sample/' + sequence.sample.id}>{sequence.sample.name}</a></td>
               <td>{numeral(sequence.copy_number_in_subject).format('0,0')}</td>
               <td>{numeral(sequence.instances_in_subject).format('0,0')}</td>
             </tr>,
@@ -110,8 +109,8 @@ export default class CloneSequenceList extends React.Component {
                     {sequence.collapse_to.length > 0 ? _.map(sequence.collapse_to, (col) => {
                       return (
                         <tr key={col.seq_id}>
-                          <td><Link to={'/sequence/' + col.sample_id + '/' + col.seq_id}>{col.seq_id}</Link></td>
-                          <td><Link to={'/sample/' + sequence.sample_id}>{col.sample_name}</Link></td>
+                          <td><a href={'sequence/' + col.sample_id + '/' + col.seq_id}>{col.seq_id}</a></td>
+                          <td><a href={'sample/' + sequence.sample_id}>{col.sample_name}</a></td>
                           <td>{numeral(col.copy_number_in_sample).format('0,0')}</td>
                         </tr>
                       );

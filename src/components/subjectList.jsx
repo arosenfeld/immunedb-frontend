@@ -2,8 +2,6 @@ import numeral from 'numeral';
 
 import React from 'react';
 
-import { Link } from 'react-router';
-
 import API from '../api';
 import Message from './message';
 
@@ -97,7 +95,7 @@ export default class SubjectList extends React.Component {
                   <td>{numeral(subject.total_clones).format('0,0')}</td>
                   <td>{numeral(subject.total_samples).format('0,0')}</td>
                   <td>
-                    <a href={'/subject/' + subject.id} target="_blank">
+                    <a href={'subject/' + subject.id} target="_blank">
                       View <i className="angle right icon"></i>
                     </a>
                   </td>

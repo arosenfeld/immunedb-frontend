@@ -2,8 +2,6 @@ import numeral from 'numeral';
 
 import React from 'react';
 
-import { Link } from 'react-router';
-
 import API from '../api';
 import Message from '../components/message';
 import SampleList from '../components/sampleList';

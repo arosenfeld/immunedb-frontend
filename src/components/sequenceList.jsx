@@ -1,7 +1,6 @@
 import React from 'react';
 
 import { colorAAs } from '../utils';
-import { Link } from 'react-router';
 
 import API from '../api';
 import GeneCollapser from './geneCollapser';
@@ -242,7 +241,7 @@ export default class SequenceList extends React.Component {
               return (
                 <tr key={sequence.seq_id}>
                   <td>
-                    <a href={'/sequence/' + sequence.sample.id + '/' + sequence.seq_id} target="_blank">
+                    <a href={'sequence/' + sequence.sample.id + '/' + sequence.seq_id} target="_blank">
                       {
                         sequence.seq_id.length < 15 ? sequence.seq_id : (sequence.seq_id.slice(0, 10) + '...' + sequence.seq_id.slice(-10))
                       }

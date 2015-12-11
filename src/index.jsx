@@ -23,18 +23,18 @@ const history = createHistory();
 
 ReactDOM.render(
   <Router history={history}>
-    <Route path='/' component={App}>
-      <Route path='/clones' component={AllClones} />
-      <Route path='/clone/:id' component={Clone} />
-      <Route path='/samples' component={AllSamples} />
-      <Route path='/sample-analysis/:sampleEncoding' component={SampleAnalysis} />
-      <Route path='/sequences' component={AllSequences} />
-      <Route path='/sequence/:sampleId/:seqId' component={Sequence} />
-      <Route path='/subjects' component={SubjectList} />
-      <Route path='/subject/:id' component={Subject} />
-      <Route path='/export/sequences/:type/:encoding' component={SequenceExport} />
-      <Route path='/export/clones/:type/:encoding' component={CloneExport} />
-      <Route path='/export/mutations/:type/:encoding' component={MutationExport} />
+    <Route path='BASE_PATH' component={App}>
+      <Route path='clones' component={AllClones} />
+      <Route path='clone/:id' component={Clone} />
+      <Route path='samples' component={AllSamples} />
+      <Route path='sample-analysis/:sampleEncoding' component={SampleAnalysis} />
+      <Route path='sequences' component={AllSequences} />
+      <Route path='sequence/:sampleId/:seqId' component={Sequence} />
+      <Route path='subjects' component={SubjectList} />
+      <Route path='subject/:id' component={Subject} />
+      <Route path='export/sequences/:type/:encoding' component={SequenceExport} />
+      <Route path='export/clones/:type/:encoding' component={CloneExport} />
+      <Route path='export/mutations/:type/:encoding' component={MutationExport} />
     </Route>
   </Router>,
   document.getElementById('root')

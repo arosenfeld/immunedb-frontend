@@ -1,4 +1,5 @@
 var path = require('path');
+var URL = require('url');
 var webpack = require('webpack');
 
 var HtmlWebpackPlugin = require('html-webpack-plugin')
@@ -33,6 +34,12 @@ module.exports = {
               pattern: /API_ENDPOINT/g,
               replacement: function(match, p1, offset, string) {
                 return process.env.API_ENDPOINT;
+              }
+            },
+            {
+              pattern: /BASE_PATH/g,
+              replacement: function(match, p1, offset, string) {
+                return URL.parse(process.env.BASE_URL).pathname + '/';
               }
             },
             {

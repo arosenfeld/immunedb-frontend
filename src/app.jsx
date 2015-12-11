@@ -1,7 +1,6 @@
 import 'style.css';
 
 import React from 'react';
-import { Router, Route, Link } from 'react-router'
 
 import Sidebar from './components/sidebar';
 import AllSamples from './containers/allSamples';
