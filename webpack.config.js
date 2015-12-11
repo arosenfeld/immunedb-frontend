@@ -17,11 +17,11 @@ module.exports = {
   },
   output: {
     // The output directory as absolute path
-    path: path.join(__dirname, 'dist'),
+    path: path.join(__dirname, process.env.OUT_DIR || 'dist'),
     // The filename of the entry chunk as relative path inside the output.path directory
     filename: '[name].js',
   },
-  devtool: 'source-map',
+  devtool: process.env.NODE_END === 'production' ? 'cheap-module-source-map' : 'source-map',
   module: {
     preLoaders: [{
       test: /\.js$|\.jsx$/,
