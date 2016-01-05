@@ -21,7 +21,7 @@ Running in Docker
 Docker can be used to serve the SLDB frontend.  This should not be used in
 production, however.
 
-    docker build -t arosenfeld/sldb-frontend
+    docker build -t arosenfeld/sldb-frontend .
     docker run -p 49160:8080 -d arosenfeld/sldb-frontend
 
 This will serve the web app from `http://localhost:49160` and assumes
