@@ -8,4 +8,6 @@ RUN cd /app; npm install
 COPY . /app
 EXPOSE 8080
 WORKDIR /app
+ENV BASE_URL=http://localhost:49160
+ENV API_ENDPOINT=http://localhost:5000
 CMD ["npm", "run", "serve"]
