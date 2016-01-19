@@ -1,6 +1,6 @@
 {
   "name": "sldb-frontend",
-  "version": "0.14.1",
+  "version": "0.15.0",
   "description": "Web interface for the SimLab database",
   "main": "src/index.js",
   "scripts": {
