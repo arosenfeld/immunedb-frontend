@@ -135,33 +135,41 @@ export default class Sequence extends React.Component {
               <th colSpan="2">Collapse Information</th>
             </tr>
           </thead>
-          <tbody>
-            <tr>
-              <td className="collapsing"><strong>Representative Subject Sequence</strong></td>
-              <td>
-              {
-                this.state.sequence.collapse_info.seq_id == this.state.sequence.seq_id ?
-                  <i>Self</i>
-                :
-                [
-                  <a href={'sequences/' + this.state.sequence.collapse_info.sample_id + '/' + this.state.sequence.collapse_info.seq_id} key="seq_link">
-                    {this.state.sequence.collapse_info.seq_id}
-                  </a>,
-                  <strong key="in">{' in sample '}</strong>,
-                  <a href={'sample/' + this.state.sequence.collapse_info.sample_id} key="sample_link">{this.state.sequence.collapse_info.sample_name}</a>
-                ]
-              }
-              </td>
-            </tr>
-            <tr>
-              <td><strong>Copy Number in Subject</strong></td>
-              <td>{numeral(this.state.sequence.collapse_info.copy_number).format('0,0')}</td>
-            </tr>
-            <tr>
-              <td><strong>Instances in Subject</strong></td>
-              <td>{numeral(this.state.sequence.collapse_info.instances).format('0,0')}</td>
-            </tr>
-          </tbody>
+          {this.state.sequence.collapse_info != null ?
+            <tbody>
+              <tr>
+                <td className="collapsing"><strong>Representative Subject Sequence</strong></td>
+                <td>
+                {
+                  this.state.sequence.collapse_info.seq_id == this.state.sequence.seq_id ?
+                    <i>Self</i>
+                  :
+                  [
+                    <a href={'sequences/' + this.state.sequence.collapse_info.sample_id + '/' + this.state.sequence.collapse_info.seq_id} key="seq_link">
+                      {this.state.sequence.collapse_info.seq_id}
+                    </a>,
+                    <strong key="in">{' in sample '}</strong>,
+                    <a href={'sample/' + this.state.sequence.collapse_info.sample_id} key="sample_link">{this.state.sequence.collapse_info.sample_name}</a>
+                  ]
+                }
+                </td>
+              </tr>
+              <tr>
+                <td><strong>Copy Number in Subject</strong></td>
+                <td>{numeral(this.state.sequence.collapse_info.copy_number).format('0,0')}</td>
+              </tr>
+              <tr>
+                <td><strong>Instances in Subject</strong></td>
+                <td>{numeral(this.state.sequence.collapse_info.instances).format('0,0')}</td>
+              </tr>
+            </tbody>
+          :
+            <tbody>
+              <tr>
+                <td colSpan="2">Sequence has not yet been collapsed.</td>
+              </tr>
+            </tbody>
+          }
         </table>
 
         <table className="ui teal table">
