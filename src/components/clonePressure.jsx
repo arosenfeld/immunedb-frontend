@@ -41,16 +41,16 @@ export default class ClonePressure extends React.Component {
   }
 
   getPressureColor(prob) {
-		prob = parseFloat(prob);
-		if (isNaN(prob)) {
-			return '#ffffff';
-		} else if (prob < 0) {
-			var others = parseInt(0xff - 0xff * -prob).toString(16);
-			return '#' + others + 'ff' + others;
-		} else {
-			var others = parseInt(0xff - 0xff * prob).toString(16);
-			return '#ff' + others + others;
-		}
+    prob = parseFloat(prob);
+    if (isNaN(prob)) {
+      return '#ffffff';
+    } else if (prob < 0) {
+      var others = parseInt(0xff - 0xff * -prob).toString(16);
+      return '#' + others + 'ff' + others;
+    } else {
+      var others = parseInt(0xff - 0xff * prob).toString(16);
+      return '#ff' + others + others;
+    }
   }
 
   toggleSamples = () => {
