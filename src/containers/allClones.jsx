@@ -17,6 +17,8 @@ export default class AllClones extends React.Component {
       page: 1,
 
       filter: {},
+      orderBy: null,
+      orderDir: 'asc',
       showFilters: false,
 
       clones: []
@@ -68,6 +70,8 @@ export default class AllClones extends React.Component {
   update = () => {
     API.post('clones/list', {
       page: this.state.page,
+      order_field: this.state.orderBy,
+      order_dir: this.state.orderDir,
       filters: this.state.filter,
     }).end((err, response) => {
       if (err) {
@@ -201,6 +205,22 @@ export default class AllClones extends React.Component {
     return rows;
   }
 
+  sort = (by) => {
+    if (by == this.state.orderBy) {
+      this.setState({
+        asyncState: 'loading',
+        orderBy: by,
+        orderDir: this.state.orderBy == 'asc' ? 'desc' : 'asc'
+      }, this.update);
+    } else {
+      this.setState({
+        asyncState: 'loading',
+        orderBy: by,
+        orderDir: 'desc'
+      }, this.update);
+    }
+  }
+
   render() {
     if (this.state.asyncState == 'loading') {
       return <Message type='' icon='notched circle loading' header='Loading'
@@ -224,7 +244,7 @@ export default class AllClones extends React.Component {
         }
         {this.state.showFilters ? this.filterForm() : ''}
 
-        <CloneList clones={this.state.clones} />
+        <CloneList clones={this.state.clones} sort={this.sort} />
 
         <div className="ui one column stackable center aligned page grid">
           <div className="column twelve wide">

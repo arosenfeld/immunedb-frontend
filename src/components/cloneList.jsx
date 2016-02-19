@@ -68,21 +68,21 @@ export default class CloneList extends React.Component {
       <table className="ui single line teal table">
         <thead>
           <tr>
-            <th>Clone ID<i className="help icon popup" data-title="Clone ID"
+            <th><a onClick={this.props.sort.bind(this, 'id')}>Clone ID</a> <i className="help icon popup" data-title="Clone ID"
               data-content="The unique identifier for the clone"></i></th>
-            <th>Subject<i className="help icon popup" data-title="Subject"
+            <th><a onClick={this.props.sort.bind(this, 'subject_id')}>Subject</a> <i className="help icon popup" data-title="Subject"
               data-content="The subject from which the clone originated"></i></th>
-            <th>V Gene <i className="help icon popup" data-title="V Gene"
+            <th><a onClick={this.props.sort.bind(this, 'v_gene')}>V Gene</a> <i className="help icon popup" data-title="V Gene"
               data-content="The variable gene associated with the clone"></i></th>
-            <th>J Gene <i className="help icon popup" data-title="J Gene"
+            <th><a onClick={this.props.sort.bind(this, 'j_gene')}>J Gene</a> <i className="help icon popup" data-title="J Gene"
               data-content="The joining gene associated with the clone"></i></th>
-            <th>CDR3 Length <i className="help icon popup" data-title="CDR3 Length"
+            <th><a onClick={this.props.sort.bind(this, 'cdr3_num_nts')}>CDR3 Length</a> <i className="help icon popup" data-title="CDR3 Length"
               data-content="The length of the CDR3 in nucleotides"></i></th>
-            <th>CDR3 AA <i className="help icon popup" data-title="CDR3 AA"
+            <th><a onClick={this.props.sort.bind(this, 'cdr3_aa')}>CDR3 AA</a> <i className="help icon popup" data-title="CDR3 AA"
               data-content="The amino acids in the CDR3"></i></th>
-            <th>Unique Seqs. <i className="help icon popup" data-title="Unique Sequences"
+            <th><a onClick={this.props.sort.bind(this, 'unique_cnt')}>Unique Seqs.</a> <i className="help icon popup" data-title="Unique Sequences"
               data-content="The total number of unique sequences from the subject in this clone"></i></th>
-            <th>Total Seqs. <i className="help icon popup" data-title="Total Sequences"
+            <th><a onClick={this.props.sort.bind(this, 'total_cnt')}>Total Seqs.</a> <i className="help icon popup" data-title="Total Sequences"
               data-content="The total number of sequences in this clone"></i></th>
             <th></th>
           </tr>
