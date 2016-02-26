@@ -31,19 +31,11 @@ export default class AllClones extends React.Component {
   }
 
   componentDidUpdate() {
-    $('.sample_id .dropdown').dropdown({
+    $('.subject_id .dropdown').dropdown({
       onChange: (value, text, $selectedItem) => {
+        console.log(value);
         let filter = _.extend({}, this.state.filter);
-        filter.sample_id = value;
-        this.setState({
-          filter
-        });
-      }
-    });
-    $('.copy_type .dropdown').dropdown({
-      onChange: (value, text, $selectedItem) => {
-        let filter = _.extend({}, this.state.filter);
-        filter.copy_type = value;
+        filter.subject_id = value;
         this.setState({
           filter
         });
@@ -78,8 +70,17 @@ export default class AllClones extends React.Component {
         this.setState({asyncState: 'error'});
       } else {
         this.setState({
-          asyncState: 'loaded',
           clones: response.body
+        });
+        API.post('subjects/list').end((err, response) => {
+          if (err) {
+            this.setState({asyncState: 'error'});
+          } else {
+            this.setState({
+              asyncState: 'loaded',
+              subjects: response.body
+            });
+          }
         });
       }
     });
@@ -99,7 +100,7 @@ export default class AllClones extends React.Component {
 
   onChange = (e) => {
     let isInt = _.contains(['id', 'min_cdr3_num_nts', 'max_cdr3_num_nts',
-                            'min_unique', 'max_unique'], e.target.name);
+                            'min_unique', 'max_unique', 'subject_id'], e.target.name);
     let change = _.extend({}, this.state.filter, {
       [e.target.name]: isInt ? parseInt(e.target.value) : e.target.value
     });
@@ -131,13 +132,23 @@ export default class AllClones extends React.Component {
             </div>
           </div>
           <div className="fields">
-            <div className="three wide field">
+            <div className="field">
               <label>Min. CDR3 Length (in nucleotides)</label>
               <input type="number" name="min_cdr3_num_nts" min="1" defaultValue={this.state.filter.min_cdr3_num_nts} onChange={this.onChange} />
             </div>
-            <div className="three wide field">
+            <div className="field">
               <label>Max. CDR3 Length (in nucleotides)</label>
               <input type="number" name="max_cdr3_num_nts" min="1" defaultValue={this.state.filter.max_cdr3_num_nts} onChange={this.onChange} />
+            </div>
+            <div className="field">
+              <label>Subject</label>
+              <select name="subject_id" className="ui search dropdown" defaultValue={this.state.filter.subject_id} onChange={this.onChange}>
+                <option value="">All Subjects</option>
+                {_.map(this.state.subjects, (subject) => {
+                  return <option
+                          value={subject.id} key={subject.id}>{subject.identifier} (# {subject.id})</option>
+                })}
+              </select>
             </div>
           </div>
           <button className="ui button" onClick={this.filter}>Filter</button>
@@ -210,7 +221,7 @@ export default class AllClones extends React.Component {
       this.setState({
         asyncState: 'loading',
         orderBy: by,
-        orderDir: this.state.orderBy == 'asc' ? 'desc' : 'asc'
+        orderDir: this.state.orderDir == 'asc' ? 'desc' : 'asc'
       }, this.update);
     } else {
       this.setState({

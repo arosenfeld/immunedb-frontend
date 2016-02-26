@@ -80,9 +80,9 @@ export default class CloneList extends React.Component {
               data-content="The length of the CDR3 in nucleotides"></i></th>
             <th><a onClick={this.props.sort.bind(this, 'cdr3_aa')}>CDR3 AA</a> <i className="help icon popup" data-title="CDR3 AA"
               data-content="The amino acids in the CDR3"></i></th>
-            <th><a onClick={this.props.sort.bind(this, 'unique_cnt')}>Unique Seqs.</a> <i className="help icon popup" data-title="Unique Sequences"
+            <th><a onClick={this.props.sort.bind(this, 'overall_unique_cnt')}>Unique Seqs.</a> <i className="help icon popup" data-title="Unique Sequences"
               data-content="The total number of unique sequences from the subject in this clone"></i></th>
-            <th><a onClick={this.props.sort.bind(this, 'total_cnt')}>Total Seqs.</a> <i className="help icon popup" data-title="Total Sequences"
+            <th><a onClick={this.props.sort.bind(this, 'overall_total_cnt')}>Total Seqs.</a> <i className="help icon popup" data-title="Total Sequences"
               data-content="The total number of sequences in this clone"></i></th>
             <th></th>
           </tr>

@@ -118,7 +118,8 @@ export default class SequenceList extends React.Component {
   }
 
   onChange = (e) => {
-    let isInt = _.contains(['cdr3_num_nts', 'min_copy_number', 'max_copy_number'], e.target.name);
+    let isInt = _.contains(['cdr3_num_nts', 'min_copy_number',
+                            'max_copy_number', 'sample_id'], e.target.name);
     let change = _.extend({}, this.state.filter, {
       [e.target.name]: isInt ? parseInt(e.target.value) : e.target.value
     });
@@ -142,9 +143,8 @@ export default class SequenceList extends React.Component {
             </div>
             <div className="field">
               <label>Sample</label>
-              <select className="ui search sample_id dropdown" defaultValue={this.state.filter.sample_id}>
-                <option value="">Sample</option>
-                <option value=" ">All</option>
+              <select name="sample_id" className="ui search dropdown" defaultValue={this.state.filter.sample_id} onChange={this.onChange}>
+                <option value="">All Samples</option>
                 {_.map(this.state.samples, (sample) => {
                   return <option
                           value={sample.id} key={sample.id}>{sample.name} (# {sample.id})</option>
