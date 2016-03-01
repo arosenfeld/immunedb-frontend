@@ -3,7 +3,7 @@ import 'semantic.css';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Router, Route } from 'react-router';
-import { createHistory } from 'history';
+import { hashHistory } from 'react-router';
 
 import App from './app';
 
@@ -19,10 +19,8 @@ import SequenceExport from './containers/sequenceExport';
 import SubjectList from './components/subjectList';
 import Subject from './containers/subject';
 
-const history = createHistory();
-
 ReactDOM.render(
-  <Router history={history}>
+  <Router history={hashHistory}>
     <Route path='BASE_PATH' component={App}>
       <Route path='clones' component={AllClones} />
       <Route path='clone/:id' component={Clone} />

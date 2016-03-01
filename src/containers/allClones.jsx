@@ -99,7 +99,7 @@ export default class AllClones extends React.Component {
   }
 
   onChange = (e) => {
-    let isInt = _.contains(['id', 'min_cdr3_num_nts', 'max_cdr3_num_nts',
+    let isInt = _.includes(['id', 'min_cdr3_num_nts', 'max_cdr3_num_nts',
                             'min_unique', 'max_unique', 'subject_id'], e.target.name);
     let change = _.extend({}, this.state.filter, {
       [e.target.name]: isInt ? parseInt(e.target.value) : e.target.value

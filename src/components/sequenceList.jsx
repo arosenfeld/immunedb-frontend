@@ -118,7 +118,7 @@ export default class SequenceList extends React.Component {
   }
 
   onChange = (e) => {
-    let isInt = _.contains(['cdr3_num_nts', 'min_copy_number',
+    let isInt = _.includes(['cdr3_num_nts', 'min_copy_number',
                             'max_copy_number', 'sample_id'], e.target.name);
     let change = _.extend({}, this.state.filter, {
       [e.target.name]: isInt ? parseInt(e.target.value) : e.target.value

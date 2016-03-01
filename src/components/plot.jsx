@@ -1,7 +1,8 @@
 import numeral from 'numeral';
 import React from 'react';
 
-import Highcharts from 'react-highcharts/dist/bundle/highcharts';
+import Highcharts from 'highcharts';
+//'react-highcharts/dist/bundle/highcharts';
 import 'highcharts-exporting/exporting';
 import 'highcharts-offline-exporting/offline-exporting';
 import 'highcharts-heatmap/heatmap';

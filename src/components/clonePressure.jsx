@@ -187,7 +187,7 @@ export default class ClonePressure extends React.Component {
                     (key == 1 ?
                       'Don\'t exclude any mutations' :
                       ('Exclude mutations in < ' +
-                        (_.contains(key, '%') ? key + ' of sequences'
+                        (_.includes(key, '%') ? key + ' of sequences'
                         :
                         key + ' sequence(s)')
                       )

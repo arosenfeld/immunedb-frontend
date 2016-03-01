@@ -54,7 +54,7 @@ export default class ExportFields extends React.Component {
                   <input type="checkbox"
                          value={field.header}
                          onChange={this.toggle}
-                         checked={_.contains(this.state.selected, field.header) || field.force}
+                         checked={_.includes(this.state.selected, field.header) || field.force}
                          disabled={field.force}
                   />
                   <label></label>

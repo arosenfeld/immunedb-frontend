@@ -3,7 +3,7 @@
 }
 
 .faded {
-  color: #999;
+  color: rgba(0, 0, 0, 0.6);
 }
 
 tr.info-row {

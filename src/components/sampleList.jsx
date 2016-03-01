@@ -108,7 +108,12 @@ export default class SampleList extends React.Component {
 
     let finalElements = [];
     _.forIn(sampleHierarchy, (samplesByCategory, study) => {
-      finalElements.push(<h3 key={study + '_header'}>{study}</h3>);
+      finalElements.push(
+        <h3 key={study + '_header'} className="ui header">
+          {study}
+          <div className="sub header">{_.sumBy(_.values(samplesByCategory), (e) => e.length)} samples in {_.keys(samplesByCategory).length} groups</div>
+        </h3>
+      );
 
       let dateRows = [];
       finalElements.push(
@@ -137,7 +142,10 @@ export default class SampleList extends React.Component {
                         <input type="checkbox" value={key} onChange={this.toggleGroup} /> <label></label>
                       </div>
                     </td>
-                    <td colSpan="5" className="center aligned"><strong>{key}</strong></td>
+                    <td colSpan="5" className="center aligned">
+                      <strong>{key}</strong>
+                       <span className="faded"> ({_.keys(samplesByCategory[key]).length} samples)</span>
+                    </td>
                   </tr>
                 );
                 _.forEach(samplesByCategory[key], (sample) => {
@@ -146,7 +154,7 @@ export default class SampleList extends React.Component {
                       <td>
                         <div className="ui fitted checkbox">
                           <input type="checkbox" value={sample.id}
-                            checked={_.contains(this.state.selected, sample.id)}
+                            checked={_.includes(this.state.selected, sample.id)}
                             onChange={this.toggle} /> <label></label>
                         </div>
                       </td>
