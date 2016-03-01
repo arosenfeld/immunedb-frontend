@@ -37,12 +37,6 @@ module.exports = {
               }
             },
             {
-              pattern: /BASE_PATH/g,
-              replacement: function(match, p1, offset, string) {
-                return URL.parse(process.env.BASE_URL).pathname + '/';
-              }
-            },
-            {
               pattern: /SITE_TITLE/g,
               replacement: function(match, p1, offset, string) {
                 return SITE_TITLE;

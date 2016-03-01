@@ -220,7 +220,7 @@ export class XYPlot extends React.Component {
       );
     }
 
-    if (_.all(_.pluck(this.series, 'data'), (e) => e.length == 0)) {
+    if (_.every(_.pluck(this.series, 'data'), (e) => e.length == 0)) {
       return (
         <div className="ui red center aligned segment">
           <h4>{this.props.title}</h4>

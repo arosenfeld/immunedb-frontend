@@ -60,7 +60,7 @@ export function removeAlleles(fullGene) {
     return fullGene;
   }
   let prefix = fullGene.slice(0, index);
-  return prefix + _.unique(_.map(fullGene.slice(index).split('|'), (gene) => {
+  return prefix + _.uniq(_.map(fullGene.slice(index).split('|'), (gene) => {
     let alleleStart = gene.search(/[*]/);
     if (alleleStart < 0) {
       return gene;
