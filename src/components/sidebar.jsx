@@ -20,6 +20,11 @@ export default class Sidebar extends React.Component {
           <a className="item" href="subjects">
             Subjects
           </a>
+          <div className="right item borderless">
+            <div className={'ui label' + ('VERSION' == 'develop' ? ' red' : ' teal')}>
+              <span><i className="tag icon"></i> VERSION</span>
+            </div>
+          </div>
         </div>
       </div>
     );

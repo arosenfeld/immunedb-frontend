@@ -10,6 +10,9 @@ The following environment variables are used by webpack to generate content:
 * `BASE_URL`: The base URL at which the content is served
 * `SITE_TITLE` (optional): A custom site title can be specified otherwise it will default to "SimLab Database"
 
+It is assumed that `API_ENDPOINT` and `BASE_URL` are set for the remainder of
+this README.
+
 Development Server
 ------------------
 To serve content for development purposes only, run:
@@ -40,7 +43,7 @@ Production Build
 ----------------
 To build static files which can be served via a web server:
 
-    npm run build
+    NODE_ENV=production npm run build
     cp -r dist /path/to/serve/from
 
 For NGINX, add the following to your configuration:

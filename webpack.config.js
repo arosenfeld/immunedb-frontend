@@ -21,7 +21,7 @@ module.exports = {
     // The filename of the entry chunk as relative path inside the output.path directory
     filename: '[name].js',
   },
-  devtool: process.env.NODE_END === 'production' ? 'cheap-module-source-map' : 'source-map',
+  devtool: process.env.NODE_ENV === 'production' ? 'cheap-module-source-map' : 'source-map',
   module: {
     preLoaders: [{
       test: /\.js$|\.jsx$/,
@@ -34,6 +34,16 @@ module.exports = {
               pattern: /API_ENDPOINT/g,
               replacement: function(match, p1, offset, string) {
                 return process.env.API_ENDPOINT;
+              }
+            },
+            {
+              pattern: /VERSION/g,
+              replacement: function(match, p1, offset, string) {
+                if (process.env.NODE_ENV === 'production') {
+                  return 'v ' + require('./package.json').version;
+                } else {
+                  return 'develop';
+                }
               }
             },
             {
