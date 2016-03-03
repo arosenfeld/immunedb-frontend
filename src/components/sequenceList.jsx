@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { colorAAs } from '../utils';
+import { colorAAs, debounce } from '../utils';
 
 import API from '../api';
 import GeneCollapser from './geneCollapser';
@@ -20,7 +20,7 @@ export default class SequenceList extends React.Component {
       samples: [],
       sequences: []
     };
-    this.onChange = _.debounce(this.onChange, 10);
+    this.onChange = debounce(this.onChange, 10);
   }
 
   componentDidMount() {

@@ -89,3 +89,11 @@ export function optional(value, filler='N/A') {
   }
   return <span className="faded">{filler}</span>
 }
+
+export function debounce(...args) {
+  const debounced = _.debounce(...args);
+  return function(e) {
+    e.persist();
+    return debounced(e);
+  }
+}
