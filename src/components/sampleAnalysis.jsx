@@ -142,7 +142,7 @@ export default class SampleAnalysis extends React.Component {
 
     this.setState({
       asyncState: 'loading',
-      title: _.indexBy(_.flatten(_.values(this.filters)), 'name')[this.state.filterType].label +
+      title: _.keyBy(_.flatten(_.values(this.filters)), 'name')[this.state.filterType].label +
           (_.includes(this.state.filterType, 'clones') ? ' Clones' : ' Sequences')
     });
     API.post(

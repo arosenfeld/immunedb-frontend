@@ -1,12 +1,11 @@
 import numeral from 'numeral';
 import React from 'react';
 
-import Highcharts from 'highcharts';
-//'react-highcharts/dist/bundle/highcharts';
-import 'highcharts-exporting/exporting';
-import 'highcharts-offline-exporting/offline-exporting';
-import 'highcharts-heatmap/heatmap';
+import Highcharts from 'highcharts/highmaps';
+//import 'highcharts-exporting/exporting';
+//import 'highcharts-offline-exporting/offline-exporting';
 import ReactHighcharts from 'react-highcharts';
+import ReactHighmaps from 'react-highcharts/dist/ReactHighmaps';
 
 import {removeAlleles} from '../utils';
 
@@ -30,6 +29,9 @@ export class Heatmap extends React.Component {
 
   getConfig = () => {
     let propsP = this.props;
+    let yCategories = _.map(this.props.y_categories, (y) =>
+      y + ' (' + numeral(this.props.totals[y]).format('0,0') + ')'
+    );
     let config = {
       chart: {
         type: 'heatmap',
@@ -39,6 +41,7 @@ export class Heatmap extends React.Component {
           fontSize: '1em'
         },
         height: 100 + 25 * this.props.y_categories.length,
+        marginLeft: 7 * _.max(_.map(yCategories, (e) => e.length))
       },
 
       title: {
@@ -49,21 +52,19 @@ export class Heatmap extends React.Component {
         enabled: false
       },
 
-      xAxis: {
+      xAxis: [{
         categories: this.props.x_categories,
         title: 'IGHV Gene',
         labels: {
           rotation: 90
         }
-      },
+      }],
 
-      yAxis: {
-        categories: _.map(this.props.y_categories, (y) =>
-          y + ' (' + numeral(this.props.totals[y]).format('0,0') + ')'
-        ),
+      yAxis: [{
+        categories: yCategories,
         reversed: true,
         title: 'Sample',
-      },
+      }],
 
       colorAxis: {
         stops: [
@@ -122,7 +123,7 @@ export class Heatmap extends React.Component {
 
     return (
       <div className="ui red segment">
-        <ReactHighcharts config={this.getConfig()} />
+        <ReactHighmaps config={this.getConfig()} />
       </div>
     );
   }
@@ -220,7 +221,7 @@ export class XYPlot extends React.Component {
       );
     }
 
-    if (_.every(_.pluck(this.series, 'data'), (e) => e.length == 0)) {
+    if (_.every(_.map(this.series, 'data'), (e) => e.length == 0)) {
       return (
         <div className="ui red center aligned segment">
           <h4>{this.props.title}</h4>

@@ -24,9 +24,9 @@ export default class ExportFields extends React.Component {
 
   toggleAll = (on) => {
     if (on) {
-      var selected = _.pluck(this.props.fields, 'header');
+      var selected = _.map(this.props.fields, 'header');
     } else {
-      var selected = _.pluck(_.filter(this.props.fields, 'force'), 'header');
+      var selected = _.map(_.filter(this.props.fields, 'force'), 'header');
     }
     this.setState({
       selected
