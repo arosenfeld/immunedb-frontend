@@ -220,7 +220,7 @@ export default class MutationsView extends React.Component {
             {_.map(_.keys(this.state.mutations.regions).sort(), (region) => {
               let cnts = this.state.mutations.regions[region].counts[this.state.unique ? 'unique' : 'total'];
               let muts = this.state.mutations.regions[region].mutations;
-              let total = _.sum(cnts);
+              let total = _.sum(_.values(cnts));
               return (
                 <tr key={region}>
                   <td>

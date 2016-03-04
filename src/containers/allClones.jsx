@@ -6,7 +6,7 @@ import API from '../api';
 import CloneList from '../components/cloneList';
 import GeneCollapser from '../components/geneCollapser';
 import Message from '../components/message';
-import { colorAAs } from '../utils';
+import { colorAAs, debounce } from '../utils';
 
 export default class AllClones extends React.Component {
   constructor() {
@@ -23,7 +23,7 @@ export default class AllClones extends React.Component {
 
       clones: []
     };
-    this.onChange = _.debounce(this.onChange, 10);
+    this.onChange = debounce(this.onChange, 10);
   }
 
   componentDidMount() {
