@@ -107,7 +107,7 @@ export default class CloneLineage extends React.Component {
       .offset([-10, 0])
       .html((d) => {
         let label = '';
-        if (d.data.seq_ids.length == 0){
+        if (_.keys(d.data.seq_ids.length) == 0){
           label += 'Inferred Sequence<br/>'
         } else {
           label += '<span style="color: #a0a0a0">Copy Number: </span>' + d.data.copy_number + '<br/>';
@@ -119,8 +119,8 @@ export default class CloneLineage extends React.Component {
           _.each(_.keys(d.data.seq_ids).slice(0, 25), (val, key) => {
             label += val + ' in <span style="color: #a0a0a0">' + d.data.seq_ids[val].sample_name + '</span><br/>';
           });
-          if (d.data.seq_ids.length > 25) {
-            label += '... ' + (d.data.seq_ids.length - 25) + ' more ...<br/>';
+          if (_.keys(d.data.seq_ids).length > 25) {
+            label += '... ' + (_.keys(d.data.seq_ids).length - 25) + ' more ...<br/>';
           }
         }
         label += '<span style="color:#a0a0a0">Mutations: </span><br/>'
@@ -157,7 +157,7 @@ export default class CloneLineage extends React.Component {
     node.append('svg:circle')
       .attr('r', (d) => scaleCircle(d.data.copy_number))
       .attr('fill', (d) => {
-        if(d.data.seq_ids.length == 0) {
+        if(_.keys(d.data.seq_ids).length == 0) {
           return '#000000';
         } else if (d.data[this.state.colorBy] && d.data[this.state.colorBy].length > 0) {
           return CloneLineage.strToColor(d.data[this.state.colorBy].join());
