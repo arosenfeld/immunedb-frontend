@@ -107,7 +107,7 @@ export default class CloneLineage extends React.Component {
       .offset([-10, 0])
       .html((d) => {
         let label = '';
-        if (_.keys(d.data.seq_ids.length) == 0){
+        if (_.keys(d.data.seq_ids).length == 0){
           label += 'Inferred Sequence<br/>'
         } else {
           label += '<span style="color: #a0a0a0">Copy Number: </span>' + d.data.copy_number + '<br/>';

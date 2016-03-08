@@ -53,7 +53,7 @@ class MutationDetails extends React.Component {
                     <tr key={i++}>
                       <td>{numeral(mutation.unique).format('0,0')}</td>
                       <td>{numeral(mutation.total).format('0,0')}</td>
-                      <td>{mutation.pos}</td>
+                      <td>{mutation.pos + 1}</td>
                       <td>{colorNTs(mutation.from_nt)} to {colorNTs(mutation.to_nt)}</td>
                       {region == 'unknown' ?
                         [
