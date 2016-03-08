@@ -74,12 +74,6 @@ export default class Sequence extends React.Component {
               <td><strong>Partial Read</strong></td>
               <td>{this.state.sequence.partial ? 'Yes' : 'No'}</td>
             </tr>
-            <tr>
-              <td><strong>Paired Read</strong></td>
-              <td>{this.state.sequence.paired ? 'Yes' : 'No'}</td>
-              <td></td>
-              <td></td>
-            </tr>
           </tbody>
         </table>
 

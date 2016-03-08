@@ -87,11 +87,6 @@ export default class SequenceExport extends React.Component {
       desc: 'The name of the study.',
     },
     {
-      header: 'paired',
-      name: 'Paired Read',
-      desc: 'If the sequence is constructed from paired-end reads.',
-    },
-    {
       header: 'in_frame',
       name: 'In Frame',
       desc: 'If the sequence\'s length is a multiple of three.',
