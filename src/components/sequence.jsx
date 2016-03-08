@@ -3,7 +3,6 @@ import numeral from 'numeral';
 import React from 'react';
 
 import API from '../api';
-import GeneCollapser from './geneCollapser';
 import Message from './message';
 import SeqViewer from './seqViewer';
 import { colorAAs, colorNTs, optional } from '../utils';
@@ -201,8 +200,8 @@ export default class Sequence extends React.Component {
           <tbody>
             <tr>
               <td><strong>Name</strong></td>
-              <td><GeneCollapser gene={this.state.sequence.v_gene} /></td>
-              <td><GeneCollapser gene={this.state.sequence.j_gene} /></td>
+              <td>{this.state.sequence.v_gene}</td>
+              <td>{this.state.sequence.j_gene}</td>
             </tr>
             <tr>
               <td className="collapsing"><strong>Length (w/o IMGT gaps)</strong></td>

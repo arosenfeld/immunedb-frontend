@@ -4,7 +4,6 @@ import React from 'react';
 
 import API from '../api';
 import CloneList from '../components/cloneList';
-import GeneCollapser from '../components/geneCollapser';
 import Message from '../components/message';
 import { colorAAs, debounce } from '../utils';
 
@@ -166,12 +165,8 @@ export default class AllClones extends React.Component {
       <tr key={clone.id + '_info'}>
         <td>{clone.id}</td>
         <td>{clone.subject.identifier}</td>
-        <td>
-          <GeneCollapser gene={clone.v_gene} />
-        </td>
-        <td>
-          <GeneCollapser gene={clone.j_gene} />
-        </td>
+        <td>{clone.v_gene}</td>
+        <td>{clone.j_gene}</td>
         <td>{clone.cdr3_num_nts}</td>
         <td className="text-mono sequence">{colorAAs(clone.cdr3_aa)}</td>
         <td>{numeral(clone.unique_sequences).format('0,0')}</td>

@@ -3,7 +3,6 @@ import numeral from 'numeral';
 import React from 'react';
 
 import API from '../api';
-import GeneCollapser from './geneCollapser';
 import Message from './message';
 import { colorAAs } from '../utils';
 
@@ -13,12 +12,8 @@ export default class CloneList extends React.Component {
       <tr key={clone.id + '_info'}>
         <td>{clone.id}</td>
         <td>{clone.subject.identifier}</td>
-        <td>
-          <GeneCollapser gene={clone.v_gene} />
-        </td>
-        <td>
-          <GeneCollapser gene={clone.j_gene} />
-        </td>
+        <td>{clone.v_gene}</td>
+        <td>{clone.j_gene}</td>
         <td>{clone.cdr3_num_nts}</td>
         <td className="text-mono sequence">{colorAAs(clone.cdr3_aa)}</td>
         <td>{numeral(clone.unique_sequences).format('0,0')}</td>

@@ -1,9 +1,10 @@
+import numeral from 'numeral';
+
 import React from 'react';
 
 import { colorAAs, debounce } from '../utils';
 
 import API from '../api';
-import GeneCollapser from './geneCollapser';
 import Message from './message';
 
 export default class SequenceList extends React.Component {
@@ -248,16 +249,16 @@ export default class SequenceList extends React.Component {
                     </a>
                   </td>
                   <td>{sequence.sample.subject.identifier}</td>
-                  <td>
-                    <GeneCollapser gene={sequence.v_gene} />
-                  </td>
-                  <td>
-                    <GeneCollapser gene={sequence.j_gene} />
-                  </td>
+                  <td>{sequence.v_gene}</td>
+                  <td>{sequence.j_gene}</td>
                   <td>{sequence.cdr3_num_nts}</td>
                   <td className="text-mono sequence">{colorAAs(sequence.cdr3_aa)}</td>
                   <td>{sequence.functional ? <i className="checkmark green icon"></i>  : <i className="remove red icon"></i> }</td>
-                  <td>{sequence.copy_number} / {sequence.copy_number_in_subject} / {sequence.instances_in_subject}</td>
+                  <td>
+                    {numeral(sequence.copy_number).format('0,0')} /
+                    {numeral(sequence.copy_number_in_subject).format('0,0')} /
+                    {numeral(sequence.instances_in_subject).format('0,0')}
+                  </td>
                 </tr>
               );
             })}

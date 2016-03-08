@@ -6,7 +6,6 @@ import API from '../api';
 import Message from '../components/message';
 
 import CloneSequenceList from '../components/cloneSequences';
-import GeneCollapser from '../components/geneCollapser';
 import MutationsView from '../components/cloneMutations';
 import CloneLineage from '../components/cloneLineage';
 import OverlapList from '../components/cloneOverlap';
@@ -74,8 +73,8 @@ export default class Clone extends React.Component {
             </tr>
             <tr>
               <td>{this.state.cloneInfo.clone.id}</td>
-              <td><GeneCollapser gene={this.state.cloneInfo.clone.v_gene} /></td>
-              <td><GeneCollapser gene={this.state.cloneInfo.clone.j_gene} /></td>
+              <td>{this.state.cloneInfo.clone.v_gene}</td>
+              <td>{this.state.cloneInfo.clone.j_gene}</td>
               <td>{this.state.cloneInfo.clone.cdr3_nt.length}</td>
               <td className="text-mono sequence">{colorAAs(this.state.cloneInfo.clone.cdr3_aa)}</td>
               <td>{numeral(this.state.cloneInfo.samples.all.unique).format('0,0')}</td>
