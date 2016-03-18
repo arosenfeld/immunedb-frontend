@@ -8,6 +8,10 @@ export default class ExportFields extends React.Component {
     };
   }
 
+  componentDidMount() {
+    this.toggleAll(false);
+  }
+
   toggle = (e) => {
     let selected = this.state.selected.slice();
     if (e.target.checked) {

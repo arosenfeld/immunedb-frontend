@@ -9,8 +9,9 @@ The following environment variables are used by webpack to generate content:
 * `API_ENDPOINT`: Full URL to the backend API
 * `BASE_URL`: The base URL at which the content is served
 * `SITE_TITLE` (optional): A custom site title can be specified otherwise it will default to "SimLab Database"
-* `PRODUCTION` (optional): If set, builds the package in production mode,
-  reducing debug information and placing a version label on the website.
+* `NODE_ENV` (optional): If set to 'production', builds the package in
+  production mode, reducing debug information and placing a version label on the
+  website.
 
 It is assumed that `API_ENDPOINT` and `BASE_URL` are set for the remainder of
 this README.
