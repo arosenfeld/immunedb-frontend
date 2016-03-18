@@ -7,6 +7,4 @@ RUN cd /app; echo "\n\n\n" | npm install --unsafe-perm
 COPY . /app
 EXPOSE 8080
 WORKDIR /app
-ENV API_ENDPOINT=http://sldb:5000
-ENV PRODUCTION=1
 CMD ["npm", "run", "serve"]
