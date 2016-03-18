@@ -27,20 +27,12 @@ Running in Docker
 Docker can be used to serve the SLDB frontend.  This should not be used in
 production, however.
 
-    docker build -t arosenfeld/sldb-frontend .
-    docker run -p 49160:8080 -d arosenfeld/sldb-frontend
+    docker build -t sldb-frontend .
+    docker run -p 8080:8080 -e "BASE_URL=http://localhost:8080" -e \
+        "API_ENDPOINT=http://localhost:5000" sldb-frontend
 
-This will serve the web app from `http://localhost:49160` and assumes
-`sldb_rest` is running on localhost port 5000.  To change either of these, you
-may use environment variables, e.g.:
-
-    docker run -e "BASE_URL=http://web.server.com:4444" -e
-    "API_ENDPOINT=http://some.remote.server:4567" -p 4444:8080 -d
-    arosenfeld/sldb-frontend
-
-This will serve the content to `http://web.server.com:4444` (assuming the
-machine resolves to that URL) and will use the `sldb_rest` API running on
-`some.remote.server` on port 4567.
+This will serve the web app from `http://localhost:8080` and assumes
+`sldb_rest` is running on localhost port 5000.
 
 Production Build
 ----------------
