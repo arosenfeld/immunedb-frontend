@@ -107,6 +107,12 @@ export default class SequenceExport extends React.Component {
       desc: 'The number of reads in the same sample with the same sequence.',
     },
     {
+      header: 'copy_number_in_subject',
+      name: 'Copy Number in Subject',
+      desc: 'The number of reads in the subject with the same sequence.  Zero indicates the sequence' +
+            ' was collapsed to another.',
+    },
+    {
       header: 'probable_indel_or_misalign',
       name: 'Insertion/Deletion or Poor Alignment',
       desc: 'A boolean flag if the sequence likely contains an ' +
@@ -278,6 +284,18 @@ export default class SequenceExport extends React.Component {
     $('#download-form').submit();
   }
 
+  toggleSubject = () => {
+    this.setState({
+      subject_uniques: !this.state.subject_uniques
+    });
+  }
+
+  toggleClone = () => {
+    this.setState({
+      only_with_clones: !this.state.only_with_clones
+    });
+  }
+
   render() {
     let exportButton = (
       <div id="format-select" className={
@@ -306,16 +324,18 @@ export default class SequenceExport extends React.Component {
                 id="download-form" target="download-frame">
             <input type="hidden" name="format" value={this.state.format} />
             <input type="hidden" name="fields" value={this.state.fields} />
+            <input type="hidden" name="subject_uniques" value={this.state.subject_uniques} />
+            <input type="hidden" name="only_with_clones" value={this.state.only_with_clones} />
             <div className="ui form">
               <div className="field">
                 <div className="ui checkbox">
-                  <input type="checkbox" name="subject_uniques"/>
+                  <input type="checkbox" name="subject_uniques" onChange={this.toggleSubject} />
                   <label>Include only sequences unique to each subject</label>
                 </div>
               </div>
               <div className="field">
                 <div className="ui checkbox">
-                  <input type="checkbox" name="only_with_clones" />
+                  <input type="checkbox" name="only_with_clones" onChange={this.toggleClone} />
                   <label>Include only sequences assigned to a clone</label>
                 </div>
               </div>
