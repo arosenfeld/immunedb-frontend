@@ -148,6 +148,15 @@ export default class ClonePressure extends React.Component {
     );
   }
 
+  readableThreshold = (threshold) => {
+    if (_.endsWith(threshold, '%')) {
+      return '>= ' + threshold + ' of sequences';
+    } else if (_.endsWith(threshold, 'E')) {
+      return 'exactly ' + threshold.slice(0, -1) + ' sequences';
+    }
+    return '>= ' + threshold + ' sequences';
+  }
+
   render() {
     if (this.state.asyncState == 'loading') {
       return <Message type='' icon='notched circle loading' header='Loading'
@@ -180,17 +189,13 @@ export default class ClonePressure extends React.Component {
             <div className="ui pointing dropdown labeled icon button" id="filter-dropdown">
               <input type="hidden" name="filterMutations" />
               <i className="filter icon"></i>
-              <div className="text">Exclude mutations in...</div>
+              <div className="text">Include mutations in...</div>
               <div className="menu">
                 {_.map(_.keys(this.state.pressure[0].pressure), (key) => {
                   return <div className="item" data-value={key} key={key}>{
                     (key == 1 ?
-                      'Don\'t exclude any mutations' :
-                      ('Exclude mutations in < ' +
-                        (_.includes(key, '%') ? key + ' of sequences'
-                        :
-                        key + ' sequence(s)')
-                      )
+                      'Include all mutations' :
+                      'Include mutations in ' + this.readableThreshold(key)
                     )
                   }</div>
                 })}
