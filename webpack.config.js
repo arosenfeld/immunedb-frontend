@@ -8,7 +8,7 @@ var StringReplacePlugin = require("string-replace-webpack-plugin");
 if (!process.env.BASE_URL || !process.env.API_ENDPOINT) {
   throw new Error('BASE_URL and API_ENDPOINT must be set');
 }
-var SITE_TITLE = process.env.SITE_TITLE || 'SimLab Database';
+var SITE_TITLE = process.env.SITE_TITLE || 'AIRRDB';
 
 module.exports = {
   name: 'browser',

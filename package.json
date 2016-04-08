@@ -1,7 +1,7 @@
 {
-  "name": "sldb-frontend",
+  "name": "airrdb-frontend",
   "version": "0.16.3",
-  "description": "Web interface for the SimLab database",
+  "description": "Web interface for the Adaptive Immune Receptor Repertoire Database",
   "main": "src/index.js",
   "scripts": {
     "build": "webpack --progress --colors --config ./webpack.config.js",
@@ -10,14 +10,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/arosenfeld/sldb-frontend"
+    "url": "git+https://github.com/arosenfeld/airrdb-frontend"
   },
   "author": "",
   "license": "UNLICENSED",
   "bugs": {
-    "url": "git+https://github.com/arosenfeld/sldb-frontend/issues"
+    "url": "git+https://github.com/arosenfeld/airrdb-frontend/issues"
   },
-  "homepage": "git+https://github.com/arosenfeld/sldb-frontend#readme",
+  "homepage": "git+https://github.com/arosenfeld/airrdb-frontend#readme",
   "dependencies": {
     "async": "^1.5.2",
     "babel-core": "^6.6.0",
