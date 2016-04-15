@@ -1,6 +1,6 @@
 {
   "name": "airrdb-frontend",
-  "version": "0.16.3",
+  "version": "0.16.4",
   "description": "Web interface for the Adaptive Immune Receptor Repertoire Database",
   "main": "src/index.js",
   "scripts": {
