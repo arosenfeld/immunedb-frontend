@@ -1,6 +1,7 @@
 import numeral from 'numeral';
 
 import React from 'react';
+import { Link } from 'react-router';
 
 import API from '../api';
 import Message from '../components/message';
@@ -56,11 +57,11 @@ export default class Clone extends React.Component {
       <div>
         <h1>
           Clone #{this.state.cloneInfo.clone.id}
-					<a className="ui labeled icon button right floated teal"
-             href={'export/sequences/clone/' + this.state.cloneInfo.clone.id}>
+					<Link className="ui labeled icon button right floated teal"
+             to={'export/sequences/clone/' + this.state.cloneInfo.clone.id}>
 						<i className="download icon"></i>
 						Download Sequences
-					</a>
+					</Link>
         </h1>
         <table className="ui structured teal table">
           <thead>

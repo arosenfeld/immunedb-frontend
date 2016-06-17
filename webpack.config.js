@@ -5,8 +5,8 @@ var webpack = require('webpack');
 var HtmlWebpackPlugin = require('html-webpack-plugin')
 var StringReplacePlugin = require("string-replace-webpack-plugin");
 
-if (!process.env.BASE_URL || !process.env.API_ENDPOINT) {
-  throw new Error('BASE_URL and API_ENDPOINT must be set');
+if (!process.env.API_ENDPOINT) {
+  throw new Error('BASENAME and API_ENDPOINT must be set');
 }
 var SITE_TITLE = process.env.SITE_TITLE || 'AIRRDB';
 
@@ -20,6 +20,7 @@ module.exports = {
     path: path.join(__dirname, process.env.OUT_DIR || 'dist'),
     // The filename of the entry chunk as relative path inside the output.path directory
     filename: '[name].js',
+    publicPath: process.env.BASENAME ? '/' + process.env.BASENAME + '/' : '/'
   },
   devtool: process.env.NODE_ENV === 'production' ? 'cheap-module-source-map' : 'source-map',
   module: {
@@ -34,6 +35,16 @@ module.exports = {
               pattern: /API_ENDPOINT/g,
               replacement: function(match, p1, offset, string) {
                 return process.env.API_ENDPOINT;
+              }
+            },
+            {
+              pattern: /BASENAME/g,
+              replacement: function(match, p1, offset, string) {
+                if (process.env.BASENAME) {
+                  return process.env.BASENAME;
+                } else {
+                  return '';
+                }
               }
             },
             {
@@ -80,7 +91,6 @@ module.exports = {
   plugins: [
     new HtmlWebpackPlugin({
       title: SITE_TITLE,
-      baseUrl: process.env.BASE_URL + '/',
       template: path.join(__dirname, 'static', 'index.html'),
     }),
     new webpack.ProvidePlugin({

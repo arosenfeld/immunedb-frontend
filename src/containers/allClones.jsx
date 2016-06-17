@@ -1,6 +1,7 @@
 import numeral from 'numeral';
 
 import React from 'react';
+import { Link } from 'react-router';
 
 import API from '../api';
 import CloneList from '../components/cloneList';
@@ -172,9 +173,9 @@ export default class AllClones extends React.Component {
         <td>{numeral(clone.unique_sequences).format('0,0')}</td>
         <td>{numeral(clone.total_sequences).format('0,0')}</td>
         <td>
-          <a href={'clone/' + clone.id} target="_blank">
+          <Link to={'clone/' + clone.id} target="_blank">
             View <i className="angle right icon"></i>
-          </a>
+          </Link>
         </td>
       </tr>,
       <tr key={clone.id + '_stats'}>
@@ -196,7 +197,7 @@ export default class AllClones extends React.Component {
                   return (
                     <tr key={stat.sample.id}>
                       <td>{stat.sample.id}</td>
-                      <td><a href={'sample/' + stat.sample.id}>{stat.sample.name}</a></td>
+                      <td>{stat.sample.name}</td>
                       <td>{numeral(stat.unique_sequences).format('0,0')}</td>
                       <td>{numeral(stat.total_sequences).format('0,0')}</td>
                     </tr>

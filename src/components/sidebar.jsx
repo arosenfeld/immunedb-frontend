@@ -1,5 +1,7 @@
 import React from 'react';
 
+import { Link } from 'react-router';
+
 export default class Sidebar extends React.Component {
   render() {
     return (
@@ -8,18 +10,18 @@ export default class Sidebar extends React.Component {
           <div className="item inverted">
             <h4>SITE_TITLE</h4>
           </div>
-          <a className="item" href="samples">
+          <Link className="item" to="samples">
             Samples
-          </a>
-          <a className="item" href="sequences">
+          </Link>
+          <Link className="item" to="sequences">
             Sequences
-          </a>
-          <a className="item" href="clones">
+          </Link>
+          <Link className="item" to="clones">
             Clones
-          </a>
-          <a className="item" href="subjects">
+          </Link>
+          <Link className="item" to="subjects">
             Subjects
-          </a>
+          </Link>
           <div className="right item borderless">
             <div className={'ui label' + ('VERSION' == 'develop' ? ' red' : ' teal')}>
               <span><i className="tag icon"></i> VERSION</span>

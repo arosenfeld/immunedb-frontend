@@ -1,6 +1,7 @@
 import numeral from 'numeral';
 
 import React from 'react';
+import { Link } from 'react-router';
 
 import API from '../api';
 import Message from './message';
@@ -85,7 +86,7 @@ export default class Sequence extends React.Component {
           <tbody>
             <tr>
               <td><strong>Name</strong></td>
-              <td><a href={'sample/' + this.state.sequence.sample.id}>{this.state.sequence.sample.name}</a></td>
+              <td>{this.state.sequence.sample.name}</td>
               <td><strong>Study</strong></td>
               <td>{this.state.sequence.sample.subject.study.name}</td>
             </tr>
@@ -93,7 +94,7 @@ export default class Sequence extends React.Component {
               <td><strong>Date</strong></td>
               <td>{this.state.sequence.sample.date}</td>
               <td><strong>Subject</strong></td>
-              <td><a href={'subject/' + this.state.sequence.sample.subject.id}>{this.state.sequence.sample.subject.identifier}</a></td>
+              <td><Link to={'subject/' + this.state.sequence.sample.subject.id}>{this.state.sequence.sample.subject.identifier}</Link></td>
             </tr>
             <tr>
               <td><strong>Disease</strong></td>
@@ -138,11 +139,11 @@ export default class Sequence extends React.Component {
                     <i>Self</i>
                   :
                   [
-                    <a href={'sequences/' + this.state.sequence.collapse_info.sample_id + '/' + this.state.sequence.collapse_info.seq_id} key="seq_link">
+                    <Link to={'sequences/' + this.state.sequence.collapse_info.sample_id + '/' + this.state.sequence.collapse_info.seq_id} key="seq_link">
                       {this.state.sequence.collapse_info.seq_id}
-                    </a>,
+                    </Link>,
                     <strong key="in">{' in sample '}</strong>,
-                    <a href={'sample/' + this.state.sequence.collapse_info.sample_id} key="sample_link">{this.state.sequence.collapse_info.sample_name}</a>
+                    {this.state.sequence.collapse_info.sample_name}
                   ]
                 }
                 </td>
@@ -243,7 +244,7 @@ export default class Sequence extends React.Component {
             <tbody>
               <tr>
                 <td><strong>ID</strong></td>
-                <td><a href={'clone/' + this.state.sequence.clone.id}>{this.state.sequence.clone.id}</a></td>
+                <td><Link to={'clone/' + this.state.sequence.clone.id}>{this.state.sequence.clone.id}</Link></td>
               </tr>
               <tr>
                 <td><strong>Consensus CDR3 Nucleotides</strong></td>

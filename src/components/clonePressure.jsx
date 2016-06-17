@@ -1,4 +1,6 @@
-import 'semantic';
+import 'semantic-ui-css/semantic.css';
+import 'semantic-ui-css/semantic.js';
+
 import numeral from 'numeral';
 
 import React from 'react';
