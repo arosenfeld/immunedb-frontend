@@ -143,7 +143,7 @@ export default class Sequence extends React.Component {
                       {this.state.sequence.collapse_info.seq_id}
                     </Link>,
                     <strong key="in">{' in sample '}</strong>,
-                    {this.state.sequence.collapse_info.sample_name}
+                    this.state.sequence.collapse_info.sample_name
                   ]
                 }
                 </td>
