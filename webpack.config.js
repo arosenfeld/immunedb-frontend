@@ -8,7 +8,7 @@ var StringReplacePlugin = require("string-replace-webpack-plugin");
 if (!process.env.API_ENDPOINT) {
   throw new Error('BASENAME and API_ENDPOINT must be set');
 }
-var SITE_TITLE = process.env.SITE_TITLE || 'AIRRDB';
+var SITE_TITLE = process.env.SITE_TITLE || 'ImmuneDB';
 
 module.exports = {
   name: 'browser',

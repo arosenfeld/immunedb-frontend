@@ -1,5 +1,5 @@
 {
-  "name": "airrdb-frontend",
+  "name": "immunedb-frontend",
   "version": "0.16.4",
   "description": "Web interface for the Adaptive Immune Receptor Repertoire Database",
   "main": "src/index.js",
@@ -9,14 +9,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/arosenfeld/airrdb-frontend"
+    "url": "git+https://github.com/arosenfeld/immunedb-frontend"
   },
   "author": "",
   "license": "UNLICENSED",
   "bugs": {
-    "url": "git+https://github.com/arosenfeld/airrdb-frontend/issues"
+    "url": "git+https://github.com/arosenfeld/immunedb-frontend/issues"
   },
-  "homepage": "git+https://github.com/arosenfeld/airrdb-frontend#readme",
+  "homepage": "git+https://github.com/arosenfeld/immunedb-frontend#readme",
   "dependencies": {
     "async": "^2.0.0-rc.6",
     "babel-core": "^6.6.0",
