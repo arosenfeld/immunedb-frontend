@@ -174,7 +174,8 @@ export default class SampleAnalysis extends React.Component {
       delay: {
         show: 100,
         hide: 300
-      }
+      },
+      lastResort: true
     }
 		$('.menu .show-filters').popup(_.extend({}, popupOptions, {popup: $('#filter-list')}));
 		$('.menu .show-groups').popup(_.extend({}, popupOptions, {popup: $('#group-list')}));
