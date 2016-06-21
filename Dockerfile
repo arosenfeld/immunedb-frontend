@@ -3,7 +3,7 @@ RUN apt-get update && apt-get install -y curl
 RUN curl -sL https://deb.nodesource.com/setup_5.x | sudo -E bash -
 RUN sudo apt-get install -y nodejs
 COPY package.json /app/package.json
-RUN cd /app; echo "\n\n\n" | npm install --unsafe-perm
+RUN cd /app; npm install
 COPY . /app
 EXPOSE 8080
 WORKDIR /app

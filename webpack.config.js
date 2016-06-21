@@ -6,7 +6,7 @@ var HtmlWebpackPlugin = require('html-webpack-plugin')
 var StringReplacePlugin = require("string-replace-webpack-plugin");
 
 if (!process.env.API_ENDPOINT) {
-  throw new Error('BASENAME and API_ENDPOINT must be set');
+  throw new Error('API_ENDPOINT must be set');
 }
 var SITE_TITLE = process.env.SITE_TITLE || 'ImmuneDB';
 
