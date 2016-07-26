@@ -6,6 +6,7 @@ import { Link } from 'react-router';
 import API from '../api';
 import Message from '../components/message';
 
+import SubcloneList from '../components/cloneSubclones';
 import CloneSequenceList from '../components/cloneSequences';
 import MutationsView from '../components/cloneMutations';
 import CloneLineage from '../components/cloneLineage';
@@ -63,6 +64,17 @@ export default class Clone extends React.Component {
 						Download Sequences
 					</Link>
         </h1>
+        {this.state.cloneInfo.parent != null ?
+					<div className="ui info message">
+						<div className="header">
+							This clone is a subclone
+						</div>
+            <p>Clone <Link to={'clone/' + this.state.cloneInfo.parent.id} target='_blank'>
+              #{this.state.cloneInfo.parent.id}</Link> is likely the parent of this
+            clone.  It shares the same V-gene, J-gene, and has a similar CDR3
+            but has no insertions or deletions.</p>
+					</div>
+        : ''}
         <table className="ui structured teal table">
           <thead>
             <tr>
@@ -91,6 +103,9 @@ export default class Clone extends React.Component {
           </tbody>
         </table>
 
+        {this.state.cloneInfo.children.length > 0 ?
+          <SubcloneList subclones={this.state.cloneInfo.children} />
+         : ''}
         <OverlapList samples={this.state.cloneInfo.samples.single} />
         <CloneSequenceList cloneId={this.state.cloneInfo.clone.id} />
         <SelectionPressure cloneId={this.state.cloneInfo.clone.id} />
