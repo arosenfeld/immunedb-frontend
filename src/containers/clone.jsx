@@ -45,6 +45,22 @@ export default class Clone extends React.Component {
     });
   }
 
+  sequenceCount = (type) => {
+    let onlyClone = numeral(this.state.cloneInfo.clone['overall_' + type + '_cnt']).format('0,0');
+    let subclones = this.state.cloneInfo.children.length > 0;
+    if (subclones) {
+      return (
+        <span>
+          {onlyClone + ' / '}
+          {numeral(this.state.cloneInfo.clone['overall_' + type + '_cnt_with_subclones']).format('0,0')}
+          <i className="help icon popup"
+           data-content="Sequences in this clone / including subclones"></i>
+        </span>
+      );
+    }
+    return onlyClone;
+  }
+
   render() {
     if (this.state.asyncState == 'loading') {
       return <Message type='' icon='notched circle loading' header='Loading'
@@ -97,8 +113,8 @@ export default class Clone extends React.Component {
               <td>{this.state.cloneInfo.clone.j_gene}</td>
               <td>{this.state.cloneInfo.clone.cdr3_nt.length}</td>
               <td className="text-mono sequence">{colorAAs(this.state.cloneInfo.clone.cdr3_aa)}</td>
-              <td>{numeral(this.state.cloneInfo.samples.all.unique).format('0,0')}</td>
-              <td>{numeral(this.state.cloneInfo.samples.all.total).format('0,0')}</td>
+              <td>{this.sequenceCount('unique')}</td>
+              <td>{this.sequenceCount('total')}</td>
             </tr>
           </tbody>
         </table>

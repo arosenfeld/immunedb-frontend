@@ -33,6 +33,11 @@ export default class CloneExport extends React.Component {
       force: true
     },
     {
+      header: 'parent_id',
+      name: 'Parent ID',
+      desc: 'The ID of the parent clone, if any'
+    },
+    {
       header: 'v_gene',
       name: 'V Gene',
       desc: 'The V gene assigned to the clone.',
