@@ -139,7 +139,7 @@ export default class Sequence extends React.Component {
                     <i>Self</i>
                   :
                   [
-                    <Link to={'sequences/' + this.state.sequence.collapse_info.sample_id + '/' + this.state.sequence.collapse_info.seq_id} key="seq_link">
+                    <Link to={'sequence/' + this.state.sequence.collapse_info.sample_id + '/' + this.state.sequence.collapse_info.seq_id} key="seq_link">
                       {this.state.sequence.collapse_info.seq_id}
                     </Link>,
                     <strong key="in">{' in sample '}</strong>,
