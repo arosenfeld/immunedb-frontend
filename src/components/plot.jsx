@@ -54,7 +54,7 @@ export class Heatmap extends React.Component {
 
       xAxis: [{
         categories: this.props.x_categories,
-        title: 'IGHV Gene',
+        title: 'Variable Gene',
         labels: {
           rotation: 90
         }
