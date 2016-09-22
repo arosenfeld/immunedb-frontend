@@ -242,6 +242,11 @@ export default class SequenceExport extends React.Component {
         + 'drastically increase file size',
     },
     {
+      header: 'clone_parent_id',
+      name: 'Clone Parent',
+      desc: 'The ID of the sequence\'s parent clone, if any'
+    },
+    {
       header: 'collapse_to_subject_seq_id',
       name: 'Sequence ID Collapsed-to at Subject Level',
       desc: 'The <span className="text-mono-thin">seq_id</span> to which the sequence was collapsed '

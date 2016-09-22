@@ -141,6 +141,10 @@ export default class AllClones extends React.Component {
               <input type="number" name="max_cdr3_num_nts" min="1" defaultValue={this.state.filter.max_cdr3_num_nts} onChange={this.onChange} />
             </div>
             <div className="field">
+              <label>CDR3 AA</label>
+              <input name="cdr3_aa" defaultValue={this.state.filter.cdr3_aa} onChange={this.onChange} />
+            </div>
+            <div className="field">
               <label>Subject</label>
               <select name="subject_id" className="ui search dropdown" defaultValue={this.state.filter.subject_id} onChange={this.onChange}>
                 <option value="">All Subjects</option>
