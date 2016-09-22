@@ -1,6 +1,6 @@
 {
   "name": "immunedb-frontend",
-  "version": "0.18.0",
+  "version": "0.19.0",
   "description": "Web interface for the Adaptive Immune Receptor Repertoire Database",
   "main": "src/index.js",
   "scripts": {
