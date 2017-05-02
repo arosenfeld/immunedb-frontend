@@ -349,5 +349,3 @@ export default class SampleAnalysis extends React.Component {
     );
   }
 }
-
-export default SampleAnalysis;

@@ -122,5 +122,3 @@ export default class SubjectList extends React.Component {
     );
   }
 }
-
-export default SubjectList;

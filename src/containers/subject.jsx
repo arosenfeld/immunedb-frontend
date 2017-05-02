@@ -77,5 +77,3 @@ export default class Subject extends React.Component {
     );
   }
 }
-
-export default Subject;

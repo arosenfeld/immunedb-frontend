@@ -12,5 +12,3 @@ export default class AllSequences extends React.Component {
     );
   }
 }
-
-export default AllSequences;

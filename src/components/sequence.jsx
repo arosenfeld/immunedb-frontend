@@ -270,5 +270,3 @@ export default class Sequence extends React.Component {
     );
   }
 }
-
-export default Sequence;

@@ -132,5 +132,3 @@ export default class Clone extends React.Component {
     );
   }
 }
-
-export default Clone;

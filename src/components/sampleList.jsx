@@ -220,5 +220,3 @@ export default class SampleList extends React.Component {
     );
   }
 }
-
-export default SampleList;
