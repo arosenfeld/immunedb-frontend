@@ -99,4 +99,7 @@ module.exports = {
     }),
     new StringReplacePlugin()
   ],
+  devServer: {
+    disableHostCheck: true
+  }
 }
