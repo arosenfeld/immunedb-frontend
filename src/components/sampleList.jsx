@@ -184,7 +184,7 @@ export default class SampleList extends React.Component {
     return (
       <div>
         <button className="ui primary button"
-                onClick={this.redirect.bind(this, 'sample-analysis/')}
+                onClick={this.redirect.bind(this, (this.props.path || '') + 'sample-analysis/')}
                 disabled={this.state.selected.length == 0}>
           Analyze Selected
         </button>

@@ -67,7 +67,7 @@ export default class Subject extends React.Component {
         <h1>Subject {this.state.subject.identifier}</h1>
         <div className="ui teal segment">
           <h2>Samples</h2>
-          <SampleList samples={this.state.subject.samples} />
+          <SampleList samples={this.state.subject.samples} path='../' />
         </div>
         <div className="ui teal segment">
           <h2>Sequences</h2>
