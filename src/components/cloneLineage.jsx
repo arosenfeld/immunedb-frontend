@@ -2,6 +2,7 @@ import 'lineage.css';
 
 import d3 from 'd3';
 import d3tip from 'd3-tip';
+import md5 from 'js-md5';
 
 import React from 'react';
 
@@ -9,16 +10,13 @@ import API from '../api';
 import Message from './message';
 
 export default class CloneLineage extends React.Component {
-	static strToColor = (str) => {
-			var hash = 5381;
-			for (var i = 0; i < str.length; i++) {
-					hash = ((hash << 5) + hash) + str.charCodeAt(i);
-			}
-			var r = (hash & 0xFF0000) >> 16;
-			var g = (hash & 0x00FF00) >> 8;
-			var b = hash & 0x0000FF;
-			return "#" + ("0" + r.toString(16)).substr(-2) + ("0" + g.toString(16)).substr(-2) + ("0" + b.toString(16)).substr(-2);
-	}
+  static strToColor = (str) => {
+    let hash = md5(str);
+    let r = hash.substr(0, 2);
+    let g = hash.substr(2, 2);
+    let b = hash.substr(4, 2);
+    return "#" + r + g + b;
+  }
 
   constructor() {
     super();
@@ -208,25 +206,25 @@ export default class CloneLineage extends React.Component {
     return (
       <div className="ui teal segment">
         <h4>Lineage</h4>
-				<div className="ui info message">
+        <div className="ui info message">
           This tree includes mutations that occur in at least
-					<strong> {this.state.treeInfo.info.min_count} sequence(s)</strong>
+          <strong> {this.state.treeInfo.info.min_count} sequence(s)</strong>
           across at least<strong> {this.state.treeInfo.info.min_samples} sample(s)</strong>.
           Sequences with stop codons are <strong>{
             this.state.treeInfo.info.exclude_stops ? 'excluded' : 'included'
           }</strong>.
-				</div>
-				<div className="ui form">
-					<div className="one wide field">
-						<label>Color By...</label>
-						<select className="ui dropdown" defaultValue={this.state.colorBy}>
-							<option value="tissues">Tissue</option>
-							<option value="subsets">Subset</option>
-							<option value="ig_class">Ig Class</option>
-							<option value="disease">Disease</option>
-						</select>
-					</div>
-				</div>
+        </div>
+        <div className="ui form">
+          <div className="one wide field">
+            <label>Color By...</label>
+            <select className="ui dropdown" defaultValue={this.state.colorBy}>
+              <option value="tissues">Tissue</option>
+              <option value="subsets">Subset</option>
+              <option value="ig_class">Ig Class</option>
+              <option value="disease">Disease</option>
+            </select>
+          </div>
+        </div>
         <div id="tree" className="ui segment"></div>
       </div>
     );
