@@ -209,10 +209,12 @@ export default class CloneLineage extends React.Component {
         <div className="ui info message">
           This tree includes mutations that occur in at least
           <strong> {this.state.treeInfo.info.min_count} sequence(s)</strong>
-          across at least<strong> {this.state.treeInfo.info.min_samples} sample(s)</strong>.
-          Sequences with stop codons are <strong>{
-            this.state.treeInfo.info.exclude_stops ? 'excluded' : 'included'
-          }</strong>.
+          across at least <strong>{this.state.treeInfo.info.min_samples} sample(s)</strong>.
+
+          Sequences must have a copy number of at least <strong>{
+            this.state.treeInfo.info.min_seq_copies}</strong> to be and <strong>{
+          this.state.treeInfo.info.exclude_stops ? 'cannot' : 'can'
+          }</strong> have stop codons.
         </div>
         <div className="ui form">
           <div className="one wide field">
