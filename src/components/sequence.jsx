@@ -6,7 +6,7 @@ import { Link } from 'react-router';
 import API from '../api';
 import Message from './message';
 import SeqViewer from './seqViewer';
-import { colorAAs, colorNTs, optional } from '../utils';
+import { colorAAs, colorNTs, indels, optional } from '../utils';
 
 export default class Sequence extends React.Component {
   constructor() {
@@ -222,12 +222,37 @@ export default class Sequence extends React.Component {
               </td>
             </tr>
             <tr>
-              <td><strong>Padding</strong></td>
-              <td>{this.state.sequence.pad_length}</td>
+              <td><strong>Sequence Start</strong></td>
+              <td>{this.state.sequence.seq_start}</td>
               <td><span className="faded">N/A</span></td>
             </tr>
           </tbody>
         </table>
+
+        {this.state.sequence.insertions.length + this.state.sequence.deletions.length > 0  ?
+          <table className="ui teal table">
+            <thead>
+              <tr>
+                <th colSpan="2">Insertions / Deletions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Insertions</strong></td>
+                <td>
+                  {indels(this.state.sequence.insertions)}
+                </td>
+              </tr>
+              <tr>
+                <td><strong>Deletions</strong></td>
+                <td>
+                  {indels(this.state.sequence.deletions)}
+                </td>
+              </tr>
+            </tbody>
+          </table>
+         : ''
+        }
 
         <div className="ui teal segment">
           <h4>Sequence View</h4>

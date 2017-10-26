@@ -97,3 +97,10 @@ export function debounce(...args) {
     return debounced(e);
   }
 }
+
+export function indels(indels) {
+  return _.map(indels, (indel) => {
+    let [start, length] = indel;
+    return (start + 1) + '-' + (start + length);
+  }).join(', ');
+}
