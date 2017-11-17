@@ -17,8 +17,9 @@ export default class CloneList extends React.Component {
         <td>{clone.j_gene}</td>
         <td>{clone.cdr3_num_nts}</td>
         <td className="text-mono sequence">{colorAAs(clone.cdr3_aa)}</td>
-        <td>{numeral(clone.unique_sequences).format('0,0')}</td>
-        <td>{numeral(clone.total_sequences).format('0,0')}</td>
+        <td>{numeral(clone.overall_unique_cnt).format('0,0')}</td>
+        <td>{numeral(clone.overall_instance_cnt).format('0,0')}</td>
+        <td>{numeral(clone.overall_total_cnt).format('0,0')}</td>
         <td>
           <Link to={'clone/' + clone.id} target="_blank">
             View <i className="angle right icon"></i>
@@ -27,7 +28,7 @@ export default class CloneList extends React.Component {
       </tr>,
       <tr key={clone.id + '_stats'}>
         <td></td>
-        <td colSpan="8">
+        <td colSpan="9">
           <div className="ui red segment">
             <h4>Sample Breakdown</h4>
             <table className="ui compact table">
@@ -78,6 +79,8 @@ export default class CloneList extends React.Component {
               data-content="The amino acids in the CDR3"></i></th>
             <th><a onClick={this.props.sort.bind(this, 'overall_unique_cnt')}>Unique Seqs.</a> <i className="help icon popup" data-title="Unique Sequences"
               data-content="The total number of unique sequences from the subject in this clone"></i></th>
+            <th><a onClick={this.props.sort.bind(this, 'overall_instance_cnt')}>Instances</a> <i className="help icon popup" data-title="Instances"
+              data-content="The total number of instances in this clone"></i></th>
             <th><a onClick={this.props.sort.bind(this, 'overall_total_cnt')}>Total Seqs.</a> <i className="help icon popup" data-title="Total Sequences"
               data-content="The total number of sequences in this clone"></i></th>
             <th></th>
