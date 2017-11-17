@@ -136,7 +136,7 @@ export default class SampleAnalysis extends React.Component {
         title: _.includes(this.state.filterType, 'clones') ? 'Clone Size' :'Copy Number',
         key: 'copy_number_dist',
         xLabel: _.includes(this.state.filterType, 'clones') ? 'Clone Size' : 'Copies',
-        type: 'column',
+        type: 'line',
       }
     ];
 

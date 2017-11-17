@@ -77,7 +77,9 @@ export default class SubjectList extends React.Component {
               <th>Identifier <i className="help icon popup" data-title="Identifier"
                 data-content="The identifier given to the subject"></i></th>
               <th>Unique Sequences <i className="help icon popup" data-title="Unique Sequences"
-                data-content="The total unique sequences found in the subject's samples"></i></th>
+                data-content="The total functional unique sequences found in the subject's samples"></i></th>
+              <th>Total Sequences <i className="help icon popup" data-title="Unique Sequences"
+                data-content="The total functional sequences found in the subject's samples"></i></th>
               <th>Clones <i className="help icon popup" data-title="Clones"
                 data-content="The total clones found in the subject"></i></th>
               <th>Samples <i className="help icon popup" data-title="Samples"
@@ -93,6 +95,7 @@ export default class SubjectList extends React.Component {
                   <td>{subject.study.name}</td>
                   <td>{subject.identifier}</td>
                   <td>{numeral(subject.unique_seqs).format('0,0')}</td>
+                  <td>{numeral(subject.total_seqs).format('0,0')}</td>
                   <td>{numeral(subject.total_clones).format('0,0')}</td>
                   <td>{numeral(subject.total_samples).format('0,0')}</td>
                   <td>
