@@ -63,6 +63,16 @@ export default class CloneExport extends React.Component {
       desc: 'Number of bases in the CDR3',
     },
     {
+      header: 'insertions',
+      name: 'Insertions',
+      desc: 'A list of (position, length) pairs for insertions.',
+    },
+    {
+      header: 'deletions',
+      name: 'Deletions',
+      desc: 'A list of (position, length) pairs for deletions.',
+    },
+    {
       header: 'functional',
       name: 'Functional',
       desc: 'If the clone\'s CDR3 length is a multiple of three and contains no stop codons.',

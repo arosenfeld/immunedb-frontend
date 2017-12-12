@@ -126,9 +126,9 @@ export default class SequenceExport extends React.Component {
         + 'target="_blank">IMGT numbering</a>.',
     },
     {
-      header: 'pad_length',
-      name: 'Number of Padded Bases',
-      desc: 'Number of unknown bases (Ns) added to the beginning of the sequence to align it to the germline.',
+      header: 'seq_start',
+      name: 'Positions Sequence Begins',
+      desc: 'IMGT position at which the sequence begins.',
     },
     {
       header: 'v_match',
@@ -176,9 +176,14 @@ export default class SequenceExport extends React.Component {
       desc: 'Number of bases in the CDR3',
     },
     {
-      header: 'gap_method',
-      name: 'Gapping Method',
-      desc: 'The method used for gapping V sequenes to equal length.',
+      header: 'insertions',
+      name: 'Insertions',
+      desc: 'A list of (position, length) pairs for insertions.',
+    },
+    {
+      header: 'deletions',
+      name: 'Deletions',
+      desc: 'A list of (position, length) pairs for deletions.',
     },
     {
       header: 'pre_cdr3_match',
@@ -214,6 +219,11 @@ export default class SequenceExport extends React.Component {
       header: 'germline',
       name: 'Sequence Germline',
       desc: 'The germline sequence with gaps inserted for the CDR3.',
+    },
+    {
+      header: 'clone_germline',
+      name: 'Clone Germline',
+      desc: 'The germline sequence with consensus CDR3.',
     },
     {
       header: 'quality',
