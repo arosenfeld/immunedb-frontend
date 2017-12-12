@@ -8,6 +8,8 @@ import React from 'react';
 import API from '../api';
 import Message from './message';
 
+import { optional } from '../utils';
+
 export default class ClonePressure extends React.Component {
   constructor() {
     super();
@@ -111,36 +113,32 @@ export default class ClonePressure extends React.Component {
             return (
               <tr key={p.sample.name} className="center aligned">
                 <td>{p.sample.name}</td>
-                <td>{p.pressure[this.state.filter].Observed_CDR_S}</td>
-                <td>{p.pressure[this.state.filter].Observed_CDR_R}</td>
-                <td>{p.pressure[this.state.filter].Observed_FWR_S}</td>
-                <td>{p.pressure[this.state.filter].Observed_FWR_R}</td>
+                <td>{p.pressure[this.state.filter].observed_cdr_s}</td>
+                <td>{p.pressure[this.state.filter].observed_cdr_r}</td>
+                <td>{p.pressure[this.state.filter].observed_fwr_s}</td>
+                <td>{p.pressure[this.state.filter].observed_fwr_r}</td>
 
-                <td>{p.pressure[this.state.filter].Expected_CDR_S}</td>
-                <td>{p.pressure[this.state.filter].Expected_CDR_R}</td>
-                <td>{p.pressure[this.state.filter].Expected_FWR_S}</td>
-                <td>{p.pressure[this.state.filter].Expected_FWR_R}</td>
+                <td>{p.pressure[this.state.filter].expected_cdr_s}</td>
+                <td>{p.pressure[this.state.filter].expected_cdr_r}</td>
+                <td>{p.pressure[this.state.filter].expected_fwr_s}</td>
+                <td>{p.pressure[this.state.filter].expected_fwr_r}</td>
 
                 <td
-                  style={{backgroundColor: this.getPressureColor(p.pressure[this.state.filter].Focused_P_CDR)}}>
-                  {p.pressure[this.state.filter].Focused_Sigma_CDR}
+                  style={{backgroundColor: this.getPressureColor(p.pressure[this.state.filter].sigma_p_cdr)}}>
+                  {optional(p.pressure[this.state.filter].sigma_cdr)}
                 </td>
                 <td
-                  style={{backgroundColor: this.getPressureColor(p.pressure[this.state.filter].Focused_P_FWR)}}>
-                  {p.pressure[this.state.filter].Focused_Sigma_FWR}
+                  style={{backgroundColor: this.getPressureColor(p.pressure[this.state.filter].sigma_p_fwr)}}>
+                  {optional(p.pressure[this.state.filter].sigma_fwr)}
                 </td>
 
                 <td>
-                  {
-                    p.pressure[this.state.filter].Focused_CIlower_CDR + ', ' +
-                    p.pressure[this.state.filter].Focused_CIupper_CDR
-                  }
+                  {optional(p.pressure[this.state.filter].sigma_cdr_cilower)}{', '}
+                  {optional(p.pressure[this.state.filter].sigma_cdr_ciupper)}
                 </td>
                 <td>
-                  {
-                    p.pressure[this.state.filter].Focused_CIlower_FWR + ', ' +
-                    p.pressure[this.state.filter].Focused_CIupper_FWR
-                  }
+                  {optional(p.pressure[this.state.filter].sigma_fwr_cilower)}{', '}
+                  {optional(p.pressure[this.state.filter].sigma_fwr_ciupper)}
                 </td>
               </tr>
             );

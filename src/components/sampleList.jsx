@@ -210,6 +210,7 @@ export default class SampleList extends React.Component {
             <div className="item" data-value="tissue">Tissue</div>
             <div className="item" data-value="subset">Subset</div>
             <div className="item" data-value="ig_class">Ig Class</div>
+            <div className="item" data-value="timepoint">Timepoint</div>
             <div className="item" data-value="disease">Disease</div>
             <div className="item" data-value="v_primer">V Primer</div>
             <div className="item" data-value="j_primer">J Primer</div>

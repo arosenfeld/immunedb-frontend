@@ -91,6 +91,7 @@ export default class SampleAnalysis extends React.Component {
       {name: 'tissue', label: 'Tissue'},
       {name: 'subset', label: 'Subset'},
       {name: 'ig_class', label: 'Ig Class'},
+      {name: 'timepoint', label: 'Timepoint'},
       {name: 'disease', label: 'Disease'},
     ];
   }

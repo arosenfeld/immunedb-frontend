@@ -109,9 +109,15 @@ export default class CloneLineage extends React.Component {
           label += 'Inferred Sequence<br/>'
         } else {
           label += '<span style="color: #a0a0a0">Copy Number: </span>' + d.data.copy_number + '<br/>';
-          label += '<span style="color: #a0a0a0">Tissue(s): </span>' + d.data.tissues + '<br/>';
+          if (d.data.tissues.length > 0) {
+            label += '<span style="color: #a0a0a0">Tissue(s): </span>' + d.data.tissues + '<br/>';
+          }
           if (d.data.subsets.length > 0) {
+            console.log(d.data);
             label += '<span style="color: #a0a0a0">Subsets(s): </span>' + d.data.subsets + '<br/>';
+          }
+          if (d.data.timepoints.length > 0) {
+            label += '<span style="color: #a0a0a0">Timepoint(s): </span>' + d.data.timepoints + '<br/>';
           }
           label += '<span style="color: #a0a0a0">Seq ID(s): </span><br/>';
           _.each(_.keys(d.data.seq_ids).slice(0, 25), (val, key) => {
@@ -223,6 +229,7 @@ export default class CloneLineage extends React.Component {
               <option value="tissues">Tissue</option>
               <option value="subsets">Subset</option>
               <option value="ig_class">Ig Class</option>
+              <option value="timepoint">Timepoint</option>
               <option value="disease">Disease</option>
             </select>
           </div>
