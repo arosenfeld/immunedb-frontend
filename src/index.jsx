@@ -1,5 +1,5 @@
-import 'semantic-ui-css/semantic.css';
-import 'semantic-ui-css/semantic.js';
+import '../semantic/dist/semantic.js';
+import '../semantic/dist/semantic.css';
 
 import React from 'react';
 import { render } from 'react-dom';
