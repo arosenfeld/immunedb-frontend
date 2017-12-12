@@ -133,7 +133,18 @@ export default class SampleAnalysis extends React.Component {
         yLabel: 'Avg. Phred Quality Score',
         key: 'quality_dist',
         type: 'line',
-      },{
+        limit: 'sequences',
+      }, {
+        title: 'FWR Selection Pressure',
+        key: 'sp_fwr_dist',
+        type: 'column',
+        limit: 'clones',
+      }, {
+        title: 'CDR Selection Pressure',
+        key: 'sp_cdr_dist',
+        type: 'column',
+        limit: 'clones',
+      }, {
         title: _.includes(this.state.filterType, 'clones') ? 'Clone Size' :'Copy Number',
         key: 'copy_number_dist',
         xLabel: _.includes(this.state.filterType, 'clones') ? 'Clone Size' : 'Copies',
@@ -330,6 +341,11 @@ export default class SampleAnalysis extends React.Component {
             show={_.keys(this.state.sampleInfo.stats).length < SampleAnalysis.SHOW_THRESHOLD}
           />
           {_.map(this.plots, (plot) => {
+            let isClones = _.includes(this.state.filterType, 'clones')
+            console.log(plot.key, isClones);
+            if ((isClones && plot.limit == 'sequences') || (!isClones && plot.limit == 'clones')) {
+              return '';
+            }
             return <XYPlot
               title={plot.title}
               series={this.state.sampleInfo.stats}
