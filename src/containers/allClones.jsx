@@ -33,7 +33,6 @@ export default class AllClones extends React.Component {
   componentDidUpdate() {
     $('.subject_id .dropdown').dropdown({
       onChange: (value, text, $selectedItem) => {
-        console.log(value);
         let filter = _.extend({}, this.state.filter);
         filter.subject_id = value;
         this.setState({

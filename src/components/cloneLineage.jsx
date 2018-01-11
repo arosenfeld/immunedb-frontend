@@ -50,7 +50,6 @@ export default class CloneLineage extends React.Component {
     $('.ui.dropdown').dropdown({
       action: 'hide',
       onChange: (value, text) => {
-        console.log('changed', value);
         this.setState({
           colorBy: value
         }, this.draw);
@@ -116,18 +115,7 @@ export default class CloneLineage extends React.Component {
           _.forEach(d.data.metadata, (v, k) => {
             label += '<span style="color: #a0a0a0">' + _.startCase(k) + 's: </span>' + v + '<br/>';
           })
-          /*
-          if (d.data.tissues.length > 0) {
-            label += '<span style="color: #a0a0a0">Tissue(s): </span>' + d.data.tissues + '<br/>';
-          }
-          if (d.data.subsets.length > 0) {
-            console.log(d.data);
-            label += '<span style="color: #a0a0a0">Subsets(s): </span>' + d.data.subsets + '<br/>';
-          }
-          if (d.data.timepoints.length > 0) {
-            label += '<span style="color: #a0a0a0">Timepoint(s): </span>' + d.data.timepoints + '<br/>';
-          }
-          */
+
           label += '<span style="color: #a0a0a0">Seq ID(s): </span><br/>';
           _.each(_.keys(d.data.seq_ids).slice(0, 25), (val, key) => {
             label += val + ' in <span style="color: #a0a0a0">' + d.data.seq_ids[val].sample_name + '</span><br/>';
