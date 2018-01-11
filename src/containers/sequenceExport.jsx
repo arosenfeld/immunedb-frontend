@@ -22,51 +22,6 @@ export default class SequenceExport extends React.Component {
       desc: 'The subject ID as defined by the experimenter.',
     },
     {
-      header: 'subset',
-      name: 'Subset',
-      desc: 'The cell subset of the sequence.',
-    },
-    {
-      header: 'tissue',
-      name: 'Tissue',
-      desc: 'The tissue from which the sequence originates.',
-    },
-    {
-      header: 'ig_class',
-      name: 'Ig Class',
-      desc: 'The immunoglobulin class of the sequences.',
-    },
-    {
-      header: 'disease',
-      name: 'Disease',
-      desc: 'The disease(s), if any, in the subject from which the sequence originates.',
-    },
-    {
-      header: 'v_primer',
-      name: 'V Gene Primer',
-      desc: 'V gene primer information',
-    },
-    {
-      header: 'j_primer',
-      name: 'J Gene Primer',
-      desc: 'J gene primer information',
-    },
-    {
-      header: 'lab',
-      name: 'Lab',
-      desc: 'The lab which acquired the sequence.',
-    },
-    {
-      header: 'experimenter',
-      name: 'Experimenter',
-      desc: 'The individual who acquired the sequence.',
-    },
-    {
-      header: 'date',
-      name: 'Date',
-      desc: 'The date the sequence was acquired (YYYY-MM-DD).',
-    },
-    {
       header: 'sample_id',
       name: 'Sample ID',
       desc: 'The ID of the sample as it appears in the database.',

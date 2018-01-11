@@ -93,51 +93,6 @@ export default class CloneExport extends React.Component {
       desc: 'The subject ID as defined by the experimenter.',
     },
     {
-      header: 'tissue',
-      name: 'Tissue',
-      desc: 'The tissue from which the sample was taken.',
-    },
-    {
-      header: 'subset',
-      name: 'Subset',
-      desc: 'The cell subset of the sample.',
-    },
-    {
-      header: 'ig_class',
-      name: 'Ig Class',
-      desc: 'The class of the sequence (e.g. IgA, IgG).',
-    },
-    {
-      header: 'j_primer',
-      name: 'J Gene Primer',
-      desc: 'The J-gene primer used.',
-    },
-    {
-      header: 'v_primer',
-      name: 'V Gene Primer',
-      desc: 'The V-gene primer used.',
-    },
-    {
-      header: 'disease',
-      name: 'Disease',
-      desc: 'The disease(s), if any, in the subject from which the sample originates.',
-    },
-    {
-      header: 'lab',
-      name: 'Lab',
-      desc: 'The lab which acquired the sample.',
-    },
-    {
-      header: 'experimenter',
-      name: 'Experimenter',
-      desc: 'The individual who acquired the sample.',
-    },
-    {
-      header: 'date',
-      name: 'Date',
-      desc: 'The date the sample was acquired (YYYY-MM-DD).',
-    },
-    {
       header: 'tree',
       name: 'Lineage Tree',
       desc: 'The clone lineage tree represented in JSON.  Note that including this field can '
