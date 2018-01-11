@@ -2,7 +2,7 @@ import numeral from 'numeral';
 
 import React from 'react';
 
-import { optional } from '../utils';
+import { getMetadataFields, optional } from '../utils';
 
 export default class OverlapList extends React.Component {
   constructor() {
@@ -23,11 +23,9 @@ export default class OverlapList extends React.Component {
           <tr className="active">
             <td>ID</td>
             <td>Name</td>
-            <td>Tissue</td>
-            <td>Subset</td>
-            <td>Ig Class</td>
-            <td>V Primer</td>
-            <td>J Primer</td>
+            {_.map(getMetadataFields(this.props.samples), m => {
+              return <td>{_.startCase(m)}</td>;
+            })}
             <td>Unique Seqs.</td>
             <td>Total Seqs.</td>
           </tr>
@@ -36,11 +34,9 @@ export default class OverlapList extends React.Component {
               <tr key={sample.id}>
                 <td>{sample.id}</td>
                 <td>{sample.name}</td>
-                <td>{optional(sample.tissue)}</td>
-                <td>{optional(sample.subset)}</td>
-                <td>{optional(sample.ig_class)}</td>
-                <td>{optional(sample.v_primer)}</td>
-                <td>{optional(sample.j_primer)}</td>
+                {_.map(getMetadataFields(this.props.samples), m => {
+                  return <td>{optional(sample.metadata[m])}</td>;
+                })}
                 <td>{numeral(sample.unique).format('0,0')}</td>
                 <td>{numeral(sample.total).format('0,0')}</td>
               </tr>

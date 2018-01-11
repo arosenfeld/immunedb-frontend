@@ -127,7 +127,7 @@ export default class Clone extends React.Component {
         <SelectionPressure cloneId={this.state.cloneInfo.clone.id} />
         <MutationsView cloneId={this.state.cloneInfo.clone.id} />
         <SequenceCompare clone={this.state.cloneInfo.clone} mutationStats={this.state.cloneInfo.mutation_stats} />
-        <CloneLineage cloneId={this.state.cloneInfo.clone.id} />
+        <CloneLineage cloneId={this.state.cloneInfo.clone.id} samples={this.state.cloneInfo.samples.single} />
       </div>
     );
   }

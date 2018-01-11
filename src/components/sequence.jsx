@@ -6,7 +6,7 @@ import { Link } from 'react-router';
 import API from '../api';
 import Message from './message';
 import SeqViewer from './seqViewer';
-import { colorAAs, colorNTs, indels, optional } from '../utils';
+import { colorAAs, colorNTs, indels, mapKV, optional } from '../utils';
 
 export default class Sequence extends React.Component {
   constructor() {
@@ -80,46 +80,26 @@ export default class Sequence extends React.Component {
         <table className="ui teal table">
           <thead>
             <tr>
-              <th colSpan="4">Sample</th>
+              <th colSpan="2">Sample Metadata</th>
             </tr>
           </thead>
           <tbody>
             <tr>
               <td><strong>Name</strong></td>
               <td>{this.state.sequence.sample.name}</td>
+            </tr>
+            <tr>
               <td><strong>Study</strong></td>
               <td>{this.state.sequence.sample.subject.study.name}</td>
             </tr>
-            <tr>
-              <td><strong>Date</strong></td>
-              <td>{this.state.sequence.sample.date}</td>
-              <td><strong>Subject</strong></td>
-              <td><Link to={'subject/' + this.state.sequence.sample.subject.id}>{this.state.sequence.sample.subject.identifier}</Link></td>
-            </tr>
-            <tr>
-              <td><strong>Disease</strong></td>
-              <td>{optional(this.state.sequence.sample.disease)}</td>
-              <td><strong>Tissue</strong></td>
-              <td>{optional(this.state.sequence.sample.tissue)}</td>
-            </tr>
-            <tr>
-              <td><strong>Subset</strong></td>
-              <td>{optional(this.state.sequence.sample.subset)}</td>
-              <td><strong>Ig Class</strong></td>
-              <td>{optional(this.state.sequence.sample.ig_class)}</td>
-            </tr>
-            <tr>
-              <td><strong>V Primer</strong></td>
-              <td>{optional(this.state.sequence.sample.v_primer)}</td>
-              <td><strong>J Primer</strong></td>
-              <td>{optional(this.state.sequence.sample.j_primer)}</td>
-            </tr>
-            <tr>
-              <td><strong>Lab</strong></td>
-              <td>{optional(this.state.sequence.sample.lab)} {this.state.sequence.sample.experimenter ? ' (' + this.state.sequence.sample.experimenter + ')' : ''}</td>
-              <td></td>
-              <td></td>
-            </tr>
+            {mapKV(this.state.sequence.sample.metadata, (v, k) => {
+              return (
+                <tr key={k}>
+                  <td><strong>{_.startCase(k)}</strong></td>
+                  <td>{v}</td>
+                </tr>
+              );
+            })}
           </tbody>
         </table>
 

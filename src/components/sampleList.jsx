@@ -6,12 +6,14 @@ import React from 'react';
 import API from '../api';
 import Message from './message';
 
+import { getMetadataFields } from '../utils';
+
 export default class SampleList extends React.Component {
   constructor() {
     super();
     this.state = {
       selected: [],
-      groupBy: 'date'
+      groupBy: 'subject.identifier'
     };
   }
 
@@ -142,7 +144,7 @@ export default class SampleList extends React.Component {
                       </div>
                     </td>
                     <td colSpan="5" className="center aligned">
-                      <strong>{key}</strong>
+                      <strong>{key != 'undefined' ? key : <span className="faded"><i>Unspecified</i></span>}</strong>
                        <span className="faded"> ({_.keys(samplesByCategory[key]).length} samples)</span>
                     </td>
                   </tr>
@@ -202,15 +204,9 @@ export default class SampleList extends React.Component {
           <i className="sidebar icon"></i>
           <div className="text">Group Samples By</div>
           <div className="menu">
-            <div className="item" data-value="date">Date</div>
             <div className="item" data-value="subject.identifier">Subject</div>
-            <div className="item" data-value="tissue">Tissue</div>
-            <div className="item" data-value="subset">Subset</div>
-            <div className="item" data-value="ig_class">Ig Class</div>
-            <div className="item" data-value="timepoint">Timepoint</div>
-            <div className="item" data-value="disease">Disease</div>
-            <div className="item" data-value="v_primer">V Primer</div>
-            <div className="item" data-value="j_primer">J Primer</div>
+            {_.map(getMetadataFields(this.props.samples), m => <div className="item" key={m}
+                data-value={'metadata.' + m}>{_.startCase(m)}</div>)}
           </div>
         </div>
         {finalElements}

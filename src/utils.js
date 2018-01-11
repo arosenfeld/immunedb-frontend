@@ -104,3 +104,16 @@ export function indels(indels) {
     return (start + 1) + '-' + (start + length);
   }).join(', ');
 }
+
+export function mapKV(d, f) {
+    return _.transform(d, (r, v, k) => {
+      r.push(f(v, k));
+    }, []);
+}
+
+export function getMetadataFields(samples) {
+    return _.sortBy(
+      _.uniq(
+        _.flatten(
+          _.values(_.mapValues(samples, s => _.keys(_.get(s, 'metadata')))))));
+}

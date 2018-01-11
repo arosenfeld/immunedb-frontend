@@ -9,6 +9,8 @@ import React from 'react';
 import API from '../api';
 import Message from './message';
 
+import { getMetadataFields } from '../utils';
+
 export default class CloneLineage extends React.Component {
   static strToColor = (str) => {
     let hash = md5(str);
@@ -22,7 +24,8 @@ export default class CloneLineage extends React.Component {
     super();
     this.state = {
       asyncState: 'loading',
-      colorBy: 'tissues',
+      colorBy: 'tissue',
+      samples: [],
       treeInfo: {
         min_count: 0,
         min_samples: 0
@@ -47,6 +50,7 @@ export default class CloneLineage extends React.Component {
     $('.ui.dropdown').dropdown({
       action: 'hide',
       onChange: (value, text) => {
+        console.log('changed', value);
         this.setState({
           colorBy: value
         }, this.draw);
@@ -109,6 +113,10 @@ export default class CloneLineage extends React.Component {
           label += 'Inferred Sequence<br/>'
         } else {
           label += '<span style="color: #a0a0a0">Copy Number: </span>' + d.data.copy_number + '<br/>';
+          _.forEach(d.data.metadata, (v, k) => {
+            label += '<span style="color: #a0a0a0">' + _.startCase(k) + 's: </span>' + v + '<br/>';
+          })
+          /*
           if (d.data.tissues.length > 0) {
             label += '<span style="color: #a0a0a0">Tissue(s): </span>' + d.data.tissues + '<br/>';
           }
@@ -119,6 +127,7 @@ export default class CloneLineage extends React.Component {
           if (d.data.timepoints.length > 0) {
             label += '<span style="color: #a0a0a0">Timepoint(s): </span>' + d.data.timepoints + '<br/>';
           }
+          */
           label += '<span style="color: #a0a0a0">Seq ID(s): </span><br/>';
           _.each(_.keys(d.data.seq_ids).slice(0, 25), (val, key) => {
             label += val + ' in <span style="color: #a0a0a0">' + d.data.seq_ids[val].sample_name + '</span><br/>';
@@ -163,8 +172,8 @@ export default class CloneLineage extends React.Component {
       .attr('fill', (d) => {
         if(_.keys(d.data.seq_ids).length == 0) {
           return '#000000';
-        } else if (d.data[this.state.colorBy] && d.data[this.state.colorBy].length > 0) {
-          return CloneLineage.strToColor(d.data[this.state.colorBy].join());
+        } else if (d.data.metadata[this.state.colorBy] && d.data.metadata[this.state.colorBy].length > 0) {
+          return CloneLineage.strToColor(d.data.metadata[this.state.colorBy].join());
         }
         return '#0000ff';
       });
@@ -226,11 +235,9 @@ export default class CloneLineage extends React.Component {
           <div className="one wide field">
             <label>Color By...</label>
             <select className="ui dropdown" defaultValue={this.state.colorBy}>
-              <option value="tissues">Tissue</option>
-              <option value="subsets">Subset</option>
-              <option value="ig_class">Ig Class</option>
-              <option value="timepoint">Timepoint</option>
-              <option value="disease">Disease</option>
+              {_.map(getMetadataFields(this.props.samples), m =>
+                <option value={m} key={m}>{_.startCase(m)}</option>
+              )}
             </select>
           </div>
         </div>

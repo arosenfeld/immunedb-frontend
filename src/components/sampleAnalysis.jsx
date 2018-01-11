@@ -6,7 +6,9 @@ import API from '../api';
 import Message from './message';
 import SampleDetails from './sampleDetails';
 import SampleCloneOverlaps from './sampleCloneOverlaps';
-import {Heatmap, XYPlot} from './plot';
+import { Heatmap, XYPlot } from './plot';
+
+import { getMetadataFields } from '../utils';
 
 class VGeneHeatmap extends React.Component {
   constructor() {
@@ -65,7 +67,7 @@ export default class SampleAnalysis extends React.Component {
       includeOutliers: true,
       includePartials: true,
       percentages: false,
-      grouping: 'name',
+      grouping: 'sample',
       byFamily: false,
       stack: true
     };
@@ -84,16 +86,6 @@ export default class SampleAnalysis extends React.Component {
         {name: 'nonfunctional', label: 'Non-Functional'},
       ]
     };
-
-    this.groupings = [
-      {name: 'name', label: 'Sample'},
-      {name: 'subject', label: 'Subject'},
-      {name: 'tissue', label: 'Tissue'},
-      {name: 'subset', label: 'Subset'},
-      {name: 'ig_class', label: 'Ig Class'},
-      {name: 'timepoint', label: 'Timepoint'},
-      {name: 'disease', label: 'Disease'},
-    ];
   }
 
   componentDidMount() {
@@ -315,11 +307,21 @@ export default class SampleAnalysis extends React.Component {
               <div className="ui one column relaxed divided grid">
                 <div className="column">
                   <div className="ui link list">
-                    {_.map(this.groupings, (group) => {
+                    <a onClick={this.setGrouping.bind(this, 'sample')}
+                      className={'item' + (this.state.grouping == 'sample' ? ' active' : '')}>
+                        Sample
+                    </a>
+                    <a onClick={this.setGrouping.bind(this, 'subject')}
+                      className={'item' + (this.state.grouping == 'subject' ? ' active' : '')}>
+                      Subject
+                    </a>
+
+
+                    {_.map(getMetadataFields(this.state.sampleInfo.samples), (group) => {
                       return (
-                        <a onClick={this.setGrouping.bind(this, group.name)}
-                          className={'item' + (group.name == this.state.grouping ? ' active' : '')} key={group.name}>
-                          {group.label}
+                        <a onClick={this.setGrouping.bind(this, group)}
+                          className={'item' + (group.name == this.state.grouping ? ' active' : '')} key={group}>
+                          {_.startCase(group)}
                         </a>
                       );
                     })}
@@ -342,7 +344,6 @@ export default class SampleAnalysis extends React.Component {
           />
           {_.map(this.plots, (plot) => {
             let isClones = _.includes(this.state.filterType, 'clones')
-            console.log(plot.key, isClones);
             if ((isClones && plot.limit == 'sequences') || (!isClones && plot.limit == 'clones')) {
               return '';
             }
