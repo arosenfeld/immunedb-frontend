@@ -230,7 +230,7 @@ export default class MutationsView extends React.Component {
                     </button>
                   </td>
                   {this.getCell(cnts.synonymous, total)}
-                  {this.getCell(cnts.conservative + cnts.nonconservative, total)}
+                  {this.getCell((cnts.conservative || 0) + (cnts.nonconservative || 0), total)}
                   {this.getCell(cnts.unknown, total)}
                   {this.getCell(cnts.conservative, total, 'warning')}
                   {this.getCell(cnts.nonconservative, total, 'warning')}
