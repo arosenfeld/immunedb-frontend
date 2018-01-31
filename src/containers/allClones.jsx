@@ -121,11 +121,21 @@ export default class AllClones extends React.Component {
               <label>ID</label>
               <input type="number" name="id" defaultValue={this.state.filter.id} onChange={this.onChange} />
             </div>
-            <div className="three wide field">
+            <div className="field">
+              <label>Subject</label>
+              <select name="subject_id" className="ui search dropdown" defaultValue={this.state.filter.subject_id} onChange={this.onChange}>
+                <option value="">All Subjects</option>
+                {_.map(this.state.subjects, (subject) => {
+                  return <option
+                          value={subject.id} key={subject.id}>{subject.identifier} (# {subject.id})</option>
+                })}
+              </select>
+            </div>
+            <div className="field">
               <label>V Gene</label>
               <input type="text" name="v_gene" placeholder="Use % as a wildcard" defaultValue={this.state.filter.v_gene} onChange={this.onChange} />
             </div>
-            <div className="three wide field">
+            <div className="field">
               <label>J Gene</label>
               <input type="text" name="j_gene" placeholder="Use % as a wildcard" defaultValue={this.state.filter.j_gene} onChange={this.onChange} />
             </div>
@@ -140,20 +150,33 @@ export default class AllClones extends React.Component {
               <input type="number" name="max_cdr3_num_nts" min="1" defaultValue={this.state.filter.max_cdr3_num_nts} onChange={this.onChange} />
             </div>
             <div className="field">
-              <label>CDR3 AA</label>
-              <input name="cdr3_aa" defaultValue={this.state.filter.cdr3_aa} onChange={this.onChange} />
+              <label>CDR3 NT</label>
+              <input name="cdr3_nt" placeholder="Use % as a wildcard" defaultValue={this.state.filter.cdr3_nt} onChange={this.onChange} />
             </div>
             <div className="field">
-              <label>Subject</label>
-              <select name="subject_id" className="ui search dropdown" defaultValue={this.state.filter.subject_id} onChange={this.onChange}>
-                <option value="">All Subjects</option>
-                {_.map(this.state.subjects, (subject) => {
-                  return <option
-                          value={subject.id} key={subject.id}>{subject.identifier} (# {subject.id})</option>
-                })}
+              <label>CDR3 AA</label>
+              <input name="cdr3_aa" placeholder="Use % as a wildcard" defaultValue={this.state.filter.cdr3_aa} onChange={this.onChange} />
+            </div>
+          </div>
+          <div className="fields">
+            <div className="field">
+              <label>Min. Size</label>
+              <input type="number" name="min_size" min="1" defaultValue={this.state.filter.min_size} onChange={this.onChange} />
+            </div>
+            <div className="field">
+              <label>Max. Size</label>
+              <input type="number" name="max_size" min="1" defaultValue={this.state.filter.max_size} onChange={this.onChange} />
+            </div>
+            <div className="field">
+              <label>Size Metric</label>
+              <select name="size_field" className="ui search dropdown" defaultValue={this.state.filter.size_field} onChange={this.onChange}>
+                <option value="copies">Copies</option>
+                <option value="uniques">Unique</option>
+                <option value="instances">Instances</option>
               </select>
             </div>
           </div>
+
           <button className="ui button" onClick={this.filter}>Filter</button>
           <button className="ui right labeled icon primary button" onClick={this.toggleFilters}>
             <i className="filter icon"></i>

@@ -180,7 +180,6 @@ export default class SequenceList extends React.Component {
             <div className="field">
               <label>Copy Number Field</label>
               <select name="copy_type" className="ui copy_type dropdown" defaultValue={this.state.filter.copy_type || 'sample'} onChange={this.onChange}>
-                <option value="">Min/max copies in...</option>
                 <option value="sample">Sample</option>
                 <option value="subject">Subject</option>
               </select>
