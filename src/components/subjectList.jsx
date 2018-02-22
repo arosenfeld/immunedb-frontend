@@ -43,6 +43,7 @@ export default class SubjectList extends React.Component {
   update = () => {
     API.post('subjects/list', {
       page: this.state.page,
+      per_page: 50
     }).end((err, response) => {
       if (err) {
         this.setState({asyncState: 'error'});
