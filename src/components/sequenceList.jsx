@@ -16,7 +16,7 @@ export default class SequenceList extends React.Component {
 
       page: 1,
 
-      filter: {},
+      filter: {'show_indel': true},
       showFilters: false,
 
       samples: [],
@@ -246,6 +246,7 @@ export default class SequenceList extends React.Component {
                       {
                         sequence.seq_id.length < 15 ? sequence.seq_id : (sequence.seq_id.slice(0, 10) + '...' + sequence.seq_id.slice(-10))
                       }
+                      {sequence.probable_indel_or_misalign ? <div className="ui mini red horizontal label">Indel</div> : ''}
                     </Link>
                   </td>
                   <td>{sequence.sample.subject.identifier}</td>
