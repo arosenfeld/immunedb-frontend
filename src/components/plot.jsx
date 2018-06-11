@@ -2,12 +2,13 @@ import numeral from 'numeral';
 import React from 'react';
 
 import Highcharts from 'highcharts/highmaps';
-//import 'highcharts-exporting/exporting';
-//import 'highcharts-offline-exporting/offline-exporting';
 import ReactHighcharts from 'react-highcharts';
 import ReactHighmaps from 'react-highcharts/dist/ReactHighmaps';
+import addExporting from "highcharts/modules/exporting";
 
 import {removeAlleles} from '../utils';
+
+addExporting(Highcharts);
 
 export class Heatmap extends React.Component {
   constructor() {
@@ -200,11 +201,6 @@ export class XYPlot extends React.Component {
       series: this.series,
       key: this.props.plotKey,
 
-      exporting: {
-        scale: 4,
-        filename: this.props.plotKey,
-        fallbackToExportServer: false
-      },
     }
   }
 
