@@ -18,13 +18,6 @@ export default class SampleList extends React.Component {
   }
 
   componentDidMount() {
-    $('#export-dropdown').dropdown({
-      action: 'hide',
-      onChange: (value, text) => {
-        this.redirect('export/' + value + '/sample/');
-      }
-    });
-
     $('#grouping-dropdown').dropdown({
       onChange: (value, text) => {
         this.setState({
@@ -187,17 +180,6 @@ export default class SampleList extends React.Component {
                 disabled={this.state.selected.length == 0}>
           Analyze Selected
         </button>
-
-				<div className={'ui pointing dropdown labeled icon button exporting' + (this.state.selected.length == 0 ? ' disabled' : '')}
-             id="export-dropdown">
-					<i className="dropdown icon"></i>
-					<span className="text">Export Selected</span>
-					<div className="menu">
-						<div className="item" data-value="sequences">Sequences</div>
-						<div className="item" data-value="clones">Clones</div>
-						<div className="item" data-value="mutations">Mutations</div>
-          </div>
-        </div>
 
 				<div className="ui pointing dropdown labeled icon button" id="grouping-dropdown" style={{float: 'right'}}>
           <input type="hidden" name="groupBy" />

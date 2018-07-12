@@ -244,7 +244,7 @@ export default class SequenceList extends React.Component {
                   <td>
                     <Link to={'sequence/' + sequence.sample.id + '/' + sequence.seq_id} target="_blank">
                       {
-                        sequence.seq_id.length < 15 ? sequence.seq_id : (sequence.seq_id.slice(0, 10) + '...' + sequence.seq_id.slice(-10))
+                        sequence.seq_id.length < 15 ? sequence.seq_id : '...' + sequence.seq_id.slice(-15)
                       }
                       {sequence.probable_indel_or_misalign ? <div className="ui mini red horizontal label">Indel</div> : ''}
                     </Link>

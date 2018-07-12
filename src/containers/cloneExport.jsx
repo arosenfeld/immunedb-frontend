@@ -1,7 +1,5 @@
 import React from 'react';
 
-import ExportFields from '../components/exportFields';
-
 import {ENDPOINT} from '../api';
 
 export default class CloneExport extends React.Component {

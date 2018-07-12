@@ -18,7 +18,6 @@ import AllSequences from './containers/allSequences';
 import AllClones from './containers/allClones';
 import Clone from './containers/clone';
 import CloneExport from './containers/cloneExport';
-import MutationExport from './containers/mutationExport';
 import SampleAnalysis from './components/sampleAnalysis';
 import Sequence from './components/sequence';
 import SequenceExport from './containers/sequenceExport';
@@ -36,9 +35,8 @@ render(
       <Route path='sequence/:sampleId/:seqId' component={Sequence} />
       <Route path='subjects' component={SubjectList} />
       <Route path='subject/:id' component={Subject} />
-      <Route path='export/sequences/:type/:encoding' component={SequenceExport} />
-      <Route path='export/clones/:type/:encoding' component={CloneExport} />
-      <Route path='export/mutations/:type/:encoding' component={MutationExport} />
+      <Route path='export/sequences' component={SequenceExport} />
+      <Route path='export/clones' component={CloneExport} />
     </Route>
   </Router>,
   document.getElementById('root')
