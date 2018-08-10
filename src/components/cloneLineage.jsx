@@ -210,14 +210,20 @@ export default class CloneLineage extends React.Component {
       <div className="ui teal segment">
         <h4>Lineage</h4>
         <div className="ui info message">
-          This tree includes mutations that occur in at least
-          <strong> {this.state.treeInfo.info.min_count} sequence(s)</strong>
-          across at least <strong>{this.state.treeInfo.info.min_samples} sample(s)</strong>.
-
-          Sequences must have a copy number of at least <strong>{
-            this.state.treeInfo.info.min_seq_copies}</strong> to be and <strong>{
-          this.state.treeInfo.info.exclude_stops ? 'cannot' : 'can'
-          }</strong> have stop codons.
+          The following filters have been applied to this clone's lineage:
+          <ul>
+            <li>Mutations must have a copy number of at least
+              <strong> {this.state.treeInfo.info.min_mut_copies}</strong></li>
+            <li>Mutations must occur in at least
+              <strong> {this.state.treeInfo.info.min_mut_samples}</strong> samples</li>
+            <li>Sequences must have a subject-level copy number of at least
+              <strong> {this.state.treeInfo.info.min_seq_copies}</strong></li>
+            <li>Sequences must occur in at least
+              <strong> {this.state.treeInfo.info.min_seq_samples}</strong> samples</li>
+            <li>Sequences with stop codons have been
+              <strong> {this.state.treeInfo.info.exclude_stops ? 'excluded' :
+                'included'}</strong></li>
+          </ul>
         </div>
         <div className="ui form">
           <div className="one wide field">

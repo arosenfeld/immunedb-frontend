@@ -31,8 +31,9 @@ export default class Sidebar extends React.Component {
             Export...
 						<i className="dropdown icon"></i>
 						<div className="menu">
-							<Link className="item" to="export/sequences">Sequences</Link>
 							<Link className="item" to="export/clones">Clones</Link>
+							<Link className="item" to="export/samples">Samples</Link>
+							<Link className="item" to="export/sequences">Sequences</Link>
 						</div>
 					</div>
           <div className="right item borderless">

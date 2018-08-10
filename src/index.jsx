@@ -21,6 +21,7 @@ import CloneExport from './containers/cloneExport';
 import SampleAnalysis from './components/sampleAnalysis';
 import Sequence from './components/sequence';
 import SequenceExport from './containers/sequenceExport';
+import SampleExport from './containers/sampleExport';
 import SubjectList from './components/subjectList';
 import Subject from './containers/subject';
 
@@ -37,6 +38,7 @@ render(
       <Route path='subject/:id' component={Subject} />
       <Route path='export/sequences' component={SequenceExport} />
       <Route path='export/clones' component={CloneExport} />
+      <Route path='export/samples' component={SampleExport} />
     </Route>
   </Router>,
   document.getElementById('root')

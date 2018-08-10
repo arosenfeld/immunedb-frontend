@@ -7,7 +7,7 @@ export default class SequenceExport extends React.Component {
     super();
     this.state = {
       format: null,
-      min_subject_copies: 2,
+      min_subject_copies: 0,
       clones_only: true
     };
   }
@@ -63,11 +63,11 @@ export default class SequenceExport extends React.Component {
               </div>
 
               <div id="format-select" className={'ui dropdown labeled icon primary button'}>
-                <i className="file outline icon"></i>
+                <i className="download icon"></i>
                 <div className="text">Export</div>
                 <div className="menu">
                   <div className="item" data-value="changeo">Change-O</div>
-                  <div className="item" data-value="changeo">AIRR</div>
+                  <div className="item" data-value="airr">AIRR</div>
                 </div>
               </div>
 
