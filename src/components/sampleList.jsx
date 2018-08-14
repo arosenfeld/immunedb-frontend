@@ -124,6 +124,8 @@ export default class SampleList extends React.Component {
               <th>Input Seqs.</th>
               <th>Identifiable Seqs.</th>
               <th>Functional Seqs.</th>
+              <th>Clones</th>
+              <th>Functional Clones</th>
             </tr>
           </thead>
           <tbody>
@@ -136,7 +138,7 @@ export default class SampleList extends React.Component {
                         <input type="checkbox" value={key} onChange={this.toggleGroup} /> <label></label>
                       </div>
                     </td>
-                    <td colSpan="5" className="center aligned">
+                    <td colSpan="7" className="center aligned">
                       <strong>{key != 'undefined' ? key : <span className="faded"><i>Unspecified</i></span>}</strong>
                        <span className="faded"> ({_.keys(samplesByCategory[key]).length} samples)</span>
                     </td>
@@ -162,6 +164,11 @@ export default class SampleList extends React.Component {
                       <td>
                         {numeral(sample.functional_cnt).format('0,0')}
                         <span className="faded">{' (' + numeral(sample.functional_cnt / sample.sequence_cnt).format('0%') + ')'}</span>
+                      </td>
+                      <td className="delim">{numeral(sample.clone_cnt).format('0,0')}</td>
+                      <td>
+                        {numeral(sample.functional_clone_cnt).format('0,0')}
+                        <span className="faded">{' (' + numeral(sample.functional_clone_cnt / sample.clone_cnt).format('0%') + ')'}</span>
                       </td>
                     </tr>
                   );

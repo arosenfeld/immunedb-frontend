@@ -39,3 +39,7 @@ span.scroller {
 tr.bold > td {
   font-weight: bold;
 }
+
+.delim {
+  border-left: 1px solid rgba(34, 36, 38, 0.1);
+}

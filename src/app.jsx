@@ -10,7 +10,8 @@ export default class App extends React.Component {
     return (
       <div>
         <Sidebar history={this.props.history} />
-        <div className="ui container main">
+        <div className="ui container main"
+             style={{width: '90%'}}>
           {this.props.children || <AllSamples />}
         </div>
       </div>

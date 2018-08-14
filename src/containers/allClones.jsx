@@ -71,7 +71,9 @@ export default class AllClones extends React.Component {
         this.setState({
           clones: response.body
         });
-        API.post('subjects/list').end((err, response) => {
+        API.post('subjects/list', {
+          nopage: true
+        }).end((err, response) => {
           if (err) {
             this.setState({asyncState: 'error'});
           } else {

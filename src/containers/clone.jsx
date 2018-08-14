@@ -74,11 +74,6 @@ export default class Clone extends React.Component {
       <div>
         <h1>
           Clone #{this.state.cloneInfo.clone.id}
-					<Link className="ui labeled icon button right floated teal"
-             to={'export/sequences/clone/' + this.state.cloneInfo.clone.id}>
-						<i className="download icon"></i>
-						Download Sequences
-					</Link>
         </h1>
         {this.state.cloneInfo.parent != null ?
 					<div className="ui info message">
