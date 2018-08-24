@@ -24,7 +24,7 @@ export default class CloneExport extends React.Component {
                   <a href={ENDPOINT + '/export/clones/summary?lineages=true'}
                      className="ui primary button">
                     <i className="download icon"></i>
-                    Excluding Lineages
+                    Including Lineages
                   </a>
                 </div>
 
