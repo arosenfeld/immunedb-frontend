@@ -79,7 +79,7 @@ export default class SubjectList extends React.Component {
                 data-content="The identifier given to the subject"></i></th>
               <th>Unique Sequences <i className="help icon popup" data-title="Unique Sequences"
                 data-content="The total functional unique sequences found in the subject's samples"></i></th>
-              <th>Total Sequences <i className="help icon popup" data-title="Unique Sequences"
+              <th>Total Sequences <i className="help icon popup" data-title="Total Sequences"
                 data-content="The total functional sequences found in the subject's samples"></i></th>
               <th>Clones <i className="help icon popup" data-title="Clones"
                 data-content="The total clones found in the subject"></i></th>
