@@ -1,51 +1,44 @@
 immunedb-frontend
 ===============
 # Introduction
-This repository contains the web interface to [ImmuneDB](http://github.com/arosenfeld/immunedb).  If you plan on using Docker compose, you can ignore this repository entirely and refer to the [ImmuneDB documentation](http://immunedb.com/getting_started_docker.html).  This readme details how to build and run the frontend to run on bare-metal.
+This repository contains the web interface to
+[ImmuneDB](http://github.com/arosenfeld/immunedb).  If you plan on using
+Docker, you can ignore this repository and refer to the [ImmuneDB
+documentation](http://immunedb.com).
+
+This readme is meant for users who prefer to run ImmuneDB on bare-metal.
 
 # Building
 With [node.js](http://nodejs.org) installed, run:
 
     npm install
 
-The following environment variables are used by webpack to generate content:
 
-* `API_ENDPOINT`: Full URL to the backend API
-* `BASENAME` (optional): Prefix after hostname to the app (e.g. for http://site.com/mydb
+# Running
+Before running, the variable `API_ENDPOINT` must be set to the full URL of the
+backend API (served by `immunedb_rest`).  In addition, the following optional
+variables may be set:
+
+* `BASENAME`: Prefix after hostname to the app (e.g. for http://site.com/mydb
   the value should be set to `mydb`)
-* `SITE_TITLE` (optional): A custom site title can be specified otherwise it
-  will default to "ImmuneDB"
-* `NODE_ENV` (optional): If set to 'production', builds the package in
-  production mode, reducing debug information and placing a version label on the
-  website.
+* `SITE_TITLE`: A custom site title can be specified otherwise it will default
+  to "ImmuneDB"
+* `NODE_ENV`: If set to 'production', builds the package in production mode,
+  reducing debug information and placing a version label on the website.
 
-It is assumed that at least `API_ENDPOINT` is set for the remainder of this README.
+Then, to run the development server:
 
-## Running in Docker
-Docker can be used to serve the ImmuneDB frontend.
+    npm run
 
-    docker build -t immunedb-frontend .
-    docker run -p 8080:8080 -e "API_ENDPOINT=http://localhost:5000" \
-        immunedb-frontend
+Or to build static assets in the `build` directory:
 
-This will serve the web app from `http://localhost:8080` and assumes
-`immunedb_rest` is running on localhost port 5000.
+    npm build
 
-## Serving with Nginx
-To build static files which can be served via a web server:
 
-    NODE_ENV=production npm run build
-    cp -r dist /path/to/serve/from
+For example, to generate static files to serve from `myurl.com/mydb` where the
+REST service is running on port 5000 (the default):
 
-For NGINX, add the following to your configuration:
+    BASENAME=mydb API_ENDPOINT=http://myurl.com:5000 npm run build
 
-    location /path/to/frontend {
-        alias /path/to/serve/from;
-        index index.html;
-        try_files $uri $uri/ /path/to/frontend/index.html;
-    }
-
-## Development Server
-To serve content for development purposes only, run:
-
-    npm run serve
+You can then serve the files in `dist` under the `mydb` path for `myurl.com`.
+The detils of serving files differs based on the web server you plan to use.
