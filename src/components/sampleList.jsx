@@ -6,6 +6,7 @@ import React from 'react';
 import API from '../api';
 import Message from './message';
 
+import {ENDPOINT} from '../api';
 import { getMetadataFields } from '../utils';
 
 export default class SampleList extends React.Component {
@@ -23,6 +24,12 @@ export default class SampleList extends React.Component {
         this.setState({
           groupBy: value
         });
+      }
+    });
+
+    $('#pooling-dropdown').dropdown({
+      onChange: (value, text) => {
+        console.log(value, text);
       }
     });
   }
@@ -70,7 +77,7 @@ export default class SampleList extends React.Component {
     });
   }
 
-  redirect = (path) => {
+  getEncoding = () => {
     let bitmap = _.map(
       _.range(1, _.max(this.state.selected) + 1),
       (value) => _.includes(this.state.selected, value) ? 'T' : 'F'
@@ -91,7 +98,15 @@ export default class SampleList extends React.Component {
       last = value;
     });
     encoding.push(count);
-    window.open(path + encoding.join(''));
+    return encoding.join('');
+  }
+
+  redirect = (path) => {
+    window.open(path + this.getEncoding());
+  }
+
+  getPooledEndpoint = (m) => {
+    return ENDPOINT + '/export/clones/pooled?feature=' + m + '&samples=' + this.getEncoding();
   }
 
   render() {
@@ -182,11 +197,31 @@ export default class SampleList extends React.Component {
 
     return (
       <div>
-        <button className="ui primary button"
+        <button className="ui primary labeled icon button"
                 onClick={this.redirect.bind(this, (this.props.path || '') + 'sample-analysis/')}
                 disabled={this.state.selected.length == 0}>
+          <i className="chart bar icon"></i>
           Analyze Selected
         </button>
+
+				<button className="ui pointing dropdown labeled icon button" id="pooling-dropdown"
+                disabled={this.state.selected.length == 0}>
+          <i className="download icon"></i>
+          <div>Pool & Export Clones By...</div>
+          <div className="menu">
+            <div className="item" data-value="None">None</div>
+            <div className="item" data-value="subject">Subject</div>
+            {_.map(getMetadataFields(this.props.samples), m =>
+              <a className="item"
+                      key={m}
+                      data-value={m}
+                      href={this.getPooledEndpoint(m)} target="_blank">
+                {_.startCase(m)}
+              </a>)
+            }
+          </div>
+        </button>
+
 
 				<div className="ui pointing dropdown labeled icon button" id="grouping-dropdown" style={{float: 'right'}}>
           <input type="hidden" name="groupBy" />

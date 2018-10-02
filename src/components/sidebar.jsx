@@ -28,7 +28,7 @@ export default class Sidebar extends React.Component {
             Subjects
           </Link>
 					<div className="ui dropdown item">
-            Export...
+            Download Dataset...
 						<i className="dropdown icon"></i>
 						<div className="menu">
 							<Link className="item" to="export/clones">Clones</Link>
