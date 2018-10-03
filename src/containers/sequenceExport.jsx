@@ -7,25 +7,13 @@ export default class SequenceExport extends React.Component {
   constructor() {
     super();
     this.state = {
-      format: null,
       min_subject_copies: 0,
       clones_only: true
     };
   }
 
   componentDidMount() {
-    $('#format-select').dropdown({
-      action: 'hide',
-      onChange: (value, text) => {
-        this.setState({
-          format: value
-        }, this.doExport);
-      }
-    });
-  }
-
-  doExport = () => {
-    $('#download-form').submit();
+    $('#format-select').dropdown();
   }
 
   setMinCopies = (e) => {
@@ -38,6 +26,11 @@ export default class SequenceExport extends React.Component {
     this.setState({
       clones_only: !this.state.clones_only
     });
+  }
+
+  getEndpoint = (schema) => {
+    return ENDPOINT + '/export/sequences/' + schema +
+      '?min_subject_copies=' + this.state.min_subject_copies + '&clones_only=' + this.state.clones_only
   }
 
   render() {
@@ -67,8 +60,20 @@ export default class SequenceExport extends React.Component {
                 <i className="download icon"></i>
                 <div className="text">Export</div>
                 <div className="menu">
-                  <div className="item" data-value="changeo">Change-O</div>
-                  <div className="item" data-value="airr">AIRR</div>
+                  <Link className="item"
+                      to={{
+                        pathname: 'download',
+                        state: {endpoint: this.getEndpoint('changeo')}
+                      }}>
+                      Change-O
+                  </Link>
+                  <Link className="item"
+                      to={{
+                        pathname: 'download',
+                        state: {endpoint: this.getEndpoint('airr')}
+                      }}>
+                      AIRR
+                  </Link>
                 </div>
               </div>
 

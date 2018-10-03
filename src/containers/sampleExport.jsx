@@ -1,4 +1,5 @@
 import React from 'react';
+import {Link} from 'react-router';
 
 import {ENDPOINT} from '../api';
 
@@ -11,11 +12,14 @@ export default class SampleExport extends React.Component {
         This will download a TSV of all the samples in the database along with
         their sequence counts and metadata.
         <p>
-          <a href={ENDPOINT + '/export/samples'}
-             className="ui primary button">
+          <Link className="ui primary button"
+              to={{
+                pathname: 'download',
+                state: {endpoint: ENDPOINT + '/export/samples'}
+              }}>
             <i className="download icon"></i>
             Download Sample Metadata
-          </a>
+          </Link>
         </p>
         </div>
       </div>
