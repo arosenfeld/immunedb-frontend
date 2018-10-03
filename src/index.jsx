@@ -24,6 +24,7 @@ import SequenceExport from './containers/sequenceExport';
 import SampleExport from './containers/sampleExport';
 import SubjectList from './components/subjectList';
 import Subject from './containers/subject';
+import Download from './containers/download';
 
 render(
   <Router history={history}>
@@ -39,6 +40,7 @@ render(
       <Route path='export/sequences' component={SequenceExport} />
       <Route path='export/clones' component={CloneExport} />
       <Route path='export/samples' component={SampleExport} />
+      <Route path='download' component={Download} />
     </Route>
   </Router>,
   document.getElementById('root')

@@ -43,3 +43,9 @@ tr.bold > td {
 .delim {
   border-left: 1px solid rgba(34, 36, 38, 0.1);
 }
+
+iframe.hidden {
+  width: 0;
+  height: 0;
+  border: none;
+}

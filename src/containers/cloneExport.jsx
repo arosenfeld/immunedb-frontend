@@ -1,4 +1,5 @@
 import React from 'react';
+import {Link} from 'react-router';
 
 import {ENDPOINT} from '../api';
 
@@ -15,17 +16,23 @@ export default class CloneExport extends React.Component {
 							<div className="right floated content">
 
                 <div className="ui buttons">
-                  <a href={ENDPOINT + '/export/clones/summary'}
-                     className="ui primary button">
+                  <Link className="ui primary button"
+                      to={{
+                        pathname: 'download',
+                        state: {endpoint: ENDPOINT + '/export/clones/summary'}
+                      }}>
                     <i className="download icon"></i>
                     Excluding Lineages
-                  </a>
+                  </Link>
                   <div className="or"></div>
-                  <a href={ENDPOINT + '/export/clones/summary?lineages=true'}
-                     className="ui primary button">
+                  <Link className="ui primary button"
+                      to={{
+                        pathname: 'download',
+                        state: {endpoint: ENDPOINT + '/export/clones/summary?lineages=true'}
+                      }}>
                     <i className="download icon"></i>
-                    Including Lineages
-                  </a>
+                    Excluding Lineages
+                  </Link>
                 </div>
 
 							</div>
@@ -39,10 +46,13 @@ export default class CloneExport extends React.Component {
 
 						<div className="item">
 							<div className="right floated content">
-								<a href={ENDPOINT + '/export/clones/overlap'} target="_blank"
-									 className="ui primary icon button compact">
-									<i className="download icon"></i>
-								</a>
+                <Link className="ui primary icon button compact"
+                    to={{
+                      pathname: 'download',
+                      state: {endpoint: ENDPOINT + '/export/clones/overlap'}
+                    }}>
+                  <i className="download icon"></i>
+                </Link>
 							</div>
 							<div className="content">
 								<strong>Clone Overlap</strong>: <br />
@@ -53,10 +63,13 @@ export default class CloneExport extends React.Component {
 
 						<div className="item">
 							<div className="right floated content">
-								<a href={ENDPOINT + '/export/clones/vdjtools'} target="_blank"
-									 className="ui primary icon button compact">
-									<i className="download icon"></i>
-								</a>
+                <Link className="ui primary icon button compact"
+                    to={{
+                      pathname: 'download',
+                      state: {endpoint: ENDPOINT + '/export/clones/vdjtools'}
+                    }}>
+                  <i className="download icon"></i>
+                </Link>
 							</div>
 							<div className="content">
 								<strong>VDJTools Format</strong>: <br />
@@ -67,10 +80,13 @@ export default class CloneExport extends React.Component {
 
 						<div className="item">
 							<div className="right floated content">
-								<a href={ENDPOINT + '/export/clones/selection'} target="_blank"
-									 className="ui primary icon button compact">
-									<i className="download icon"></i>
-								</a>
+                <Link className="ui primary icon button compact"
+                    to={{
+                      pathname: 'download',
+                      state: {endpoint: ENDPOINT + '/export/clones/selection'}
+                    }}>
+                  <i className="download icon"></i>
+                </Link>
 							</div>
 							<div className="content">
 								<strong>Selection Pressure</strong>: <br />

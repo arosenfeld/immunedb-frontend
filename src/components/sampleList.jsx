@@ -2,12 +2,13 @@ import numeral from 'numeral';
 import lodash from 'lodash';
 
 import React from 'react';
+import {Link} from 'react-router';
 
 import API from '../api';
 import Message from './message';
 
 import {ENDPOINT} from '../api';
-import { getMetadataFields } from '../utils';
+import {getMetadataFields} from '../utils';
 
 export default class SampleList extends React.Component {
   constructor() {
@@ -27,11 +28,7 @@ export default class SampleList extends React.Component {
       }
     });
 
-    $('#pooling-dropdown').dropdown({
-      onChange: (value, text) => {
-        console.log(value, text);
-      }
-    });
+    $('#pooling-dropdown').dropdown();
   }
 
   toggleAll = (e) => {
@@ -126,7 +123,7 @@ export default class SampleList extends React.Component {
 
       let dateRows = [];
       finalElements.push(
-        <table className="ui single line teal table" key={study}>
+        <table className="ui single line teal table compact" key={study}>
           <thead>
             <tr>
               <th>
@@ -209,15 +206,16 @@ export default class SampleList extends React.Component {
           <i className="download icon"></i>
           <div>Pool & Export Clones By...</div>
           <div className="menu">
-            <div className="item" data-value="None">None</div>
-            <div className="item" data-value="subject">Subject</div>
-            {_.map(getMetadataFields(this.props.samples), m =>
-              <a className="item"
+            {_.map(_.concat(['subject', 'sample'], getMetadataFields(this.props.samples)), m =>
+              <Link className="item"
                       key={m}
                       data-value={m}
-                      href={this.getPooledEndpoint(m)} target="_blank">
-                {_.startCase(m)}
-              </a>)
+                      to={{
+                        pathname: 'download',
+                        state: {endpoint: this.getPooledEndpoint(m)}
+                      }}>
+                {(_.includes(['subject', 'sample'], m) ? '' : 'Subject & ') + _.startCase(m)}
+              </Link>)
             }
           </div>
         </button>
