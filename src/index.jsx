@@ -17,14 +17,12 @@ import AllSamples from './containers/allSamples';
 import AllSequences from './containers/allSequences';
 import AllClones from './containers/allClones';
 import Clone from './containers/clone';
-import CloneExport from './containers/cloneExport';
 import SampleAnalysis from './components/sampleAnalysis';
 import Sequence from './components/sequence';
-import SequenceExport from './containers/sequenceExport';
-import SampleExport from './containers/sampleExport';
 import SubjectList from './components/subjectList';
 import Subject from './containers/subject';
 import Download from './containers/download';
+import Export from './containers/export';
 
 render(
   <Router history={history}>
@@ -36,11 +34,9 @@ render(
       <Route path='sequences' component={AllSequences} />
       <Route path='sequence/:sampleId/:seqId' component={Sequence} />
       <Route path='subjects' component={SubjectList} />
-      <Route path='subject/:id' component={Subject} />
-      <Route path='export/sequences' component={SequenceExport} />
-      <Route path='export/clones' component={CloneExport} />
-      <Route path='export/samples' component={SampleExport} />
       <Route path='download' component={Download} />
+      <Route path='subject/:id' component={Subject} />
+      <Route path='export/:sampleEncoding' component={Export} />
     </Route>
   </Router>,
   document.getElementById('root')

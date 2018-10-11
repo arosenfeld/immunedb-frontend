@@ -49,3 +49,7 @@ iframe.hidden {
   height: 0;
   border: none;
 }
+
+.hide {
+  display: hidden;
+}

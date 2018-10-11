@@ -27,8 +27,6 @@ export default class SampleList extends React.Component {
         });
       }
     });
-
-    $('#pooling-dropdown').dropdown();
   }
 
   toggleAll = (e) => {
@@ -198,28 +196,15 @@ export default class SampleList extends React.Component {
                 onClick={this.redirect.bind(this, (this.props.path || '') + 'sample-analysis/')}
                 disabled={this.state.selected.length == 0}>
           <i className="chart bar icon"></i>
-          Analyze Selected
+          Quick Analysis
         </button>
 
-				<button className="ui pointing dropdown labeled icon button" id="pooling-dropdown"
+        <button className="ui labeled icon button"
+                onClick={this.redirect.bind(this, (this.props.path || '') + 'export/')}
                 disabled={this.state.selected.length == 0}>
-          <i className="download icon"></i>
-          <div>Pool & Export Clones By...</div>
-          <div className="menu">
-            {_.map(_.concat(['subject', 'sample'], getMetadataFields(this.props.samples)), m =>
-              <Link className="item"
-                      key={m}
-                      data-value={m}
-                      to={{
-                        pathname: 'download',
-                        state: {endpoint: this.getPooledEndpoint(m)}
-                      }}>
-                {(_.includes(['subject', 'sample'], m) ? '' : 'Subject & ') + _.startCase(m)}
-              </Link>)
-            }
-          </div>
+          <i className="chart signal icon"></i>
+          Custom Analysis...
         </button>
-
 
 				<div className="ui pointing dropdown labeled icon button" id="grouping-dropdown" style={{float: 'right'}}>
           <input type="hidden" name="groupBy" />
