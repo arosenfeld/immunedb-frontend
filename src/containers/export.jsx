@@ -274,7 +274,8 @@ class ExportSequences extends ExportFormat {
             </div>
           </div>
           <div className="field">
-            <DownloadButton path="export/sequences" state={this.state} />
+            <DownloadButton path="export/sequences" state={_.assign({}, this.state, {
+              'samples': this.props.samples})} />
           </div>
         </div>
       </form>
