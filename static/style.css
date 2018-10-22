@@ -53,3 +53,21 @@ iframe.hidden {
 .hide {
   display: hidden;
 }
+
+.fakeScreen {
+  background-color: #151515;
+  box-sizing: border-box;
+  margin: 0 auto;
+  padding: 20px;
+  border-radius: 10px;
+  -moz-border-radius: 10px;
+}
+
+p.term {
+  position: relative;
+  text-align: left;
+  font-family: monospace;
+  white-space: pre-wrap;
+  color: #ddd;
+  margin: 0;
+}

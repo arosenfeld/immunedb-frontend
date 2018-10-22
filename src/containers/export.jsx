@@ -15,7 +15,7 @@ class DownloadButton extends React.Component {
         to={{
           pathname: 'download',
           state: {
-            endpoint: ENDPOINT + '/' + this.props.path + '?' +
+            endpoint: this.props.path + '?' +
               queryString.stringify(this.props.state)
           }
         }}>
