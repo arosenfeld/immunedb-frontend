@@ -15,7 +15,7 @@ export default class Download extends React.Component {
   }
 
   getLog = () => {
-    API.get('export/job_log/' + this.state.uid).then(res => {
+    API.get('export/job_log/' + this.state.uid).end((err, res) => {
       this.setState(res.body, () => {
         if (!this.state.complete) {
           _.defer(_.delay, this.getLog, 1000);
@@ -25,9 +25,8 @@ export default class Download extends React.Component {
   }
 
   componentDidMount() {
-    this.setState({asyncState: 'loading'});
     API.get(this.props.location.state.endpoint).then(res => {
-      this.setState({uid: res.body.uid}, () => {
+      this.setState({asyncState: 'loaded', uid: res.body.uid}, () => {
         _.defer(this.getLog);
       });
     }).catch(err => {
@@ -35,28 +34,49 @@ export default class Download extends React.Component {
     });
   }
 
-  render() {
-    return (
-      <div>
-        <h1>Job Processing <span className="faded" style={{'float': 'right'}}>ID: {this.state.uid}</span></h1>
-        <div className="ui teal segment">
-          <h4 className="ui header">
-            <div className="content">
-              Job Log (last 25 lines only)
-            </div>
-          </h4>
+  getScreen = () => {
+    if (this.state.asyncState == 'loaded') {
+        return (
           <div className="fakeScreen">
             <pre style={{margin: 0}}>
               <p className="term">
-                {this.state.log ||
-                  <span>
-                    <i className="plug icon notched circle loading large"></i>
-                    Starting Job...
-                  </span>
-                }
+                {this.state.log}
               </p>
             </pre>
           </div>
+        );
+    } else if (this.state.asyncState == 'loading') {
+      return (
+        <span>
+        <i className="plug icon notched circle loading large"></i>
+        Starting Job...
+        </span>
+      );
+    }
+    return (
+      <div className="ui negative message">
+        <div className="header">
+          Error
+        </div>
+        <p>The download request has failed.  Please try again.</p>
+      </div>
+    );
+  }
+
+  render() {
+    return (
+      <div>
+        <h1>
+          Job Processing <span className="faded" style={{'float': 'right'}}>ID: {this.state.uid}</span>
+        </h1>
+        <div className="ui teal segment">
+          <h4 className="ui header">
+            <div className="content">
+              {this.state.complete || this.state.asyncState == 'error' ? '' : <i className="plug icon notched circle loading large"></i>}
+              Job Log (last 25 lines only)
+            </div>
+          </h4>
+          {this.getScreen()}
           {this.state.complete ?
             <div style={{textAlign: 'center', margin: '1em'}}>
               <a href={ENDPOINT + '/export/job/' + this.state.uid}

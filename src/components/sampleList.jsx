@@ -15,13 +15,14 @@ export default class SampleList extends React.Component {
     super();
     this.state = {
       selected: [],
-      groupBy: 'subject.identifier'
+      groupBy: ['subject.identifier']
     };
   }
 
   componentDidMount() {
     $('#grouping-dropdown').dropdown({
       onChange: (value, text) => {
+        value = value.length ? value.split(',') : ['subject.identifier'];
         this.setState({
           groupBy: value
         });
@@ -104,10 +105,15 @@ export default class SampleList extends React.Component {
     return ENDPOINT + '/export/clones/pooled?feature=' + m + '&samples=' + this.getEncoding();
   }
 
+  getSampleGroup = (sample) => {
+    let grp = _.map(this.state.groupBy, s => _.get(sample, s));
+    return grp;
+  }
+
   render() {
     let sampleHierarchy = _.groupBy(this.props.samples, s => s.subject.study.name);
     sampleHierarchy = _.mapValues(sampleHierarchy,
-      (studySamples) => _.groupBy(studySamples, s => _.get(s, this.state.groupBy))
+      (studySamples) => _.groupBy(studySamples, s => this.getSampleGroup(s))
     );
 
     let finalElements = [];
@@ -149,8 +155,8 @@ export default class SampleList extends React.Component {
                       </div>
                     </td>
                     <td colSpan="7" className="center aligned">
-                      <strong>{key != 'undefined' ? key : <span className="faded"><i>Unspecified</i></span>}</strong>
-                       <span className="faded"> ({_.keys(samplesByCategory[key]).length} samples)</span>
+                      <strong>{key != 'undefined' ? key.replace('unknown', 'NA') : <span className="faded"><i>Unspecified</i></span>}</strong>
+                      <span className="faded"> ({_.keys(samplesByCategory[key]).length} samples)</span>
                     </td>
                   </tr>
                 );
@@ -206,7 +212,8 @@ export default class SampleList extends React.Component {
           Custom Analysis...
         </button>
 
-				<div className="ui pointing dropdown labeled icon button" id="grouping-dropdown" style={{float: 'right'}}>
+				<div className="ui pointing dropdown labeled icon button multiple" id="grouping-dropdown"
+             style={{'float': 'right'}}>
           <input type="hidden" name="groupBy" />
           <i className="sidebar icon"></i>
           <div className="text">Group Samples By</div>

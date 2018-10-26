@@ -7,10 +7,6 @@ import { render } from 'react-dom';
 import { Route, Router, useRouterHistory } from 'react-router';
 import { createHistory } from 'history';
 
-let history = useRouterHistory(createHistory)({
-  basename: '/BASENAME'
-});
-
 import App from './app';
 
 import AllSamples from './containers/allSamples';
@@ -23,6 +19,11 @@ import SubjectList from './components/subjectList';
 import Subject from './containers/subject';
 import Download from './containers/download';
 import Export from './containers/export';
+
+
+let history = useRouterHistory(createHistory)({
+  basename: '/BASENAME'
+});
 
 render(
   <Router history={history}>
