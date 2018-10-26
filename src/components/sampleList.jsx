@@ -44,7 +44,7 @@ export default class SampleList extends React.Component {
 
   toggleGroup = (e) => {
     let samples = _.map(
-      _.filter(this.props.samples, s => _.get(s, this.state.groupBy) == e.target.value),
+      _.filter(this.props.samples, s => this.getSampleGroup(s) == e.target.value),
       'id'
     );
     let selected = this.state.selected.slice();
