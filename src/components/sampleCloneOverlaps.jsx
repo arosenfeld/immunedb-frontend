@@ -15,6 +15,7 @@ export default class SampleCloneOverlaps extends React.Component {
       asyncState: 'loading',
 
       page: 1,
+      orderBy: 'total_cnt',
 
       clones: [],
       expanded: []
@@ -52,6 +53,7 @@ export default class SampleCloneOverlaps extends React.Component {
   update = () => {
     API.post('samples/overlap/' + this.props.sampleEncoding, {
       page: this.state.page,
+      order_by: this.state.orderBy,
       filter_type: this.props.filterType
     }).end((err, response) => {
       if (err) {
@@ -153,6 +155,13 @@ export default class SampleCloneOverlaps extends React.Component {
     return rows;
   }
 
+  sort = (by) => {
+    this.setState({
+      asyncState: 'loading',
+      orderBy: by,
+    }, this.update);
+  }
+
   render() {
     if (this.state.asyncState == 'loading') {
       return <Message type='' icon='notched circle loading' header='Loading'
@@ -180,10 +189,18 @@ export default class SampleCloneOverlaps extends React.Component {
                 data-content="The length of the CDR3 in nucleotides"></i></th>
               <th>CDR3 AA <i className="help icon popup" data-title="CDR3 AA"
                 data-content="The amino acids in the CDR3"></i></th>
-              <th>Unique Seqs. <i className="help icon popup" data-title="Unique Sequences"
-                data-content="The total number of unique sequences from the subject in this clone"></i></th>
-              <th>Total Seqs. <i className="help icon popup" data-title="Total Sequences"
-                data-content="The total number of sequences in this clone"></i></th>
+              <th>
+                <a onClick={this.sort.bind(this, 'unique_cnt')}>
+                  Unique Seqs.
+                </a>
+                <i className="help icon popup" data-title="Unique Sequences"
+                   data-content="The total number of unique sequences from the subject in this clone"></i></th>
+              <th>
+                <a onClick={this.sort.bind(this, 'total_cnt')}>
+                  Total Seqs.
+                </a>
+                <i className="help icon popup" data-title="Total Sequences"
+                   data-content="The total number of sequences in this clone"></i></th>
               <th>Samples <i className="help icon popup" data-title="Samples Present"
                 data-content="The number of selected + other samples in which this clone appears"></i></th>
             </tr>
