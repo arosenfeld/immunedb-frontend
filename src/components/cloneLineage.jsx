@@ -124,6 +124,7 @@ export default class CloneLineage extends React.Component {
             label += '... ' + (_.keys(d.data.seq_ids).length - 25) + ' more ...<br/>';
           }
         }
+        label += '<span style="color: #a0a0a0">Node ID: </span>' + d.data.node_id + '<br/>';
         label += '<span style="color:#a0a0a0">Mutations: </span><br/>'
         let muts = d.data.mutations.sort((a, b) => {
           return parseInt(a.pos) - parseInt(b.pos);
