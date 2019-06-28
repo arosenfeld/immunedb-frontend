@@ -13,11 +13,13 @@ import { getMetadataFields } from '../utils';
 
 export default class CloneLineage extends React.Component {
   static strToColor = (str) => {
-    let hash = md5(str);
-    let r = hash.substr(0, 2);
-    let g = hash.substr(2, 2);
-    let b = hash.substr(4, 2);
-    return "#" + r + g + b;
+    var hash = 5947;
+    for (var i = 0; i < str.length; i++) {
+        hash = str.charCodeAt(i) + ((hash << 5) - hash);
+        hash = hash & hash;
+    }
+    hash = md5.array(hash.toString())[0];
+    return 'hsl(' + (hash % 360) + ', 100%, 30%)';
   }
 
   constructor() {
