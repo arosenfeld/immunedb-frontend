@@ -87,6 +87,8 @@ class SeqViewer extends React.Component {
       let filled_seq = this.props.germline.substring(0, seq.read_start) +
         seq.sequence.substring(seq.read_start, seq.length);
 
+      let insertion_locations = _.fromPairs(seq.insertions);
+
       _.each(filled_seq, (c, j) => {
         let left = this.LEFT_PAD + middlePad + (this.CHAR_SPACE * j);
         let top = this.TOP_PAD + this.V_PER_SEQ * (i + 1);
@@ -99,6 +101,14 @@ class SeqViewer extends React.Component {
 
         this.ctx.fillText(c, left, top);
         this.ctx.globalAlpha = 1;
+
+        if (_.has(insertion_locations, j)) {
+              this.ctx.beginPath();
+              this.ctx.strokeStyle = '#0f50ff';
+              this.ctx.moveTo(left - 5, top + 2);
+              this.ctx.lineTo(left - 5, top - 12);
+              this.ctx.stroke();
+        }
 
         if (_.get(seq.mutations, j)) {
           if (
